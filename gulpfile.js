@@ -3,7 +3,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var babel        = require('gulp-babel');
 var browserSync  = require('browser-sync');
 var concat       = require('gulp-concat');
-var eslint       = require('gulp-eslint');
+// var eslint       = require('gulp-eslint');
 var filter       = require('gulp-filter');
 var newer        = require('gulp-newer');
 var notify       = require('gulp-notify');
@@ -74,7 +74,7 @@ gulp.task('copy-js-vendor', function() {
 
 // Concatenate jsFiles.vendor and jsFiles.source into one JS file.
 // Run copy-react and eslint before concatenating
-gulp.task('concat', ['copy-react', 'copy-react-dom', 'eslint'], function() {
+gulp.task('concat', ['copy-react', 'copy-react-dom'/*, 'eslint'*/], function() {
   return gulp.src(jsFiles.vendor.concat(jsFiles.source))
     .pipe(sourcemaps.init())
     .pipe(babel({
@@ -129,7 +129,7 @@ gulp.task('browsersync', function() {
     server: {
       baseDir: './'
     },
-    open: false,
+    open: true,
     online: false,
     notify: false,
   });
