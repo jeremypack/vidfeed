@@ -1,5 +1,7 @@
 window.jQuery = window.$ = require('jquery');
 const $ = window.$;
+var Utils = require('./utils');
+Utils.setupAjax();
 
 var React = require('react');
 const ReactDOM = require('react-dom');

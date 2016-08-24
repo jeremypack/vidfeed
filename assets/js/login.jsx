@@ -2,7 +2,7 @@ var React = require('react');
 
 module.exports =  React.createClass({
   getInitialState: function() {
-    return {email: '', password: ''};
+    return {email: '', password: '', loginText: ''};
   },
   handleEmailChange: function(e) {
     this.setState({email: e.target.value});
@@ -19,38 +19,44 @@ module.exports =  React.createClass({
     }
     $.ajax({
       type: 'POST',
+      context: this,
       url: '/api/auth/login/',
       data: {
         email: email,
         password: password
       },
-      success: function (){
+      success: function (ev){
+
+        console.log(ev);
         console.log('successfully logged in');
+        this.setState({email: '', password: '', loginText: "Successfully logged in"});
       },
       error: function () {
         console.log('failed to login');
+        this.setState({loginText: "Failed to login"});
       }
     });
-
-    this.setState({email: '', password: ''});
   },
   render: function() {
     return (
-      <form className="loginForm" onSubmit={this.handleSubmit}>
-        <input
-          type="Email"
-          placeholder="Email"
-          value={this.state.email}
-          onChange={this.handleEmailChange}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={this.state.password}
-          onChange={this.handlePasswordChange}
-        />
-        <input type="submit" value="Post" />
-      </form>
+      <div>
+        <form className="loginForm" onSubmit={this.handleSubmit}>
+          <input
+            type="Email"
+            placeholder="Email"
+            value={this.state.email}
+            onChange={this.handleEmailChange}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={this.state.password}
+            onChange={this.handlePasswordChange}
+          />
+          <input type="submit" value="Post" />
+        </form>
+        <label>{this.state.loginText}</label>
+      </div>
     );
   }
 });
