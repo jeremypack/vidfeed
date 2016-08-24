@@ -9,5 +9,5 @@ var App = require('./app');
 var feed = require('./feed');
 
 
-ReactDOM.render(<App/>, document.getElementById('react-app'));
+ReactDOM.render(<App />, document.getElementById('react-app'));
 

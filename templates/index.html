@@ -18,6 +18,7 @@
     <script type="text/javascript">
       window.vidfeed = window.vidfeed || {};
       window.vidfeed.isAuthenticated = {% if request.user.is_authenticated %}true{% else %}false{% endif %};
+      window.vidfeed.urls = {};
     </script>
     {% render_bundle 'main' 'js' %}
   </body>

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from vidfeed.feed.models import Feed, Comment
+from vidfeed.feed.models import Feed, Comment, Provider
 from vidfeed.profiles.models import SiteUser
 
 
@@ -7,6 +7,22 @@ class SiteUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = SiteUser
         fields = ('id', 'email', 'first_name', 'last_name')
+
+
+class ProviderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Provider
+        fields = ('id', 'name', 'link_format')
+
+
+class FeedSerializer(serializers.ModelSerializer):
+    owner = SiteUserSerializer(many=False, read_only=True)
+    provider = ProviderSerializer(many=False, read_only=True)
+
+    class Meta:
+        model = Feed
+        fields = ('created', 'owner', 'feed_id', 'provider',
+                  'video_id', 'video_title', 'video_thumbnail')
 
 
 class CommentSerializer(serializers.ModelSerializer):

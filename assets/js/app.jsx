@@ -3,6 +3,8 @@ var LoginForm = require('./auth/login');
 var LogoutForm = require('./auth/logout');
 var CommentContainer = require('./comments/commentContainer');
 
+// temporary for testing stuff
+var TestFeed = require('./testFeed.jsx');
 
 module.exports = React.createClass({
   getInitialState: function() {
@@ -23,6 +25,7 @@ module.exports = React.createClass({
       <div>
         {authForm}
         <CommentContainer />
+        <TestFeed />
       </div>);
  }
 });
