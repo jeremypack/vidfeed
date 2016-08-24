@@ -50,6 +50,11 @@ class Feed(models.Model):
     video_title = models.CharField(max_length=250, default='')
     video_thumbnail = models.CharField(max_length=500, default='')
 
+    def get_full_name(self):
+        if self.owner:
+            return self.owner.get_display_name()
+        return 'orphaned'
+
 
 class Comment(models.Model):
     created = models.DateTimeField(auto_now_add=True)
