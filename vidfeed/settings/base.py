@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_auth',
     'vidfeed.profiles',
+    'vidfeed.feed',
+    'vidfeed.api',
 ]
 
 MIDDLEWARE = [
