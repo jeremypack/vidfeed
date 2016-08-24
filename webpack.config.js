@@ -9,11 +9,11 @@ module.exports = {
   entry: ['./assets/js/index', './assets/less/site.less'],
   output: {
     path: path.resolve('./assets/bundles/'),
-    filename: "[name]-[hash].js"
+    filename: "[name].js"
   },
   plugins: [
     new BundleTracker({filename: './webpack-stats.json'}),
-    new ExtractTextPlugin("[name]-[hash].css")
+    new ExtractTextPlugin("[name].css")
   ],
   module: {
     // preLoaders: [
