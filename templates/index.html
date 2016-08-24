@@ -15,6 +15,10 @@
 
   <body>
     <div id="react-app"></div>
+    <script type="text/javascript">
+      window.vidfeed = window.vidfeed || {};
+      window.vidfeed.isAuthenticated = {% if request.user.is_authenticated %}true{% else %}false{% endif %};
+    </script>
     {% render_bundle 'main' 'js' %}
   </body>
 </html>

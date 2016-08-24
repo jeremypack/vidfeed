@@ -25,14 +25,11 @@ module.exports =  React.createClass({
         email: email,
         password: password
       },
-      success: function (ev){
-
-        console.log(ev);
-        console.log('successfully logged in');
+      success: function (){
+        this.props.setAuthentication(true);
         this.setState({email: '', password: '', loginText: "Successfully logged in"});
       },
       error: function () {
-        console.log('failed to login');
         this.setState({loginText: "Failed to login"});
       }
     });
