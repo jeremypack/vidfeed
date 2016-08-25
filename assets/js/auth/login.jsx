@@ -26,8 +26,8 @@ module.exports =  React.createClass({
         password: password
       },
       success: function (){
-        this.props.setAuthentication(true);
         this.setState({email: '', password: '', loginText: "Successfully logged in"});
+        this.props.setAuthentication(true);
       },
       error: function () {
         this.setState({loginText: "Failed to login"});

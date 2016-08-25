@@ -4,6 +4,7 @@ var LogoutForm = require('./auth/logout');
 var CommentContainer = require('./comments/commentContainer');
 
 // temporary for testing stuff
+var TestCreateFeed = require('./testCreateFeed');
 var TestFeed = require('./testFeed.jsx');
 
 module.exports = React.createClass({
@@ -24,6 +25,7 @@ module.exports = React.createClass({
     return (
       <div>
         {authForm}
+        <TestCreateFeed />
         <CommentContainer />
         <TestFeed />
       </div>);

@@ -4,6 +4,8 @@ from django.db import models
 from django.conf import settings
 
 import re
+import random
+import string
 
 
 class Provider(models.Model):
@@ -40,6 +42,8 @@ class ProviderExpression(models.Model):
 
 
 class Feed(models.Model):
+    LINK_ID_LENGTH = 9
+
     created = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
     feed_id = models.CharField(max_length=100)
@@ -54,6 +58,15 @@ class Feed(models.Model):
         if self.owner:
             return self.owner.get_display_name()
         return 'orphaned'
+
+    @staticmethod
+    def generate_link_id():
+        return ''.join(
+            random.SystemRandom().choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in
+            range(Feed.LINK_ID_LENGTH))
+
+    def __unicode__(self):
+        return u'Provider: {0}, Video ID: {1}, Feed ID: {2}'.format(self.provider.name, self.video_id, self.feed_id)
 
 
 class Comment(models.Model):
