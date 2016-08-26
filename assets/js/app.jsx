@@ -1,11 +1,6 @@
 var React = require('react');
 var LoginForm = require('./auth/login');
 var LogoutForm = require('./auth/logout');
-var CommentContainer = require('./comments/commentContainer');
-
-// temporary for testing stuff
-var TestCreateFeed = require('./testCreateFeed');
-var TestFeed = require('./testFeed.jsx');
 
 module.exports = React.createClass({
   getInitialState: function() {

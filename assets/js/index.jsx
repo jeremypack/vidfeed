@@ -5,19 +5,18 @@ Utils.setupAjax();
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, browserHistory } from 'react-router';
+import { Router, Route, browserHistory, Link } from 'react-router';
 
-import App from './app';
-import TestCreateFeed from './testCreateFeed';
-import TestFeed from './testFeed';
+import CreateFeed from './createFeed';
 
 
-
-var feed = require('./feed');
+import Feed from './feed';
 
 
 ReactDOM.render(<Router history={browserHistory}>
-                  <Route path="/" component={TestCreateFeed} />
-                  <Route path="/app/feed/:feedId" component={TestFeed} />
-                </Router>, document.getElementById('react-app'));
+  <Route path="/" component={CreateFeed} />
+  <Route path="/app/feed/:feedId" component={Feed} />
+</Router>, document.getElementById('react-app'));
 
+
+// ReactDOM.render(<App />, document.getElementById('react-app'));

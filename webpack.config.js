@@ -1,4 +1,4 @@
-var path = require("path");
+    var path = require("path");
 var webpack = require('webpack');
 var BundleTracker = require('webpack-bundle-tracker');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
@@ -17,17 +17,13 @@ module.exports = {
   ],
   module: {
     // preLoaders: [
-    //   {
-    //     test: /\.jsx?$/,
-    //     exclude: /node_modules/,
-    //     loader: 'jshint-loader'
-    //   }
+    //   {test: /\.js$/, loader: "eslint-loader", exclude: /node_modules/}
     // ],
     loaders: [
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        loader:  'babel-loader'
       },
       {
         test: /\.less$/,
