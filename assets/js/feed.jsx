@@ -37,7 +37,7 @@ var Feed = React.createClass({
     var videoUrl = 'https://www.youtube.com/embed/' + this.state.video_id;
     return (
       <div>
-        <OwnFeed wait={10000} />
+        <OwnFeed wait={10000} feedId={this.props.params.feedId} />
         <h3>Rendering a feed</h3>
         <iframe width="560" height="315" src={videoUrl} frameBorder="0" allowFullScreen></iframe>
         <p>created: {this.state.created}</p>
