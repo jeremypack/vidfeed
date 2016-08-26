@@ -1,4 +1,7 @@
-var React = require('react');
+import React from 'react';
+import { browserHistory } from 'react-router';
+
+
 
 module.exports =  React.createClass({
   getInitialState: function () {
@@ -21,7 +24,8 @@ module.exports =  React.createClass({
         videoUrl: videoUrl
       },
       success: function (ev){
-        this.setState({error: '', videoUrl: '', feedDetails: JSON.stringify(ev)});
+        const path = '/app/feed/' + ev.feed_id;
+        browserHistory.push(path);
       },
       error: function (ev) {
         this.setState({error: JSON.parse(ev.responseText).message, feedDetails: ''});

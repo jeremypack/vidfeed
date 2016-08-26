@@ -15,7 +15,7 @@ module.exports = React.createClass({
   },
   componentDidMount: function() {
     $.ajax({
-      url: "/api/feeds/xxxxxxx/",
+      url: "/api/feeds/" + this.props.params.feedId,
       dataType: 'json',
       context: this,
       success: function(feed) {
