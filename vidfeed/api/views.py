@@ -1,4 +1,4 @@
-from django.http import Http404
+from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -7,12 +7,26 @@ from vidfeed.feed.models import Comment, Feed, Provider
 from vidfeed.utils import get_youtube_title_and_thumbnail, get_vimeo_title_and_thumbnail
 from serializers import CommentSerializer, FeedSerializer
 
+#
+# def post_comment(request, feed_id):
+#     pass
 
 class CommentList(APIView):
-    def get(self, request, format=None):
-        comments = Comment.objects.all()
-        serializer = CommentSerializer(comments, many=True)
+    def get_objects(self, feed_id):
+        feed = get_object_or_404(Feed, feed_id=feed_id)
+        return Comment.objects.filter(feed=feed, deleted=False)
+
+    def get(self, request, feed_id, format=None):
+        serializer = CommentSerializer(self.get_objects(feed_id), many=True)
         return Response(serializer.data)
+
+    def post(self, request, feed_id, format=None):
+        feed = get_object_or_404(Feed, feed_id=feed_id)
+        serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(feed=feed)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class FeedList(APIView):
@@ -45,10 +59,7 @@ class FeedList(APIView):
 
 class FeedDetail(APIView):
     def get_object(self, feed_id):
-        try:
-            return Feed.objects.get(feed_id=feed_id)
-        except Feed.DoesNotExist:
-            raise Http404
+        return get_object_or_404(Feed, feed_id=feed_id)
 
     def get(self, request, feed_id, format=None):
         snippet = self.get_object(feed_id)

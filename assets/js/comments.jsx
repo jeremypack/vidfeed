@@ -22,19 +22,18 @@ var CommentBox = React.createClass({
     comment.id = Date.now();
     var newComments = comments.concat([comment]);
     this.setState({data: newComments});
-    // $.ajax({
-    //   url: this.props.url,
-    //   dataType: 'json',
-    //   type: 'POST',
-    //   data: comment,
-    //   success: function(data) {
-    //     this.setState({data: data});
-    //   }.bind(this),
-    //   error: function(xhr, status, err) {
-    //     this.setState({data: comments});
-    //     console.error(this.props.url, status, err.toString());
-    //   }.bind(this)
-    // });
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      type: 'POST',
+      data: comment,
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(data) {
+        console.log(JSON.parse(data.responseText));
+      }.bind(this)
+    });
   },
   getInitialState: function() {
     return {data: []};
@@ -89,7 +88,7 @@ var CommentForm = React.createClass({
     if (!text || !author) {
       return;
     }
-    this.props.onCommentSubmit({author: author, text: text});
+    this.props.onCommentSubmit({author: author, body: text});
     this.setState({author: '', text: ''});
   },
   render: function() {

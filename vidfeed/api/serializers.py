@@ -26,8 +26,15 @@ class FeedSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    author = serializers.EmailField(write_only=True, required=True)
     owner = SiteUserSerializer(many=False, read_only=True)
+    created = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = Comment
-        fields = ('id', 'body', 'created', 'owner')
+        fields = ('id', 'body', 'created', 'owner', 'timestamp', 'author')
+
+    def create(self, validated_data):
+        author = validated_data.pop('author')
+        owner = SiteUser.objects.find_or_create_user(author)
+        return Comment.objects.create(owner=owner, **validated_data)

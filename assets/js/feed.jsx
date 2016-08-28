@@ -35,6 +35,7 @@ var Feed = React.createClass({
   },
   render: function(){
     var videoUrl = 'https://www.youtube.com/embed/' + this.state.video_id;
+    var commentUrl = '/api/feeds/' + this.props.params.feedId + '/comments';
     return (
       <div>
         <OwnFeed wait={10000} />
@@ -42,7 +43,7 @@ var Feed = React.createClass({
         <iframe width="560" height="315" src={videoUrl} frameBorder="0" allowFullScreen></iframe>
         <p>created: {this.state.created}</p>
         <p>video title: {this.state.video_title}</p>
-        <Comments url="/api/comments" pollInterval={2000} />
+        <Comments url={commentUrl} pollInterval={2000} />
       </div>);
  }
 });
