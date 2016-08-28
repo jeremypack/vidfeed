@@ -38,7 +38,7 @@ var Feed = React.createClass({
     var commentUrl = '/api/feeds/' + this.props.params.feedId + '/comments';
     return (
       <div>
-        <OwnFeed wait={10000} />
+        <OwnFeed wait={10000} feedId={this.props.params.feedId} />
         <h3>Rendering a feed</h3>
         <iframe width="560" height="315" src={videoUrl} frameBorder="0" allowFullScreen></iframe>
         <p>created: {this.state.created}</p>
