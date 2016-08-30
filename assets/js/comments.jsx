@@ -31,6 +31,20 @@ var CommentBox = React.createClass({
       }.bind(this)
     });
   },
+  handleCommentEdit: function(commentId, author, text){
+    $.ajax({
+      url: this.props.url + '/' + commentId,
+      dataType: 'json',
+      context: this,
+      type: 'PUT',
+      data: {body: text, author: author},
+      success: function() {
+        // budget reload from server instead of updating
+        // actual list
+        this.loadCommentsFromServer();
+      }
+    });
+  },
   getInitialState: function() {
     return {data: []};
   },
@@ -44,7 +58,7 @@ var CommentBox = React.createClass({
         <h2>Add your comment</h2>
         <CommentForm onCommentSubmit={this.handleCommentSubmit} />
         <h2>Comments</h2>
-        <CommentList data={this.state.data} />
+        <CommentList data={this.state.data} handleCommentEdit={this.handleCommentEdit} />
       </div>
     );
   }
@@ -52,9 +66,12 @@ var CommentBox = React.createClass({
 
 var CommentList = React.createClass({
   render: function() {
+    var editHandler = this.props.handleCommentEdit;
     var commentNodes = this.props.data.map(function(comment) {
       return (
-        <Comment author={comment.owner.email} key={comment.id} time={comment.created} timecode={comment.timecode}>
+        <Comment author={comment.owner.email} id={comment.id} key={comment.id}
+                 time={comment.created} timecode={comment.timecode}
+                 handleCommentEdit={editHandler}>
           {comment.body}
         </Comment>
       );
@@ -104,6 +121,9 @@ var CommentForm = React.createClass({
 });
 
 var Comment = React.createClass({
+  getInitialState: function() {
+    return {editable: false, commentBody: this.props.children};
+  },
   formattedTime: function (time) {
     var minutes = Math.floor(time / 60);
     var seconds = Math.floor(time % 60).toFixed(0);
@@ -117,15 +137,44 @@ var Comment = React.createClass({
     }
     return hoursString + minutes + ":" + seconds;
   },
-
+  setEditMode: function (e) {
+    e.preventDefault();
+    this.setState({editable:true});
+  },
+  cancelEdit: function(e){
+    e.preventDefault();
+    this.setState({editable:false, commentBody: this.props.children});
+  },
+  saveEdit: function (e) {
+    e.preventDefault();
+    var commentId = $(e.currentTarget).closest('.comment').data('id');
+    this.props.handleCommentEdit(commentId, this.props.author, this.state.commentBody)
+    this.setState({editable:false});
+  },
+  handleCommentChange: function (e) {
+    this.setState({commentBody: e.target.value});
+  },
   render: function() {
     var formattedTime = this.formattedTime(this.props.timecode);
+    if (this.state.editable){
+      return (
+        <div className="comment" data-id={this.props.id}>
+          <input type="text" onChange={this.handleCommentChange} value={this.state.commentBody} />
+          <div>
+            <a onClick={this.saveEdit} href="#">save</a>&nbsp;&nbsp;
+            <a onClick={this.cancelEdit} href="#">cancel</a>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="comment">
         <p className="commentAuthor">author: {this.props.author}</p>
         <p>timestamp: {formattedTime}</p>
         <p>commented on: {this.props.time}</p>
-        {this.props.children}
+        <p>{this.props.children}</p>
+        <div><a onClick={this.setEditMode} href="#">edit</a></div>
       </div>
     );
   }

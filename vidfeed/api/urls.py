@@ -4,10 +4,10 @@ from vidfeed.api import views
 
 urlpatterns = [
     url(r'^feeds/(?P<feed_id>\S+)/comments$', views.CommentList.as_view()),
+    url(r'^feeds/(?P<feed_id>\S+)/comments/(?P<comment_id>\S+)$', views.CommentDetail.as_view()),
     url(r'^comments/$', views.CommentList.as_view()),
     url(r'^feeds/$', views.FeedList.as_view()),
     url(r'^feeds/(?P<feed_id>\S+)/$', views.FeedDetail.as_view()),
-
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

@@ -39,3 +39,9 @@ class CommentSerializer(serializers.ModelSerializer):
         author = validated_data.pop('author')
         owner = SiteUser.objects.find_or_create_user(author)
         return Comment.objects.create(owner=owner, **validated_data)
+
+    def update(self, instance, validated_data):
+        # only allow update of
+        instance.body = validated_data.pop('body')
+        instance.save()
+        return instance

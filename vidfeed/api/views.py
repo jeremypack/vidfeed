@@ -29,6 +29,19 @@ class CommentList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class CommentDetail(APIView):
+    def get_object(self, feed_id, pk):
+        return get_object_or_404(Comment, feed__feed_id=feed_id, pk=pk)
+
+    def put(self, request, feed_id, comment_id, format=None):
+        snippet = self.get_object(feed_id, comment_id)
+        serializer = CommentSerializer(snippet, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class FeedList(APIView):
     def get(self, request, format=None):
         feeds = Feed.objects.all()
