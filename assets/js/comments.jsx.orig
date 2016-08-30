@@ -18,6 +18,10 @@ var CommentBox = React.createClass({
     var comments = this.state.data;
     var newComments = comments.concat([comment]);
     this.setState({data: newComments});
+<<<<<<< HEAD
+=======
+    console.log(comment,'comment');
+>>>>>>> 00225b62b198bc48e28425eb550a69c3d018aab3
     $.ajax({
       url: this.props.url,
       dataType: 'json',
@@ -26,8 +30,14 @@ var CommentBox = React.createClass({
       success: function(data) {
         this.setState({data: data});
       }.bind(this),
+<<<<<<< HEAD
       error: function(data) {
         console.log(JSON.parse(data.responseText));
+=======
+      error: function(xhr, status, err) {
+        this.setState({data: comments});
+        console.error(this.props.url, status, err.toString());
+>>>>>>> 00225b62b198bc48e28425eb550a69c3d018aab3
       }.bind(this)
     });
   },
@@ -54,7 +64,7 @@ var CommentList = React.createClass({
   render: function() {
     var commentNodes = this.props.data.map(function(comment) {
       return (
-        <Comment author={comment.owner.email} key={comment.id} time={comment.created} timecode={comment.timecode}>
+        <Comment author={comment.owner.email} key={comment.id} time={comment.created}>
           {comment.body}
         </Comment>
       );
@@ -69,16 +79,13 @@ var CommentList = React.createClass({
 
 var CommentForm = React.createClass({
   getInitialState: function() {
-    return {author: '', text: '', timecode: '0.0'};
+    return {author: '', text: ''};
   },
   handleAuthorChange: function(e) {
     this.setState({author: e.target.value});
   },
   handleTextChange: function(e) {
     this.setState({text: e.target.value});
-  },
-  handleTimecodeChange: function (e) {
-    this.setState({timecode: e.target.value});
   },
   handleSubmit: function(e) {
     e.preventDefault();
@@ -87,16 +94,14 @@ var CommentForm = React.createClass({
     if (!text || !author) {
       return;
     }
-    this.props.onCommentSubmit({author: author, body: text, timecode: this.state.timecode});
-    this.setState({author: '', text: '', timecode: '0.0'});
+    this.props.onCommentSubmit({author: author, body: text});
+    this.setState({author: '', text: ''});
   },
   render: function() {
     return (
       <form className="commentForm" onSubmit={this.handleSubmit}>
         <input type="text" placeholder="Your name" value={this.state.author} onChange={this.handleAuthorChange} />
         <input type="text" placeholder="Say something" value={this.state.text} onChange={this.handleTextChange} />
-        <input type="number" step="0.01" placeholder="Timestamp" value={this.state.timecode}
-               required="true" onChange={this.handleTimecodeChange} />
         <input type="submit" value="Post" />
       </form>
     );
@@ -104,27 +109,13 @@ var CommentForm = React.createClass({
 });
 
 var Comment = React.createClass({
-  formattedTime: function (time) {
-    var minutes = Math.floor(time / 60);
-    var seconds = Math.floor(time % 60).toFixed(0);
-    var hours = Math.floor(minutes / 60);
-    minutes = minutes - hours * 60;
-    seconds = (seconds.length == 1 ? "0" : "") + seconds;
-    var hoursString = "";
-    if (hours > 0) {
-      hoursString = hours.toString() + ":";
-      minutes = (minutes.toString().length == 1 ? "0" : "") + minutes.toString();
-    }
-    return hoursString + minutes + ":" + seconds;
-  },
-
   render: function() {
-    var formattedTime = this.formattedTime(this.props.timecode);
     return (
       <div className="comment">
-        <p className="commentAuthor">author: {this.props.author}</p>
-        <p>timestamp: {formattedTime}</p>
-        <p>commented on: {this.props.time}</p>
+        <h2 className="commentAuthor">
+          {this.props.author}
+        </h2>
+        <p>commented on {this.props.time}</p>
         {this.props.children}
       </div>
     );

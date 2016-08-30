@@ -32,7 +32,8 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ('id', 'body', 'created', 'owner', 'timestamp', 'author')
+        fields = ('id', 'body', 'created', 'owner',
+                  'timecode', 'author')
 
     def create(self, validated_data):
         author = validated_data.pop('author')

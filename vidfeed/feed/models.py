@@ -74,7 +74,7 @@ class Comment(models.Model):
     feed = models.ForeignKey(Feed)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL)
     body = models.TextField()
-    timestamp = models.FloatField(default=0)
+    timecode = models.FloatField(default=0)
     deleted = models.BooleanField(default=False)
     parent_comment = models.ForeignKey('Comment', null=True, blank=True)
     has_notified = models.BooleanField(default=False)
