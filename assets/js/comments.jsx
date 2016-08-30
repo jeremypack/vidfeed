@@ -45,6 +45,18 @@ var CommentBox = React.createClass({
       }
     });
   },
+  handleDeleteComment: function (commentId) {
+    $.ajax({
+      url: this.props.url + '/' + commentId,
+      dataType: 'json',
+      context: this,
+      type: 'DELETE',
+      success: function() {
+        this.loadCommentsFromServer();
+      }
+    });
+
+  },
   getInitialState: function() {
     return {data: []};
   },
@@ -58,7 +70,9 @@ var CommentBox = React.createClass({
         <h2>Add your comment</h2>
         <CommentForm onCommentSubmit={this.handleCommentSubmit} />
         <h2>Comments</h2>
-        <CommentList data={this.state.data} handleCommentEdit={this.handleCommentEdit} />
+        <CommentList data={this.state.data}
+                     handleCommentEdit={this.handleCommentEdit}
+                     handleDeleteComment={this.handleDeleteComment} />
       </div>
     );
   }
@@ -67,11 +81,12 @@ var CommentBox = React.createClass({
 var CommentList = React.createClass({
   render: function() {
     var editHandler = this.props.handleCommentEdit;
+    var deleteHandler = this.props.handleDeleteComment;
     var commentNodes = this.props.data.map(function(comment) {
       return (
         <Comment author={comment.owner.email} id={comment.id} key={comment.id}
                  time={comment.created} timecode={comment.timecode}
-                 handleCommentEdit={editHandler}>
+                 handleCommentEdit={editHandler} handleDeleteComment={deleteHandler}>
           {comment.body}
         </Comment>
       );
@@ -148,8 +163,13 @@ var Comment = React.createClass({
   saveEdit: function (e) {
     e.preventDefault();
     var commentId = $(e.currentTarget).closest('.comment').data('id');
-    this.props.handleCommentEdit(commentId, this.props.author, this.state.commentBody)
+    this.props.handleCommentEdit(commentId, this.props.author, this.state.commentBody);
     this.setState({editable:false});
+  },
+  deleteComment: function (e) {
+    e.preventDefault();
+    var commentId = $(e.currentTarget).closest('.comment').data('id');
+    this.props.handleDeleteComment(commentId);
   },
   handleCommentChange: function (e) {
     this.setState({commentBody: e.target.value});
@@ -169,12 +189,15 @@ var Comment = React.createClass({
     }
 
     return (
-      <div className="comment">
+      <div className="comment" data-id={this.props.id}>
         <p className="commentAuthor">author: {this.props.author}</p>
         <p>timestamp: {formattedTime}</p>
         <p>commented on: {this.props.time}</p>
         <p>{this.props.children}</p>
-        <div><a onClick={this.setEditMode} href="#">edit</a></div>
+        <div>
+          <a onClick={this.setEditMode} href="#">edit</a>&nbsp;&nbsp;
+          <a onClick={this.deleteComment} href="#">delete</a>
+        </div>
       </div>
     );
   }

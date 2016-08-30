@@ -34,12 +34,18 @@ class CommentDetail(APIView):
         return get_object_or_404(Comment, feed__feed_id=feed_id, pk=pk)
 
     def put(self, request, feed_id, comment_id, format=None):
-        snippet = self.get_object(feed_id, comment_id)
-        serializer = CommentSerializer(snippet, data=request.data)
+        comment = self.get_object(feed_id, comment_id)
+        serializer = CommentSerializer(comment, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, feed_id, comment_id, format=None):
+        comment = self.get_object(feed_id, comment_id)
+        comment.deleted = True
+        comment.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class FeedList(APIView):
