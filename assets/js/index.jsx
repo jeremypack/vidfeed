@@ -1,22 +1,19 @@
 window.jQuery = window.$ = require('jquery');
 var $ = window.$;
-import Utils from './utils';
+
+var Utils = require ('./utils');
 Utils.setupAjax();
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Router, Route, browserHistory, Link } from 'react-router';
+var React = require('react');
+var ReactDOM = require('react-dom');
+import { Router, Route, Link, browserHistory } from 'react-router'
 
-import CreateFeed from './createFeed';
-
-
-import Feed from './feed';
-
+var Home = require('./views/Home');
+var Feed = require('./views/Feed');
 
 ReactDOM.render(<Router history={browserHistory}>
-  <Route path="/" component={CreateFeed} />
-  <Route path="/app/feed/:feedId" component={Feed} />
+    
+    <Route path="/" component={Home} />
+    <Route path="/app/feed/:feedId" component={Feed} />
+
 </Router>, document.getElementById('react-app'));
-
-
-// ReactDOM.render(<App />, document.getElementById('react-app'));
