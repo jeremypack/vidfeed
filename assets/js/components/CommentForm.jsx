@@ -8,7 +8,6 @@ var CommentForm = React.createClass({
                 <form className="commentForm" onSubmit={this.props.handleSubmit}>
                     <input type="text" placeholder="Your name"  onChange={this.props.handleAuthorChange} />
                     <input type="text" placeholder="Say something" onChange={this.props.handleCommentChange} />
-                    <input type="number" step="0.01" placeholder="Timestamp" required="true" onChange={this.props.handleTimecodeChange} />
                     <input type="submit" value="Post" />
                 </form>
             </div>

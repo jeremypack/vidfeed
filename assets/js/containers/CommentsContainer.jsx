@@ -24,10 +24,12 @@ var CommentsContainer = React.createClass({
     },
 
     handleCommentSubmit: function(comment) {
+        var timecode = this.props.timecode;
+        comment.timecode = timecode;
+        console.log(comment,'comment');
+        
         var comments = this.state.data;
         var newComments = comments.concat([comment]);
-        console.log(comments,'comments');
-        console.log(comment,'comment');
         this.setState({data: newComments});
         $.ajax({
             url: this.props.url,
@@ -76,7 +78,6 @@ var CommentsContainer = React.createClass({
     },
 
     render: function() {
-        console.log(this.state.data,'this.state.data comments CommentsContainer render');
         var editHandler = this.handleCommentEdit;
         var deleteHandler = this.handleDeleteComment;
         var commentNodes = this.state.data.map(function(comment) {
@@ -95,7 +96,7 @@ var CommentsContainer = React.createClass({
         return (
             <div className="commentBox">
                 <CommentFormContainer onCommentSubmit={this.handleCommentSubmit} />
-                <h2>Comments</h2>
+                <h2>Comments {commentNodes.length} </h2>
                 <div className="commentList">
                     {commentNodes}
                 </div>
