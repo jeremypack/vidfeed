@@ -17,10 +17,9 @@ var OwnFeedContainer = React.createClass({
         $.ajax({
             type: "POST",
             context: this,
-            url: "/api/feeds/setOwner",
+            url: "/api/feeds/" + this.state.feedId + '/set-owner/',
             data: {
                 owner: this.state.owner,
-                feedId: this.state.feedId
             },
             success: function (ev){
                 console.log(this.state.owner,'this.state.owner');

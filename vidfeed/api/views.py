@@ -1,15 +1,15 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
+from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.decorators import detail_route
 
+from vidfeed.profiles.models import SiteUser
 from vidfeed.feed.models import Comment, Feed, Provider
 from vidfeed.utils import get_youtube_title_and_thumbnail, get_vimeo_title_and_thumbnail
 from serializers import CommentSerializer, FeedSerializer
 
-#
-# def post_comment(request, feed_id):
-#     pass
 
 class CommentList(APIView):
     def get_objects(self, feed_id):
@@ -76,11 +76,24 @@ class FeedList(APIView):
         return Response(FeedSerializer(instance=feed).data)
 
 
-class FeedDetail(APIView):
+class FeedDetail(viewsets.GenericViewSet):
+
     def get_object(self, feed_id):
         return get_object_or_404(Feed, feed_id=feed_id)
 
     def get(self, request, feed_id, format=None):
-        snippet = self.get_object(feed_id)
-        serializer = FeedSerializer(snippet)
+        feed = self.get_object(feed_id)
+        serializer = FeedSerializer(feed)
         return Response(serializer.data)
+
+    @detail_route(methods=['post'])
+    def set_owner(self, request, feed_id):
+        feed = self.get_object(feed_id)
+        owner = request.POST.get('owner')
+        if feed.owner is not None:
+            return Response({"message": "Cannot overwrite owner"}, status=status.HTTP_403_FORBIDDEN)
+        if not owner:
+            return Response({"message": "Please enter a valid Url"}, status=status.HTTP_400_BAD_REQUEST)
+        feed.owner = SiteUser.objects.find_or_create_user(owner)
+        feed.save()
+        return Response(FeedSerializer(instance=feed).data)

@@ -31,7 +31,7 @@ var Feed = React.createClass({
         var commentUrl = '/api/feeds/' + this.props.params.feedId + '/comments';
         return (
             <div>
-                <OwnFeedContainer />
+                <OwnFeedContainer feedId={this.props.params.feedId} />
                 <FeedVideoContainer feedId={this.props.params.feedId} onTimecodeChange={this.getTimecode} />
                 <CommentsContainer url={commentUrl} pollInterval={2000} timecode={this.state.timecode} />
             </div>

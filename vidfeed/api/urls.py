@@ -7,7 +7,8 @@ urlpatterns = [
     url(r'^feeds/(?P<feed_id>\S+)/comments/(?P<comment_id>\S+)$', views.CommentDetail.as_view()),
     url(r'^comments/$', views.CommentList.as_view()),
     url(r'^feeds/$', views.FeedList.as_view()),
-    url(r'^feeds/(?P<feed_id>\S+)/$', views.FeedDetail.as_view()),
+    url(r'^feeds/(?P<feed_id>\S+)/set-owner/$', views.FeedDetail.as_view({'post': 'set_owner'})),
+    url(r'^feeds/(?P<feed_id>\S+)/$', views.FeedDetail.as_view({'get': 'get'})),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
