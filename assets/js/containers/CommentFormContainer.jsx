@@ -5,7 +5,7 @@ var CommentForm = require('../components/CommentForm');
 var CommentFormContainer = React.createClass({
     
     getInitialState: function() {
-        return {author: '', comment: ''};
+        return {author: '', comment: '', parentId: ''};
     },
 
     handleAuthorChange: function(e) {
@@ -16,15 +16,20 @@ var CommentFormContainer = React.createClass({
         this.setState({comment: e.target.value});
     },
 
+    handleParentIdChange: function (e) {
+        this.setState({parentId: e.target.value});
+    },
+
     handleSubmit: function(e) {
         e.preventDefault();
         var author = this.state.author.trim();
         var comment = this.state.comment.trim();
+        var parentId = this.state.parentId.trim();
         if (!comment || !author) {
             return;
         }
-        this.props.onCommentSubmit({author: author, body: comment});
-        this.setState({author: '', comment: ''});
+        this.props.onCommentSubmit({author: author, body: comment, parent_id: parentId});
+        this.setState({author: '', comment: '', parentId: ''});
     },
 
     render: function() {
@@ -32,7 +37,8 @@ var CommentFormContainer = React.createClass({
             <CommentForm
                 handleSubmit={this.handleSubmit}
                 handleAuthorChange={this.handleAuthorChange}
-                handleCommentChange={this.handleCommentChange} />
+                handleCommentChange={this.handleCommentChange}
+                handleParentIdChange={this.handleParentIdChange} />
         );
     }
 });

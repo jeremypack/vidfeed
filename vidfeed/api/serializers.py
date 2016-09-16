@@ -29,16 +29,23 @@ class CommentSerializer(serializers.ModelSerializer):
     author = serializers.EmailField(write_only=True, required=True)
     owner = SiteUserSerializer(many=False, read_only=True)
     created = serializers.DateTimeField(read_only=True)
+    parent_id = serializers.IntegerField(required=False)
 
     class Meta:
         model = Comment
         fields = ('id', 'body', 'created', 'owner',
-                  'timecode', 'author')
+                  'timecode', 'author', 'parent_id',)
 
     def create(self, validated_data):
         author = validated_data.pop('author')
+        parent_id = validated_data.pop('parent_id', None)
+        parent = None
+        if parent_id:
+            parent = Comment.objects.get(feed=validated_data['feed'],
+                                         deleted=False, id=parent_id)
         owner = SiteUser.objects.find_or_create_user(author)
-        return Comment.objects.create(owner=owner, **validated_data)
+        return Comment.objects.create(owner=owner,
+                                      parent_comment=parent, **validated_data)
 
     def update(self, instance, validated_data):
         # only allow update of

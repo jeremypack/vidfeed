@@ -9,7 +9,8 @@ module.exports = React.createClass({
               {body}<br />
               {owner.first_name} {owner.last_name}<br />
               {owner.email}<br />
-              {created}
+              {created}<br />
+              commentId = {id}
             </li>);
   }
 });

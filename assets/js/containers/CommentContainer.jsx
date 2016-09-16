@@ -65,6 +65,7 @@ var CommentContainer = React.createClass({
             return (
                 <Comment
                     id={this.props.id}
+                    parentCommentId={this.props.parentCommentId}
                     author={this.props.author}
                     value={this.state.commentBody}
                     timecode={formattedTime}

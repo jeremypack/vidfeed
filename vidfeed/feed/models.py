@@ -78,3 +78,9 @@ class Comment(models.Model):
     deleted = models.BooleanField(default=False)
     parent_comment = models.ForeignKey('Comment', null=True, blank=True)
     has_notified = models.BooleanField(default=False)
+
+    @property
+    def parent_id(self):
+        if self.parent_comment:
+            return self.parent_comment.id
+        return None

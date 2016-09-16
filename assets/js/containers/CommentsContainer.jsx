@@ -85,6 +85,7 @@ var CommentsContainer = React.createClass({
                 <CommentContainer 
                     author={comment.owner.email}
                     id={comment.id}
+                    parentCommentId={comment.parent_id}
                     key={comment.id}
                     body={comment.body}
                     time={comment.created}

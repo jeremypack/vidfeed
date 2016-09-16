@@ -24,7 +24,11 @@ class CommentList(APIView):
         feed = get_object_or_404(Feed, feed_id=feed_id)
         serializer = CommentSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(feed=feed)
+            try:
+                serializer.save(feed=feed)
+            except Comment.DoesNotExist:
+                return Response({"message": "Invalid parent comment"},
+                                status=status.HTTP_400_BAD_REQUEST)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
