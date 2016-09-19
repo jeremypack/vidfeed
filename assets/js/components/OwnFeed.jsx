@@ -3,6 +3,11 @@ var React = require('react');
 var OwnFeed = React.createClass({
     
     render: function() {
+        if (this.props.submitted) {
+            return (
+                <div>feed owned by {this.props.owner}.</div>
+            )
+        }
         return (
             <div className={this.props.hidden}>
                 <h2>Own this feed</h2>

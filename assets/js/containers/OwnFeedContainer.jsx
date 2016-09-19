@@ -5,7 +5,20 @@ var OwnFeed = require('../components/OwnFeed');
 var OwnFeedContainer = React.createClass({
     
     getInitialState : function () {
-        return{ hidden : "hidden", owner:'', feedId: this.props.feedId };
+        return {
+            hidden : "hidden",
+            owner:'',
+            submitted: false,
+            feedId: this.props.feedId 
+        };
+    },
+
+    componentWillMount: function() {
+        var that = this;
+        // timeout removes hidden class
+        setTimeout(function() {
+            that.show();
+        }, that.props.wait);
     },
 
     handleOwnerChange: function(e) {
@@ -24,20 +37,16 @@ var OwnFeedContainer = React.createClass({
             success: function (ev){
                 console.log(this.state.owner,'this.state.owner');
                 console.log(this.state.feedId,'this.state.feedId');
+                this.setState({
+                    hidden:'hidden',
+                    submitted:true
+                });
             },
             error: function (ev) {
                 console.log(this.state.owner,'this.state.owner');
                 console.log(this.state.feedId,'this.state.feedId');
             }
         });
-    },
-
-    componentWillMount : function () {
-        var that = this;
-        // timeout removes hidden class
-        setTimeout(function() {
-            that.show();
-        }, that.props.wait);
     },
 
     show : function () {
@@ -51,7 +60,8 @@ var OwnFeedContainer = React.createClass({
                     hidden={this.state.hidden}
                     handleSubmit={this.handleSubmit}
                     owner={this.state.owner}
-                    handleChange={this.handleOwnerChange} />
+                    handleChange={this.handleOwnerChange}
+                    submitted={this.state.submitted} />
             </div>
         );
         

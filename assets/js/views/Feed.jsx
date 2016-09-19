@@ -19,7 +19,25 @@ function hmsToSecondsOnly(str) {
 var Feed = React.createClass({
     
     getInitialState: function() {
-        return { timecode: '' }
+        return { feed:[], timecode: '' };
+    },
+
+    componentDidMount: function() {
+        $.ajax({
+            url: "/api/feeds/" + this.props.params.feedId,
+            dataType: 'json',
+            context: this,
+            success: function(data) {
+                this.setState({ feed: data });
+                console.log(this.state.feed,'this.state.feed');
+                if (this.state.feed.owner) {
+                    console.log(this.state.feed.owner,'this.state.feed.owner true');
+                } else {
+                    console.log(this.state.feed.owner,'this.state.feed.owner false');
+                }
+                
+            }
+        });
     },
 
     getTimecode: function(timecode) {
@@ -28,12 +46,11 @@ var Feed = React.createClass({
     },
 
     render: function() {
-        var commentUrl = '/api/feeds/' + this.props.params.feedId + '/comments';
         return (
             <div>
-                <OwnFeedContainer feedId={this.props.params.feedId} />
+                {this.state.feed.owner ? null : <OwnFeedContainer feedId={this.props.params.feedId} wait={5000} /> }
                 <FeedVideoContainer feedId={this.props.params.feedId} onTimecodeChange={this.getTimecode} />
-                <CommentsContainer url={commentUrl} pollInterval={2000} timecode={this.state.timecode} />
+                <CommentsContainer feedId={this.props.params.feedId} pollInterval={2000} timecode={this.state.timecode} />
             </div>
         );
     }

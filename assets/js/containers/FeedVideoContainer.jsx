@@ -25,6 +25,25 @@ var FeedVideoContainer = React.createClass({
         };
     },
 
+    componentDidMount: function() {
+        $.ajax({
+            url: "/api/feeds/" + this.props.feedId,
+            dataType: 'json',
+            context: this,
+            success: function(feed) {
+                this.setState({
+                    created: feed.created,
+                    owner: feed.owner,
+                    feed_id: feed.feed_id,
+                    provider: feed.provider,
+                    video_id: feed.video_id,
+                    video_title: feed.video_title,
+                    video_thumbnail: feed.video_thumbnail
+                });
+            }
+        });
+    },
+
     isYoutube: function() {
         if (this.state.provider.id === 1) {
             return true;
@@ -65,24 +84,7 @@ var FeedVideoContainer = React.createClass({
         return `${mm}:${ss}`
     },
 
-    componentDidMount: function() {
-        $.ajax({
-            url: "/api/feeds/" + this.props.feedId,
-            dataType: 'json',
-            context: this,
-            success: function(feed) {
-                this.setState({
-                    created: feed.created,
-                    owner: feed.owner,
-                    feed_id: feed.feed_id,
-                    provider: feed.provider,
-                    video_id: feed.video_id,
-                    video_title: feed.video_title,
-                    video_thumbnail: feed.video_thumbnail
-                });
-            }
-        });
-    },
+    
 
     render: function() {
         if (this.isYoutube()) {
@@ -101,7 +103,7 @@ var FeedVideoContainer = React.createClass({
                         onProgress={this.onProgress}
                         onDuration={this.onDuration}
                         youtubeConfig={youtubeConfig} />
-                    <p>elapsed {this.state.elapsed}</p>
+                    <p>{this.state.elapsed}</p>
                 </div>
             );
         } else {
@@ -109,14 +111,13 @@ var FeedVideoContainer = React.createClass({
             return (
                 <div>
                     <ReactPlayer
-                        controls
-                        progressFrequency={100}
+                        progressFrequency={50}
                         url={vimeoUrl}
                         onPlay={this.playPause} 
                         onPause={this.playPause}
                         onProgress={this.onProgress}
                         onDuration={this.onDuration} />
-                    <p>elapsed {this.state.elapsed}</p>
+                    <p>{this.state.elapsed}</p>
                 </div>
             );
         }

@@ -2,16 +2,27 @@ var React = require('react');
 
 var Comment = require('../components/Comment');
 var EditComment = require('../components/EditComment');
+var CommentReply = require('../components/CommentReply');
 
 var CommentContainer = React.createClass({
     
     getInitialState: function() {
-        return {editable: false, commentBody: this.props.body};
+        return {
+            editable: false,
+            replyOpen: false,
+            commentBody: this.props.body
+        };
     },
 
     setEditMode: function(e) {
         e.preventDefault();
         this.setState({editable:true});
+    },
+
+
+    toggleReply: function(e) {
+        e.preventDefault();
+        this.setState({replyOpen:!this.state.replyOpen});
     },
 
     formattedTime: function (time) {
@@ -63,15 +74,20 @@ var CommentContainer = React.createClass({
             );
         } else {
             return (
-                <Comment
-                    id={this.props.id}
-                    parentCommentId={this.props.parentCommentId}
-                    author={this.props.author}
-                    value={this.state.commentBody}
-                    timecode={formattedTime}
-                    created={this.props.time} 
-                    editComment={this.setEditMode} 
-                    deleteComment={this.deleteComment} />
+                <div>
+                    <Comment
+                        id={this.props.id}
+                        parentCommentId={this.props.parentCommentId}
+                        author={this.props.author}
+                        value={this.state.commentBody}
+                        timecode={formattedTime}
+                        created={this.props.time} 
+                        editComment={this.setEditMode} 
+                        deleteComment={this.deleteComment}
+                        toggleReply={this.toggleReply}
+                        showReply={this.state.replyOpen} />
+                    {this.state.replyOpen ? <CommentReply /> : null}
+                </div>
             );   
         }
     }

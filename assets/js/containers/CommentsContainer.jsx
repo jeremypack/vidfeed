@@ -11,7 +11,7 @@ var CommentsContainer = React.createClass({
 
     loadCommentsFromServer: function() {
         $.ajax({
-            url: this.props.url,
+            url: '/api/feeds/' + this.props.feedId + '/comments',
             dataType: 'json',
             cache: false,
             success: function(data) {
@@ -25,14 +25,12 @@ var CommentsContainer = React.createClass({
 
     handleCommentSubmit: function(comment) {
         var timecode = this.props.timecode;
-        comment.timecode = timecode;
-        console.log(comment,'comment');
-        
+        comment.timecode = timecode;        
         var comments = this.state.data;
         var newComments = comments.concat([comment]);
         this.setState({data: newComments});
         $.ajax({
-            url: this.props.url,
+            url: '/api/feeds/' + this.props.feedId + '/comments',
             dataType: 'json',
             type: 'POST',
             data: comment,
@@ -47,7 +45,7 @@ var CommentsContainer = React.createClass({
 
     handleCommentEdit: function(commentId, author, text){
         $.ajax({
-            url: this.props.url + '/' + commentId,
+            url: '/api/feeds/' + this.props.feedId + '/comments/' + commentId,
             dataType: 'json',
             context: this,
             type: 'PUT',
@@ -62,7 +60,7 @@ var CommentsContainer = React.createClass({
 
     handleDeleteComment: function (commentId) {
         $.ajax({
-            url: this.props.url + '/' + commentId,
+            url: '/api/feeds/' + this.props.feedId + '/comments/' + commentId,
             dataType: 'json',
             context: this,
             type: 'DELETE',
