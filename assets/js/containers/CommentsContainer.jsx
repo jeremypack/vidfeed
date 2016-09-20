@@ -9,12 +9,20 @@ var CommentsContainer = React.createClass({
         return {data: []};
     },
 
-    loadCommentsFromServer: function() {
+    componentDidMount: function() {
+        this._loadCommentsFromServer();
+        setInterval(this._loadCommentsFromServer, this.props.pollInterval);
+    },
+
+    _loadCommentsFromServer: function() {
         $.ajax({
             url: '/api/feeds/' + this.props.feedId + '/comments',
             dataType: 'json',
             cache: false,
             success: function(data) {
+                data.sort(function(a, b) {
+                    return parseFloat(a.timecode) - parseFloat(b.timecode);
+                });
                 this.setState({data: data});
             }.bind(this),
             error: function(xhr, status, err) {
@@ -23,7 +31,7 @@ var CommentsContainer = React.createClass({
         });
     },
 
-    handleCommentSubmit: function(comment) {
+    _handleCommentSubmit: function(comment) {
         var timecode = this.props.timecode;
         comment.timecode = timecode;        
         var comments = this.state.data;
@@ -43,7 +51,7 @@ var CommentsContainer = React.createClass({
         });
     },
 
-    handleCommentEdit: function(commentId, author, text){
+    _handleCommentEdit: function(commentId, author, text){
         $.ajax({
             url: '/api/feeds/' + this.props.feedId + '/comments/' + commentId,
             dataType: 'json',
@@ -53,31 +61,28 @@ var CommentsContainer = React.createClass({
             success: function() {
                 // budget reload from server instead of updating
                 // actual list
-                this.loadCommentsFromServer();
+                this._loadCommentsFromServer();
             }
         });
     },
 
-    handleDeleteComment: function (commentId) {
+    _handleDeleteComment: function (commentId) {
         $.ajax({
             url: '/api/feeds/' + this.props.feedId + '/comments/' + commentId,
             dataType: 'json',
             context: this,
             type: 'DELETE',
             success: function() {
-                this.loadCommentsFromServer();
+                this._loadCommentsFromServer();
             }
         });
     },
 
-    componentDidMount: function() {
-        this.loadCommentsFromServer();
-        setInterval(this.loadCommentsFromServer, this.props.pollInterval);
-    },
+    
 
     render: function() {
-        var editHandler = this.handleCommentEdit;
-        var deleteHandler = this.handleDeleteComment;
+        var editHandler = this._handleCommentEdit;
+        var deleteHandler = this._handleDeleteComment;
         var commentNodes = this.state.data.map(function(comment) {
             return (
                 <CommentContainer 
@@ -94,7 +99,7 @@ var CommentsContainer = React.createClass({
         });
         return (
             <div className="commentBox">
-                <CommentFormContainer onCommentSubmit={this.handleCommentSubmit} />
+                <CommentFormContainer onCommentSubmit={this._handleCommentSubmit} />
                 <h2>Comments {commentNodes.length} </h2>
                 <div className="commentList">
                     {commentNodes}

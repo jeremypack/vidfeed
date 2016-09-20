@@ -29,13 +29,6 @@ var Feed = React.createClass({
             context: this,
             success: function(data) {
                 this.setState({ feed: data });
-                console.log(this.state.feed,'this.state.feed');
-                if (this.state.feed.owner) {
-                    console.log(this.state.feed.owner,'this.state.feed.owner true');
-                } else {
-                    console.log(this.state.feed.owner,'this.state.feed.owner false');
-                }
-                
             }
         });
     },
