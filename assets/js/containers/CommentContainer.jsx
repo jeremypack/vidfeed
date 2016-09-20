@@ -2,7 +2,7 @@ var React = require('react');
 
 var Comment = require('../components/Comment');
 var EditComment = require('../components/EditComment');
-var CommentReply = require('../components/CommentReply');
+var ReplyFormContainer = require('../containers/ReplyFormContainer');
 
 var CommentContainer = React.createClass({
     
@@ -14,18 +14,18 @@ var CommentContainer = React.createClass({
         };
     },
 
-    setEditMode: function(e) {
+    _setEditMode: function(e) {
         e.preventDefault();
         this.setState({editable:true});
     },
 
 
-    toggleReply: function(e) {
+    _toggleReply: function(e) {
         e.preventDefault();
         this.setState({replyOpen:!this.state.replyOpen});
     },
 
-    formattedTime: function (time) {
+    _formattedTime: function (time) {
         var minutes = Math.floor(time / 60);
         var seconds = Math.floor(time % 60).toFixed(0);
         var hours = Math.floor(minutes / 60);
@@ -39,54 +39,63 @@ var CommentContainer = React.createClass({
         return hoursString + minutes + ":" + seconds;
     },
 
-    cancelEdit: function(e){
+    _cancelEdit: function(e){
         e.preventDefault();
         this.setState({editable:false, commentBody: this.props.body});
     },
 
-    saveEdit: function (e) {
+    _saveEdit: function (e) {
         e.preventDefault();
         var commentId = $(e.currentTarget).closest('.comment').data('id');
         this.props.handleCommentEdit(commentId, this.props.author, this.state.commentBody);
         this.setState({editable:false});
     },
 
-    deleteComment: function (e) {
+    _deleteComment: function (e) {
         e.preventDefault();
         var commentId = $(e.currentTarget).closest('.comment').data('id');
         this.props.handleDeleteComment(commentId);
     },
 
-    handleCommentChange: function (e) {
+    _handleCommentChange: function (e) {
         this.setState({commentBody: e.target.value});
     },
 
+    _handleReplySubmit: function(data) {
+        console.log(data,'_handleReplySubmit data');
+        this.props.handleReply(data);
+    },
+
     render: function() {
-        var formattedTime = this.formattedTime(this.props.timecode);
+        var formattedTime = this._formattedTime(this.props.timecode);
+
         if (this.state.editable) {
             return (
                 <EditComment 
                     id={this.props.id}
                     value={this.state.commentBody}
-                    handleChange={this.handleCommentChange}
-                    saveChange={this.saveEdit}
-                    cancelChange={this.cancelEdit} />
+                    handleChange={this._handleCommentChange}
+                    saveChange={this._saveEdit}
+                    cancelChange={this._cancelEdit} />
             );
         } else {
             return (
                 <div>
                     <Comment
                         id={this.props.id}
-                        parentCommentId={this.props.parentCommentId}
                         author={this.props.author}
+                        parentCommentId={this.props.parentCommentId}
                         value={this.state.commentBody}
                         timecode={formattedTime}
                         created={this.props.time} 
-                        editComment={this.setEditMode} 
-                        deleteComment={this.deleteComment}
-                        toggleReply={this.toggleReply}
+                        editComment={this._setEditMode} 
+                        deleteComment={this._deleteComment}
+                        toggleReply={this._toggleReply}
                         showReply={this.state.replyOpen} />
-                    {this.state.replyOpen ? <CommentReply /> : null}
+                    {this.state.replyOpen ? 
+                        <ReplyFormContainer 
+                            onReplySubmit={this._handleReplySubmit}
+                            parentId = {this.props.id} /> : null}
                 </div>
             );   
         }

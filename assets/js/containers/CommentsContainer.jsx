@@ -59,8 +59,6 @@ var CommentsContainer = React.createClass({
             type: 'PUT',
             data: {body: text, author: author},
             success: function() {
-                // budget reload from server instead of updating
-                // actual list
                 this._loadCommentsFromServer();
             }
         });
@@ -78,11 +76,10 @@ var CommentsContainer = React.createClass({
         });
     },
 
-    
-
     render: function() {
         var editHandler = this._handleCommentEdit;
         var deleteHandler = this._handleDeleteComment;
+        var replyHandler = this._handleCommentSubmit;
         var commentNodes = this.state.data.map(function(comment) {
             return (
                 <CommentContainer 
@@ -94,7 +91,8 @@ var CommentsContainer = React.createClass({
                     time={comment.created}
                     timecode={comment.timecode}
                     handleCommentEdit={editHandler}
-                    handleDeleteComment={deleteHandler} />
+                    handleDeleteComment={deleteHandler}
+                    handleReply={replyHandler} />
             );
         });
         return (

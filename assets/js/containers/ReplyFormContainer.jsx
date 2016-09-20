@@ -1,18 +1,18 @@
 var React = require('react');
 
-var CommentForm = require('../components/CommentForm');
+var ReplyForm = require('../components/ReplyForm');
 
-var CommentFormContainer = React.createClass({
+var ReplyFormContainer = React.createClass({
     
     getInitialState: function() {
-        return {author: '', comment: ''};
+        return {author: '', comment: '', parentId: this.props.parentId};
     },
 
     handleAuthorChange: function(e) {
         this.setState({author: e.target.value});
     },
 
-    handleCommentChange: function(e) {
+    handleReplyChange: function(e) {
         this.setState({comment: e.target.value});
     },
 
@@ -20,21 +20,23 @@ var CommentFormContainer = React.createClass({
         e.preventDefault();
         var author = this.state.author.trim();
         var comment = this.state.comment.trim();
+        var parentId = this.state.parentId;
         if (!comment || !author) {
             return;
         }
-        this.props.onCommentSubmit({author: author, body: comment});
-        this.setState({author: '', comment: ''});
+        this.props.onReplySubmit({author: author, body: comment, parent_id: parentId});
+        this.setState({author: '', comment: '', parentId: ''});
     },
 
     render: function() {
         return (
-            <CommentForm
+            <ReplyForm
                 handleSubmit={this.handleSubmit}
                 handleAuthorChange={this.handleAuthorChange}
-                handleCommentChange={this.handleCommentChange} />
+                handleReplyChange={this.handleReplyChange}
+                parentId={this.state.parentId} />
         );
     }
 });
 
-module.exports = CommentFormContainer;
+module.exports = ReplyFormContainer;
