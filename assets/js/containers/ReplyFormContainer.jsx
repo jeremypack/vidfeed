@@ -8,15 +8,15 @@ var ReplyFormContainer = React.createClass({
         return {author: '', comment: '', parentId: this.props.parentId};
     },
 
-    handleAuthorChange: function(e) {
+    _handleAuthorChange: function(e) {
         this.setState({author: e.target.value});
     },
 
-    handleReplyChange: function(e) {
+    _handleReplyChange: function(e) {
         this.setState({comment: e.target.value});
     },
 
-    handleSubmit: function(e) {
+    _handleSubmit: function(e) {
         e.preventDefault();
         var author = this.state.author.trim();
         var comment = this.state.comment.trim();
@@ -31,9 +31,9 @@ var ReplyFormContainer = React.createClass({
     render: function() {
         return (
             <ReplyForm
-                handleSubmit={this.handleSubmit}
-                handleAuthorChange={this.handleAuthorChange}
-                handleReplyChange={this.handleReplyChange} />
+                handleSubmit={this._handleSubmit}
+                handleAuthorChange={this._handleAuthorChange}
+                handleReplyChange={this._handleReplyChange} />
         );
     }
 });

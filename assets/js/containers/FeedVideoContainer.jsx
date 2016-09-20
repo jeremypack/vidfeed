@@ -5,7 +5,6 @@ function pad (string) {
   return ('0' + string).slice(-2)
 }
 
-
 var FeedVideoContainer = React.createClass({
 
     getInitialState: function() {
@@ -44,7 +43,7 @@ var FeedVideoContainer = React.createClass({
         });
     },
 
-    isYoutube: function() {
+    _isYoutube: function() {
         if (this.state.provider.id === 1) {
             return true;
         } else {
@@ -52,7 +51,7 @@ var FeedVideoContainer = React.createClass({
         }
     },
 
-    playPause: function() {
+    _playPause: function() {
         if (this.state.playing) {
             this.setState({playing:false});
         } else {
@@ -60,20 +59,20 @@ var FeedVideoContainer = React.createClass({
         }
     },
 
-    onDuration: function(data) {
+    _onDuration: function(data) {
         this.setState({duration:data});
     },
 
-    onProgress:function(data) {
+    _onProgress:function(data) {
         this.setState({
             loaded: data.loaded,
             played: data.played
         });
-        this.state.elapsed = this.calcElapsed(this.state.played * this.state.duration);
+        this.state.elapsed = this._calcElapsed(this.state.played * this.state.duration);
         this.props.onTimecodeChange(this.state.elapsed);
     },
 
-    calcElapsed: function(data) {
+    _calcElapsed: function(data) {
         var date = new Date(data * 1000)
         var hh = date.getHours()
         var mm = date.getMinutes()
@@ -84,10 +83,8 @@ var FeedVideoContainer = React.createClass({
         return `${mm}:${ss}`
     },
 
-    
-
     render: function() {
-        if (this.isYoutube()) {
+        if (this._isYoutube()) {
             var youtubeUrl = "https://www.youtube.com/watch?v="+this.state.video_id;
             var youtubeConfig = {
                 preload:true
@@ -98,10 +95,10 @@ var FeedVideoContainer = React.createClass({
                         controls
                         progressFrequency={100}
                         url={youtubeUrl}
-                        onPlay={this.playPause} 
-                        onPause={this.playPause}
-                        onProgress={this.onProgress}
-                        onDuration={this.onDuration}
+                        onPlay={this._playPause} 
+                        onPause={this._playPause}
+                        onProgress={this._onProgress}
+                        onDuration={this._onDuration}
                         youtubeConfig={youtubeConfig} />
                     <p>{this.state.elapsed}</p>
                 </div>
@@ -113,10 +110,10 @@ var FeedVideoContainer = React.createClass({
                     <ReactPlayer
                         progressFrequency={50}
                         url={vimeoUrl}
-                        onPlay={this.playPause} 
-                        onPause={this.playPause}
-                        onProgress={this.onProgress}
-                        onDuration={this.onDuration} />
+                        onPlay={this._playPause} 
+                        onPause={this._playPause}
+                        onProgress={this._onProgress}
+                        onDuration={this._onDuration} />
                     <p>{this.state.elapsed}</p>
                 </div>
             );

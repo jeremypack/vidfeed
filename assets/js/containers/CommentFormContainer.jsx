@@ -8,15 +8,15 @@ var CommentFormContainer = React.createClass({
         return {author: '', comment: ''};
     },
 
-    handleAuthorChange: function(e) {
+    _handleAuthorChange: function(e) {
         this.setState({author: e.target.value});
     },
 
-    handleCommentChange: function(e) {
+    _handleCommentChange: function(e) {
         this.setState({comment: e.target.value});
     },
 
-    handleSubmit: function(e) {
+    _handleSubmit: function(e) {
         e.preventDefault();
         var author = this.state.author.trim();
         var comment = this.state.comment.trim();
@@ -30,9 +30,9 @@ var CommentFormContainer = React.createClass({
     render: function() {
         return (
             <CommentForm
-                handleSubmit={this.handleSubmit}
-                handleAuthorChange={this.handleAuthorChange}
-                handleCommentChange={this.handleCommentChange} />
+                handleSubmit={this._handleSubmit}
+                handleAuthorChange={this._handleAuthorChange}
+                handleCommentChange={this._handleCommentChange} />
         );
     }
 });

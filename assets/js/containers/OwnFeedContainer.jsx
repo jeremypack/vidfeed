@@ -21,11 +21,11 @@ var OwnFeedContainer = React.createClass({
         }, that.props.wait);
     },
 
-    handleOwnerChange: function(e) {
+    _handleOwnerChange: function(e) {
         this.setState({owner: e.target.value});
     },
 
-    handleSubmit: function(e) {
+    _handleSubmit: function(e) {
         e.preventDefault();
         $.ajax({
             type: "POST",
@@ -35,8 +35,6 @@ var OwnFeedContainer = React.createClass({
                 owner: this.state.owner,
             },
             success: function (ev){
-                console.log(this.state.owner,'this.state.owner');
-                console.log(this.state.feedId,'this.state.feedId');
                 this.setState({
                     hidden:'hidden',
                     submitted:true
@@ -58,9 +56,9 @@ var OwnFeedContainer = React.createClass({
             <div>
                 <OwnFeed
                     hidden={this.state.hidden}
-                    handleSubmit={this.handleSubmit}
+                    handleSubmit={this._handleSubmit}
                     owner={this.state.owner}
-                    handleChange={this.handleOwnerChange}
+                    handleChange={this._handleOwnerChange}
                     submitted={this.state.submitted} />
             </div>
         );

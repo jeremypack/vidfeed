@@ -33,7 +33,7 @@ var Feed = React.createClass({
         });
     },
 
-    getTimecode: function(timecode) {
+    _getTimecode: function(timecode) {
         var timecodeNumber = hmsToSecondsOnly(timecode);
         this.setState({ timecode: timecodeNumber });
     },
@@ -42,7 +42,7 @@ var Feed = React.createClass({
         return (
             <div>
                 {this.state.feed.owner ? null : <OwnFeedContainer feedId={this.props.params.feedId} wait={5000} /> }
-                <FeedVideoContainer feedId={this.props.params.feedId} onTimecodeChange={this.getTimecode} />
+                <FeedVideoContainer feedId={this.props.params.feedId} onTimecodeChange={this._getTimecode} />
                 <CommentsContainer feedId={this.props.params.feedId} pollInterval={2000} timecode={this.state.timecode} />
             </div>
         );
