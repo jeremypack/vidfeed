@@ -33,8 +33,7 @@ var ReplyFormContainer = React.createClass({
             <ReplyForm
                 handleSubmit={this.handleSubmit}
                 handleAuthorChange={this.handleAuthorChange}
-                handleReplyChange={this.handleReplyChange}
-                parentId={this.state.parentId} />
+                handleReplyChange={this.handleReplyChange} />
         );
     }
 });
