@@ -64,12 +64,15 @@ var FeedVideoContainer = React.createClass({
     },
 
     _onProgress:function(data) {
-       if(this.state.duration === 0) {
-           this.state.duration = this.refs.player.refs.player.refs.duration;
-           this.refs.player.refs.player.refs.iframe.contentWindow.postMessage('{"method":"getDuration", "value":0}', '*');
-       } else {
-            $('#timecode').text(this._calcElapsed(data.played * this.state.duration));
-       }
+        if(this.state.duration === 0) {
+            // set duration to null so we don't trigger the event again
+            // don't do this via setState because we don't want to
+            // trigger a refresh in this instance
+            this.state.duration = null;
+            this.refs.player.refs.player.refs.iframe.contentWindow.postMessage('{"method":"getDuration", "value":0}', '*');
+        } else {
+             $('#timecode').text(this._calcElapsed(data.played * this.state.duration));
+        }
 
 
         // this.setState({
