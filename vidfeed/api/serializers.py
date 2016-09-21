@@ -25,7 +25,7 @@ class FeedSerializer(serializers.ModelSerializer):
                   'video_id', 'video_title', 'video_thumbnail')
 
 
-class CommentSerializer(serializers.ModelSerializer):
+class ChildCommentSerializer(serializers.ModelSerializer):
     author = serializers.EmailField(write_only=True, required=True)
     owner = SiteUserSerializer(many=False, read_only=True)
     created = serializers.DateTimeField(read_only=True)
@@ -35,6 +35,20 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ('id', 'body', 'created', 'owner',
                   'timecode', 'author', 'parent_id',)
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    author = serializers.EmailField(write_only=True, required=True)
+    owner = SiteUserSerializer(many=False, read_only=True)
+    created = serializers.DateTimeField(read_only=True)
+    parent_id = serializers.IntegerField(required=False)
+    children = ChildCommentSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Comment
+        fields = ('id', 'body', 'created', 'owner',
+                  'timecode', 'author', 'parent_id',
+                  'children')
 
     def create(self, validated_data):
         author = validated_data.pop('author')
@@ -52,3 +66,4 @@ class CommentSerializer(serializers.ModelSerializer):
         instance.body = validated_data.pop('body')
         instance.save()
         return instance
+
