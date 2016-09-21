@@ -43,6 +43,7 @@ var Feed = React.createClass({
             <div>
                 {this.state.feed.owner ? null : <OwnFeedContainer feedId={this.props.params.feedId} wait={5000} /> }
                 <FeedVideoContainer feedId={this.props.params.feedId} onTimecodeChange={this._getTimecode} />
+                <p id="timecode">&nbsp;</p>
                 <CommentsContainer feedId={this.props.params.feedId} pollInterval={2000} timecode={this.state.timecode} />
             </div>
         );
