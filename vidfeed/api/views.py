@@ -14,7 +14,8 @@ from serializers import CommentSerializer, FeedSerializer
 class CommentList(APIView):
     def get_objects(self, feed_id):
         feed = get_object_or_404(Feed, feed_id=feed_id)
-        return Comment.objects.filter(feed=feed, deleted=False)
+        return Comment.objects.filter(feed=feed, deleted=False,
+                                      parent_comment__isnull=True)
 
     def get(self, request, feed_id, format=None):
         serializer = CommentSerializer(self.get_objects(feed_id), many=True)

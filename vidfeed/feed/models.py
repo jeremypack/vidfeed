@@ -84,3 +84,8 @@ class Comment(models.Model):
         if self.parent_comment:
             return self.parent_comment.id
         return None
+
+    @property
+    def children(self):
+        return Comment.objects.filter(parent_comment=self,
+                                      deleted=False).order_by('created')

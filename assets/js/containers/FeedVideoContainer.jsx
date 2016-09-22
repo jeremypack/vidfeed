@@ -18,7 +18,7 @@ var FeedVideoContainer = React.createClass({
             video_thumbnail: "",
             playing:false,
             played:0,
-            duration:0,
+            duration:null,
             elapsed:0,
             loaded:0
         };
@@ -64,12 +64,23 @@ var FeedVideoContainer = React.createClass({
     },
 
     _onProgress:function(data) {
-        this.setState({
-            loaded: data.loaded,
-            played: data.played
-        });
-        this.state.elapsed = this._calcElapsed(this.state.played * this.state.duration);
-        this.props.onTimecodeChange(this.state.elapsed);
+        if(this.state.duration === 0) {
+            // set duration to null so we don't trigger the event again
+            // don't do this via setState because we don't want to
+            // trigger a refresh in this instance
+            this.state.duration = null;
+            this.refs.player.refs.player.refs.iframe.contentWindow.postMessage('{"method":"getDuration", "value":0}', '*');
+        } else {
+             $('#timecode').text(this._calcElapsed(data.played * this.state.duration));
+        }
+
+
+        // this.setState({
+        //     loaded: data.loaded,
+        //     played: data.played
+        // });
+        // this.state.elapsed = this._calcElapsed(this.state.played * this.state.duration);
+        // this.props.onTimecodeChange(this.state.elapsed);
     },
 
     _calcElapsed: function(data) {
@@ -94,6 +105,7 @@ var FeedVideoContainer = React.createClass({
                     <ReactPlayer
                         controls
                         progressFrequency={100}
+                        ref='player'
                         url={youtubeUrl}
                         onPlay={this._playPause} 
                         onPause={this._playPause}
@@ -109,6 +121,7 @@ var FeedVideoContainer = React.createClass({
                 <div>
                     <ReactPlayer
                         progressFrequency={50}
+                        ref='player'
                         url={vimeoUrl}
                         onPlay={this._playPause} 
                         onPause={this._playPause}
