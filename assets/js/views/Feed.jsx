@@ -1,5 +1,6 @@
 var React = require('react');
 
+var ShareFeedContainer = require('../containers/ShareFeedContainer');
 var OwnFeedContainer = require('../containers/OwnFeedContainer');
 var FeedVideoContainer = require('../containers/FeedVideoContainer');
 var CommentsContainer = require('../containers/CommentsContainer');
@@ -39,9 +40,13 @@ var Feed = React.createClass({
     },
 
     render: function() {
+        if (!this.state.feed.owner) {
+            var ownFeed = <OwnFeedContainer feedId={this.props.params.feedId} wait={5000} />
+        }
         return (
             <div>
-                {this.state.feed.owner ? null : <OwnFeedContainer feedId={this.props.params.feedId} wait={5000} /> }
+                <ShareFeedContainer />
+                {ownFeed}
                 <FeedVideoContainer feedId={this.props.params.feedId} onTimecodeChange={this._getTimecode} />
                 <CommentsContainer feedId={this.props.params.feedId} pollInterval={2000} timecode={this.state.timecode} />
             </div>
