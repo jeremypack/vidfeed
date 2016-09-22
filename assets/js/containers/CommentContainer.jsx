@@ -62,12 +62,33 @@ var CommentContainer = React.createClass({
     },
 
     _handleReplySubmit: function(data) {
-        console.log(data,'_handleReplySubmit data');
         this.props.handleReply(data);
     },
 
     render: function() {
         var formattedTime = this._formattedTime(this.props.timecode);
+                
+        if (this.props.children.length) {
+            var repliesArr = this.props.children;
+            var replyNodes = repliesArr.map(function(reply, i){
+                return (
+                    <Comment
+                        id={reply.id}
+                        key={reply.id}
+                        author={reply.owner.email}
+                        parentCommentId={reply.parent_id}
+                        value={reply.body}
+                        created={reply.created}
+                        isReply={true} />
+                );
+            });
+        }
+
+        if (this.state.replyOpen) {
+            var replyForm = <ReplyFormContainer 
+                                onReplySubmit={this._handleReplySubmit}
+                                parentId = {this.props.id} />
+        }
 
         if (this.state.editable) {
             return (
@@ -78,7 +99,9 @@ var CommentContainer = React.createClass({
                     saveChange={this._saveEdit}
                     cancelChange={this._cancelEdit} />
             );
+
         } else {
+
             return (
                 <div>
                     <Comment
@@ -86,16 +109,15 @@ var CommentContainer = React.createClass({
                         author={this.props.author}
                         parentCommentId={this.props.parentCommentId}
                         value={this.state.commentBody}
+                        isReply={false}
                         timecode={formattedTime}
                         created={this.props.time} 
                         editComment={this._setEditMode} 
                         deleteComment={this._deleteComment}
                         toggleReply={this._toggleReply}
                         showReply={this.state.replyOpen} />
-                    {this.state.replyOpen ? 
-                        <ReplyFormContainer 
-                            onReplySubmit={this._handleReplySubmit}
-                            parentId = {this.props.id} /> : null}
+                    {replyNodes}
+                    {replyForm}
                 </div>
             );   
         }

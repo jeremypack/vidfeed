@@ -75,12 +75,12 @@ var FeedVideoContainer = React.createClass({
         }
 
 
-        // this.setState({
-        //     loaded: data.loaded,
-        //     played: data.played
-        // });
-        // this.state.elapsed = this._calcElapsed(this.state.played * this.state.duration);
-        // this.props.onTimecodeChange(this.state.elapsed);
+        this.setState({
+            loaded: data.loaded,
+            played: data.played
+        });
+        this.state.elapsed = this._calcElapsed(this.state.played * this.state.duration);
+        this.props.onTimecodeChange(this.state.elapsed);
     },
 
     _calcElapsed: function(data) {

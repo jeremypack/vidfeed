@@ -90,6 +90,7 @@ var CommentsContainer = React.createClass({
                     body={comment.body}
                     time={comment.created}
                     timecode={comment.timecode}
+                    children={comment.children}
                     handleCommentEdit={editHandler}
                     handleDeleteComment={deleteHandler}
                     handleReply={replyHandler} />
