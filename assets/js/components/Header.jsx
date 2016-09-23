@@ -7,12 +7,13 @@ var Header = React.createClass({
     render: function() {
         console.log(this.props.isHomepage,'isHomepage');
         if (this.props.isHomepage) {
+            var logo = window.vidfeed.images_dir + '/logo-white.svg';
             return (
                 <header className="header header--home">
                     <div className="container">
                         <div className="logo">
                             <Link to="/" className="logo__link">
-                                <img src="/static/assets/images/logo-white.svg" alt="Vidfeed" />
+                                <img src={logo} alt="Vidfeed" />
                             </Link>
                         </div>
                     </div>
@@ -24,7 +25,7 @@ var Header = React.createClass({
                 <div className="container">
                     <div className="logo">
                             <Link to="/" className="logo__link">
-                                <img src="/static/assets/images/logo-black.svg" alt="Vidfeed" />
+                                <img src={logo} alt="Vidfeed" />
                             </Link>
                         </div>
                 </div>
