@@ -5,7 +5,10 @@ var CommentForm = require('../components/CommentForm');
 var CommentFormContainer = React.createClass({
     
     getInitialState: function() {
-        return {author: '', comment: ''};
+        return {
+            author: '',
+            comment: ''
+        };
     },
 
     _handleAuthorChange: function(e) {

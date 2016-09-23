@@ -1,4 +1,4 @@
-    var path = require("path");
+var path = require("path");
 var webpack = require('webpack');
 var BundleTracker = require('webpack-bundle-tracker');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
@@ -6,7 +6,7 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
   context: __dirname,
-  entry: ['./assets/js/index', './assets/less/site.less'],
+  entry: ['./assets/js/index', './assets/less/site.less', './assets/scss/site.scss'],
   output: {
     path: path.resolve('./assets/bundles/'),
     filename: "[name].js"
@@ -28,6 +28,10 @@ module.exports = {
       {
         test: /\.less$/,
         loader: ExtractTextPlugin.extract("style-loader", "css-loader!less-loader")
+      },
+      {
+        test: /\.scss$/,
+        loaders: ['style', 'css', 'sass']
       }
     ]
   },

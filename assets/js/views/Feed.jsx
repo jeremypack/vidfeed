@@ -1,9 +1,10 @@
 var React = require('react');
 
-var ShareFeedContainer = require('../containers/ShareFeedContainer');
-var OwnFeedContainer = require('../containers/OwnFeedContainer');
-var FeedVideoContainer = require('../containers/FeedVideoContainer');
-var CommentsContainer = require('../containers/CommentsContainer');
+var HeaderContainer =           require('../containers/HeaderContainer');
+var ShareFeedContainer =        require('../containers/ShareFeedContainer');
+var OwnFeedContainer =          require('../containers/OwnFeedContainer');
+var FeedVideoContainer =        require('../containers/FeedVideoContainer');
+var CommentsContainer =         require('../containers/CommentsContainer');
 
 function hmsToSecondsOnly(str) {
     var p = str.split(':'),
@@ -45,6 +46,7 @@ var Feed = React.createClass({
         }
         return (
             <div>
+                <HeaderContainer />
                 <ShareFeedContainer />
                 {ownFeed}
                 <FeedVideoContainer feedId={this.props.params.feedId} onTimecodeChange={this._getTimecode} />

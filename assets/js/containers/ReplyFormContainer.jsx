@@ -5,7 +5,11 @@ var ReplyForm = require('../components/ReplyForm');
 var ReplyFormContainer = React.createClass({
     
     getInitialState: function() {
-        return {author: '', comment: '', parentId: this.props.parentId};
+        return {
+            author: '',
+            comment: '',
+            parentId: this.props.parentId
+        };
     },
 
     _handleAuthorChange: function(e) {

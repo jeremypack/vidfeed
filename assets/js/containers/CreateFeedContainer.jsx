@@ -6,7 +6,11 @@ var CreateFeed = require('../components/CreateFeed');
 var CreateFeedContainer =  React.createClass({
     
     getInitialState: function () {
-        return {videoUrl:'', feedDetails: '', error: ''};
+        return {
+            videoUrl:'',
+            feedDetails: '',
+            error: ''
+        };
     },
 
     handleUrlChange: function (e) {

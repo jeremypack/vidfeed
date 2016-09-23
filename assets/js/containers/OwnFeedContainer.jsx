@@ -6,14 +6,15 @@ var OwnFeedContainer = React.createClass({
     
     getInitialState : function () {
         return {
-            hidden : "hidden",
+            hidden : true,
             owner:'',
             submitted: false,
             feedId: this.props.feedId 
         };
     },
 
-    componentWillMount: function() {
+    componentDidMount: function() {
+        console.log('mounting own feed');
         var that = this;
         // timeout removes hidden class
         setTimeout(function() {
@@ -48,7 +49,7 @@ var OwnFeedContainer = React.createClass({
     },
 
     show : function () {
-        this.setState({hidden : ""});
+        this.setState({hidden : false});
     },
 
     render : function() {
