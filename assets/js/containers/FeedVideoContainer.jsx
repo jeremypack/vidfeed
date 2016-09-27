@@ -120,7 +120,7 @@ var FeedVideoContainer = React.createClass({
             return (
                 <div>
                     <ReactPlayer
-                        progressFrequency={50}
+                        progressFrequency={100}
                         ref='player'
                         url={vimeoUrl}
                         onPlay={this._playPause} 

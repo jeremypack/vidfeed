@@ -7,7 +7,7 @@ var Home = React.createClass({
     
     render: function() {
         return ( 
-            <div>
+            <div className="homePage">
                 <HeaderContainer isHomepage={true} />
                 <CreateFeedContainer />
             </div>

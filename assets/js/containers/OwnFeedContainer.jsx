@@ -54,14 +54,12 @@ var OwnFeedContainer = React.createClass({
 
     render : function() {
         return (
-            <div>
-                <OwnFeed
-                    hidden={this.state.hidden}
-                    handleSubmit={this._handleSubmit}
-                    owner={this.state.owner}
-                    handleChange={this._handleOwnerChange}
-                    submitted={this.state.submitted} />
-            </div>
+            <OwnFeed
+                hidden={this.state.hidden}
+                handleSubmit={this._handleSubmit}
+                owner={this.state.owner}
+                handleChange={this._handleOwnerChange}
+                submitted={this.state.submitted} />
         );
         
     }

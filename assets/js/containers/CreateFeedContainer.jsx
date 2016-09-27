@@ -42,14 +42,12 @@ var CreateFeedContainer =  React.createClass({
 
     render: function() {
         return (
-            <div>
-                <CreateFeed 
-                    submitHandler={this.handleSubmit}
-                    value={this.state.videoUrl}
-                    changeHandler={this.handleUrlChange}
-                    details={this.state.feedDetails}
-                    error={this.state.error} />
-            </div>
+            <CreateFeed 
+                submitHandler={this.handleSubmit}
+                value={this.state.videoUrl}
+                changeHandler={this.handleUrlChange}
+                details={this.state.feedDetails}
+                error={this.state.error} />
         );
     }
 

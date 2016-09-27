@@ -1,13 +1,13 @@
 /**
  * CONTENTS
  *
- * Architecture follows the 7-1 design pattern (sass-guidelin.es/#the-7-1-pattern),
- * and adhere's to DRY (don't repeat yourself) and KISS (keep it simple, stupid!) principles. 
- * For general tips and great advice on how to structure and write your own framework,
- * refer to http://cssguidelin.es/.
+ * The sass architecture borrows and extends the 7-1 design pattern
+ * (sass-guidelin.es/#the-7-1-pattern), and adhere's to DRY (don't repeat yourself)
+ * and KISS (keep it simple, stupid!) principles. For general tips and great advice 
+ * on how to structure and write your own framework, refer to http://cssguidelin.es/.
  *
- * Ideas/mixins/functions have borrowed from multiple frameworks, but most promninently
- * from Harry Roberts' Inuit css (github.com/inuitcss/inuitcss)
+ * Ideas/mixins/functions have also been borrowed from other css frameworks, but most 
+ * promninently from Harry Roberts' Inuit css (github.com/inuitcss/inuitcss)
  */
 
 
@@ -15,17 +15,50 @@
   #ABSTRACTS
 \*------------------------------------*/
 
+@import 'abstracts/_settings.core';
+@import 'abstracts/_settings.global';
+
+
+
+
+
+/*------------------------------------*\
+  #TOOLS
+\*------------------------------------*/
+
+@import 'tools/_rem';
+@import 'tools/_clearfix';
+@import 'tools/_hidden';
+@import 'tools/_font-size';
+// sass-mq config file to be added
+@import '../../node_modules/sass-mq/_mq';
+
+
+
 
 
 /*------------------------------------*\
   #BASE
 \*------------------------------------*/
 
+@import 'base/_box-sizing';
+@import 'base/_normalize';
+@import 'base/_reset';
+
+
+
 
 
 /*------------------------------------*\
-  #COMPONENTS
+  #ELEMENTS
 \*------------------------------------*/
+
+@import 'elements/_page';
+@import 'elements/_images';
+@import 'elements/_headings';
+@import 'elements/_tables';
+
+
 
 
 
@@ -33,23 +66,66 @@
   #LAYOUT
 \*------------------------------------*/
 
+// nav
+// forms
+// header
+
+
+
+
+/*------------------------------------*\
+  #OBJECTS
+\*------------------------------------*/
+
+@import 'objects/_wrapper';
+$inuit-use-markup-fix: false !default;
+@import 'objects/_layout';
+@import 'objects/_list-bare';
+@import 'objects/_list-inline';
+@import 'objects/_box';
+@import 'objects/_block';
+@import 'objects/_ratio';
+@import 'objects/_crop';
+@import 'objects/_tables';
+
+
+
+
+
+/*------------------------------------*\
+  #COMPONENTS
+\*------------------------------------*/
+
+// component scss found within react js components
+
+
+
 
 
 /*------------------------------------*\
   #PAGES
 \*------------------------------------*/
 
+@import 'pages/_home';
+// feed
+
+
+
+
 
 
 /*------------------------------------*\
-  #THEMES
+  #UTILITIES/HELPERS
 \*------------------------------------*/
 
+@import 'utilities/_clearfix';
+@import 'utilities/_widths';
+@import 'utilities/_headings';
+@import 'utilities/_spacing';
+@import 'utilities/_print';
+@import 'utilities/_hide';
 
 
-/*------------------------------------*\
-  #VENDORS
-\*------------------------------------*/
 
 
 

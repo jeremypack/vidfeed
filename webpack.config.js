@@ -6,7 +6,7 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
   context: __dirname,
-  entry: ['./assets/js/index', './assets/less/site.less', './assets/scss/site.scss'],
+  entry: ['./assets/js/index', './assets/scss/site.scss'],
   output: {
     path: path.resolve('./assets/bundles/'),
     filename: "[name].js"
@@ -19,6 +19,7 @@ module.exports = {
     // preLoaders: [
     //   {test: /\.js$/, loader: "eslint-loader", exclude: /node_modules/}
     // ],
+    
     loaders: [
       {
         test: /\.jsx?$/,
@@ -31,8 +32,9 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loaders: ['style', 'css', 'sass']
-      }
+        loader: ExtractTextPlugin.extract("style-loader", "css-loader!sass-loader")
+      },
+      { test: /\.(jpg|png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' }
     ]
   },
   resolve: {
