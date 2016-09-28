@@ -20,6 +20,7 @@ var ShareFeedContainer = React.createClass({
         var currentEmail = this.state.currentEmail;
         var emails = this.state.addedEmails;
         var newEmails = emails.concat([currentEmail]);
+        console.log(newEmails,'newEmails');
         this.setState({ 
             addedEmails: newEmails,
             currentEmail:''
@@ -28,7 +29,7 @@ var ShareFeedContainer = React.createClass({
 
     _deleteItem: function(item) {
         var items = this.state.addedEmails.filter(function(itm){
-            return item.id !== itm.id;
+            return item !== itm;
         });
         this.setState({
             addedEmails: items
