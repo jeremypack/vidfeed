@@ -1,14 +1,43 @@
 var React = require('react');
+var Modal = require('react-modal');
 
 var ShareFeed = require('../components/ShareFeed');
+
+const customStyles = {
+  overlay : {
+    backgroundColor       : 'transparant'
+  },
+  content : {
+    top                   : '50%',
+    left                  : '50%',
+    right                 : 'auto',
+    bottom                : 'auto',
+    marginRight           : '-50%',
+    transform             : 'translate(-50%, -50%)',
+    transition            : 'opacity .4s ease-in-out',
+    opacity               :'0'
+  }
+};
 
 var ShareFeedContainer = React.createClass({
     
     getInitialState: function() {
         return {
+            modalIsOpen: this.props.modalOpen,
             currentEmail:'',
             addedEmails:[]
         };
+    },
+
+    _openModal : function (e) {
+        e.preventDefault();
+        this.setState({modalIsOpen: true});
+    },
+
+    _closeModal : function (e) {
+        e.preventDefault();
+        this.setState({modalIsOpen: false});
+        this.props.modalClose();
     },
 
     _handleChange: function(e) {
@@ -20,7 +49,6 @@ var ShareFeedContainer = React.createClass({
         var currentEmail = this.state.currentEmail;
         var emails = this.state.addedEmails;
         var newEmails = emails.concat([currentEmail]);
-        console.log(newEmails,'newEmails');
         this.setState({ 
             addedEmails: newEmails,
             currentEmail:''
@@ -45,13 +73,21 @@ var ShareFeedContainer = React.createClass({
     render: function() {
         var emailList = this.state.addedEmails;
         return (
-            <ShareFeed
-                handleChange={this._handleChange}
-                addEmail={this._addEmail}
-                currentEmail={this.state.currentEmail}
-                collectedEmails={emailList}
-                onRemove={this._deleteItem}
-                handleSubmit={this._handleSubmit} />
+            <div>
+                <Modal
+                    isOpen={this.state.modalIsOpen}
+                    onRequestClose={this._closeModal}
+                    style={customStyles} >
+                        <ShareFeed
+                            closeModal={this._closeModal}
+                            handleChange={this._handleChange}
+                            addEmail={this._addEmail}
+                            currentEmail={this.state.currentEmail}
+                            collectedEmails={emailList}
+                            onRemove={this._deleteItem}
+                            handleSubmit={this._handleSubmit} />
+                </Modal>
+            </div>
         );
     }
 

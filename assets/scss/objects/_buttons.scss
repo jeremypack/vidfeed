@@ -74,7 +74,7 @@
 }
 
 .c-btn--tertiary {
-  background-color: $blue;
+  background-color: $dark;
   
   &,
   &:hover,
@@ -85,7 +85,7 @@
 
   &:hover,
   &:focus {
-    background-color: darken($blue, 10%);
+    background-color: darken($dark, 10%);
   }
 
 }

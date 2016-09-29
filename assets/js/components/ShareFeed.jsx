@@ -9,6 +9,7 @@ var ShareFeed = React.createClass({
         }
         return (
             <div>
+                <a href="#" onClick={this.props.closeModal}>Close</a>
                 <h3>Share this video</h3>
                 <form className="shareFeedForm" onSubmit={this.props.handleSubmit}>
                     <input type="email" onChange={this.props.handleChange} value={this.props.currentEmail} />

@@ -1,12 +1,29 @@
 var React = require('react');
+var Modal = require('react-modal');
 
 var OwnFeed = require('../components/OwnFeed');
+
+const customStyles = {
+  overlay : {
+    backgroundColor       : 'transparant'
+  },
+  content : {
+    top                   : '50%',
+    left                  : '50%',
+    right                 : 'auto',
+    bottom                : 'auto',
+    marginRight           : '-50%',
+    transform             : 'translate(-50%, -50%)',
+    transition: 'opacity .4s ease-in-out',
+    opacity:'0'
+  }
+};
 
 var OwnFeedContainer = React.createClass({
     
     getInitialState : function () {
         return {
-            hidden : true,
+            modalIsOpen: false,
             owner:'',
             submitted: false,
             feedId: this.props.feedId 
@@ -14,11 +31,9 @@ var OwnFeedContainer = React.createClass({
     },
 
     componentDidMount: function() {
-        console.log('mounting own feed');
         var that = this;
-        // timeout removes hidden class
         setTimeout(function() {
-            that.show();
+            that._openModal();
         }, that.props.wait);
     },
 
@@ -37,7 +52,7 @@ var OwnFeedContainer = React.createClass({
             },
             success: function (ev){
                 this.setState({
-                    hidden:'hidden',
+                    hidden:'u-hidden',
                     submitted:true
                 });
             },
@@ -48,18 +63,32 @@ var OwnFeedContainer = React.createClass({
         });
     },
 
-    show : function () {
-        this.setState({hidden : false});
+    _openModal : function () {
+        this.setState({modalIsOpen: true});
+        this.props.modalOpen();
+    },
+
+    _closeModal : function (e) {
+        e.preventDefault();
+        this.setState({modalIsOpen: false});
+        this.props.modalClose();
     },
 
     render : function() {
         return (
-            <OwnFeed
-                hidden={this.state.hidden}
-                handleSubmit={this._handleSubmit}
-                owner={this.state.owner}
-                handleChange={this._handleOwnerChange}
-                submitted={this.state.submitted} />
+            <div>
+                <Modal
+                    isOpen={this.state.modalIsOpen}
+                    onRequestClose={this._closeModal}
+                    style={customStyles} >
+                    <OwnFeed
+                        closeModal={this._closeModal}
+                        handleSubmit={this._handleSubmit}
+                        owner={this.state.owner}
+                        handleChange={this._handleOwnerChange}
+                        submitted={this.state.submitted} />
+                </Modal>
+            </div>
         );
         
     }

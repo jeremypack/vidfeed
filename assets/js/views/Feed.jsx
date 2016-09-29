@@ -21,7 +21,12 @@ function hmsToSecondsOnly(str) {
 var Feed = React.createClass({
     
     getInitialState: function() {
-        return { feed:[], timecode: '' };
+        return {
+            feed:[],
+            timecode:null,
+            blur:false,
+            shareModal:false,
+        };
     },
 
     componentDidMount: function() {
@@ -40,18 +45,72 @@ var Feed = React.createClass({
         this.setState({ timecode: timecodeNumber });
     },
 
+    _shareModalOpen: function(e) {
+        e.preventDefault();
+        this.setState({
+            shareModal:true
+        });
+        this._modalOpen();
+    },
+
+    _modalOpen: function(e) {
+        this.setState({
+            blur:true
+        });
+    },
+
+    _modalClose: function() {
+        this.setState({
+            shareModal:false,
+            blur:false
+        });
+    },
+
     render: function() {
+        
         if (!this.state.feed.owner) {
-            var ownFeed = <OwnFeedContainer feedId={this.props.params.feedId} wait={5000} />
+            var ownFeed = <OwnFeedContainer
+                            modalOpen={this._modalOpen}
+                            modalClose={this._modalClose}
+                            feedId={this.props.params.feedId}
+                            wait={5000} />
+        } else {
+            var ownFeed = undefined;
         }
+
+        if (this.state.shareModal) {
+            var shareFeed = <ShareFeedContainer
+                                modalOpen={this.state.shareModal}
+                                modalClose={this._modalClose} />
+        } else {
+            var shareFeed = undefined;
+        }
+
+        if (this.state.blur) {
+            var blurClasses = 'blurLayer blurLayer--active';
+        } else {
+            var blurClasses = 'blurLayer';
+        }
+        
         return (
             <div>
-                <HeaderContainer />
-                <ShareFeedContainer />
+                <div className={blurClasses}>
+                    <HeaderContainer />
+                    <section className="feedInfo u-clearfix">
+                        <h1 className="lede float--left">{this.state.feed.video_title}</h1>
+                        <a href="#" onClick={this._shareModalOpen} className="c-btn c-btn--tertiary float--right">Share</a>
+                    </section>
+                    <FeedVideoContainer
+                        feedId={this.props.params.feedId}
+                        onTimecodeChange={this._getTimecode} />
+                    <p id="timecode">&nbsp;</p>
+                    <CommentsContainer
+                        feedId={this.props.params.feedId}
+                        pollInterval={2000}
+                        timecode={this.state.timecode} />
+                </div>
+                {shareFeed}
                 {ownFeed}
-                <FeedVideoContainer feedId={this.props.params.feedId} onTimecodeChange={this._getTimecode} />
-                <p id="timecode">&nbsp;</p>
-                <CommentsContainer feedId={this.props.params.feedId} pollInterval={2000} timecode={this.state.timecode} />
             </div>
         );
     }

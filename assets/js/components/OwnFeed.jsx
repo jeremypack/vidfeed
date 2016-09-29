@@ -9,7 +9,8 @@ var OwnFeed = React.createClass({
             )
         }
         return (
-            <div className={this.props.hidden}>
+            <div>
+                <a href="#" onClick={this.props.closeModal}>Close</a>
                 <h2>Own this feed</h2>
                 <form className="ownFeed" onSubmit={this.props.handleSubmit}>
                     <input type="email" placeholder="Your email" value={this.props.owner} onChange={this.props.handleChange} />
