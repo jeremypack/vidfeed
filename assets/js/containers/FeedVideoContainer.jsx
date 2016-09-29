@@ -112,7 +112,6 @@ var FeedVideoContainer = React.createClass({
                         onProgress={this._onProgress}
                         onDuration={this._onDuration}
                         youtubeConfig={youtubeConfig} />
-                    <p>{this.state.elapsed}</p>
                 </div>
             );
         } else {
@@ -127,7 +126,6 @@ var FeedVideoContainer = React.createClass({
                         onPause={this._playPause}
                         onProgress={this._onProgress}
                         onDuration={this._onDuration} />
-                    <p>{this.state.elapsed}</p>
                 </div>
             );
         }

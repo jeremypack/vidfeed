@@ -4,6 +4,7 @@ var HeaderContainer =           require('../containers/HeaderContainer');
 var ShareFeedContainer =        require('../containers/ShareFeedContainer');
 var OwnFeedContainer =          require('../containers/OwnFeedContainer');
 var FeedVideoContainer =        require('../containers/FeedVideoContainer');
+var CommentFormContainer =      require('../containers/CommentFormContainer');
 var CommentsContainer =         require('../containers/CommentsContainer');
 
 function hmsToSecondsOnly(str) {
@@ -23,7 +24,8 @@ var Feed = React.createClass({
     getInitialState: function() {
         return {
             feed:[],
-            timecode:null,
+            timecode:0,
+            timecodeSeconds:0,
             blur:false,
             shareModal:false,
         };
@@ -41,8 +43,11 @@ var Feed = React.createClass({
     },
 
     _getTimecode: function(timecode) {
-        var timecodeNumber = hmsToSecondsOnly(timecode);
-        this.setState({ timecode: timecodeNumber });
+        var timecodeInSeconds = hmsToSecondsOnly(timecode);
+        this.setState({
+            timecode: timecode,
+            timecodeSeconds: timecodeInSeconds
+        });
     },
 
     _shareModalOpen: function(e) {
@@ -91,23 +96,33 @@ var Feed = React.createClass({
         } else {
             var blurClasses = 'blurLayer';
         }
-        
+
         return (
             <div>
                 <div className={blurClasses}>
+                    
                     <HeaderContainer />
+                    
                     <section className="feedInfo u-clearfix">
                         <h1 className="lede float--left">{this.state.feed.video_title}</h1>
                         <a href="#" onClick={this._shareModalOpen} className="c-btn c-btn--tertiary float--right">Share</a>
                     </section>
+                    
                     <FeedVideoContainer
                         feedId={this.props.params.feedId}
                         onTimecodeChange={this._getTimecode} />
+                    
+                    <CommentFormContainer
+                        feedId={this.props.params.feedId}
+                        timecode={this.state.timecode}
+                        timecodeSeconds={this.state.timecodeSeconds} />
+                    
                     <p id="timecode">&nbsp;</p>
+                    
                     <CommentsContainer
                         feedId={this.props.params.feedId}
                         pollInterval={2000}
-                        timecode={this.state.timecode} />
+                        timecode={this.state.timecodeSeconds} />
                 </div>
                 {shareFeed}
                 {ownFeed}

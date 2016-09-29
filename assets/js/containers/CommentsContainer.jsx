@@ -1,6 +1,5 @@
 var React = require('react');
 
-var CommentFormContainer = require('./CommentFormContainer');
 var CommentContainer = require('./CommentContainer');
 
 var CommentsContainer = React.createClass({
@@ -27,26 +26,6 @@ var CommentsContainer = React.createClass({
             }.bind(this),
             error: function(xhr, status, err) {
                 console.error(this.props.url, status, err.toString());
-            }.bind(this)
-        });
-    },
-
-    _handleCommentSubmit: function(comment) {
-        var timecode = this.props.timecode;
-        comment.timecode = timecode;        
-        var comments = this.state.data;
-        var newComments = comments.concat([comment]);
-        this.setState({data: newComments});
-        $.ajax({
-            url: '/api/feeds/' + this.props.feedId + '/comments',
-            dataType: 'json',
-            type: 'POST',
-            data: comment,
-            success: function(data) {
-                this.setState({data: data});
-            }.bind(this),
-            error: function(data) {
-                console.log(JSON.parse(data.responseText),'handleCommentSubmit error');
             }.bind(this)
         });
     },
@@ -98,7 +77,6 @@ var CommentsContainer = React.createClass({
         });
         return (
             <div className="commentBox">
-                <CommentFormContainer onCommentSubmit={this._handleCommentSubmit} />
                 <h2>Comments {commentNodes.length} </h2>
                 <div className="commentList">
                     {commentNodes}
