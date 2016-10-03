@@ -89,6 +89,7 @@ $inuit-use-markup-fix: false !default;
 @import 'objects/_crop';
 @import 'objects/_tables';
 @import 'objects/_buttons';
+@import 'objects/_form-single';
 
 
 
@@ -98,7 +99,10 @@ $inuit-use-markup-fix: false !default;
   #COMPONENTS
 \*------------------------------------*/
 
-// component scss found within react js components
+@import 'components/_commentForm';
+@import 'components/_player';
+@import 'components/_commentList';
+
 
 
 

@@ -16,7 +16,7 @@
  * 5. Force all button-styled elements to appear clickable.
  */
 
-.c-btn {
+.o-btn {
   height:55px;
   display: inline-block; /* [1] */
   vertical-align: middle; /* [2] */
@@ -39,7 +39,7 @@
 /* Style variants
    ========================================================================== */
 
-.c-btn--primary {
+.o-btn--primary {
   background-color: $red;
 
   &,
@@ -56,7 +56,7 @@
 
 }
 
-.c-btn--secondary {
+.o-btn--secondary {
   background-color: $mid;
 
   &,
@@ -73,7 +73,7 @@
 
 }
 
-.c-btn--tertiary {
+.o-btn--tertiary {
   background-color: $dark;
   
   &,
@@ -90,7 +90,7 @@
 
 }
 
-.c-btn--white-text {
+.o-btn--white-text {
   color:#fff;
 } 
 
@@ -99,11 +99,11 @@
 /* Size variants
    ========================================================================== */
 
-.c-btn--small {
+.o-btn--small {
   padding: inuit-rem($inuit-global-spacing-unit-tiny) inuit-rem($inuit-global-spacing-unit-small);
 }
 
-.c-btn--large {
+.o-btn--large {
   padding: inuit-rem($inuit-global-spacing-unit) inuit-rem($inuit-global-spacing-unit-large);
 }
 
@@ -120,7 +120,7 @@
 
 $btn-ghost-border-width: 2px;
 
-.c-btn--ghost {
+.o-btn--ghost {
   border: $btn-ghost-border-width solid #fff;
   //padding: ($inuit-global-spacing-unit-small - $btn-ghost-border-width) ($inuit-global-spacing-unit - $btn-ghost-border-width);
 
@@ -137,15 +137,15 @@ $btn-ghost-border-width: 2px;
     color:$dark;
   }
 
-  &.c-btn--small {
+  &.o-btn--small {
     padding: ($inuit-global-spacing-unit-tiny - $btn-ghost-border-width) ($inuit-global-spacing-unit-small - $btn-ghost-border-width);
   }
 
-  &.c-btn--large {
+  &.o-btn--large {
     padding: ($inuit-global-spacing-unit - $btn-ghost-border-width) ($inuit-global-spacing-unit-large - $btn-ghost-border-width);
   }
 
-  &.c-btn--primary {
+  &.o-btn--primary {
     color: #4a8ec2;
 
     &:hover,
@@ -155,7 +155,7 @@ $btn-ghost-border-width: 2px;
 
   }
 
-  &.c-btn--secondary {
+  &.o-btn--secondary {
     color: #2f4054;
 
     &:hover,
@@ -165,7 +165,7 @@ $btn-ghost-border-width: 2px;
 
   }
 
-  &.c-btn--tertiary {
+  &.o-btn--tertiary {
     color: #fff;
 
     &:hover,

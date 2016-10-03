@@ -101,32 +101,41 @@ var FeedVideoContainer = React.createClass({
                 preload:true
             };
             return (
-                <div>
-                    <ReactPlayer
-                        controls
-                        progressFrequency={100}
-                        ref='player'
-                        url={youtubeUrl}
-                        onPlay={this._playPause} 
-                        onPause={this._playPause}
-                        onProgress={this._onProgress}
-                        onDuration={this._onDuration}
-                        youtubeConfig={youtubeConfig} />
-                </div>
+                <section className="c-player">
+                    <div className="o-wrapper">
+                        <ReactPlayer
+                            controls
+                            progressFrequency={100}
+                            width='100%'
+                            height='100%'
+                            ref='player'
+                            url={youtubeUrl}
+                            onPlay={this._playPause} 
+                            onPause={this._playPause}
+                            onProgress={this._onProgress}
+                            onDuration={this._onDuration}
+                            youtubeConfig={youtubeConfig} />
+                    </div>
+                </section>
             );
         } else {
             var vimeoUrl = "https://vimeo.com/"+this.state.video_id;
             return (
-                <div>
-                    <ReactPlayer
-                        progressFrequency={100}
-                        ref='player'
-                        url={vimeoUrl}
-                        onPlay={this._playPause} 
-                        onPause={this._playPause}
-                        onProgress={this._onProgress}
-                        onDuration={this._onDuration} />
-                </div>
+                <section className="c-player">
+                    <div className="o-wrapper">
+                        <ReactPlayer
+                            controls
+                            progressFrequency={100}
+                            width='100%'
+                            height='100%'
+                            ref='player'
+                            url={vimeoUrl}
+                            onPlay={this._playPause} 
+                            onPause={this._playPause}
+                            onProgress={this._onProgress}
+                            onDuration={this._onDuration} />
+                    </div>
+                </section>
             );
         }
     }

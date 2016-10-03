@@ -105,7 +105,7 @@ var Feed = React.createClass({
                     
                     <section className="feedInfo u-clearfix">
                         <h1 className="lede float--left">{this.state.feed.video_title}</h1>
-                        <a href="#" onClick={this._shareModalOpen} className="c-btn c-btn--tertiary float--right">Share</a>
+                        <a href="#" onClick={this._shareModalOpen} className="o-btn o-btn--tertiary float--right">Share</a>
                     </section>
                     
                     <FeedVideoContainer

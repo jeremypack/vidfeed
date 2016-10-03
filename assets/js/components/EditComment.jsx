@@ -4,11 +4,11 @@ var EditComment = React.createClass({
     
     render: function() {
         return (
-            <div className="comment" data-id={this.props.id}>
+            <article className="c-comment c-comment--edit" data-id={this.props.id}>
                 <input type="text" onChange={this.props.handleChange} value={this.props.value} />
                 <a onClick={this.props.saveChange} href="#">save</a>&nbsp;&nbsp;
                 <a onClick={this.props.cancelChange} href="#">cancel</a>
-            </div>
+            </article>
         );
     }
 

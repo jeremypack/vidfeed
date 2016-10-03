@@ -1,0 +1,21 @@
+/* ==========================================================================
+   #COMMENT-FORM
+   ========================================================================== */
+
+.c-commentForm {
+    position:relative;
+}
+
+.c-commentForm__timecode {
+    position:absolute;
+    top:0;
+    left:0;
+    width:75px;
+    background:red;
+}
+
+.c-commentForm__form {
+    max-width:none;
+    margin:0;
+    padding-left:75px;
+}

@@ -1,0 +1,26 @@
+/* ==========================================================================
+   #FORM-SINGLE
+   ========================================================================== */
+
+
+.form--single {
+    max-width:inuit-rem(650px);
+    margin:0 auto $inuit-global-spacing-unit;
+    input, textarea {
+        width:100%;
+    }
+}
+.form--single__input {
+    @include mq($from: tablet) {
+        border-top-left-radius:3px;
+        border-bottom-left-radius:3px
+    }
+}
+.form--single__submit {
+    border-radius:0;
+    @include mq($from: tablet) {
+        border-radius:3px;
+        border-top-left-radius:0;
+        border-bottom-left-radius:0;
+    }
+}

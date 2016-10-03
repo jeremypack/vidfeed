@@ -34,20 +34,8 @@
         padding-top:$inuit-global-spacing-unit*4;
         padding-bottom:$inuit-global-spacing-unit*4;
     }
-}
-
-.createFeed {
-    max-width:inuit-rem(650px);
-    margin:0 auto $inuit-global-spacing-unit;
-    input {
-        width:100%;
-    }
-    input[type=url] {
-        border-top-left-radius:3px;
-        border-bottom-left-radius:3px
-    }
-    input[type=submit] {
-        border-top-left-radius:0;
-        border-bottom-left-radius:0;
+    .form--single__input {
+        padding-left:$inuit-global-spacing-unit;
+        padding-right:$inuit-global-spacing-unit;
     }
 }

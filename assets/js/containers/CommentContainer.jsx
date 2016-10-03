@@ -16,12 +16,34 @@ var CommentContainer = React.createClass({
 
     _setEditMode: function(e) {
         e.preventDefault();
+        console.log($(e.currentTarget).closest('.c-comment').data('id'),'e.currentTarget');
+        console.log(this.props);
         this.setState({editable:true});
     },
 
+    _cancelEdit: function(e){
+        e.preventDefault();
+        this.setState({editable:false, commentBody: this.props.body});
+    },
+
+    _saveEdit: function (e) {
+        e.preventDefault();
+        var commentId = $(e.currentTarget).closest('.c-comment').data('id');
+        console.log(commentId,'commentId');
+        this.props.handleCommentEdit(commentId, this.props.author, this.state.commentBody);
+        this.setState({editable:false});
+    },
+
+    _deleteComment: function (e) {
+        e.preventDefault();
+        var commentId = $(e.currentTarget).closest('.c-comment').data('id');
+        this.props.handleDeleteComment(commentId);
+    },
 
     _toggleReply: function(e) {
-        e.preventDefault();
+        if (e) {
+           e.preventDefault(); 
+        }
         this.setState({replyOpen:!this.state.replyOpen});
     },
 
@@ -39,30 +61,8 @@ var CommentContainer = React.createClass({
         return hoursString + minutes + ":" + seconds;
     },
 
-    _cancelEdit: function(e){
-        e.preventDefault();
-        this.setState({editable:false, commentBody: this.props.body});
-    },
-
-    _saveEdit: function (e) {
-        e.preventDefault();
-        var commentId = $(e.currentTarget).closest('.comment').data('id');
-        this.props.handleCommentEdit(commentId, this.props.author, this.state.commentBody);
-        this.setState({editable:false});
-    },
-
-    _deleteComment: function (e) {
-        e.preventDefault();
-        var commentId = $(e.currentTarget).closest('.comment').data('id');
-        this.props.handleDeleteComment(commentId);
-    },
-
     _handleCommentChange: function (e) {
         this.setState({commentBody: e.target.value});
-    },
-
-    _handleReplySubmit: function(data) {
-        this.props.handleReply(data);
     },
 
     render: function() {
@@ -70,7 +70,8 @@ var CommentContainer = React.createClass({
                 
         if (this.props.children.length) {
             var repliesArr = this.props.children;
-            var replyNodes = repliesArr.map(function(reply, i){
+            var replyNodes = repliesArr.map(function(reply){
+                var editMode = reply._setEditMode;
                 return (
                     <Comment
                         id={reply.id}
@@ -79,35 +80,40 @@ var CommentContainer = React.createClass({
                         parentCommentId={reply.parent_id}
                         value={reply.body}
                         created={reply.created}
-                        isReply={true} />
+                        isReply={true}
+                        editComment={reply._editMode} 
+                        deleteComment={reply._deleteComment} />
                 );
             });
         }
 
         if (this.state.replyOpen) {
-            var replyForm = <ReplyFormContainer 
-                                onReplySubmit={this._handleReplySubmit}
-                                parentId = {this.props.id} />
+            var replyForm = <ReplyFormContainer
+                                feedId = {this.props.feedId}
+                                parentId = {this.props.id}
+                                submitted = {this._toggleReply} />
         }
 
         if (this.state.editable) {
             return (
-                <EditComment 
-                    id={this.props.id}
-                    value={this.state.commentBody}
-                    handleChange={this._handleCommentChange}
-                    saveChange={this._saveEdit}
-                    cancelChange={this._cancelEdit} />
+                <div className="c-comment__outer">
+                    <EditComment 
+                        id={this.props.id}
+                        value={this.state.commentBody}
+                        handleChange={this._handleCommentChange}
+                        saveChange={this._saveEdit}
+                        cancelChange={this._cancelEdit} />
+                    {replyNodes}
+                </div>
             );
 
         } else {
 
             return (
-                <div>
+                <div className="c-comment__outer">
                     <Comment
                         id={this.props.id}
                         author={this.props.author}
-                        parentCommentId={this.props.parentCommentId}
                         value={this.state.commentBody}
                         isReply={false}
                         timecode={formattedTime}

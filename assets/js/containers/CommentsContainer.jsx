@@ -59,9 +59,11 @@ var CommentsContainer = React.createClass({
         var editHandler = this._handleCommentEdit;
         var deleteHandler = this._handleDeleteComment;
         var replyHandler = this._handleCommentSubmit;
+        var feedId = this.props.feedId;
         var commentNodes = this.state.data.map(function(comment) {
             return (
                 <CommentContainer 
+                    feedId = {feedId}
                     author={comment.owner.email}
                     id={comment.id}
                     parentCommentId={comment.parent_id}
@@ -71,17 +73,18 @@ var CommentsContainer = React.createClass({
                     timecode={comment.timecode}
                     children={comment.children}
                     handleCommentEdit={editHandler}
-                    handleDeleteComment={deleteHandler}
-                    handleReply={replyHandler} />
+                    handleDeleteComment={deleteHandler} />
             );
         });
         return (
-            <div className="commentBox">
-                <h2>Comments {commentNodes.length} </h2>
-                <div className="commentList">
-                    {commentNodes}
+            <section className="c-commentList__outer">
+                <div className="o-wrapper">
+                    <h3 className="c-commentList__count lede"><strong>{commentNodes.length}</strong> Comments</h3>
+                    <div className="c-commentList">
+                        {commentNodes}
+                    </div>
                 </div>
-            </div>
+            </section>
         );
     }
 

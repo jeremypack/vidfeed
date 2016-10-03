@@ -6,13 +6,9 @@ var CommentFormContainer = React.createClass({
     
     getInitialState: function() {
         return {
-            author: null,
+            author: 'example@email.com',
             comment: null
         };
-    },
-
-    _handleAuthorChange: function(e) {
-        this.setState({author: e.target.value});
     },
 
     _handleCommentChange: function(e) {
@@ -50,7 +46,6 @@ var CommentFormContainer = React.createClass({
             <CommentForm
                 timecode={this.props.timecode}
                 handleSubmit={this._handleCommentSubmit}
-                handleAuthorChange={this._handleAuthorChange}
                 handleCommentChange={this._handleCommentChange} />
         );
     }

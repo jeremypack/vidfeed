@@ -3,14 +3,20 @@ var React = require('react');
 var CommentForm = React.createClass({
     render: function() {
         return (
-            <div>
-                <h2>Add a comment</h2>
-                <p>{this.props.timecode}</p>
-                <form className="commentForm" onSubmit={this.props.handleSubmit}>
-                    <input type="text" placeholder="Your name"  onChange={this.props.handleAuthorChange} />
-                    <input type="text" placeholder="Say something" onChange={this.props.handleCommentChange} />
-                    <input type="submit" value="Post" />
-                </form>
+            <div className="o-wrapper">
+                <section className="c-commentForm">
+                    <p className="c-commentForm__timecode">{this.props.timecode}</p>
+                    <form className="form--single c-commentForm__form" onSubmit={this.props.handleSubmit}>
+                        <div className="o-layout o-layout--flush">
+                            <div className="o-layout__item u-4/5">
+                                <textarea placeholder="Add a comment" className="form--single__input" onChange={this.props.handleCommentChange}></textarea>
+                            </div>
+                            <div className="o-layout__item u-1/5">
+                                <input type="submit" className="form--single__submit o-btn o-btn--primary" value="Comment" />
+                            </div>
+                        </div>
+                    </form>
+                </section>
             </div>
         );
     }

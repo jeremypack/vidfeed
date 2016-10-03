@@ -1,0 +1,44 @@
+/* ==========================================================================
+   #COMMENT-LIST
+   ========================================================================== */
+
+.c-commentList__outer {
+    
+}
+
+.c-commentList__count {
+    font-weight:400;
+}
+
+.c-commentList {
+
+}
+
+.c-comment__outer {
+    padding:$inuit-global-spacing-unit/2;
+    &:nth-of-type(odd) {
+        background:#f5f6f7;
+    }
+    &:nth-of-type(even) {
+        background:#fff;
+    }
+}
+.c-comment--reply {
+    padding-left:$inuit-global-spacing-unit/2;
+}
+
+.c-comment__author {
+    float:left;
+    font-weight:600;
+}
+.c-comment__timecode {
+    float:right;
+    padding:4px 8px;
+    background:#f5f6f7;
+    font-weight:600;
+    @include inuit-font-size(14px, $line-height:1);
+    border-radius:3px;
+    .c-comment__outer:nth-of-type(odd) & {
+        background:#fff;
+    }
+}
