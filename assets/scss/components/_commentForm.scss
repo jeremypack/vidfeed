@@ -10,12 +10,24 @@
     position:absolute;
     top:0;
     left:0;
-    width:75px;
-    background:red;
+    width:inuit-rem(60px);
+    padding:5px 0;
+    background:$dark;
+    color:#fff;
+    text-align:center;
+    @include inuit-font-size(18px);
+    border-radius:3px;
+    @include mq($from: tablet) {
+        width:inuit-rem(100px);
+        @include inuit-font-size(28px);
+    }
 }
 
 .c-commentForm__form {
     max-width:none;
     margin:0;
-    padding-left:75px;
+    padding-left:inuit-rem(70px);
+    @include mq($from: tablet) {
+        padding-left:inuit-rem(115px);
+    }
 }

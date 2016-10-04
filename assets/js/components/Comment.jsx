@@ -10,7 +10,9 @@ var Comment = React.createClass({
                     <p className="c-comment__author">{this.props.author}</p>
                     {this.props.isReply ? null : <p className="c-comment__timecode">{this.props.timecode}</p> }
                 </div>
-                <p>{this.props.value}</p>
+                <div className="c-comment__body">
+                    {this.props.value}
+                </div>
                 <p>
                     {this.props.isReply ? null : <a onClick={this.props.toggleReply} href="#">{replyToggleText}</a> }&nbsp;&nbsp;
                     <a onClick={this.props.editComment} href="#">edit</a>&nbsp;&nbsp;

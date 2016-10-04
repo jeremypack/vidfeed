@@ -1,0 +1,33 @@
+/* ==========================================================================
+   #OFF-CANVAS
+   ========================================================================== */
+
+.o-offCanvas__outer {
+    position:relative;
+    overflow:hidden;
+}
+
+.o-offCanvas__main {
+}
+.o-offCanvas__main__inner {
+    margin:0 auto;
+}
+
+.o-offCanvas__drawer {
+    @include mq($from:tablet) {
+        position:absolute;
+        height:100%;
+        width:200px;
+        top:0;
+        right:0;
+        bottom:0;
+    }
+    
+}
+
+.o-offCanvas__close {
+    display:none;
+    @include mq($from:tablet) {
+        display:block;
+    }
+}

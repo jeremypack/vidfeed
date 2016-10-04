@@ -2,6 +2,7 @@ var React = require('react');
 
 var Comment = require('../components/Comment');
 var EditComment = require('../components/EditComment');
+var ReplyContainer = require('../containers/ReplyContainer');
 var ReplyFormContainer = require('../containers/ReplyFormContainer');
 
 var CommentContainer = React.createClass({
@@ -34,10 +35,18 @@ var CommentContainer = React.createClass({
         this.setState({editable:false});
     },
 
+    _saveReplyEdit: function(replyId, author, text) {
+        this.props.handleCommentEdit(replyId, author, text);
+    },
+
     _deleteComment: function (e) {
         e.preventDefault();
         var commentId = $(e.currentTarget).closest('.c-comment').data('id');
         this.props.handleDeleteComment(commentId);
+    },
+
+    _deleteReply: function (replyId) {
+        this.props.handleDeleteComment(replyId);
     },
 
     _toggleReply: function(e) {
@@ -69,11 +78,12 @@ var CommentContainer = React.createClass({
         var formattedTime = this._formattedTime(this.props.timecode);
                 
         if (this.props.children.length) {
+            var editReply = this._saveReplyEdit;
+            var deleteReply = this._deleteReply; 
             var repliesArr = this.props.children;
             var replyNodes = repliesArr.map(function(reply){
-                var editMode = reply._setEditMode;
                 return (
-                    <Comment
+                    <ReplyContainer
                         id={reply.id}
                         key={reply.id}
                         author={reply.owner.email}
@@ -81,8 +91,8 @@ var CommentContainer = React.createClass({
                         value={reply.body}
                         created={reply.created}
                         isReply={true}
-                        editComment={reply._editMode} 
-                        deleteComment={reply._deleteComment} />
+                        editReply={editReply} 
+                        deleteReply={deleteReply} />
                 );
             });
         }

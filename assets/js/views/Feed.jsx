@@ -108,21 +108,32 @@ var Feed = React.createClass({
                         <a href="#" onClick={this._shareModalOpen} className="o-btn o-btn--tertiary float--right">Share</a>
                     </section>
                     
-                    <FeedVideoContainer
-                        feedId={this.props.params.feedId}
-                        onTimecodeChange={this._getTimecode} />
-                    
-                    <CommentFormContainer
-                        feedId={this.props.params.feedId}
-                        timecode={this.state.timecode}
-                        timecodeSeconds={this.state.timecodeSeconds} />
-                    
-                    <p id="timecode">&nbsp;</p>
-                    
-                    <CommentsContainer
-                        feedId={this.props.params.feedId}
-                        pollInterval={2000}
-                        timecode={this.state.timecodeSeconds} />
+                    <div className="o-offCanvas__outer o-layout">
+
+                        <div className="o-offCanvas__main o-layout__item u-2/3@tablet">
+                
+                            <div className="o-offCanvas__main__inner">
+                                <FeedVideoContainer
+                                    feedId={this.props.params.feedId}
+                                    onTimecodeChange={this._getTimecode} />
+                
+                                <CommentFormContainer
+                                    feedId={this.props.params.feedId}
+                                    timecode={this.state.timecode}
+                                    timecodeSeconds={this.state.timecodeSeconds} />
+                            </div>
+
+                            
+                        </div>
+                        
+                        <div className="o-offCanvas__drawer o-layout__item u-1/3@tablet">
+                            <CommentsContainer
+                                feedId={this.props.params.feedId}
+                                pollInterval={2000}
+                                timecode={this.state.timecodeSeconds} />
+                        </div>
+
+                    </div>
                 </div>
                 {shareFeed}
                 {ownFeed}

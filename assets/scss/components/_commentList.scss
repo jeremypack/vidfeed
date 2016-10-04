@@ -3,15 +3,32 @@
    ========================================================================== */
 
 .c-commentList__outer {
-    
+    @include mq($from: mobile, $until:tablet) {
+        margin-bottom:$inuit-global-spacing-unit;
+        padding-right: $inuit-global-spacing-unit;
+        padding-left:  $inuit-global-spacing-unit;
+    }
 }
 
 .c-commentList__count {
-    font-weight:400;
+    h3 {
+        font-weight:400;
+    }
+    @include mq($from: tablet) {
+        h3 {
+            margin-bottom:0;
+        }
+        padding:$inuit-global-spacing-unit/2;
+        margin-bottom:0;
+        background:$dark;
+        color:#fff;
+    }
 }
 
 .c-commentList {
-
+    @include mq($from: tablet) {
+        overflow-y:scroll;
+    }
 }
 
 .c-comment__outer {
@@ -41,4 +58,8 @@
     .c-comment__outer:nth-of-type(odd) & {
         background:#fff;
     }
+}
+.c-comment__body {
+    margin-bottom:$inuit-global-spacing-unit/2;
+    @include inuit-font-size(14px);
 }
