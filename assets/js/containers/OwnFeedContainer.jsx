@@ -14,8 +14,8 @@ const customStyles = {
     bottom                : 'auto',
     marginRight           : '-50%',
     transform             : 'translate(-50%, -50%)',
-    transition: 'opacity .4s ease-in-out',
-    opacity:'0'
+    transition            : 'opacity .4s ease-in-out',
+    opacity               : '0'
   }
 };
 
@@ -24,13 +24,13 @@ var OwnFeedContainer = React.createClass({
     getInitialState : function () {
         return {
             modalIsOpen: false,
-            owner:'',
+            owner:undefined,
             submitted: false,
             feedId: this.props.feedId 
         };
     },
 
-    componentDidMount: function() {
+    componentWillMount: function() {
         var that = this;
         setTimeout(function() {
             that._openModal();
@@ -64,8 +64,13 @@ var OwnFeedContainer = React.createClass({
     },
 
     _openModal : function () {
-        this.setState({modalIsOpen: true});
-        this.props.modalOpen();
+        this.setState({ owner: this.props.feedOwner });
+        console.log(this.props.feedOwner,'this.props.feedOwner open modal')
+        if (!this.state.owner) {
+            this.setState({ modalIsOpen: true });
+            this.props.modalOpen();
+        }
+        
     },
 
     _closeModal : function (e) {
@@ -75,6 +80,7 @@ var OwnFeedContainer = React.createClass({
     },
 
     render : function() {
+        console.log('render OwnFeed');
         return (
             <div>
                 <Modal

@@ -24,10 +24,11 @@ var Feed = React.createClass({
     getInitialState: function() {
         return {
             feed:[],
+            owner:undefined,
             timecode:0,
             timecodeSeconds:0,
             blur:false,
-            shareModal:false,
+            shareModal:false
         };
     },
 
@@ -37,10 +38,16 @@ var Feed = React.createClass({
             dataType: 'json',
             context: this,
             success: function(data) {
-                this.setState({ feed: data });
+                this.setState({ 
+                    feed: data,
+                    owner: data.owner
+                });
             }
         });
+        
     },
+
+   
 
     _getTimecode: function(timecode) {
         var timecodeInSeconds = hmsToSecondsOnly(timecode);
@@ -73,15 +80,12 @@ var Feed = React.createClass({
 
     render: function() {
         
-        if (!this.state.feed.owner) {
-            var ownFeed = <OwnFeedContainer
+        var ownFeed =   <OwnFeedContainer
                             modalOpen={this._modalOpen}
                             modalClose={this._modalClose}
+                            feedOwner={this.state.owner}
                             feedId={this.props.params.feedId}
                             wait={5000} />
-        } else {
-            var ownFeed = undefined;
-        }
 
         if (this.state.shareModal) {
             var shareFeed = <ShareFeedContainer
@@ -101,14 +105,14 @@ var Feed = React.createClass({
             <div>
                 <div className={blurClasses}>
                     
-                    <HeaderContainer />
+                    <HeaderContainer ref="header" />
                     
-                    <section className="feedInfo u-clearfix">
+                    <section ref="infoBar" className="feedInfo u-clearfix">
                         <h1 className="lede float--left">{this.state.feed.video_title}</h1>
                         <a href="#" onClick={this._shareModalOpen} className="o-btn o-btn--tertiary float--right">Share</a>
                     </section>
                     
-                    <div className="o-offCanvas__outer o-layout">
+                    <div className="o-offCanvas__outer o-layout o-layout--flush">
 
                         <div className="o-offCanvas__main o-layout__item u-2/3@tablet">
                 
@@ -126,7 +130,7 @@ var Feed = React.createClass({
                             
                         </div>
                         
-                        <div className="o-offCanvas__drawer o-layout__item u-1/3@tablet">
+                        <div ref="drawer" className="o-offCanvas__drawer o-layout__item u-1/3@tablet">
                             <CommentsContainer
                                 feedId={this.props.params.feedId}
                                 pollInterval={2000}
