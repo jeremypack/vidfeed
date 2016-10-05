@@ -17,8 +17,6 @@ var CommentContainer = React.createClass({
 
     _setEditMode: function(e) {
         e.preventDefault();
-        console.log($(e.currentTarget).closest('.c-comment').data('id'),'e.currentTarget');
-        console.log(this.props);
         this.setState({editable:true});
     },
 
@@ -29,8 +27,6 @@ var CommentContainer = React.createClass({
 
     _saveEdit: function (e) {
         e.preventDefault();
-        var commentId = $(e.currentTarget).closest('.c-comment').data('id');
-        console.log(commentId,'commentId');
         this.props.handleCommentEdit(commentId, this.props.author, this.state.commentBody);
         this.setState({editable:false});
     },
@@ -109,7 +105,9 @@ var CommentContainer = React.createClass({
                 <div className="c-comment__outer">
                     <EditComment 
                         id={this.props.id}
+                        author={this.props.author}
                         value={this.state.commentBody}
+                        timecode={formattedTime}
                         handleChange={this._handleCommentChange}
                         saveChange={this._saveEdit}
                         cancelChange={this._cancelEdit} />

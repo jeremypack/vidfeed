@@ -14,8 +14,6 @@ var ReplyCommentContainer = React.createClass({
 
     _setEditMode: function(e) {
         e.preventDefault();
-        console.log($(e.currentTarget).closest('.c-comment').data('id'),'e.currentTarget');
-        console.log(this.props);
         this.setState({editable:true});
     },
 
@@ -27,7 +25,6 @@ var ReplyCommentContainer = React.createClass({
     _saveEdit: function (e) {
         e.preventDefault();
         var replyId = $(e.currentTarget).closest('.c-comment').data('id');
-        console.log(replyId,'replyId');
         this.props.editReply(replyId, this.props.author, this.state.replyBody);
         this.setState({editable:false});
     },
@@ -47,7 +44,9 @@ var ReplyCommentContainer = React.createClass({
             return (
                 <EditComment 
                     id={this.props.id}
+                    author={this.props.author}
                     value={this.state.replyBody}
+                    isReply={this.props.isReply}
                     handleChange={this._handleReplyChange}
                     saveChange={this._saveEdit}
                     cancelChange={this._cancelEdit} />
