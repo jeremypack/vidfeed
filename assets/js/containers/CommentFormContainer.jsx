@@ -7,7 +7,7 @@ var CommentFormContainer = React.createClass({
     getInitialState: function() {
         return {
             author: 'example@email.com',
-            comment: null
+            comment: ''
         };
     },
 
@@ -34,6 +34,9 @@ var CommentFormContainer = React.createClass({
             data: comment,
             success: function(data) {
                 console.log(data,'comment success');
+                this.setState({
+                    comment:''
+                });
             }.bind(this),
             error: function(data) {
                 console.log(JSON.parse(data.responseText),'handleCommentSubmit error');
@@ -45,6 +48,7 @@ var CommentFormContainer = React.createClass({
         return (
             <CommentForm
                 timecode={this.props.timecode}
+                body={this.state.comment}
                 handleSubmit={this._handleCommentSubmit}
                 handleCommentChange={this._handleCommentChange} />
         );
