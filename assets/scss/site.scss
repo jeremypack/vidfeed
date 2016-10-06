@@ -30,7 +30,8 @@
 @import 'tools/_clearfix';
 @import 'tools/_hidden';
 @import 'tools/_font-size';
-// sass-mq config file to be added
+// sass-mq config file can be added here
+$mq-show-breakpoints:mobile,tablet,desktop,wide;
 @import '../../node_modules/sass-mq/_mq';
 
 

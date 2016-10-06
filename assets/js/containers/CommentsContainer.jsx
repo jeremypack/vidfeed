@@ -78,9 +78,8 @@ var CommentsContainer = React.createClass({
         });
         return (
             <section className="c-commentList__outer">
-                <div className="c-commentList__count lede u-clearfix">
-                    <h3 className="float--left"><strong>{commentNodes.length}</strong> { commentNodes.length === 1 ? 'Comment' : 'Comments' }</h3>
-                    <a href="#" className="float--right">&times;</a>
+                <div className="c-commentList__count lede">
+                    <h3><strong>{commentNodes.length}</strong> { commentNodes.length === 1 ? 'Comment' : 'Comments' }</h3>
                 </div>
                 <div className="c-commentList">
                     {commentNodes}

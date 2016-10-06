@@ -11,23 +11,52 @@
 }
 .o-offCanvas__main__inner {
     margin:0 auto;
+    padding:$inuit-global-spacing-unit;
 }
 
 .o-offCanvas__drawer {
     @include mq($from:tablet) {
-        position:absolute;
-        height:100%;
-        width:200px;
-        top:0;
-        right:0;
-        bottom:0;
+        width:0;
+        transition: width ease-in-out $global-transition;
     }
-    
+}
+.o-offCanvas__drawer__inner {
+    @include mq($from:tablet) {
+        position:absolute;
+        top:0;
+        left:100%;
+        width:33.333%;
+        height:100%;
+        transition: transform ease-in-out $global-transition;
+    }
+    @include mq($from:desktop) {
+        width:25%;
+    }
+}
+.o-offCanvas__drawer--open {
+    .o-offCanvas__drawer__inner {
+        transform: translateX(-100%);
+    } 
 }
 
+.o-offCanvas__open {
+    display:none;
+    @include mq($from:tablet) {
+        display:block;
+        position:absolute;
+        top:10px;
+        right:10px;
+        width: 100px;
+        height: 25px;
+        background: red;
+    }
+}
 .o-offCanvas__close {
     display:none;
     @include mq($from:tablet) {
         display:block;
+        position:absolute;
+        top:10px;
+        right:10px;
     }
 }

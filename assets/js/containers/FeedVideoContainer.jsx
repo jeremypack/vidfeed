@@ -102,10 +102,10 @@ var FeedVideoContainer = React.createClass({
             };
             return (
                 <section className="c-player">
-                    <div className="o-wrapper">
+                    <div className="c-player__height">
                         <ReactPlayer
                             controls
-                            progressFrequency={100}
+                            progressFrequency={225}
                             width='100%'
                             height='100%'
                             ref='player'
@@ -122,7 +122,7 @@ var FeedVideoContainer = React.createClass({
             var vimeoUrl = "https://vimeo.com/"+this.state.video_id;
             return (
                 <section className="c-player">
-                    <div className="o-wrapper">
+                    <div className="c-player__height">
                         <ReactPlayer
                             controls
                             progressFrequency={100}

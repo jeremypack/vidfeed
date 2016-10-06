@@ -3,5 +3,18 @@
    ========================================================================== */
 
 .c-player {
-    padding:$inuit-global-spacing-unit 0;
+    position:relative;
+    width:100%;
+    margin-bottom:$inuit-global-spacing-unit;
+    > .c-player__height {
+        padding-top:56.25%;
+        display:block;
+        > div {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    }
 }
