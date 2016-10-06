@@ -97,9 +97,6 @@ var FeedVideoContainer = React.createClass({
     render: function() {
         if (this._isYoutube()) {
             var youtubeUrl = "https://www.youtube.com/watch?v="+this.state.video_id;
-            var youtubeConfig = {
-                preload:true
-            };
             return (
                 <section className="c-player">
                     <div className="c-player__height">
@@ -113,13 +110,17 @@ var FeedVideoContainer = React.createClass({
                             onPlay={this._playPause} 
                             onPause={this._playPause}
                             onProgress={this._onProgress}
-                            onDuration={this._onDuration}
-                            youtubeConfig={youtubeConfig} />
+                            onDuration={this._onDuration} />
                     </div>
                 </section>
             );
         } else {
             var vimeoUrl = "https://vimeo.com/"+this.state.video_id;
+            var vimeoConfig = {
+                iframeParams : {
+                    color:'49c9f5'
+                }
+            };
             return (
                 <section className="c-player">
                     <div className="c-player__height">
@@ -133,7 +134,8 @@ var FeedVideoContainer = React.createClass({
                             onPlay={this._playPause} 
                             onPause={this._playPause}
                             onProgress={this._onProgress}
-                            onDuration={this._onDuration} />
+                            onDuration={this._onDuration} 
+                            vimeoConfig={vimeoConfig} />
                     </div>
                 </section>
             );
