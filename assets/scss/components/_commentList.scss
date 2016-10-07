@@ -26,18 +26,35 @@
 }
 
 .c-commentList {
+    // @include mq($from: tablet) {
+    //     overflow-y:scroll;
+    // }
+}
+.c-commentList__no-comments {
+    width:100%;
+    color:darken($light,10%);
+    text-align:center;
+    font-weight:600;
+    @include inuit-font-size(24px, $line-height:1.2);
+    @include mq($from: mobile, $until: tablet) {
+        margin:$inuit-global-spacing-unit 0 $inuit-global-spacing-unit*2;
+    }
     @include mq($from: tablet) {
-        overflow-y:scroll;
+        position:absolute;
+        top:50%;
+        left:0;
+        margin-top:-10%;
+        padding:0 20px;
     }
 }
 
 .c-comment__outer {
     padding:$inuit-global-spacing-unit/2;
     &:nth-of-type(odd) {
-        background:#f5f6f7;
+        background:#fff;
     }
     &:nth-of-type(even) {
-        background:#fff;
+        background:#f5f6f7;
     }
 }
 .c-comment--reply {
@@ -51,12 +68,12 @@
 .c-comment__timecode {
     float:right;
     padding:4px 8px;
-    background:#f5f6f7;
+    background:#fff;
     font-weight:600;
     @include inuit-font-size(14px, $line-height:1);
     border-radius:3px;
     .c-comment__outer:nth-of-type(odd) & {
-        background:#fff;
+        background:#f5f6f7;
     }
 }
 .c-comment__body {

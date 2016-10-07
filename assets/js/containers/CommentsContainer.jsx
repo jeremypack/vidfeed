@@ -60,6 +60,7 @@ var CommentsContainer = React.createClass({
         var deleteHandler = this._handleDeleteComment;
         var replyHandler = this._handleCommentSubmit;
         var feedId = this.props.feedId;
+        var noComments = <div className="c-commentList__no-comments">No comments yet :(<br />Be the first!</div>;
         var commentNodes = this.state.data.map(function(comment) {
             return (
                 <CommentContainer 
@@ -76,13 +77,14 @@ var CommentsContainer = React.createClass({
                     handleDeleteComment={deleteHandler} />
             );
         });
+        var commentCount = <h3><strong>{commentNodes.length}</strong> { commentNodes.length === 1 ? 'Comment' : 'Comments' }</h3>;
         return (
             <section className="c-commentList__outer">
                 <div className="c-commentList__count lede">
-                    <h3><strong>{commentNodes.length}</strong> { commentNodes.length === 1 ? 'Comment' : 'Comments' }</h3>
+                    {commentNodes.length ? commentCount : null }
                 </div>
                 <div className="c-commentList">
-                    {commentNodes}
+                    {commentNodes.length ? commentNodes : noComments }
                 </div>
             </section>
         );
