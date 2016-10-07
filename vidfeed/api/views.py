@@ -7,7 +7,8 @@ from rest_framework.decorators import detail_route
 
 from vidfeed.profiles.models import SiteUser
 from vidfeed.feed.models import Comment, Feed, Provider
-from vidfeed.utils import get_youtube_title_and_thumbnail, get_vimeo_title_and_thumbnail
+from vidfeed.utils import get_youtube_title_and_thumbnail, get_vimeo_title_and_thumbnail, \
+    set_vidfeed_user_cookie
 from serializers import CommentSerializer, FeedSerializer
 
 
@@ -30,7 +31,10 @@ class CommentList(APIView):
             except Comment.DoesNotExist:
                 return Response({"message": "Invalid parent comment"},
                                 status=status.HTTP_400_BAD_REQUEST)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            owner_email = serializer.data.get('owner').get('email')
+            r = Response(serializer.data, status=status.HTTP_201_CREATED)
+            set_vidfeed_user_cookie(r, owner_email)
+            return r
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -98,7 +102,10 @@ class FeedDetail(viewsets.GenericViewSet):
         if feed.owner is not None:
             return Response({"message": "Cannot overwrite owner"}, status=status.HTTP_403_FORBIDDEN)
         if not owner:
-            return Response({"message": "Please enter a valid Url"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message": "Please enter a valid email"}, status=status.HTTP_400_BAD_REQUEST)
         feed.owner = SiteUser.objects.find_or_create_user(owner)
         feed.save()
-        return Response(FeedSerializer(instance=feed).data)
+        r = Response(FeedSerializer(instance=feed).data)
+        set_vidfeed_user_cookie(r, feed.owner.email)
+        return r
+

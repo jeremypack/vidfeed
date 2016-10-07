@@ -73,6 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'vidfeed.context_processors.vidfeed_user',
             ],
         },
     },
@@ -150,4 +151,5 @@ APPEND_SLASH = True
 
 ########## SITE SETTINGS
 YOUTUBE_API_KEY = 'AIzaSyDvSM-xqZ_P2g2asg7DO-0z1R4CL9d8OXA'
+COOKIE_DOMAIN = 'localhost'
 ########## END SITE SETTINGS
