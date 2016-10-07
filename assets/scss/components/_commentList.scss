@@ -15,13 +15,14 @@
         font-weight:400;
     }
     @include mq($from: tablet) {
-        h3 {
-            margin-bottom:0;
-        }
+        min-height:inuit-rem(48px);
         padding:$inuit-global-spacing-unit/2;
         margin-bottom:0;
         background:$dark;
-        color:#fff;
+        color:#fff; 
+        h3 {
+            margin-bottom:0;
+        }
     }
 }
 
