@@ -21,7 +21,10 @@
     <script type="text/javascript">
       window.vidfeed = window.vidfeed || {};
       window.vidfeed.images_dir = '{% static "images" %}';
-      window.vidfeed.isAuthenticated = {% if request.user.is_authenticated %}true{% else %}false{% endif %};
+      window.vidfeed.user = {
+        isAuthenticated: {% if request.user.is_authenticated %}true{% else %}false{% endif %},
+        email: {% if vidfeeduser %}'{{ vidfeeduser }}'{% else %}null{% endif %}
+      };
       window.vidfeed.urls = {};
     </script>
     {% render_bundle 'main' 'js' %}
