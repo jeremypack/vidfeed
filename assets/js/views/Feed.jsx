@@ -1,4 +1,5 @@
 var React = require('react');
+var classNames = require('classnames');
 
 var HeaderContainer =           require('../containers/HeaderContainer');
 var ShareFeedContainer =        require('../containers/ShareFeedContainer');
@@ -29,7 +30,8 @@ var Feed = React.createClass({
             timecodeSeconds:0,
             blur:false,
             shareModal:false,
-            commentsOpen:false
+            commentsOpen:false,
+            drawerVisible:false
         };
     },
 
@@ -99,9 +101,23 @@ var Feed = React.createClass({
 
     _commentsToggle: function(e) {
         e.preventDefault();
-        this.setState({
-            commentsOpen:!this.state.commentsOpen
-        });
+        var that = this;
+        if (!this.state.commentsOpen) {
+            this.setState({
+                commentsOpen:true
+            });
+            setTimeout(function() {
+                this.setState({ drawerVisible:true });
+            }.bind(this), 150);
+           
+        } else {
+            this.setState({
+                drawerVisible:false
+            });
+            setTimeout(function() {
+                this.setState({ commentsOpen:false });
+            }.bind(this), 150);
+        }
     },
 
     render: function() {
@@ -132,6 +148,12 @@ var Feed = React.createClass({
         } else {
             var drawerClasses = 'o-offCanvas__drawer o-layout__item';
         }
+
+        var drawerClasses = classNames({
+            'o-offCanvas__drawer o-layout__item':true,
+            'o-offCanvas__drawer--open':this.state.drawerVisible,
+            'u-1/3@tablet u-1/4@desktop':this.state.commentsOpen
+        });
 
         return (
             <div>
