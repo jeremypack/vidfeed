@@ -47,6 +47,10 @@ def send_email(template, template_context, subject, to, from_email=None):
         email.send()
 
 
+def set_vidfeed_user_cookie(response, email):
+    set_cookie(response, 'vidfeeduser', email, days_expire=365)
+
+
 def set_cookie(response, key, value, days_expire=7):
     if days_expire is None:
         max_age = 365 * 24 * 60 * 60

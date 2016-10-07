@@ -35,9 +35,11 @@
     }
 }
 .o-offCanvas__drawer--open {
-    .o-offCanvas__drawer__inner {
-        transform: translateX(-100%);
-    } 
+    @include mq($from:tablet) {
+        .o-offCanvas__drawer__inner {
+            transform: translateX(-100%);
+        }
+    }
 }
 
 .o-offCanvas__open {

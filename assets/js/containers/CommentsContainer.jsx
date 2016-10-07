@@ -5,12 +5,27 @@ var CommentContainer = require('./CommentContainer');
 var CommentsContainer = React.createClass({
     
     getInitialState: function() {
-        return {data: []};
+        return {
+            data: [],
+            commentListHeight:''
+        };
     },
 
     componentDidMount: function() {
         this._loadCommentsFromServer();
         setInterval(this._loadCommentsFromServer, this.props.pollInterval);
+    },
+
+    _setCommentsHeight: function() {
+        this.setState({
+            commentListHeight:''
+        });
+        var commentListSpace = this.props.windowHeight - this.refs.commentCount.clientHeight;
+        if (this.refs.commentList.clientHeight > commentListSpace) {
+            this.setState({
+                commentListHeight:commentListSpace
+            });
+        }
     },
 
     _loadCommentsFromServer: function() {
@@ -23,6 +38,7 @@ var CommentsContainer = React.createClass({
                     return parseFloat(a.timecode) - parseFloat(b.timecode);
                 });
                 this.setState({data: data});
+                this._setCommentsHeight();
             }.bind(this),
             error: function(xhr, status, err) {
                 console.error(this.props.url, status, err.toString());
@@ -78,12 +94,20 @@ var CommentsContainer = React.createClass({
             );
         });
         var commentCount = <h3><strong>{commentNodes.length}</strong> { commentNodes.length === 1 ? 'Comment' : 'Comments' }</h3>;
+        
+        if (this.state.commentListHeight) {
+                var commentListStyle = {
+                height:this.state.commentListHeight,
+                overflowY:'scroll'
+            }
+        }
+        
         return (
             <section className="c-commentList__outer">
-                <div className="c-commentList__count lede">
+                <div ref="commentCount" className="c-commentList__count lede">
                     {commentNodes.length ? commentCount : null }
                 </div>
-                <div className="c-commentList">
+                <div ref="commentList" className="c-commentList" style={commentListStyle}>
                     {commentNodes.length ? commentNodes : noComments }
                 </div>
             </section>
