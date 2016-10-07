@@ -50,7 +50,6 @@ var Feed = React.createClass({
         });
         this._resizeContent();
         window.addEventListener('resize', this._resizeContent);
-        //setInterval(this._resizeContent, 500);
     },
 
     componentWillUnmount: function() {
@@ -67,21 +66,9 @@ var Feed = React.createClass({
         }
         var headerHeight = this.refs.header.clientHeight + this.refs.infoBar.clientHeight;
         var remainingHeight = window.innerHeight - headerHeight;
-        console.log(headerHeight,'headerHeight');
-        console.log(remainingHeight,'remainingHeight');
         this.setState({
             windowHeight:remainingHeight
         });
-
-
-
-        // console.log(windowWidth, 'windowWidth');
-        // var drawerWidth = this.refs.drawer.clientWidth;
-        // console.log(drawerWidth,'dwarwiif');
-        // var remainingWidth = windowWidth - drawerWidth;
-        // console.log(remainingWidth,'remainingWidth');
-        // this.setState({ contentSpace: remainingWidth });
-        // console.log(this.state.contentSpace,'content space');
     },
 
     _getTimecode: function(timecode) {
