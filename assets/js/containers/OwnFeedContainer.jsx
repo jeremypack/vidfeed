@@ -1,22 +1,22 @@
 var React = require('react');
 var Modal = require('react-modal');
 
-var OwnFeed = require('../components/OwnFeed');
+var EmailForm = require('../components/EmailForm');
 
-const customStyles = {
-  overlay : {
-    backgroundColor       : 'transparant'
-  },
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)',
-    transition            : 'opacity .4s ease-in-out',
-    opacity               : '0'
-  }
+const modalStyles = {
+    overlay : {
+        backgroundColor       : 'transparant'
+    },
+    content : {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        transform             : 'translate(-50%, -50%)',
+        transition            : 'opacity .4s ease-in-out',
+        opacity               : '0'
+    }
 };
 
 var OwnFeedContainer = React.createClass({
@@ -43,6 +43,7 @@ var OwnFeedContainer = React.createClass({
 
     _handleSubmit: function(e) {
         e.preventDefault();
+        window.vidfeed.user.email = this.state.author;
         $.ajax({
             type: "POST",
             context: this,
@@ -55,6 +56,9 @@ var OwnFeedContainer = React.createClass({
                     hidden:'u-hidden',
                     submitted:true
                 });
+                setTimeout(function() {
+                    this._closeModal();
+                }.bind(this), 2000);
             },
             error: function (ev) {
                 console.log(this.state.owner,'this.state.owner');
@@ -73,7 +77,9 @@ var OwnFeedContainer = React.createClass({
     },
 
     _closeModal : function (e) {
-        e.preventDefault();
+        if (e) {
+            e.preventDefault();
+        }
         this.setState({modalIsOpen: false});
         this.props.modalClose();
     },
@@ -84,13 +90,15 @@ var OwnFeedContainer = React.createClass({
                 <Modal
                     isOpen={this.state.modalIsOpen}
                     onRequestClose={this._closeModal}
-                    style={customStyles} >
-                    <OwnFeed
+                    style={modalStyles} >
+                    <EmailForm
+                        heading='Own this Feed'
                         closeModal={this._closeModal}
                         handleSubmit={this._handleSubmit}
-                        owner={this.state.owner}
+                        value={this.state.owner}
                         handleChange={this._handleOwnerChange}
-                        submitted={this.state.submitted} />
+                        submitted={this.state.submitted} 
+                        submittedMsg='Feed owned!' />
                 </Modal>
             </div>
         );

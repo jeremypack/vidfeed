@@ -1,19 +1,19 @@
 var React = require('react');
 
-var OwnFeed = React.createClass({
+var EmailForm = React.createClass({
     
     render: function() {
         if (this.props.submitted) {
             return (
-                <div>feed owned by {this.props.owner}.</div>
+                <div>{this.props.submittedMsg}</div>
             )
         }
         return (
             <div>
                 <a href="#" onClick={this.props.closeModal}>Close</a>
-                <h2>Own this feed</h2>
+                <h2>{this.props.heading}</h2>
                 <form className="ownFeed" onSubmit={this.props.handleSubmit}>
-                    <input type="email" placeholder="Your email" value={this.props.owner} onChange={this.props.handleChange} />
+                    <input type="email" placeholder="Your email" value={this.props.value} onChange={this.props.handleChange} />
                     <input type="submit" value="Submit" />
                 </form>
             </div>
@@ -21,4 +21,4 @@ var OwnFeed = React.createClass({
     }
 });
 
-module.exports = OwnFeed;
+module.exports = EmailForm;

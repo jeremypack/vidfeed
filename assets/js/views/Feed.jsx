@@ -182,6 +182,8 @@ var Feed = React.createClass({
                                     onTimecodeChange={this._getTimecode} />
                 
                                 <CommentFormContainer
+                                    modalOpen={this._modalOpen}
+                                    modalClose={this._modalClose}
                                     feedId={this.props.params.feedId}
                                     timecode={this.state.timecode}
                                     timecodeSeconds={this.state.timecodeSeconds} />

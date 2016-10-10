@@ -13,7 +13,11 @@ var CommentsContainer = React.createClass({
 
     componentDidMount: function() {
         this._loadCommentsFromServer();
-        setInterval(this._loadCommentsFromServer, this.props.pollInterval);
+        this.commentsInterval = setInterval(this._loadCommentsFromServer, this.props.pollInterval);
+    },
+
+    componentWillUnmount: function() {
+        clearInterval(this.commentsInterval);
     },
 
     _setCommentsHeight: function() {
@@ -44,6 +48,7 @@ var CommentsContainer = React.createClass({
                 console.error(this.props.url, status, err.toString());
             }.bind(this)
         });
+        clearInterval(this.commentsInterval);
     },
 
     _handleCommentEdit: function(commentId, author, text){
@@ -76,7 +81,7 @@ var CommentsContainer = React.createClass({
         var deleteHandler = this._handleDeleteComment;
         var replyHandler = this._handleCommentSubmit;
         var feedId = this.props.feedId;
-        var noComments = <div className="c-commentList__no-comments">No comments yet :(<br />Be the first!</div>;
+        var noComments = <div className="c-commentList__no-comments">No comments yet <span className="nowrap">:(</span><br />Be the first!</div>;
         var commentNodes = this.state.data.map(function(comment) {
             return (
                 <CommentContainer 
