@@ -1,0 +1,7 @@
+Hi,
+
+{% block content %} 
+
+{% endblock %}
+
+Vidfeed
