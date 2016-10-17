@@ -1,0 +1,13 @@
+{% extends 'Emails/base_email.txt' %}
+
+{% block content %}
+
+{{ user_email }} has sent you a video to review: {{video_name}}.
+
+We're using Vidfeed to collaborate on our videos. It makes leaving feedback super easy and saves a load of time. Copy and paste the link bellow to get started.
+
+Here is your feed: {{ link }}
+
+Thanks,
+
+{% endblock %}

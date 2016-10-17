@@ -1,0 +1,14 @@
+{% extends 'Emails/base_email.txt' %}
+
+{% block content %}
+
+You successfully shared your feed with: 
+{% for u in list_recipients %}{{ u.email }}{% if not forloop.last %}, {% endif %}{% endfor %}
+
+As soon as a recipient comments on your feed, we will send you an email notification.
+
+Here's a link to the feed: {{ link }}
+
+Thanks,
+
+{% endblock %}
