@@ -100,10 +100,12 @@ var Feed = React.createClass({
         });
     },
 
-    _commentsToggle: function(e) {
-        e.preventDefault();
-        var that = this;
-        if (!this.state.commentsOpen) {
+    _commentsToggle: function(e, pos) {
+        if (e) {
+            e.preventDefault();
+        }
+        
+        if (!this.state.commentsOpen || pos === 'open') {
             this.setState({
                 commentsOpen:true
             });
@@ -184,6 +186,7 @@ var Feed = React.createClass({
                                 <CommentFormContainer
                                     modalOpen={this._modalOpen}
                                     modalClose={this._modalClose}
+                                    commentSubmitted={this._commentsToggle}
                                     feedId={this.props.params.feedId}
                                     timecode={this.state.timecode}
                                     timecodeSeconds={this.state.timecodeSeconds} />
@@ -196,7 +199,7 @@ var Feed = React.createClass({
                                 <CommentsContainer
                                     windowHeight={this.state.windowHeight}
                                     feedId={this.props.params.feedId}
-                                    pollInterval={2000}
+                                    pollInterval={1000}
                                     timecode={this.state.timecodeSeconds} />
                             </div>
                             

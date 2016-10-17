@@ -87,6 +87,7 @@ var CommentFormContainer = React.createClass({
                 this.setState({
                     comment:''
                 });
+                this.props.commentSubmitted(null, 'open');
             }.bind(this),
             error: function(data) {
                 console.log(JSON.parse(data.responseText),'handleCommentSubmit error');

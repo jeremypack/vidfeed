@@ -48,7 +48,6 @@ var CommentsContainer = React.createClass({
                 console.error(this.props.url, status, err.toString());
             }.bind(this)
         });
-        clearInterval(this.commentsInterval);
     },
 
     _handleCommentEdit: function(commentId, author, text){
