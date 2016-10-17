@@ -106,19 +106,19 @@ var CommentFormContainer = React.createClass({
 
     render: function() {
         
-        var commentAuthorModal = <Modal
-                                    isOpen={this.state.modalIsOpen}
-                                    onRequestClose={this._closeModal}
-                                    style={modalStyles}>
-                                    <EmailForm
-                                        heading='Please tell us who you are'
-                                        closeModal={this._closeModal}
-                                        handleSubmit={this._handleAuthorSubmit}
-                                        value={this.state.author}
-                                        handleChange={this._handleAuthorChange}
-                                        submitted={this.state.modalSubmitted}
-                                        submittedMsg='Thanks!' />
-                                </Modal>
+        var commentAuthorModal =    <Modal
+                                        isOpen={this.state.modalIsOpen}
+                                        onRequestClose={this._closeModal}
+                                        style={modalStyles}>
+                                        <EmailForm
+                                            heading='Please tell us who you are'
+                                            closeModal={this._closeModal}
+                                            handleSubmit={this._handleAuthorSubmit}
+                                            value={this.state.author}
+                                            handleChange={this._handleAuthorChange}
+                                            submitted={this.state.modalSubmitted}
+                                            submittedMsg='Thanks!' />
+                                    </Modal>;
 
         return (
             <div>           

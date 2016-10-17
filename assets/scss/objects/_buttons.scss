@@ -91,9 +91,14 @@
 }
 
 .o-btn--white-text {
-  color:#fff;
+    color:#fff;
 } 
 
+.o-btn--disabled {
+    background-color:lighten($mid,25%);
+    color:rgba(255,255,255,.5);
+    cursor:not-allowed;
+}
 
 
 /* Size variants
