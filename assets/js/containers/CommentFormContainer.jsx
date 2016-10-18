@@ -27,6 +27,8 @@ var CommentFormContainer = React.createClass({
         return {
             modalIsOpen: false,
             modalSubmitted: false,
+            isValid:false,
+            validationStarted:false,
             author: '',
             comment: ''
         };
@@ -40,8 +42,14 @@ var CommentFormContainer = React.createClass({
         }
     },
 
+    componentWillUnmount: function() {
+        clearInterval(this.validateInterval);
+    },
+
     _handleAuthorChange: function(e) {
-        this.setState({author: e.target.value});
+        this.setState({
+            author: e.target.value
+        });
     },
 
     _handleAuthorSubmit: function(e) {
@@ -57,7 +65,26 @@ var CommentFormContainer = React.createClass({
     },
 
     _handleCommentChange: function(e) {
-        this.setState({comment: e.target.value});
+        this.setState({
+            comment: e.target.value
+        });
+        var validateTrigger = function() {
+            if(this.state.comment) {
+                this.setState({
+                    isValid:true
+                });
+            } else {
+                this.setState({
+                    isValid:false
+                });
+            }
+        }.bind(this);
+        if (!this.state.validationStarted) {
+            this.setState({
+                validationStarted: true
+            });
+            this.validateInterval = setInterval(validateTrigger,1000);
+        }
     },
 
     _handleCommentSubmit: function(e) {
@@ -121,9 +148,12 @@ var CommentFormContainer = React.createClass({
                                             submittedMsg='Thanks!' />
                                     </Modal>;
 
+        console.log(this.state.isValid,'this.state.isValid');
+
         return (
             <div>           
                 <CommentForm
+                    isValid={this.state.isValid}
                     timecode={this.props.timecode}
                     body={this.state.comment}
                     handleSubmit={this._handleCommentSubmit}
