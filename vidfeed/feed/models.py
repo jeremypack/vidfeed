@@ -1,7 +1,9 @@
 from __future__ import unicode_literals
 
+from django.urls import reverse
 from django.db import models
 from django.conf import settings
+from vidfeed.utils import send_email
 
 import re
 import random
@@ -59,15 +61,22 @@ class Feed(models.Model):
             return self.owner.get_display_name()
         return 'orphaned'
 
-    def invite_user(self, recipient, sender):
-        if FeedInvites.objects.filter(feed=self, recipient=recipient).count() > 0:
-            return
+    def get_absolute_url(self):
+        return "/app/feed/%s" % self.feed_id
 
-        invitee = FeedInvites(feed=self,
-                              recipient=recipient,
-                              sender=sender)
-        invitee.clean_fields()
-        invitee.save()
+    def invite_user(self, recipient, sender):
+        if FeedInvites.objects.filter(feed=self, recipient=recipient).count() == 0:
+            invitee = FeedInvites(feed=self,
+                                  recipient=recipient,
+                                  sender=sender)
+            invitee.clean_fields()
+            invitee.save()
+
+        args = {
+            'feed': self,
+            'sender_email': sender,
+        }
+        send_email('invite_received', args, self.video_title, recipient)
 
     @staticmethod
     def generate_link_id():

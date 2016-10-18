@@ -14,6 +14,7 @@ def send_email(template, template_context, subject, to, from_email=None):
         'settings': {
             'BASE_URL': settings.BASE_URL,
             'STATIC_URL': '/static/',
+            'LOGO_SMALL': 'email-logo-262x80.png',
         }
     }
     template_context.update(base_template_context)
@@ -89,7 +90,9 @@ def get_youtube_title_and_thumbnail(video_id):
         if r.status_code == 200:
             result = r.json()
             snippet = result.get('items')[0].get('snippet')
-            thumbnail = snippet.get('thumbnails').get('high')
+            thumbnail = snippet.get('thumbnails').get('maxres')
+            if not thumbnail:
+                thumbnail = snippet.get('thumbnails').get('medium')
             if not thumbnail:
                 thumbnail = snippet.get('thumbnails').get('default')
             thumb = thumbnail.get('url')

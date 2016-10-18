@@ -127,6 +127,8 @@ class FeedInvitesList(APIView):
         d = json.loads(request.body)
         try:
             sender = SiteUser.objects.get(email=d.get('sender').strip())
+        except AttributeError:
+            return Response({"message": "Invalid sender"}, status=status.HTTP_400_BAD_REQUEST)
         except SiteUser.DoesNotExist:
             return Response({"message": "Invalid sender"}, status=status.HTTP_400_BAD_REQUEST)
 
