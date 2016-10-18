@@ -148,8 +148,6 @@ var CommentFormContainer = React.createClass({
                                             submittedMsg='Thanks!' />
                                     </Modal>;
 
-        console.log(this.state.isValid,'this.state.isValid');
-
         return (
             <div>           
                 <CommentForm
