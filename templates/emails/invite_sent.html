@@ -1,10 +1,10 @@
 
-{% extends 'Emails/base_email.html' %}
+{% extends 'emails/base_email.html' %}
 
 
 {% block preheader %}
 
-Feed sent to {{recipient_email}}
+Feed sent to {% for u in list_recipients %}{{ u }}{% if not foorloop.last %}, {% endif %}{% endfor %}
 
 {% endblock %}
 
@@ -23,7 +23,7 @@ Feed sent to {{recipient_email}}
             <tr>
                 <td style="padding: 10px 20px 0px 20px; text-align: left; font-family: sans-serif; font-size: 18px; mso-height-rule: exactly; line-height: 30px; color: #49C9F5;">
                     {% for u in list_recipients %}
-                        {{ u.email }}{% if not forloop.last %}<br>{% endif %}
+                        {{ u }}{% if not forloop.last %}<br>{% endif %}
                     {% endfor %}
 
                 </td>

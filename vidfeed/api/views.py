@@ -9,7 +9,7 @@ from rest_framework.decorators import detail_route
 from vidfeed.profiles.models import SiteUser
 from vidfeed.feed.models import Comment, Feed, Provider, FeedInvites
 from vidfeed.utils import get_youtube_title_and_thumbnail, get_vimeo_title_and_thumbnail, \
-    set_vidfeed_user_cookie
+    set_vidfeed_user_cookie, send_email
 from serializers import CommentSerializer, FeedSerializer, FeedInvitesSerializer
 
 import json
@@ -136,17 +136,23 @@ class FeedInvitesList(APIView):
         if len(invites) == 0:
             return Response({"message": "Must specify at least one invitee"}, status=status.HTTP_400_BAD_REQUEST)
 
-        success_count = 0
+        list_recipients = []
         for u in invites:
-            if not u:
+            if not u or u in list_recipients:
                 continue
             try:
-                feed.invite_user(u, sender)
-                success_count += 1
+                #feed.invite_user(u, sender)
+                list_recipients.append(u)
             except ValidationError:
                 pass
 
-        if success_count == 0:
+        if len(list_recipients) == 0:
             return Response({"message": "No valid invites"}, status=status.HTTP_400_BAD_REQUEST)
 
-        return Response({"message": "successfully invited {0} users".format(success_count)})
+        args = {
+            'feed': feed,
+            'list_recipients': list_recipients,
+        }
+        send_email('invite_sent', args, feed.video_title, sender.email)
+
+        return Response({"message": "successfully invited {0} users".format(len(list_recipients))})
