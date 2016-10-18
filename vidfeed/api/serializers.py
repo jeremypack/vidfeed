@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from vidfeed.feed.models import Feed, Comment, Provider
+from vidfeed.feed.models import Feed, Comment, Provider, FeedInvites
 from vidfeed.profiles.models import SiteUser
 
 
@@ -66,4 +66,12 @@ class CommentSerializer(serializers.ModelSerializer):
         instance.body = validated_data.pop('body')
         instance.save()
         return instance
+
+
+class FeedInvitesSerializer(serializers.ModelSerializer):
+    sender = SiteUserSerializer(many=False, read_only=True)
+
+    class Meta:
+        model = FeedInvites
+        fields = ('recipient', 'sender', 'created',)
 

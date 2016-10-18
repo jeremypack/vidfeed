@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from django.core.exceptions import ValidationError
 from rest_framework.views import APIView
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -6,10 +7,12 @@ from rest_framework import status
 from rest_framework.decorators import detail_route
 
 from vidfeed.profiles.models import SiteUser
-from vidfeed.feed.models import Comment, Feed, Provider
+from vidfeed.feed.models import Comment, Feed, Provider, FeedInvites
 from vidfeed.utils import get_youtube_title_and_thumbnail, get_vimeo_title_and_thumbnail, \
     set_vidfeed_user_cookie
-from serializers import CommentSerializer, FeedSerializer
+from serializers import CommentSerializer, FeedSerializer, FeedInvitesSerializer
+
+import json
 
 
 class CommentList(APIView):
@@ -109,3 +112,39 @@ class FeedDetail(viewsets.GenericViewSet):
         set_vidfeed_user_cookie(r, feed.owner.email)
         return r
 
+
+class FeedInvitesList(APIView):
+    def get_objects(self, feed_id):
+        feed = get_object_or_404(Feed, feed_id=feed_id)
+        return FeedInvites.objects.filter(feed=feed)
+
+    def get(self, request, feed_id, format=None):
+        serializer = FeedInvitesSerializer(self.get_objects(feed_id), many=True)
+        return Response(serializer.data)
+
+    def post(self, request, feed_id, format=None):
+        feed = get_object_or_404(Feed, feed_id=feed_id)
+        d = json.loads(request.body)
+        try:
+            sender = SiteUser.objects.get(email=d.get('sender').strip())
+        except SiteUser.DoesNotExist:
+            return Response({"message": "Invalid sender"}, status=status.HTTP_400_BAD_REQUEST)
+
+        invites = d.get('invites')
+        if len(invites) == 0:
+            return Response({"message": "Must specify at least one invitee"}, status=status.HTTP_400_BAD_REQUEST)
+
+        success_count = 0
+        for u in invites:
+            if not u:
+                continue
+            try:
+                feed.invite_user(u, sender)
+                success_count += 1
+            except ValidationError:
+                pass
+
+        if success_count == 0:
+            return Response({"message": "No valid invites"}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({"message": "successfully invited {0} users".format(success_count)})

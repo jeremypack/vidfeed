@@ -59,6 +59,16 @@ class Feed(models.Model):
             return self.owner.get_display_name()
         return 'orphaned'
 
+    def invite_user(self, recipient, sender):
+        if FeedInvites.objects.filter(feed=self, recipient=recipient).count() > 0:
+            return
+
+        invitee = FeedInvites(feed=self,
+                              recipient=recipient,
+                              sender=sender)
+        invitee.clean_fields()
+        invitee.save()
+
     @staticmethod
     def generate_link_id():
         return ''.join(
@@ -67,6 +77,17 @@ class Feed(models.Model):
 
     def __unicode__(self):
         return u'Provider: {0}, Video ID: {1}, Feed ID: {2}'.format(self.provider.name, self.video_id, self.feed_id)
+
+
+class FeedInvites(models.Model):
+    feed = models.ForeignKey(Feed)
+    recipient = models.EmailField(max_length=254)
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL)
+    created = models.DateTimeField(auto_now_add=True)
+    accepted = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = ('created', )
 
 
 class Comment(models.Model):

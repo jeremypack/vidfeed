@@ -67,7 +67,25 @@ var ShareFeedContainer = React.createClass({
     _handleSubmit: function(e) {
         e.preventDefault();
         console.log(this.state.addedEmails,'emails to be submitted');
-        this.setState({currentEmail: '', addedEmails: []});
+        $.ajax({
+          url: '/api/feeds/' + this.props.feedId + '/invites',
+          dataType: 'json',
+          type: 'POST',
+          context: this,
+          data: JSON.stringify({
+            'sender': window.vidfeed.user.email,
+            'invites': this.state.addedEmails
+          }),
+          success: function (data) {
+            console.log("successfully invested the users");
+            console.log(data);
+            this.setState({currentEmail: '', addedEmails: []});
+          },
+          error: function (data) {
+            console.log("failed to invite users");
+            console.log(data);
+          }
+        });
     },
 
     render: function() {

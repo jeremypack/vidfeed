@@ -135,7 +135,8 @@ var Feed = React.createClass({
         if (this.state.shareModal) {
             var shareFeed = <ShareFeedContainer
                                 modalOpen={this.state.shareModal}
-                                modalClose={this._modalClose} />
+                                modalClose={this._modalClose}
+                                feedId={this.props.params.feedId} />
         } else {
             var shareFeed = undefined;
         }
