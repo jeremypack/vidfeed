@@ -30,23 +30,32 @@ class CommentList(APIView):
         serializer = CommentSerializer(data=request.data)
         if serializer.is_valid():
             try:
-                serializer.save(feed=feed)
+                comment = serializer.save(feed=feed)
             except Comment.DoesNotExist:
                 return Response({"message": "Invalid parent comment"},
                                 status=status.HTTP_400_BAD_REQUEST)
-            owner_email = serializer.data.get('owner').get('email')
+            owner_email = comment.owner.email
             r = Response(serializer.data, status=status.HTTP_201_CREATED)
             set_vidfeed_user_cookie(r, owner_email)
-            # send new comment if first comment from this user
-            user_comments = Comment.objects.filter(feed=feed,
-                                                   owner__email=owner_email)
-            if user_comments.count() == 1 and \
-                    owner_email.strip().lower() != feed.owner.email.strip().lower():
+
+            # if this is a reply send an email to the comment owner
+            if comment.parent_comment:
                 ctx = {
                     'feed': feed,
                     'comment_author': owner_email,
                 }
-                send_email('new_comment', ctx, feed.video_title, feed.owner.email)
+                send_email('new_reply', ctx, feed.video_title, comment.parent_comment.owner.email)
+            # else send first comment email if first comment from this user
+            else:
+                user_comments = Comment.objects.filter(feed=feed,
+                                                       owner__email=owner_email)
+                if user_comments.count() == 1 and \
+                        owner_email.strip().lower() != feed.owner.email.strip().lower():
+                    ctx = {
+                        'feed': feed,
+                        'comment_author': owner_email,
+                    }
+                    send_email('new_comment', ctx, feed.video_title, feed.owner.email)
 
             return r
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -155,7 +164,7 @@ class FeedInvitesList(APIView):
             if not u or u in list_recipients:
                 continue
             try:
-                #feed.invite_user(u, sender)
+                feed.invite_user(u, sender)
                 list_recipients.append(u)
             except ValidationError:
                 pass
