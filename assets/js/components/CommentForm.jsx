@@ -1,7 +1,14 @@
 var React = require('react');
+var classNames = require('classnames');
 
 var CommentForm = React.createClass({
     render: function() {
+        
+        var submitClasses = classNames({
+            'form--single__submit o-btn o-btn--primary':true,
+            'o-btn--disabled':!this.props.isValid
+        });
+
         return (
             <section className="c-commentForm">
                 <p className="c-commentForm__timecode">{this.props.timecode}</p>
@@ -11,7 +18,7 @@ var CommentForm = React.createClass({
                             <textarea placeholder="Add a comment" value={this.props.body} className="form--single__input" onChange={this.props.handleCommentChange}></textarea>
                         </div>
                         <div className="o-layout__item u-1/5@tablet">
-                            <input type="submit" className="form--single__submit o-btn o-btn--primary" value="Comment" />
+                            <input type="submit" className={submitClasses} value="Comment" />
                         </div>
                     </div>
                 </form>

@@ -19,7 +19,6 @@ function hmsToSecondsOnly(str) {
     return s;
 }
 
-
 var Feed = React.createClass({
     
     getInitialState: function() {

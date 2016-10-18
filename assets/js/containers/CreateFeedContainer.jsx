@@ -24,9 +24,7 @@ var CreateFeedContainer =  React.createClass({
             videoUrl: e.target.value
         });
         var validateTrigger = function() {
-            if(this.state.videoUrl.length >= 5) {
-                this._validate();
-            }
+            this._validate();
         }.bind(this);
         if (!this.state.validationStarted) {
             this.setState({
