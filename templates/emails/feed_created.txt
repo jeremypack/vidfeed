@@ -1,10 +1,10 @@
-{% extends 'Emails/base_email.txt' %}
+{% extends 'emails/base_email.txt' %}
 
 {% block content %}
 
 Thanks for using Vidfeed for your project.
 
-Here's the link so you don't lose it: {{ link }}
+Here's the link so you don't lose it: {{ settings.BASE_URL }}{{ feed.get_absolute_url }}
 
 Good luck,
 

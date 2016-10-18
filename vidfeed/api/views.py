@@ -89,7 +89,6 @@ class FeedList(APIView):
 
 
 class FeedDetail(viewsets.GenericViewSet):
-
     def get_object(self, feed_id):
         return get_object_or_404(Feed, feed_id=feed_id)
 
@@ -110,6 +109,10 @@ class FeedDetail(viewsets.GenericViewSet):
         feed.save()
         r = Response(FeedSerializer(instance=feed).data)
         set_vidfeed_user_cookie(r, feed.owner.email)
+        ctx = {
+            'feed': feed,
+        }
+        send_email('feed_created', ctx, feed.video_title, feed.owner.email)
         return r
 
 
