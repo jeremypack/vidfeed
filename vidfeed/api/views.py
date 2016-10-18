@@ -37,6 +37,17 @@ class CommentList(APIView):
             owner_email = serializer.data.get('owner').get('email')
             r = Response(serializer.data, status=status.HTTP_201_CREATED)
             set_vidfeed_user_cookie(r, owner_email)
+            # send new comment if first comment from this user
+            user_comments = Comment.objects.filter(feed=feed,
+                                                   owner__email=owner_email)
+            if user_comments.count() == 1 and \
+                    owner_email.strip().lower() != feed.owner.email.strip().lower():
+                ctx = {
+                    'feed': feed,
+                    'comment_author': owner_email,
+                }
+                send_email('new_comment', ctx, feed.video_title, feed.owner.email)
+
             return r
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

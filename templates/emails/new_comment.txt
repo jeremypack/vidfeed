@@ -1,4 +1,4 @@
-{% extends 'Emails/base_email.txt' %}
+{% extends 'emails/base_email.txt' %}
 
 {% block content %}
 
@@ -6,7 +6,7 @@
 
 From now on we will put together a comment summary once an hour to keep you in the loop.
 
-Here is your feed: {{ link }}
+Here is your feed: {{ settings.BASE_URL }}{{ feed.get_absolute_url }}
 
 Thanks,
 
