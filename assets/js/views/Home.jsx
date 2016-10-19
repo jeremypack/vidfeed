@@ -13,10 +13,6 @@ var Home = React.createClass({
                     <h1>Make timecoded notes on <span className="nowrap">any video</span>.</h1>
                     <p>Plus it&apos;s free and unlimited. No account required.</p>
                     <CreateFeedContainer />
-                    <div className="o-box">
-                        <a href="#" className="o-btn o-btn--ghost u-margin-bottom">View Demo</a>
-                        <a href="#" className="o-btn u-margin-bottom">or Learn More</a>
-                    </div>
                 </main>
             </div>
         );
