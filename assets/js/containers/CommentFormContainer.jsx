@@ -27,8 +27,10 @@ var CommentFormContainer = React.createClass({
         return {
             modalIsOpen: false,
             modalSubmitted: false,
-            isValid:false,
-            validationStarted:false,
+            commentIsValid:false,
+            commentValidationStarted:false,
+            authorIsValid:false,
+            authorValidationStarted:false,
             author: '',
             comment: ''
         };
@@ -43,13 +45,23 @@ var CommentFormContainer = React.createClass({
     },
 
     componentWillUnmount: function() {
-        clearInterval(this.validateInterval);
+        clearInterval(this.commentValidateInterval);
+        clearInterval(this.authorValidateInterval);
     },
 
     _handleAuthorChange: function(e) {
         this.setState({
             author: e.target.value
         });
+        var authorValidateTrigger = function() {
+            this._authorValidate();
+        }.bind(this);
+        if (!this.state.authorValidationStarted) {
+            this.setState({
+                authorValidationStarted: true
+            });
+            this.authorValidateInterval = setInterval(authorValidateTrigger,1000);
+        }
     },
 
     _handleAuthorSubmit: function(e) {
@@ -68,22 +80,22 @@ var CommentFormContainer = React.createClass({
         this.setState({
             comment: e.target.value
         });
-        var validateTrigger = function() {
+        var commentValidateTrigger = function() {
             if(this.state.comment) {
                 this.setState({
-                    isValid:true
+                    commentIsValid:true
                 });
             } else {
                 this.setState({
-                    isValid:false
+                    commentIsValid:false
                 });
             }
         }.bind(this);
-        if (!this.state.validationStarted) {
+        if (!this.state.commentValidationStarted) {
             this.setState({
-                validationStarted: true
+                commentValidationStarted: true
             });
-            this.validateInterval = setInterval(validateTrigger,1000);
+            this.commentValidateInterval = setInterval(commentValidateTrigger,1000);
         }
     },
 
@@ -132,8 +144,31 @@ var CommentFormContainer = React.createClass({
         this.props.modalClose();
     },
 
+    _authorValidate:function(){
+        var checkEmail = function(email) {
+            var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return emailRegex.test(email);
+        }
+        if (checkEmail(this.state.author)) {
+            this.setState({
+                authorIsValid:true
+            });
+        } else {
+            this.setState({
+                authorIsValid:false
+            });
+        }
+    },
+
     render: function() {
         
+        if (this.state.authorValidationStarted && !this.state.authorIsValid) {
+            var valid = false;
+        }
+        if (this.state.authorValidationStarted && this.state.authorIsValid) {
+            var valid = true;
+        }
+
         var commentAuthorModal =    <Modal
                                         isOpen={this.state.modalIsOpen}
                                         onRequestClose={this._closeModal}
@@ -142,6 +177,7 @@ var CommentFormContainer = React.createClass({
                                             heading='Please tell us who you are'
                                             closeModal={this._closeModal}
                                             handleSubmit={this._handleAuthorSubmit}
+                                            isValid={valid}
                                             value={this.state.author}
                                             handleChange={this._handleAuthorChange}
                                             submitted={this.state.modalSubmitted}
@@ -151,7 +187,7 @@ var CommentFormContainer = React.createClass({
         return (
             <div>           
                 <CommentForm
-                    isValid={this.state.isValid}
+                    isValid={this.state.commentIsValid}
                     timecode={this.props.timecode}
                     body={this.state.comment}
                     handleSubmit={this._handleCommentSubmit}

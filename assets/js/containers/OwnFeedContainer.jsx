@@ -29,12 +29,39 @@ var OwnFeedContainer = React.createClass({
             submitted: false,
             sessionUser:window.vidfeed.user.email,
             newOwner:false,
-            feedId: this.props.feedId 
+            feedId: this.props.feedId,
+            validationStarted:false,
+            isValid:false,
         };
     },
 
     componentDidMount: function() {
         this._openModal();
+    },
+
+    componentWillUnmount: function() {
+        clearInterval(this.validateInterval);
+    },
+
+    _openModal : function () {
+        setTimeout(function() {
+            this.setState({ modalIsOpen: true });
+            this.props.modalOpen();
+        }.bind(this), this.props.wait);
+    },
+
+    _closeModal : function (e) {
+        if (e) {
+            e.preventDefault();
+        }
+        this.setState({
+            modalIsOpen: false
+        });
+        this.props.modalClose();
+
+        if (!this.state.submitted) {
+            this._openModal();
+        }
     },
 
     _useSessionUser:function(e) {
@@ -55,11 +82,23 @@ var OwnFeedContainer = React.createClass({
         this.setState({
             owner: e.target.value
         });
+        var validateTrigger = function() {
+            this._validate();
+        }.bind(this);
+        if (!this.state.validationStarted) {
+            this.setState({
+                validationStarted: true
+            });
+            this.validateInterval = setInterval(validateTrigger,1000);
+        }
     },
 
     _handleSubmit: function(e) {
         if (e) {
             e.preventDefault();
+        }
+        if (this.state.validationStarted && !this.state.isValid) {
+            return;
         }
         $.ajax({
             type: "POST",
@@ -84,24 +123,19 @@ var OwnFeedContainer = React.createClass({
         });
     },
 
-    _openModal : function () {
-        setTimeout(function() {
-            this.setState({ modalIsOpen: true });
-            this.props.modalOpen();
-        }.bind(this), this.props.wait);
-    },
-
-    _closeModal : function (e) {
-        if (e) {
-            e.preventDefault();
+    _validate:function(){
+        var checkEmail = function(email) {
+            var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return emailRegex.test(email);
         }
-        this.setState({
-            modalIsOpen: false
-        });
-        this.props.modalClose();
-
-        if (!this.state.submitted) {
-            this._openModal();
+        if (checkEmail(this.state.owner)) {
+            this.setState({
+                isValid:true
+            });
+        } else {
+            this.setState({
+                isValid:false
+            });
         }
     },
 
@@ -120,16 +154,24 @@ var OwnFeedContainer = React.createClass({
         }
 
         if (this.state.newOwner) {
+            
+            if (this.state.validationStarted && !this.state.isValid) {
+                var valid = false;
+            }
+            if (this.state.validationStarted && this.state.isValid) {
+                var valid = true;
+            }
+
             var setNewOwner = <EmailForm
                                 heading='Own this Feed'
                                 closeModal={this._closeModal}
                                 handleSubmit={this._handleSubmit}
+                                isValid={valid}
                                 value={this.state.owner}
                                 handleChange={this._handleOwnerChange}
                                 submitted={this.state.submitted} 
                                 submittedMsg='Feed owned!' />
-        }
-            
+        }   
 
         return (
             <div>
