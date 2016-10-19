@@ -25,6 +25,7 @@ var Feed = React.createClass({
         return {
             feed:[],
             owner:undefined,
+            ajaxDone:false,
             timecode:0,
             timecodeSeconds:0,
             blur:false,
@@ -41,9 +42,10 @@ var Feed = React.createClass({
             dataType: 'json',
             context: this,
             success: function(data) {
-                this.setState({ 
+                this.setState({
                     feed: data,
-                    owner: data.owner
+                    owner: data.owner,
+                    ajaxDone: true
                 });
             }
         });
@@ -123,13 +125,14 @@ var Feed = React.createClass({
     },
 
     render: function() {
-        
-        var ownFeed =   <OwnFeedContainer
-                            modalOpen={this._modalOpen}
-                            modalClose={this._modalClose}
-                            feedOwner={this.state.owner}
-                            feedId={this.props.params.feedId}
-                            wait={5000} />
+        if (this.state.ajaxDone && !this.state.owner) {
+            var ownFeed =   <OwnFeedContainer
+                                modalOpen={this._modalOpen}
+                                modalClose={this._modalClose}
+                                feedOwner={this.state.owner}
+                                feedId={this.props.params.feedId}
+                                wait={3000} />
+        }
 
         if (this.state.shareModal) {
             var shareFeed = <ShareFeedContainer
