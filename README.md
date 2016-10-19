@@ -109,11 +109,14 @@ Start DB
 Activate virtual environment	
 	$ source vidfeed_venv/bin/activate
 		
+migrate the db schema	
+	$ python manage.py migrate
+
 Start Server in the virtual environment terminal window
 	$ python manage.py runserver
-		
+
 Watch for changes by running 	
-	$ ./node_modules/.bin/webpack --config webpack.config.js --watch
+	$ ./node_modules/.bin/webpack --config webpack.config.js --watch	
 		
 Go too
 	http://127.0.0.1:8000/admin/
