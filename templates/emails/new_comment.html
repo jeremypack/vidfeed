@@ -13,7 +13,7 @@ New comment from {{ comment_author }}
 
             <!-- 1 Column Text : BEGIN -->
             <tr>
-                <td style="padding: 20px 20px 0px 20px; text-align: center; font-family: sans-serif; font-size: 22px; mso-height-rule: exactly; line-height: 20px; color: #2a2e30;">
+                <td style="padding: 20px 20px 0px 20px; text-align: left; font-family: sans-serif; font-size: 22px; mso-height-rule: exactly; line-height: 20px; color: #2a2e30;">
                     <strong>New comment.</strong>
                 </td>
             </tr>
@@ -22,7 +22,8 @@ New comment from {{ comment_author }}
             <!-- 1 Column Text : BEGIN -->
             <tr>
                 <td style="padding: 20px 20px 0px 20px; text-align: left; font-family: sans-serif; font-size: 22px; mso-height-rule: exactly; line-height: 20px;">
-                    <a href="#" style="color: #49C9F5; text-decoration: none;"> {{ comment_author }} </a><br>
+                    <a href="mailto:{{ comment_author }}" style="color: #49C9F5; text-decoration: none;"> 
+                    {{ comment_author }} </a><br>
                 </td>
             </tr>
             <!-- 1 Column Text : END -->
