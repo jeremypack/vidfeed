@@ -1,5 +1,6 @@
 var React = require('react');
 var ReactPlayer = require('react-player');
+var YouTubePlayer = require('../components/YouTubePlayer');
 
 function pad (string) {
   return ('0' + string).slice(-2)
@@ -44,11 +45,7 @@ var FeedVideoContainer = React.createClass({
     },
 
     _isYoutube: function() {
-        if (this.state.provider.id === 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.state.provider.id === 1;
     },
 
     _playPause: function() {
@@ -83,6 +80,10 @@ var FeedVideoContainer = React.createClass({
         this.props.onTimecodeChange(this.state.elapsed);
     },
 
+    _onYouTubeProgress(elapsed) {
+        this.props.onTimecodeChange(this._calcElapsed(elapsed));
+    },
+
     _calcElapsed: function(data) {
         var date = new Date(data * 1000)
         var hh = date.getHours()
@@ -96,21 +97,12 @@ var FeedVideoContainer = React.createClass({
 
     render: function() {
         if (this._isYoutube()) {
-            var youtubeUrl = "https://www.youtube.com/watch?v="+this.state.video_id;
             return (
                 <section className="c-player">
                     <div className="c-player__height">
-                        <ReactPlayer
-                            controls
-                            progressFrequency={225}
-                            width='100%'
-                            height='100%'
-                            ref='player'
-                            url={youtubeUrl}
-                            onPlay={this._playPause} 
-                            onPause={this._playPause}
-                            onProgress={this._onProgress}
-                            onDuration={this._onDuration} />
+                        <YouTubePlayer
+                            video_id={this.state.video_id}
+                            onProgress={this._onYouTubeProgress}/>
                     </div>
                 </section>
             );
