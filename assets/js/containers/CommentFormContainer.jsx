@@ -37,16 +37,20 @@ var CommentFormContainer = React.createClass({
     },
 
     componentDidMount: function() {
-        if (window.vidfeed.user.email) {
-            this.setState({
-                author:window.vidfeed.user.email
-            });
-        }
+        this._getSessionUser();
     },
 
     componentWillUnmount: function() {
         clearInterval(this.commentValidateInterval);
         clearInterval(this.authorValidateInterval);
+    },
+
+    _getSessionUser: function() {
+        if (window.vidfeed.user.email) {
+            this.setState({
+                author:window.vidfeed.user.email
+            });
+        }
     },
 
     _handleAuthorChange: function(e) {
@@ -103,10 +107,10 @@ var CommentFormContainer = React.createClass({
         if (e) {
             e.preventDefault();
         }
+        this._getSessionUser();
         var comment = {};
-        var author = this.state.author.trim();
         var body = this.state.comment.trim();
-        if (!author) {
+        if (!window.vidfeed.user.email) {
             this.setState({
                 modalIsOpen:true
             });
@@ -114,7 +118,7 @@ var CommentFormContainer = React.createClass({
             return;
         }
         var timecode = this.props.timecodeSeconds;
-        comment.author = author;
+        comment.author = window.vidfeed.user.email;
         comment.body = body;
         comment.timecode = timecode;
         $.ajax({
