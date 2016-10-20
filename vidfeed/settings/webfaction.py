@@ -2,11 +2,10 @@ from __future__ import absolute_import
 
 from .base import *
 
-
 WEBPACK_LOADER = {
     'DEFAULT': {
         'BUNDLE_DIR_NAME': 'dist/',
-        'STATS_FILE': os.path.join(os.path.dirname(BASE_DIR), 'webpack-stats-prod.json'),
+        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats-prod.json'),
     }
 }
 
