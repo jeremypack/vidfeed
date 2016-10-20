@@ -37,6 +37,9 @@ var OwnFeedContainer = React.createClass({
 
     componentDidMount: function() {
         this._openModal();
+        if (!this.state.sessionUser) {
+            this._setNewOwner();
+        }
     },
 
     componentWillUnmount: function() {
@@ -72,7 +75,9 @@ var OwnFeedContainer = React.createClass({
     },
 
     _setNewOwner:function(e) {
-        e.preventDefault();
+        if (e) {
+            e.preventDefault();
+        }
         this.setState({
             newOwner: true
         });
