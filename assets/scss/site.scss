@@ -1,0 +1,145 @@
+/**
+ * CONTENTS
+ *
+ * The sass architecture borrows and extends the 7-1 design pattern
+ * (sass-guidelin.es/#the-7-1-pattern), and adhere's to DRY (don't repeat yourself)
+ * and KISS (keep it simple, stupid!) principles. For general tips and great advice 
+ * on how to structure and write your own framework, refer to http://cssguidelin.es/.
+ *
+ * Ideas/mixins/functions have also been borrowed from other css frameworks, but most 
+ * promninently from Harry Roberts' Inuit css (github.com/inuitcss/inuitcss)
+ */
+
+
+/*------------------------------------*\
+  #ABSTRACTS
+\*------------------------------------*/
+
+@import 'abstracts/_settings.core';
+@import 'abstracts/_settings.global';
+
+
+
+
+
+/*------------------------------------*\
+  #TOOLS
+\*------------------------------------*/
+
+@import 'tools/_rem';
+@import 'tools/_clearfix';
+@import 'tools/_hidden';
+@import 'tools/_font-size';
+// sass-mq config file can be added here
+$mq-show-breakpoints:mobile,tablet,desktop,wide;
+@import '../../node_modules/sass-mq/_mq';
+
+
+
+
+
+/*------------------------------------*\
+  #BASE
+\*------------------------------------*/
+
+@import 'base/_box-sizing';
+@import 'base/_normalize';
+@import 'base/_reset';
+
+
+
+
+
+/*------------------------------------*\
+  #ELEMENTS
+\*------------------------------------*/
+
+@import 'elements/_page';
+@import 'elements/_images';
+@import 'elements/_typography';
+@import 'elements/_headings';
+@import 'elements/_tables';
+
+
+
+
+
+/*------------------------------------*\
+  #LAYOUT
+\*------------------------------------*/
+
+// nav
+@import 'layout/_header';
+@import 'layout/_forms';
+
+
+
+
+/*------------------------------------*\
+  #OBJECTS
+\*------------------------------------*/
+
+@import 'objects/_wrapper';
+$inuit-use-markup-fix: false !default;
+@import 'objects/_layout';
+@import 'objects/_list-bare';
+@import 'objects/_list-inline';
+@import 'objects/_box';
+@import 'objects/_block';
+@import 'objects/_ratio';
+@import 'objects/_crop';
+@import 'objects/_tables';
+@import 'objects/_buttons';
+@import 'objects/_form-single';
+@import 'objects/_offCanvas';
+
+
+
+
+
+/*------------------------------------*\
+  #COMPONENTS
+\*------------------------------------*/
+
+@import 'components/_commentForm';
+@import 'components/_player';
+@import 'components/_commentList';
+
+
+
+
+
+
+/*------------------------------------*\
+  #PAGES
+\*------------------------------------*/
+
+@import 'pages/_home';
+@import 'pages/_feed';
+
+
+
+
+
+
+/*------------------------------------*\
+  #UTILITIES/HELPERS
+\*------------------------------------*/
+
+@import 'utilities/_clearfix';
+@import 'utilities/_widths';
+@import 'utilities/_headings';
+@import 'utilities/_spacing';
+@import 'utilities/_print';
+@import 'utilities/_hide';
+@import 'utilities/_helper';
+
+
+
+
+
+/*------------------------------------*\
+  #SHAME
+\*------------------------------------*/
+
+@import '_shame.scss';

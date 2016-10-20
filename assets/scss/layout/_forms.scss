@@ -1,0 +1,22 @@
+/* ==========================================================================
+   #FORMS
+   ========================================================================== */
+
+input[type=text], input[type=email],
+input[type=url], input[type=date],
+input[type=tel], input[type=number],
+textarea {
+    height:inuit-rem(55px);
+    padding:$inuit-global-spacing-unit/2 $inuit-global-spacing-unit/1.5;
+    background:#fff;
+    border:0;
+}
+textarea {
+    height:auto;
+    min-height:inuit-rem(55px);
+    resize: both;
+}
+
+form {
+
+}

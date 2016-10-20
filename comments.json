@@ -1,0 +1,5 @@
+[
+    {id: 1, text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', author: 'Mikey Holland', timeStamp:0.45},
+    {id: 2, text: 'Donec ultrices non justo malesuada pharetra.', author: 'Jeremy Pack', timeStamp:1.25},
+    {id: 3, text: 'Nullam ullamcorper, ipsum tristique laoreet sollicitudin, lectus arcu eleifend dolor, eu luctus massa tellus ut nulla. Suspendisse potenti.', author: 'Aiden', timeStamp:3.33}
+];

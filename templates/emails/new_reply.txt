@@ -1,0 +1,11 @@
+{% extends 'emails/base_email.txt' %}
+
+{% block content %}
+
+{{ comment_author }} has replied to your comment.
+
+View the feed here: {{ settings.BASE_URL }}{{ feed.get_absolute_url }}
+
+Thanks,
+
+{% endblock %}

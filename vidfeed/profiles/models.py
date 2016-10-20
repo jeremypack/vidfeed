@@ -18,6 +18,12 @@ class SiteUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+    def find_or_create_user(self, email):
+        users = self.filter(email__iexact=email)
+        if users:
+            return users[0]
+        return self.create_user(email=email.lower())
+
     def create_user(self, email=None, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)

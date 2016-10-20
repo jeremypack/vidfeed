@@ -1,0 +1,83 @@
+/* ==========================================================================
+   #COMMENT-LIST
+   ========================================================================== */
+
+.c-commentList__outer {
+    @include mq($from: mobile, $until:tablet) {
+        margin-bottom:$inuit-global-spacing-unit;
+        padding-right: $inuit-global-spacing-unit;
+        padding-left:  $inuit-global-spacing-unit;
+    }
+}
+
+.c-commentList__count {
+    h3 {
+        font-weight:400;
+    }
+    @include mq($from: tablet) {
+        min-height:inuit-rem(48px);
+        padding:$inuit-global-spacing-unit/2;
+        margin-bottom:0;
+        background:$dark;
+        color:#fff; 
+        h3 {
+            margin-bottom:0;
+        }
+    }
+}
+
+.c-commentList {
+    // @include mq($from: tablet) {
+    //     overflow-y:scroll;
+    // }
+}
+.c-commentList__no-comments {
+    width:100%;
+    color:darken($light,10%);
+    text-align:center;
+    font-weight:600;
+    @include inuit-font-size(24px, $line-height:1.2);
+    @include mq($from: mobile, $until: tablet) {
+        margin:$inuit-global-spacing-unit 0 $inuit-global-spacing-unit*2;
+    }
+    @include mq($from: tablet) {
+        position:absolute;
+        top:50%;
+        left:0;
+        margin-top:-10%;
+        padding:0 20px;
+    }
+}
+
+.c-comment__outer {
+    padding:$inuit-global-spacing-unit/2;
+    &:nth-of-type(odd) {
+        background:#fff;
+    }
+    &:nth-of-type(even) {
+        background:#f5f6f7;
+    }
+}
+.c-comment--reply {
+    padding-left:$inuit-global-spacing-unit/2;
+}
+
+.c-comment__author {
+    float:left;
+    
+}
+.c-comment__timecode {
+    float:right;
+    padding:4px 8px;
+    background:#fff;
+    font-weight:600;
+    @include inuit-font-size(14px, $line-height:1);
+    border-radius:3px;
+    .c-comment__outer:nth-of-type(odd) & {
+        background:#f5f6f7;
+    }
+}
+.c-comment__body {
+    margin-bottom:$inuit-global-spacing-unit/2;
+    @include inuit-font-size(14px);
+}

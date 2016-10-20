@@ -1,6 +1,8 @@
 {% load render_bundle from webpack_loader %}
+{% load static %}
+
 <!DOCTYPE html>
-<html class="no-js" lang="">
+<html lang="">
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -8,12 +10,23 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <script src="https://use.typekit.net/pxs3yjz.js"></script>
+    <script>try{Typekit.load({ async: true });}catch(e){}</script>
     <!-- Place favicon.ico in the root directory -->
     {% render_bundle 'main' 'css' %}
   </head>
 
   <body>
     <div id="react-app"></div>
+    <script type="text/javascript">
+      window.vidfeed = window.vidfeed || {};
+      window.vidfeed.images_dir = '{% static "images" %}';
+      window.vidfeed.user = {
+        isAuthenticated: {% if request.user.is_authenticated %}true{% else %}false{% endif %},
+        email: {% if vidfeeduser %}'{{ vidfeeduser }}'{% else %}null{% endif %}
+      };
+      window.vidfeed.urls = {};
+    </script>
     {% render_bundle 'main' 'js' %}
   </body>
 </html>

@@ -1,0 +1,20 @@
+/* ==========================================================================
+   #HEADER
+   ========================================================================== */
+
+.header {
+    padding:$inuit-global-spacing-unit/2 $inuit-global-spacing-unit;
+    border-top:4px solid $blue;
+    background:#fff;
+    .logo {
+        max-width:inuit-rem(103px);
+    }
+}
+.header--home {
+    padding:$inuit-global-spacing-unit 0;
+    border-top:0;
+    background:transparent;
+    .logo {
+        max-width:inuit-rem(124px);
+    }
+}
