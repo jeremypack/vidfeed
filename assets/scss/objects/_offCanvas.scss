@@ -3,8 +3,11 @@
    ========================================================================== */
 
 .o-offCanvas__outer {
-    position:relative;
-    overflow:hidden;
+    @include mq($from:tablet) {
+        position:relative;
+        overflow-x:hidden;
+    }
+    
 }
 
 .o-offCanvas__main {

@@ -1,0 +1,55 @@
+/* ==========================================================================
+   #MODAL
+   ========================================================================== */
+
+
+.modal__content {
+
+}
+
+.modal__header {
+    position:relative;
+    padding:$inuit-global-spacing-unit/2;
+    background:$mid;
+    color:#fff;
+    @include inuit-clearfix();
+}
+
+.modal__title {
+    margin:0;
+    @include inuit-font-size(18px);
+    font-weight:400;
+}
+
+.modal__close {
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    width:47px;
+    height:100%;
+    background:$dark;
+    @include inuit-font-size(32px);
+    text-align:center;
+    color:#fff;
+    text-decoration:none;
+    line-height:40px;
+    transition: $global-transition;
+    &:hover,
+    &:focus {
+        background:darken($dark,5%);
+    }
+}
+
+.modal__footer {
+    padding:$inuit-global-spacing-unit/2 $inuit-global-spacing-unit;
+    background:$light;
+    @include inuit-font-size(12px);
+    text-align:center;
+    p {
+        margin-bottom:0;
+    }
+    span {
+        font-weight:700;
+    }
+}

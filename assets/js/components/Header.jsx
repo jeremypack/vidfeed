@@ -36,12 +36,14 @@ var Header = React.createClass({
 
         return (
             <header className="header u-clearfix">
-                <div className="logo float--left">
+                <div className="logo">
                     <Link to="/" className="logo__link">
                         <img src={logo} alt="Vidfeed" />
                     </Link>
                 </div>
-                {displayUser}
+                <div className="float--right">
+                    {displayUser}
+                </div> 
             </header>
         );
     }

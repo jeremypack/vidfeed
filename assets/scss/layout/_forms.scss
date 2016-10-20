@@ -6,6 +6,7 @@ input[type=text], input[type=email],
 input[type=url], input[type=date],
 input[type=tel], input[type=number],
 textarea {
+    width:100%;
     height:inuit-rem(55px);
     padding:$inuit-global-spacing-unit/2 $inuit-global-spacing-unit/1.5;
     background:#fff;
@@ -19,4 +20,32 @@ textarea {
 
 form {
 
+}
+
+.form--border {
+    .input--border {
+        height:inuit-rem(45px);
+        border:1px solid $light;
+    }
+}
+
+.input-with-button {
+    position:relative;
+    input {
+        width:100%;
+        padding-right:inuit-rem(85px);
+        border-radius:3px;
+    }
+    .o-btn {
+        position:absolute;
+        top:0;
+        right:0;
+        bottom:0;
+        max-width:inuit-rem(70px);
+        height:100%;
+        border-radius:3px;
+        border-top-left-radius:0;
+        border-bottom-left-radius:0;
+        line-height:inuit-rem(32px);
+    }
 }

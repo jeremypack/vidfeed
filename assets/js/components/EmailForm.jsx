@@ -16,12 +16,18 @@ var EmailForm = React.createClass({
         });
 
         return (
-            <div>
-                <a href="#" onClick={this.props.closeModal}>Close</a>
-                <h2>{this.props.heading}</h2>
-                <form className="ownFeed" onSubmit={this.props.handleSubmit}>
-                    <input type="email" placeholder="Your email" value={this.props.value} onChange={this.props.handleChange} />
-                    <input type="submit" className={submitClasses} value="Submit" />
+            <div className="modal__content">
+                <div className="modal__header">
+                    <h3 className="modal__title">{this.props.heading}</h3>
+                    <a href="#" onClick={this.props.closeModal} className="modal__close">×<span className="u-hidden-visually">Close</span></a>
+                </div>
+                <form className="form--border" onSubmit={this.props.handleSubmit}>
+                    <div className="u-padding-small u-padding-top">
+                        <input type="email" placeholder="Email address" value={this.props.value} onChange={this.props.handleChange} className="input--border" />
+                    </div>
+                    <div className="text--center u-padding u-padding-top-small">
+                        <input type="submit" className={submitClasses} value="Submit" />
+                    </div>
                 </form>
             </div>
         );

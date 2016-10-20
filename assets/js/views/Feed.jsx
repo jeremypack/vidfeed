@@ -174,8 +174,8 @@ var Feed = React.createClass({
                     </div>
                     
                     <section ref="infoBar" className="feedInfo u-clearfix">
-                        <h1 className="lede float--left">{this.state.feed.video_title}</h1>
-                        <a href="#" onClick={this._shareModalOpen} className="o-btn o-btn--tertiary float--right">Share</a>
+                        <h1 className="lede float--left u-margin-bottom-none">{this.state.feed.video_title}</h1>
+                        <a href="#" onClick={this._shareModalOpen} className="o-btn o-btn--tertiary o-btn--small float--right">Share</a>
                     </section>
                     
                     <div style={offCanvasStyle} className="o-offCanvas__outer o-layout o-layout--flush o-layout--center ">
