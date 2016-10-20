@@ -23,3 +23,6 @@ node_version:
 
 watch:
 	./node_modules/.bin/webpack --config webpack.config.js --watch
+
+build-production:
+	./node_modules/.bin/webpack --config webpack.prod.config.js
