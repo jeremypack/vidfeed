@@ -44,7 +44,7 @@ class CommentList(APIView):
                     'feed': feed,
                     'comment_author': owner_email,
                 }
-                send_email('new_reply', ctx, feed.video_title, comment.parent_comment.owner.email)
+                send_email('new_reply', ctx, "Re: "+feed.video_title, comment.parent_comment.owner.email)
             # else send first comment email if first comment from this user
             else:
                 user_comments = Comment.objects.filter(feed=feed,
@@ -55,7 +55,7 @@ class CommentList(APIView):
                         'feed': feed,
                         'comment_author': owner_email,
                     }
-                    send_email('new_comment', ctx, feed.video_title, feed.owner.email)
+                    send_email('new_comment', ctx, "Re: "+feed.video_title, feed.owner.email)
 
             return r
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -176,6 +176,6 @@ class FeedInvitesList(APIView):
             'feed': feed,
             'list_recipients': list_recipients,
         }
-        send_email('invite_sent', args, feed.video_title, sender.email)
+        send_email('invite_sent', args, "Re: "+feed.video_title, sender.email)
 
         return Response({"message": "successfully invited {0} users".format(len(list_recipients))})
