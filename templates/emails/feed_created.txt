@@ -2,6 +2,8 @@
 
 {% block content %}
 
+Success! New feed created.
+
 Thanks for using Vidfeed for your project.
 
 Here's the link so you don't lose it: {{ settings.BASE_URL }}{{ feed.get_absolute_url }}
