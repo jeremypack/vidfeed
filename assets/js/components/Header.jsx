@@ -8,8 +8,24 @@ var Header = React.createClass({
 
     getInitialState:function() {
         return {
-            sessionUser:window.vidfeed.user.email
+            sessionUser:'',
         };
+    },
+
+    componentDidMount:function() {
+        var getSessionUser = function() {
+            if (window.vidfeed.user.email) {
+                this.setState({
+                    sessionUser:window.vidfeed.user.email
+                });
+                clearInterval(this.sessionCheckInterval);
+            } 
+        }.bind(this);
+        this.sessionCheckInterval = setInterval(getSessionUser,1000);
+    },
+
+    componentWillUnmount:function(){
+        clearInterval(this.sessionCheckInterval);
     },
 
     render: function() {
