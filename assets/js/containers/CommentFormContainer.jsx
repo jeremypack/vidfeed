@@ -9,7 +9,7 @@ const modalStyles = {
     overlay : {
         backgroundColor       : 'transparant'
     },
-        content : {
+    content : {
         top                   : '50%',
         left                  : '50%',
         right                 : 'auto',
