@@ -1,13 +1,15 @@
 var React = require('react');
 var Modal = require('react-modal');
 
+var SetSessionUserContainer = require('../containers/SetSessionUserContainer');
+
 var ShareFeed = require('../components/ShareFeed');
 
 const modalStyles = {
     overlay : {
         backgroundColor       : 'transparant'
     },
-        content : {
+    content : {
         top                   : '50%',
         left                  : '50%',
         right                 : 'auto',
@@ -24,29 +26,38 @@ const modalStyles = {
 
 var ShareFeedContainer = React.createClass({
     
+    propTypes: {
+        feedId:             React.PropTypes.string.isRequired,
+        modalOpen:          React.PropTypes.bool.isRequired,
+        modalClose:         React.PropTypes.func.isRequired
+    },
+
     getInitialState: function() {
         return {
-            modalIsOpen: this.props.modalOpen,
+            modalIsOpen: false,
             currentEmail:'',
             addedEmails:[],
             validationStarted:false,
             isValid:false,
+            setSession:false,
+            submitted:false
         };
+    },
+
+    componentDidMount: function() {
+        this.setState({
+            modalIsOpen: this.props.modalOpen
+        });
     },
 
     componentWillUnmount: function() {
         clearInterval(this.validateInterval);
     },
 
-    _openModal : function (e) {
-        e.preventDefault();
-        this.setState({
-            modalIsOpen: true
-        });
-    },
-
     _closeModal : function (e) {
-        e.preventDefault();
+        if (e) {
+            e.preventDefault();
+        }
         this.setState({
             modalIsOpen: false
         });
@@ -92,26 +103,41 @@ var ShareFeedContainer = React.createClass({
     },
 
     _handleSubmit: function(e) {
-        e.preventDefault();
-        console.log(this.state.addedEmails,'emails to be submitted');
+        if (e) {
+            e.preventDefault();
+        }
+        if (!window.vidfeed.user.email) {
+            this.setState({
+                setSession: true
+            });
+            return;
+        }
         $.ajax({
-          url: '/api/feeds/' + this.props.feedId + '/invites',
-          dataType: 'json',
-          type: 'POST',
-          context: this,
-          data: JSON.stringify({
-            'sender': window.vidfeed.user.email,
-            'invites': this.state.addedEmails
-          }),
-          success: function (data) {
-            console.log("successfully invested the users");
-            console.log(data);
-            this.setState({currentEmail: '', addedEmails: []});
-          },
-          error: function (data) {
-            console.log("failed to invite users");
-            console.log(data);
-          }
+            url: '/api/feeds/' + this.props.feedId + '/invites',
+            dataType: 'json',
+            type: 'POST',
+            context: this,
+            data: JSON.stringify({
+                'sender': window.vidfeed.user.email,
+                'invites': this.state.addedEmails
+            }),
+            success: function (data) {
+                console.log("successfully invested the users");
+                console.log(data);
+                this.setState({
+                    currentEmail: '',
+                    addedEmails: [],
+                    submitted:true
+                });
+                setTimeout(function() {
+                    this._closeModal();
+                }.bind(this), 2000);
+            },
+            error: function (data) {
+                console.log(window.vidfeed.user.email,'window.vidfeed.user.email');
+                console.log("failed to invite users");
+                console.log(data);
+            }
         });
     },
 
@@ -141,21 +167,41 @@ var ShareFeedContainer = React.createClass({
             var valid = true;
         }
 
+        if (this.state.setSession) {
+            return (
+                <div>
+                    <Modal
+                        isOpen={this.state.modalIsOpen}
+                        onRequestClose={this._closeModal}
+                        style={modalStyles}>
+                        <SetSessionUserContainer
+                            modalHeading='Who are you?'
+                            extraText='Let your contacts know who is sharing this feed.'
+                            submittedMsg='Feed has been shared!'
+                            onSubmit={this._handleSubmit} />
+                    </Modal>
+                </div>
+            );
+        }
+
         return (
             <div>
                 <Modal
                     isOpen={this.state.modalIsOpen}
                     onRequestClose={this._closeModal}
                     style={modalStyles}>
-                        <ShareFeed
-                            isValid={valid}
-                            closeModal={this._closeModal}
-                            handleChange={this._handleChange}
-                            addEmail={this._addEmail}
-                            currentEmail={this.state.currentEmail}
-                            collectedEmails={emailList}
-                            onRemove={this._deleteItem}
-                            handleSubmit={this._handleSubmit} />
+                    <ShareFeed
+                        heading='Share this feed'
+                        isValid={valid}
+                        closeModal={this._closeModal}
+                        handleChange={this._handleChange}
+                        addEmail={this._addEmail}
+                        currentEmail={this.state.currentEmail}
+                        collectedEmails={emailList}
+                        onRemove={this._deleteItem}
+                        handleSubmit={this._handleSubmit}
+                        submittedMsg='Feed has been shared!'
+                        submitted={this.state.submitted} />
                 </Modal>
             </div>
         );

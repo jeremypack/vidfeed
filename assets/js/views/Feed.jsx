@@ -125,7 +125,7 @@ var Feed = React.createClass({
     },
 
     render: function() {
-        if (this.state.ajaxDone && !this.state.owner) {
+        if (this.state.ajaxDone && !this.state.owner && !this.state.shareModal) {
             var ownFeed =   <OwnFeedContainer
                                 modalOpen={this._modalOpen}
                                 modalClose={this._modalClose}

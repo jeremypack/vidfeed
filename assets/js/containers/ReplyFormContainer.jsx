@@ -4,16 +4,35 @@ var ReplyForm = require('../components/ReplyForm');
 
 var ReplyFormContainer = React.createClass({
     
+    propTypes: {
+        parentId:       React.PropTypes.number.isRequired,
+        submitted:      React.PropTypes.func.isRequired
+    },
+
     getInitialState: function() {
         return {
-            author: 'example@email.com',
+            author: '',
             comment: '',
             parentId: this.props.parentId
         };
     },
 
+    componentDidMount:function() {
+        this._getSessionUser();
+    },
+
+    _getSessionUser: function() {
+        if (window.vidfeed.user.email) {
+            this.setState({
+                author:window.vidfeed.user.email
+            });
+        }
+    },
+
     _handleReplyChange: function(e) {
-        this.setState({comment: e.target.value});
+        this.setState({
+            comment: e.target.value
+        });
     },
 
     _handleReplySubmit: function(e) {

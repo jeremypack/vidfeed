@@ -149,10 +149,8 @@ class FeedInvitesList(APIView):
         feed = get_object_or_404(Feed, feed_id=feed_id)
         d = json.loads(request.body)
         try:
-            sender = SiteUser.objects.get(email=d.get('sender').strip())
+            sender = SiteUser.objects.find_or_create_user(d.get('sender').strip())
         except AttributeError:
-            return Response({"message": "Invalid sender"}, status=status.HTTP_400_BAD_REQUEST)
-        except SiteUser.DoesNotExist:
             return Response({"message": "Invalid sender"}, status=status.HTTP_400_BAD_REQUEST)
 
         invites = d.get('invites')
@@ -178,4 +176,6 @@ class FeedInvitesList(APIView):
         }
         send_email('invite_sent', args, "Re: "+feed.video_title, sender.email)
 
-        return Response({"message": "successfully invited {0} users".format(len(list_recipients))})
+        r = Response({"message": "successfully invited {0} users".format(len(list_recipients))})
+        set_vidfeed_user_cookie(r, sender.email)
+        return r
