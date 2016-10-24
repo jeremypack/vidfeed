@@ -3,20 +3,23 @@ var Modal = require('react-modal');
 
 var ShareFeed = require('../components/ShareFeed');
 
-const customStyles = {
-  overlay : {
-    backgroundColor       : 'transparant'
-  },
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)',
-    transition            : 'opacity .4s ease-in-out',
-    opacity               :'0'
-  }
+const modalStyles = {
+    overlay : {
+        backgroundColor       : 'transparant'
+    },
+        content : {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        padding               : '0',
+        border                : '0',
+        borderRadius          : '0',
+        transform             : 'translate(-50%, -50%)',
+        transition            : 'opacity .4s ease-in-out',
+        opacity               : '0'
+    }
 };
 
 var ShareFeedContainer = React.createClass({
@@ -25,27 +28,51 @@ var ShareFeedContainer = React.createClass({
         return {
             modalIsOpen: this.props.modalOpen,
             currentEmail:'',
-            addedEmails:[]
+            addedEmails:[],
+            validationStarted:false,
+            isValid:false,
         };
+    },
+
+    componentWillUnmount: function() {
+        clearInterval(this.validateInterval);
     },
 
     _openModal : function (e) {
         e.preventDefault();
-        this.setState({modalIsOpen: true});
+        this.setState({
+            modalIsOpen: true
+        });
     },
 
     _closeModal : function (e) {
         e.preventDefault();
-        this.setState({modalIsOpen: false});
+        this.setState({
+            modalIsOpen: false
+        });
         this.props.modalClose();
     },
 
     _handleChange: function(e) {
-        this.setState({currentEmail:e.target.value});
+        this.setState({
+            currentEmail:e.target.value
+        });
+        var validateTrigger = function() {
+            this._validate();
+        }.bind(this);
+        if (!this.state.validationStarted) {
+            this.setState({
+                validationStarted: true
+            });
+            this.validateInterval = setInterval(validateTrigger,1000);
+        }
     },
 
     _addEmail: function(e) {
         e.preventDefault();
+        if (this.state.validationStarted && !this.state.isValid) {
+            return;
+        }
         var currentEmail = this.state.currentEmail;
         var emails = this.state.addedEmails;
         var newEmails = emails.concat([currentEmail]);
@@ -88,15 +115,40 @@ var ShareFeedContainer = React.createClass({
         });
     },
 
+    _validate:function(){
+        var checkEmail = function(email) {
+            var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return emailRegex.test(email);
+        }
+        if (checkEmail(this.state.currentEmail)) {
+            this.setState({
+                isValid:true
+            });
+        } else {
+            this.setState({
+                isValid:false
+            });
+        }
+    },
+
     render: function() {
         var emailList = this.state.addedEmails;
+
+        if (this.state.validationStarted && !this.state.isValid) {
+            var valid = false;
+        }
+        if (this.state.validationStarted && this.state.isValid) {
+            var valid = true;
+        }
+
         return (
             <div>
                 <Modal
                     isOpen={this.state.modalIsOpen}
                     onRequestClose={this._closeModal}
-                    style={customStyles} >
+                    style={modalStyles}>
                         <ShareFeed
+                            isValid={valid}
                             closeModal={this._closeModal}
                             handleChange={this._handleChange}
                             addEmail={this._addEmail}

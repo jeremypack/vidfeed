@@ -1,16 +1,13 @@
 {% extends 'emails/base_email.txt' %}
 
 {% block content %}
-
 You successfully shared your feed with: 
 {% for u in list_recipients %}
 {{ u }}
 {% endfor %}
+As soon as they comment on your feed, we will send you an email notification.
 
-As soon as a recipient comments on your feed, we will send you an email notification.
-
-Here's a link to the feed: {{ settings.BASE_URL }}{{ feed.get_absolute_url }}
+Here's a link to your feed: {{ settings.BASE_URL }}{{ feed.get_absolute_url }}
 
 Thanks,
-
 {% endblock %}

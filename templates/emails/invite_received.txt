@@ -1,13 +1,11 @@
 {% extends 'emails/base_email.txt' %}
 
 {% block content %}
+{{ sender_email }} has sent you a video to review: "{{ feed.video_title }}."
 
-{{ sender_email }} has sent you a video to review: {{ feed.video_title }}.
+Click the link to get started: {{ settings.BASE_URL }}{{ feed.get_absolute_url }}
 
-We're using Vidfeed to collaborate on our videos. It makes leaving feedback super easy and saves a load of time. Copy and paste the link bellow to get started.
-
-Here is your feed: {{ settings.BASE_URL }}{{ feed.get_absolute_url }}
+We're using Vidfeed to collaborate on our videos. It makes leaving feedback super easy and saves a load of time.
 
 Thanks,
-
 {% endblock %}

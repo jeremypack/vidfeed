@@ -1,0 +1,44 @@
+/* ==========================================================================
+   #USER
+   ========================================================================== */
+
+.user {
+    position:relative;
+    padding:$inuit-global-spacing-unit/2 0 $inuit-global-spacing-unit/2 $inuit-global-spacing-unit/2;
+    @include inuit-font-size(14px);
+}
+.user__icon {
+    display:inline-block;
+    width:$inuit-global-spacing-unit;
+    height:$inuit-global-spacing-unit;
+    margin-top:-1px;
+    margin-right:6px;
+    background:$light;
+    border-radius:50%;
+    color:$mid;
+    text-align:center;
+    @include inuit-font-size(12px, $line-height:$inuit-global-spacing-unit);
+    text-transform:uppercase;
+}
+
+.user__title {
+
+}
+
+.user__remove {
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    width:45px;
+    height:100%;
+    color:$mid;
+    @include inuit-font-size(24px, $line-height:45px);
+    text-align:center;
+    text-decoration:none;
+    transition: $global-transition;
+    &:hover,
+    &:focus {
+        color:$red;
+    }
+}
