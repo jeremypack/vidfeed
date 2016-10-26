@@ -1,0 +1,41 @@
+
+{% extends 'emails/base_email.html' %}
+
+
+{% block preheader %}
+
+Feed sent to {{recipient_email}}
+
+{% endblock %}
+
+
+{% block content %}
+
+            <!-- 1 Column Text : BEGIN -->
+            <tr>
+                <td style="padding: 0px 20px; text-align: left; font-family: sans-serif; font-size: 22px; mso-height-rule: exactly; line-height: 20px; color: #2a2e30;">
+                    You have {{new_comment_count}} new comments from:<br>
+                </td>
+            </tr>
+            <!-- 1 Column Text : END -->
+
+                        <!-- 1 Column Text : BEGIN -->
+            <tr>
+                <td style="padding: 10px 20px 0px 20px; text-align: left; font-family: sans-serif; font-size: 18px; mso-height-rule: exactly; line-height: 30px; color: #49C9F5;">
+                    {% for u in list_recipients %}
+                        {{ u.email }}{% if not forloop.last %}<br>{% endif %}
+                    {% endfor %}
+
+                </td>
+            </tr>
+            <!-- 1 Column Text : END -->
+
+            <!-- 1 Column Text : BEGIN -->
+            <tr>
+                <td style="padding: 10px 20px 30px 20px; text-align: left; font-family: sans-serif; font-size: 13px; mso-height-rule: exactly; line-height: 20px; color: #888888;">
+                    When there is more activity, we'll send you another update.
+                </td>
+            </tr>
+            <!-- 1 Column Text : END -->
+
+{% endblock %}

@@ -1,0 +1,36 @@
+/*------------------------------------*\
+    $TYPOGRAPHY
+\*------------------------------------*/
+
+body {
+    font-family: 'Europa', "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    color:$dark;
+}
+
+/**
+ * The `.lede` class is used to make the introductory text (usually a paragraph)
+ * of a document slightly larger.
+ */
+.lede,
+.lead{
+    @include inuit-font-size($inuit-global-font-size * 1.125);
+}
+
+ol,ul,p {
+    margin-bottom:$inuit-global-spacing-unit/2;
+}
+
+/* WebKit/Blink Browsers */
+::selection {
+  color: #fff; 
+  background:$red;
+}
+/* Gecko Browsers */
+::-moz-selection {
+  color:#fff;
+  background:$red;
+}
+
+a {
+    color:$blue;
+}

@@ -11,6 +11,7 @@ SECRET_KEY = 'hx(&fppd4sar!&6g$5aq3pc7$l593tua-#y@(s3z%je0$ozvb6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+LOCAL = False
 
 ALLOWED_HOSTS = []
 
@@ -40,13 +41,15 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_auth',
     'vidfeed.profiles',
+    'vidfeed.feed',
+    'vidfeed.api',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -71,6 +74,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'vidfeed.context_processors.vidfeed_user',
             ],
         },
     },
@@ -143,3 +147,19 @@ REST_FRAMEWORK = {
     )
 }
 ########## END REST FRAMEWORK CONFIGURATION
+
+APPEND_SLASH = True
+
+########## SITE SETTINGS
+YOUTUBE_API_KEY = 'AIzaSyDvSM-xqZ_P2g2asg7DO-0z1R4CL9d8OXA'
+COOKIE_DOMAIN = 'localhost'
+BASE_URL = 'http://vidfeed.io'
+
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True') == 'True'
+EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', 'False') == 'True'
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.sendgrid.net')
+EMAIL_PORT = os.environ.get('EMAIL_PORT', 587)
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'vidfeedapp')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'cSNTmT4uHn5lSb94cJDW')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'Vidfeed Notifications <notifications@vidfeed.io>')
+########## END SITE SETTINGS

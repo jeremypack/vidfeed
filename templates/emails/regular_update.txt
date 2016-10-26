@@ -1,0 +1,9 @@
+{% extends 'emails/base_email.txt' %}
+
+{% block content %}
+
+You have {{ number_new_comments }} new comments
+
+Here's the link: {{ link }}
+
+{% endblock %}

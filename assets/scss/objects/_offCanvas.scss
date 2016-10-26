@@ -1,0 +1,71 @@
+/* ==========================================================================
+   #OFF-CANVAS
+   ========================================================================== */
+
+.o-offCanvas__outer {
+    @include mq($from:tablet) {
+        position:relative;
+        overflow-x:hidden;
+    }
+    
+}
+
+.o-offCanvas__main {
+}
+.o-offCanvas__main__inner {
+    margin:0 auto;
+    padding:$inuit-global-spacing-unit;
+}
+
+.o-offCanvas__drawer {
+    @include mq($from:tablet) {
+        width:0;
+        transition: width ease .7s;
+    }
+}
+.o-offCanvas__drawer__inner {
+    @include mq($from:tablet) {
+        position:absolute;
+        top:0;
+        left:100%;
+        width:33.333%;
+        height:100%;
+        background:#f5f6f7;
+        transition: transform ease .7s;
+    }
+    @include mq($from:desktop) {
+        width:25%;
+    }
+}
+.o-offCanvas__drawer--open {
+    @include mq($from:tablet) {
+        .o-offCanvas__drawer__inner {
+            transform: translateX(-100%);
+        }
+    }
+}
+
+.o-offCanvas__open {
+    display:none;
+    @include mq($from:tablet) {
+        display:block;
+        position:absolute;
+        top:10px;
+        right:10px;
+        width: 100px;
+        height: 25px;
+        background: red;
+    }
+}
+.o-offCanvas__close {
+    display:none;
+    @include mq($from:tablet) {
+        display:block;
+        position:absolute;
+        top:10px;
+        right:10px;
+        width: 20px;
+        height: 20px;
+        background: red;
+    }
+}

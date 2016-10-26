@@ -1,0 +1,13 @@
+/*------------------------------------*\
+    $FEED
+\*------------------------------------*/
+
+.feedInfo {
+    padding:$inuit-global-spacing-unit/2 $inuit-global-spacing-unit;
+    background:$mid;
+    color:#fff;
+    h1 {
+        font-weight:300;
+        text-transform:none;
+    }
+}
