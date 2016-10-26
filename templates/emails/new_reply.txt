@@ -3,6 +3,8 @@
 {% block content %}
 {{ comment_author }} has replied to your comment.
 
+{{ message }}
+
 View the feed here: {{ settings.BASE_URL }}{{ feed.get_absolute_url }}
 
 Thanks,
