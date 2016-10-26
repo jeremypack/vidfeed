@@ -1,0 +1,30 @@
+/* ==========================================================================
+   #ICONS
+   ========================================================================== */
+
+.icon {
+    display:inline-block;
+    width:$inuit-global-spacing-unit*.75;
+    height:$inuit-global-spacing-unit*.75;
+    background-repeat:no-repeat;
+    background-position:center center;
+    background-size:100%;
+}
+
+.icon--replyArrow {
+    background-image:url(../images/arrow.svg);
+}
+
+.icon--tick {
+    background-image:url(../images/checked.svg);
+}
+
+.icon--pencil {
+    width:14px;
+    background-image:url(../images/tool.svg);
+}
+
+.icon--cross {
+    width:14px;
+    background-image:url(../images/cancel.svg);
+}

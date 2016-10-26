@@ -4,6 +4,14 @@ var CommentContainer = require('./CommentContainer');
 
 var CommentsContainer = React.createClass({
     
+    propTypes: {
+        pollInterval:           React.PropTypes.number.isRequired,
+        windowHeight:           React.PropTypes.number,
+        feedId:                 React.PropTypes.string.isRequired,
+        modalOpen:              React.PropTypes.func.isRequired,
+        modalClose:              React.PropTypes.func.isRequired
+    },
+
     getInitialState: function() {
         return {
             data: [],
@@ -94,9 +102,11 @@ var CommentsContainer = React.createClass({
                     timecode={comment.timecode}
                     children={comment.children}
                     handleCommentEdit={editHandler}
-                    handleDeleteComment={deleteHandler} />
+                    handleDeleteComment={deleteHandler}
+                    modalOpen={this.props.modalOpen}
+                    modalClose={this.props.modalClose} />
             );
-        });
+        }.bind(this));
         var commentCount = <h3><strong>{commentNodes.length}</strong> { commentNodes.length === 1 ? 'Comment' : 'Comments' }</h3>;
         
         if (this.state.commentListHeight) {

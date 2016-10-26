@@ -6,6 +6,9 @@
     position:relative;
     padding:$inuit-global-spacing-unit/2 0 $inuit-global-spacing-unit/2 $inuit-global-spacing-unit/2;
     @include inuit-font-size(14px);
+    .c-comment__author & {
+        padding:0;
+    }
 }
 .user__icon {
     display:inline-block;
@@ -22,7 +25,7 @@
 }
 
 .user__title {
-
+    font-weight: 700;
 }
 
 .user__remove {

@@ -200,6 +200,8 @@ var Feed = React.createClass({
                             <div className="o-offCanvas__drawer__inner">
                                 <a href="#" className="o-offCanvas__close" onClick={this._commentsToggle}>&times;<span className="u-hidden-visually">Hide comments</span></a>
                                 <CommentsContainer
+                                    modalOpen={this._modalOpen}
+                                    modalClose={this._modalClose}
                                     windowHeight={this.state.windowHeight}
                                     feedId={this.props.params.feedId}
                                     pollInterval={1000}

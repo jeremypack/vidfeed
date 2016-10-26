@@ -27,13 +27,18 @@ form {
         height:inuit-rem(45px);
         border:1px solid $light;
     }
+    .input--edit {
+        height:auto;
+        padding:4px;
+        margin:-5px 0 0 -5px;
+    }
 }
 
 .input-with-button {
     position:relative;
     input {
         width:100%;
-        padding-right:inuit-rem(85px);
+        padding-right:inuit-rem(70px);
         border-radius:3px;
     }
     .o-btn {
@@ -41,8 +46,10 @@ form {
         top:0;
         right:0;
         bottom:0;
+        width:auto;
         max-width:inuit-rem(70px);
         height:100%;
+        padding:0.375rem 0.75rem;
         border-radius:3px;
         border-top-left-radius:0;
         border-bottom-left-radius:0;

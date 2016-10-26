@@ -7,28 +7,63 @@ var ReplyFormContainer = require('../containers/ReplyFormContainer');
 
 var CommentContainer = React.createClass({
     
+    propTypes: {
+        author:                 React.PropTypes.string.isRequired,
+        body:                   React.PropTypes.string.isRequired,
+        children:               React.PropTypes.array,
+        modalOpen:              React.PropTypes.func.isRequired,
+        modalClose:             React.PropTypes.func.isRequired,
+        commentBody:            React.PropTypes.string,
+        handleCommentEdit:      React.PropTypes.func.isRequired,
+        handleDeleteComment:    React.PropTypes.func.isRequired,
+    },
+
     getInitialState: function() {
         return {
             editable: false,
             replyOpen: false,
+            commentActions: false,
             commentBody: this.props.body
         };
     },
 
+    componentDidMount: function() {
+        var getSessionUser = function() {
+            if (window.vidfeed.user.email === this.props.author) {
+                this.setState({
+                    commentActions: true
+                });
+                clearInterval(this.sessionCheckInterval);
+            }
+        }.bind(this);
+        this.sessionCheckInterval = setInterval(getSessionUser,1000);
+    },
+
+    componentWillUnmount:function(){
+        clearInterval(this.sessionCheckInterval);
+    },
+
     _setEditMode: function(e) {
         e.preventDefault();
-        this.setState({editable:true});
+        this.setState({
+            editable:true
+        });
     },
 
     _cancelEdit: function(e){
         e.preventDefault();
-        this.setState({editable:false, commentBody: this.props.body});
+        this.setState({
+            editable:false,
+            commentBody: this.props.body
+        });
     },
 
     _saveEdit: function (e) {
         e.preventDefault();
         this.props.handleCommentEdit(commentId, this.props.author, this.state.commentBody);
-        this.setState({editable:false});
+        this.setState({
+            editable:false
+        });
     },
 
     _saveReplyEdit: function(replyId, author, text) {
@@ -49,7 +84,9 @@ var CommentContainer = React.createClass({
         if (e) {
            e.preventDefault(); 
         }
-        this.setState({replyOpen:!this.state.replyOpen});
+        this.setState({
+            replyOpen:!this.state.replyOpen
+        });
     },
 
     _formattedTime: function (time) {
@@ -67,7 +104,9 @@ var CommentContainer = React.createClass({
     },
 
     _handleCommentChange: function (e) {
-        this.setState({commentBody: e.target.value});
+        this.setState({
+            commentBody: e.target.value
+        });
     },
 
     render: function() {
@@ -83,7 +122,6 @@ var CommentContainer = React.createClass({
                         id={reply.id}
                         key={reply.id}
                         author={reply.owner.email}
-                        parentCommentId={reply.parent_id}
                         value={reply.body}
                         created={reply.created}
                         isReply={true}
@@ -95,6 +133,8 @@ var CommentContainer = React.createClass({
 
         if (this.state.replyOpen) {
             var replyForm = <ReplyFormContainer
+                                modalOpen = {this.props.modalOpen}
+                                modalClose = {this.props.modalClose}
                                 feedId = {this.props.feedId}
                                 parentId = {this.props.id}
                                 submitted = {this._toggleReply} />
@@ -108,6 +148,7 @@ var CommentContainer = React.createClass({
                         author={this.props.author}
                         value={this.state.commentBody}
                         timecode={formattedTime}
+                        created={this.props.time} 
                         handleChange={this._handleCommentChange}
                         saveChange={this._saveEdit}
                         cancelChange={this._cancelEdit} />
@@ -115,8 +156,9 @@ var CommentContainer = React.createClass({
                 </div>
             );
 
-        } else {
+        } 
 
+        if (this.state.commentActions) {
             return (
                 <div className="c-comment__outer">
                     <Comment
@@ -129,7 +171,25 @@ var CommentContainer = React.createClass({
                         editComment={this._setEditMode} 
                         deleteComment={this._deleteComment}
                         toggleReply={this._toggleReply}
-                        showReply={this.state.replyOpen} />
+                        replyIsOpen={this.state.replyOpen} />
+                    {replyNodes}
+                    {replyForm}
+                </div>
+            );
+        
+        } else {
+            
+            return (
+                <div className="c-comment__outer">
+                    <Comment
+                        id={this.props.id}
+                        author={this.props.author}
+                        value={this.state.commentBody}
+                        isReply={false}
+                        timecode={formattedTime}
+                        created={this.props.time} 
+                        toggleReply={this._toggleReply}
+                        replyIsOpen={this.state.replyOpen} />
                     {replyNodes}
                     {replyForm}
                 </div>
