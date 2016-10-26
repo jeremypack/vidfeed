@@ -114,8 +114,29 @@
   padding: inuit-rem($inuit-global-spacing-unit) inuit-rem($inuit-global-spacing-unit-large);
 }
 
+/* Other variants
+   ========================================================================== */
 
+.o-btn--icon {
+    .icon {
+        margin-left:3px;
+        vertical-align:middle;
+    }
+}
 
+.o-btn--outline {
+    border:1px solid;
+    &.o-btn--primary {
+        border-color: lighten($red,10%);
+    }
+    &.o-btn--secondary {
+        border-color: lighten($mid,10%);
+    }
+    &.o-btn--tertiary {
+        border-color: lighten($dark,10%);
+    }
+    
+}
 
 
 /* Ghost buttons
