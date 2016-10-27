@@ -103,12 +103,12 @@ var Feed = React.createClass({
         });
     },
 
-    _commentsToggle: function(e) {
+    _commentsToggle: function(e, pos) {
         if (e) {
             e.preventDefault();
         }
         
-        if (!this.state.commentsOpen) {
+        if (!this.state.commentsOpen || pos==='open') {
             this.setState({
                 commentsOpen:true,
                 commentsBtn:false
