@@ -50,11 +50,8 @@
     @include mq($from:tablet) {
         display:block;
         position:absolute;
-        top:10px;
-        right:10px;
-        width: 100px;
-        height: 25px;
-        background: red;
+        top:$inuit-global-spacing-unit;
+        right:$inuit-global-spacing-unit;;
     }
 }
 .o-offCanvas__close {
@@ -62,10 +59,7 @@
     @include mq($from:tablet) {
         display:block;
         position:absolute;
-        top:10px;
-        right:10px;
-        width: 20px;
-        height: 20px;
-        background: red;
+        top:$inuit-global-spacing-unit/2;
+        right:$inuit-global-spacing-unit/2;
     }
 }

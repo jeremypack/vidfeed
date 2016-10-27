@@ -117,7 +117,7 @@
 /* Other variants
    ========================================================================== */
 
-.o-btn--icon {
+.o-btn--with-icon {
     .icon {
         margin-left:3px;
         vertical-align:middle;
@@ -135,7 +135,15 @@
     &.o-btn--tertiary {
         border-color: lighten($dark,10%);
     }
-    
+}
+
+.o-btn--icon {
+    padding-right:.5rem;
+    padding-left:.5rem;
+}
+
+.o-btn--straight {
+    border-radius:0;
 }
 
 
