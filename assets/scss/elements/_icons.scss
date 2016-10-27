@@ -49,7 +49,7 @@
 }
 
 .icon--bubble {
-    width:$inuit-global-spacing-unit;
-    height:$inuit-global-spacing-unit;
+    @include inuit-rem(width,32px);
+    @include inuit-rem(height,28px);
     background-image:url(../images/speechBubble.svg);
 }
