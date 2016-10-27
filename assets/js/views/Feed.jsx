@@ -168,7 +168,7 @@ var Feed = React.createClass({
         });
 
         var commentsBtnClasses = classNames({
-            'o-offCanvas__open o-btn o-btn--secondary o-btn--small o-btn--icon o-btn--straight': true,
+            'o-offCanvas__open o-btn o-btn--secondary o-btn--small o-btn--icon': true,
             'u-opacity-0':!this.state.commentsBtn
         });
 
