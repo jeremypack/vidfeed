@@ -2,6 +2,7 @@ var React = require('react');
 var classNames = require('classnames');
 
 var HeaderContainer =           require('../containers/HeaderContainer');
+var CollaboratorsContainer =    require('../containers/CollaboratorsContainer');
 var ShareFeedContainer =        require('../containers/ShareFeedContainer');
 var OwnFeedContainer =          require('../containers/OwnFeedContainer');
 var FeedVideoContainer =        require('../containers/FeedVideoContainer');
@@ -170,22 +171,33 @@ var Feed = React.createClass({
                 <div className={blurClasses}>
                     
                     <div ref="header">
+                        
                         <HeaderContainer />
+                    
                     </div>
                     
                     <section ref="infoBar" className="feedInfo u-clearfix">
                         <h1 className="lede float--left u-margin-bottom-none">{this.state.feed.video_title}</h1>
-                        <a href="#" onClick={this._shareModalOpen} className="o-btn o-btn--tertiary o-btn--icon o-btn--outline o-btn--small float--right">Share <i className="icon icon--user"></i></a>
+                        <div className="float--right">
+                            
+                            <CollaboratorsContainer
+                                feedId={this.props.params.feedId}
+                                modalOpen={this._modalOpen}
+                                modalClose={this._modalClose} />
+                            
+                            <a href="#" onClick={this._shareModalOpen} className="o-btn o-btn--tertiary o-btn--icon o-btn--outline o-btn--small">Share <i className="icon icon--user"></i></a>
+                        </div>
                     </section>
                     
                     <div style={offCanvasStyle} className="o-offCanvas__outer o-layout o-layout--flush o-layout--center ">
                         <a href="#" className="o-offCanvas__open" onClick={this._commentsToggle}>open comments</a>
                         <div className="o-offCanvas__main o-layout__item u-2/3@tablet u-3/5@desktop"> 
                             <div className="o-offCanvas__main__inner">
+                                
                                 <FeedVideoContainer
                                     feedId={this.props.params.feedId}
                                     onTimecodeChange={this._getTimecode} />
-                
+
                                 <CommentFormContainer
                                     modalOpen={this._modalOpen}
                                     modalClose={this._modalClose}
@@ -193,12 +205,14 @@ var Feed = React.createClass({
                                     feedId={this.props.params.feedId}
                                     timecode={this.state.timecode}
                                     timecodeSeconds={this.state.timecodeSeconds} />
+
                             </div>   
                         </div>
                         
                         <div ref="drawer" className={drawerClasses}>
                             <div className="o-offCanvas__drawer__inner">
                                 <a href="#" className="o-offCanvas__close" onClick={this._commentsToggle}>&times;<span className="u-hidden-visually">Hide comments</span></a>
+                                
                                 <CommentsContainer
                                     modalOpen={this._modalOpen}
                                     modalClose={this._modalClose}
@@ -206,6 +220,7 @@ var Feed = React.createClass({
                                     feedId={this.props.params.feedId}
                                     pollInterval={1000}
                                     timecode={this.state.timecodeSeconds} />
+                                    
                             </div>
                             
                         </div>

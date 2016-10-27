@@ -9,7 +9,7 @@ var CommentsContainer = React.createClass({
         windowHeight:           React.PropTypes.number,
         feedId:                 React.PropTypes.string.isRequired,
         modalOpen:              React.PropTypes.func.isRequired,
-        modalClose:              React.PropTypes.func.isRequired
+        modalClose:             React.PropTypes.func.isRequired
     },
 
     getInitialState: function() {
@@ -49,11 +49,13 @@ var CommentsContainer = React.createClass({
                 data.sort(function(a, b) {
                     return parseFloat(a.timecode) - parseFloat(b.timecode);
                 });
-                this.setState({data: data});
+                this.setState({
+                    data: data
+                });
                 this._setCommentsHeight();
             }.bind(this),
             error: function(xhr, status, err) {
-                console.error(this.props.url, status, err.toString());
+                console.error(this.props.feedId, status, err.toString());
             }.bind(this)
         });
     },
@@ -115,7 +117,7 @@ var CommentsContainer = React.createClass({
                 overflowY:'scroll'
             }
         }
-        
+
         return (
             <section className="c-commentList__outer">
                 <div ref="commentCount" className="c-commentList__count lede">
