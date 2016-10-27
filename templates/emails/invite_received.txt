@@ -1,11 +1,10 @@
-{% extends 'emails/base_email.txt' %}
+{% extends 'emails/base_email.txt' %}{% block content %}New Invite.
 
-{% block content %}
-{{ sender_email }} has sent you a video to review: "{{ feed.video_title }}."
-
-Click the link to get started: {{ settings.BASE_URL }}{{ feed.get_absolute_url }}
+{{ sender_email }} has invited you to comment on the video: "{{ feed.video_title }}."
 
 We're using Vidfeed to collaborate on our videos. It makes leaving feedback super easy and saves a load of time.
+
+You can view the feed here to get started: {{ settings.BASE_URL }}{{ feed.get_absolute_url }}
 
 Thanks,
 {% endblock %}

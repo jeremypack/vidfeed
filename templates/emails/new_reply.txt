@@ -1,11 +1,11 @@
-{% extends 'emails/base_email.txt' %}
+{% extends 'emails/base_email.txt' %}{% block content %}New Reply.
 
-{% block content %}
 {{ comment_author }} has replied to your comment.
 
-{{ message }}
+"{{ message }}"
 
-View the feed here: {{ settings.BASE_URL }}{{ feed.get_absolute_url }}
+You can view the feed and reply here: 
+{{ settings.BASE_URL }}{{ feed.get_absolute_url }}
 
 Thanks,
 {% endblock %}
