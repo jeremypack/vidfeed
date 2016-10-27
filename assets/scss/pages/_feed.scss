@@ -3,10 +3,11 @@
 \*------------------------------------*/
 
 .feedInfo {
-    padding:$inuit-global-spacing-unit/2 $inuit-global-spacing-unit;
+    padding:$inuit-global-spacing-unit/4 $inuit-global-spacing-unit;
     background:$mid;
     color:#fff;
     h1 {
+        margin-top:7px;
         font-weight:300;
         text-transform:none;
     }
