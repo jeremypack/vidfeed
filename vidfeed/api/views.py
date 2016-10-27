@@ -43,6 +43,7 @@ class CommentList(APIView):
                 ctx = {
                     'feed': feed,
                     'comment_author': owner_email,
+                    'message' : comment.body,
                 }
                 send_email('new_reply', ctx, "Re: "+feed.video_title, comment.parent_comment.owner.email)
             # else send first comment email if first comment from this user
@@ -54,6 +55,7 @@ class CommentList(APIView):
                     ctx = {
                         'feed': feed,
                         'comment_author': owner_email,
+                        'message' : comment.body,
                     }
                     send_email('new_comment', ctx, "Re: "+feed.video_title, feed.owner.email)
 
