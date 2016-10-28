@@ -90,17 +90,6 @@
 
 }
 
-.o-btn--white-text {
-    color:#fff;
-} 
-
-.o-btn--disabled {
-    background-color:lighten($mid,25%);
-    color:rgba(255,255,255,.5);
-    cursor:not-allowed;
-}
-
-
 /* Size variants
    ========================================================================== */
 
@@ -116,6 +105,27 @@
 
 /* Other variants
    ========================================================================== */
+
+.o-btn--white-text {
+    color:#fff;
+} 
+
+.o-btn--disabled {
+    color:rgba(255,255,255,.5);
+    cursor:not-allowed;
+    &.o-btn--primary {
+        background-color: darken($red,15%);
+    }
+    &.o-btn--secondary {
+        background-color: darken($mid,15%);
+    } 
+    &.o-btn--tertiary {
+        background-color: darken($dark,15%);
+    }
+    &:hover,&:focus {
+       
+    }
+}
 
 .o-btn--with-icon {
     .icon {

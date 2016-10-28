@@ -14,7 +14,7 @@
 }
 .o-offCanvas__main__inner {
     margin:0 auto;
-    padding:$inuit-global-spacing-unit;
+    padding:$inuit-global-spacing-unit/2  $inuit-global-spacing-unit;
 }
 
 .o-offCanvas__drawer {
@@ -50,8 +50,8 @@
     @include mq($from:tablet) {
         display:block;
         position:absolute;
-        top:$inuit-global-spacing-unit;
-        right:$inuit-global-spacing-unit;;
+        top:$inuit-global-spacing-unit/2;
+        right:$inuit-global-spacing-unit;
     }
 }
 .o-offCanvas__close {

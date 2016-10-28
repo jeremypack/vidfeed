@@ -36,6 +36,7 @@ var CommentFormContainer = React.createClass({
             commentValidationStarted:false,
             authorIsValid:false,
             authorValidationStarted:false,
+            returnToSubmit:false,
             author: '',
             comment: ''
         };
@@ -143,6 +144,13 @@ var CommentFormContainer = React.createClass({
         });
     },
 
+    _handleKeyPress: function(target) {
+        if (this.state.returnToSubmit && target.charCode===13) {
+            console.log('reutrn to sibit');
+            this._handleCommentSubmit();
+        }
+    },
+
     _closeModal : function (e) {
         if (e) {
             e.preventDefault();
@@ -166,6 +174,15 @@ var CommentFormContainer = React.createClass({
             this.setState({
                 authorIsValid:false
             });
+        }
+    },
+
+    _returnToSubmitSwitch:function() {
+        this.setState({
+            returnToSubmit:!this.state.returnToSubmit
+        });
+        if (this.state.returnToSubmit) {
+
         }
     },
 
@@ -200,7 +217,10 @@ var CommentFormContainer = React.createClass({
                     timecode={this.props.timecode}
                     body={this.state.comment}
                     handleSubmit={this._handleCommentSubmit}
-                    handleCommentChange={this._handleCommentChange} />
+                    handleCommentChange={this._handleCommentChange}
+                    handleKeyPress={this._handleKeyPress}
+                    returnToSubmitSwitch={this._returnToSubmitSwitch}
+                    returnToSubmitBool={this.state.returnToSubmit} />
                 {commentAuthorModal}
             </div>
         );
