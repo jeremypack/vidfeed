@@ -11,9 +11,9 @@ textarea {
     padding:$inuit-global-spacing-unit/2 $inuit-global-spacing-unit/1.5;
     background:#fff;
     border:0;
+    outline:none;
 }
 textarea {
-    height:auto;
     min-height:inuit-rem(55px);
     resize: both;
 }
@@ -54,5 +54,15 @@ form {
         border-top-left-radius:0;
         border-bottom-left-radius:0;
         line-height:inuit-rem(32px);
+    }
+}
+
+.label-with-input {
+    position:relative;
+    padding-left:$inuit-global-spacing-unit*.75;
+    > input {
+        position:absolute;
+        top:3px;
+        left:0;
     }
 }

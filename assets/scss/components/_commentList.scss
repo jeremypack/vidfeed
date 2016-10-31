@@ -12,10 +12,11 @@
 
 .c-commentList__count {
     h3 {
+        @include inuit-font-size(18px);
         font-weight:400;
     }
     @include mq($from: tablet) {
-        min-height:inuit-rem(48px);
+        @include inuit-rem(min-height, 47px);
         padding:$inuit-global-spacing-unit/2;
         margin-bottom:0;
         background:$dark;
@@ -27,9 +28,7 @@
 }
 
 .c-commentList {
-    // @include mq($from: tablet) {
-    //     overflow-y:scroll;
-    // }
+   
 }
 .c-commentList__no-comments {
     width:100%;
@@ -81,7 +80,7 @@
 }
 .c-comment__body {
     padding-left:30px;
-    @include inuit-font-size(14px);
+    @include inuit-font-size(14px,$line-height:1.5);
 }
 .c-comment__actions {
     float:left;

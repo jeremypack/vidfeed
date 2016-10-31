@@ -24,10 +24,43 @@
 }
 
 .c-commentForm__form {
+    position:relative;
     max-width:none;
     margin:0;
     padding-left:inuit-rem(70px);
     @include mq($from: tablet) {
         padding-left:inuit-rem(115px);
     }
+}
+
+.c-commentForm__input {
+    display:block;
+    min-height:inuit-rem(58px);
+    border-top-left-radius:3px;
+    border-top-right-radius:3px;
+    resize:none;
+}
+
+.c-commentForm__actions {
+    position:relative;
+    height:inuit-rem(55px);
+    padding:$inuit-global-spacing-unit/2;
+    background-color:darken(#fff,5%);
+    border-bottom-left-radius:3px;
+    border-bottom-right-radius:3px;
+    padding-top:inuit-rem(14px);
+}
+
+.c-commentForm__returnToSubmit {
+    margin-top:4px;
+    color:darken($light,20%);
+    @include inuit-font-size(14px,$line-height:0);
+}
+
+.c-commentForm__submit {
+    position:absolute;
+    right:0;
+    bottom:0;
+    border-top-left-radius:0;
+    border-top-right-radius:0;
 }

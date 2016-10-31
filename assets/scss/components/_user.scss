@@ -10,6 +10,14 @@
         padding:0;
     }
 }
+.user--iconOnly {
+    display:inline-block;
+    padding:0;
+    .user__icon {
+        margin-right:5px;
+    }
+}
+
 .user__icon {
     display:inline-block;
     width:$inuit-global-spacing-unit;
@@ -44,4 +52,9 @@
     &:focus {
         color:$red;
     }
+}
+
+.c-collaborators {
+    display:inline-block;
+    margin-right:$inuit-global-spacing-unit/2;
 }

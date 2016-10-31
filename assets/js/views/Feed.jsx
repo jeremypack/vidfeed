@@ -2,6 +2,7 @@ var React = require('react');
 var classNames = require('classnames');
 
 var HeaderContainer =           require('../containers/HeaderContainer');
+var CollaboratorsContainer =    require('../containers/CollaboratorsContainer');
 var ShareFeedContainer =        require('../containers/ShareFeedContainer');
 var OwnFeedContainer =          require('../containers/OwnFeedContainer');
 var FeedVideoContainer =        require('../containers/FeedVideoContainer');
@@ -32,6 +33,7 @@ var Feed = React.createClass({
             shareModal:false,
             commentsOpen:false,
             drawerVisible:false,
+            commentsBtn:true,
             windowHeight:undefined
         };
     },
@@ -106,12 +108,15 @@ var Feed = React.createClass({
             e.preventDefault();
         }
         
-        if (!this.state.commentsOpen || pos === 'open') {
+        if (!this.state.commentsOpen || pos==='open') {
             this.setState({
-                commentsOpen:true
+                commentsOpen:true,
+                commentsBtn:false
             });
             setTimeout(function() {
-                this.setState({ drawerVisible:true });
+                this.setState({
+                    drawerVisible:true
+                });
             }.bind(this), 150);
            
         } else {
@@ -119,8 +124,15 @@ var Feed = React.createClass({
                 drawerVisible:false
             });
             setTimeout(function() {
-                this.setState({ commentsOpen:false });
+                this.setState({
+                    commentsOpen:false
+                });
             }.bind(this), 150);
+            setTimeout(function() {
+                this.setState({
+                    commentsBtn:true
+                });
+            }.bind(this), 450);
         }
     },
 
@@ -149,16 +161,15 @@ var Feed = React.createClass({
             var blurClasses = 'blurLayer';
         }
 
-        if (this.state.commentsOpen) {
-            var drawerClasses = 'o-offCanvas__drawer  o-offCanvas__drawer--open o-layout__item u-1/3@tablet u-1/4@desktop';
-        } else {
-            var drawerClasses = 'o-offCanvas__drawer o-layout__item';
-        }
-
         var drawerClasses = classNames({
             'o-offCanvas__drawer o-layout__item':true,
             'o-offCanvas__drawer--open':this.state.drawerVisible,
             'u-1/3@tablet u-1/4@desktop':this.state.commentsOpen
+        });
+
+        var commentsBtnClasses = classNames({
+            'o-offCanvas__open o-btn o-btn--secondary o-btn--small o-btn--icon': true,
+            'u-opacity-0':!this.state.commentsBtn
         });
 
         var offCanvasStyle = {
@@ -170,22 +181,33 @@ var Feed = React.createClass({
                 <div className={blurClasses}>
                     
                     <div ref="header">
+                        
                         <HeaderContainer />
+                    
                     </div>
                     
                     <section ref="infoBar" className="feedInfo u-clearfix">
                         <h1 className="lede float--left u-margin-bottom-none">{this.state.feed.video_title}</h1>
-                        <a href="#" onClick={this._shareModalOpen} className="o-btn o-btn--tertiary o-btn--icon o-btn--outline o-btn--small float--right">Share <i className="icon icon--user"></i></a>
+                        <div className="float--right">
+                            
+                            <CollaboratorsContainer
+                                feedId={this.props.params.feedId}
+                                modalOpen={this._modalOpen}
+                                modalClose={this._modalClose} />
+                            
+                            <a href="#" onClick={this._shareModalOpen} className="o-btn o-btn--tertiary o-btn--with-icon o-btn--outline o-btn--small">Share <i className="icon icon--user"></i></a>
+                        </div>
                     </section>
                     
                     <div style={offCanvasStyle} className="o-offCanvas__outer o-layout o-layout--flush o-layout--center ">
-                        <a href="#" className="o-offCanvas__open" onClick={this._commentsToggle}>open comments</a>
+                        <a href="#" className={commentsBtnClasses} onClick={this._commentsToggle}><i className="icon icon--bubble"></i><span className="u-hidden-visually">open comments</span></a>
                         <div className="o-offCanvas__main o-layout__item u-2/3@tablet u-3/5@desktop"> 
                             <div className="o-offCanvas__main__inner">
+                                
                                 <FeedVideoContainer
                                     feedId={this.props.params.feedId}
                                     onTimecodeChange={this._getTimecode} />
-                
+
                                 <CommentFormContainer
                                     modalOpen={this._modalOpen}
                                     modalClose={this._modalClose}
@@ -193,12 +215,14 @@ var Feed = React.createClass({
                                     feedId={this.props.params.feedId}
                                     timecode={this.state.timecode}
                                     timecodeSeconds={this.state.timecodeSeconds} />
+
                             </div>   
                         </div>
                         
                         <div ref="drawer" className={drawerClasses}>
                             <div className="o-offCanvas__drawer__inner">
-                                <a href="#" className="o-offCanvas__close" onClick={this._commentsToggle}>&times;<span className="u-hidden-visually">Hide comments</span></a>
+                                <a href="#" className="o-offCanvas__close" onClick={this._commentsToggle}><i className="icon icon--crossWhite"></i><span className="u-hidden-visually">Hide comments</span></a>
+                                
                                 <CommentsContainer
                                     modalOpen={this._modalOpen}
                                     modalClose={this._modalClose}
@@ -206,6 +230,7 @@ var Feed = React.createClass({
                                     feedId={this.props.params.feedId}
                                     pollInterval={1000}
                                     timecode={this.state.timecodeSeconds} />
+
                             </div>
                             
                         </div>

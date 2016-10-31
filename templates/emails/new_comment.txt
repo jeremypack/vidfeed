@@ -1,11 +1,11 @@
-{% extends 'emails/base_email.txt' %}
+{% extends 'emails/base_email.txt' %}{% block content %}New Collaborator!
 
-{% block content %}
 {{ comment_author }} has just left their first comment.
 
-From now on we will put together a comment summary once an hour to keep you in the loop.
+"{{ message }}"
 
-Here's a link to your feed: {{ settings.BASE_URL }}{{ feed.get_absolute_url }}
+You can view the feed here: 
+{{ settings.BASE_URL }}{{ feed.get_absolute_url }}
 
-Thanks,
+Good luck,
 {% endblock %}
