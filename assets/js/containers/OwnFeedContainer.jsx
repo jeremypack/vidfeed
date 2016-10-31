@@ -29,7 +29,7 @@ var OwnFeedContainer = React.createClass({
 
     propTypes: {
         feedId:         React.PropTypes.string.isRequired,
-        feedOwner:      React.PropTypes.string,
+        setOwner:       React.PropTypes.func.isRequired,
         modalOpen:      React.PropTypes.func.isRequired,
         modalClose:     React.PropTypes.func.isRequired,
         wait:           React.PropTypes.number.isRequired
@@ -70,7 +70,6 @@ var OwnFeedContainer = React.createClass({
         if (e) {
             e.preventDefault();
         }
-        console.log('close');
         this.setState({
             modalIsOpen: false
         });
@@ -132,10 +131,11 @@ var OwnFeedContainer = React.createClass({
                 this.setState({
                     submitted:true
                 });
+                window.vidfeed.user.email = this.state.owner;
                 setTimeout(function() {
                     this._closeModal();
+                    this.props.setOwner(this.state.owner);
                 }.bind(this), 2000);
-                window.vidfeed.user.email = this.state.owner;
             },
             error: function (ev) {
                 console.log(this.state.owner,'this.state.owner');

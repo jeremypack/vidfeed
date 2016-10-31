@@ -85,6 +85,12 @@ var Feed = React.createClass({
         
     },
 
+    _setOwner: function(owner) {
+        this.setState({
+            owner:owner
+        });
+    },
+
     _shareModalOpen: function(e) {
         e.preventDefault();
         this.setState({
@@ -144,7 +150,7 @@ var Feed = React.createClass({
             var ownFeed =   <OwnFeedContainer
                                 modalOpen={this._modalOpen}
                                 modalClose={this._modalClose}
-                                feedOwner={this.state.owner}
+                                setOwner={this._setOwner}
                                 feedId={this.props.params.feedId}
                                 wait={3000} />
         }
