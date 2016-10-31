@@ -10,6 +10,7 @@ var EmailForm = React.createClass({
         handleSubmit:   React.PropTypes.func.isRequired,
         value:          React.PropTypes.string.isRequired,
         text:           React.PropTypes.string,
+        smallText:      React.PropTypes.string,
         submitted:      React.PropTypes.bool,
         submittedMsg:   React.PropTypes.string
     },
@@ -30,14 +31,18 @@ var EmailForm = React.createClass({
         }
 
         if (this.props.text) {
-            var extraText =     <div className="u-padding-small u-padding-top u-padding-bottom-none">
-                                    <p className="u-margin-bottom-none">{this.props.text}</p>
-                                </div>;
-                                
+            var text =      <div className="u-padding-small u-padding-top u-padding-bottom-none">
+                                <p className="u-margin-bottom-none">{this.props.text}</p>
+                            </div>;              
+        }
+
+        if (this.props.smallText) {
+            var smallText = <div className="u-padding-small u-padding-bottom-none smallprint"
+                                dangerouslySetInnerHTML={{__html: this.props.smallText}} />;
         }
 
         var submitClasses = classNames({
-            'o-btn o-btn--primary':true,
+            'o-btn o-btn--primary o-btn--small':true,
             'o-btn--disabled':!this.props.isValid
         });
 
@@ -47,14 +52,15 @@ var EmailForm = React.createClass({
                     <h3 className="modal__title">{this.props.heading}</h3>
                     <a href="#" onClick={this.props.closeModal} className="modal__close">×<span className="u-hidden-visually">Close</span></a>
                 </div>
-                {extraText}
+                {text}
+                {smallText}
                 <form className="form--border" onSubmit={this.props.handleSubmit}>
-                    <div className="u-padding-small u-padding-top">
-                        <label htmlFor="email" className="u-hidden-visually">Email address</label>
-                        <input id="email" type="email" placeholder="Email address" value={this.props.value} onChange={this.props.handleChange} className="input--border" />
-                    </div>
-                    <div className="text--center u-padding u-padding-top-small">
-                        <input type="submit" className={submitClasses} value="Submit" />
+                    <div className="u-padding-small u-padding-bottom">
+                        <div className="input-with-button">
+                            <label htmlFor="email" className="u-hidden-visually">Email address</label>
+                            <input id="email" type="email" placeholder="Email address" value={this.props.value} onChange={this.props.handleChange} className="input--border" />
+                            <input type="submit" className={submitClasses} value="Submit" />
+                        </div>
                     </div>
                 </form>
             </div>

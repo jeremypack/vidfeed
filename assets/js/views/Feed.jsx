@@ -75,11 +75,14 @@ var Feed = React.createClass({
     },
 
     _getTimecode: function(timecode) {
-        var timecodeInSeconds = hmsToSecondsOnly(timecode);
-        this.setState({
-            timecode: timecode,
-            timecodeSeconds: timecodeInSeconds
-        });
+        if (timecode != this.state.timecode) {
+            var timecodeInSeconds = hmsToSecondsOnly(timecode);
+            this.setState({
+                timecode: timecode,
+                timecodeSeconds: timecodeInSeconds
+            });
+        }
+        
     },
 
     _shareModalOpen: function(e) {

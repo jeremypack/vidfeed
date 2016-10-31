@@ -26,6 +26,14 @@ const modalStyles = {
 };
 
 var OwnFeedContainer = React.createClass({
+
+    propTypes: {
+        feedId:         React.PropTypes.string.isRequired,
+        feedOwner:      React.PropTypes.string,
+        modalOpen:      React.PropTypes.func.isRequired,
+        modalClose:     React.PropTypes.func.isRequired,
+        wait:           React.PropTypes.number.isRequired
+    },
     
     getInitialState : function () {
         return {
@@ -52,23 +60,26 @@ var OwnFeedContainer = React.createClass({
     },
 
     _openModal : function () {
-        setTimeout(function() {
-            this.setState({ modalIsOpen: true });
-            this.props.modalOpen();
-        }.bind(this), this.props.wait);
+        this.setState({
+            modalIsOpen: true
+        });
+        this.props.modalOpen();
     },
 
     _closeModal : function (e) {
         if (e) {
             e.preventDefault();
         }
+        console.log('close');
         this.setState({
             modalIsOpen: false
         });
         this.props.modalClose();
 
         if (!this.state.submitted) {
-            this._openModal();
+            setTimeout(function(){
+                this._openModal();
+            }.bind(this),4000); 
         }
     },
 
@@ -173,21 +184,30 @@ var OwnFeedContainer = React.createClass({
             }
 
             var setNewOwner = <EmailForm
-                                heading='Own this Feed'
+                                heading='Success, feed created!'
                                 closeModal={this._closeModal}
                                 handleSubmit={this._handleSubmit}
+                                text='To keep everything running smoothly we just need to know who you are.'
+                                smallText='<p>Why?</p>
+                                            <ul>
+                                                <li>We email you with the direct link to this page so you don&apos;t lose it.</li>
+                                                <li>When people comment on this page we drop you an email.</li>
+                                                <li>When you share this page we let people know who&apos;s sent it too them.</li>
+                                            </ul>
+                                            <p>psst, we hate spam, you won&apos;t get any from us.</p>'
                                 isValid={valid}
                                 value={this.state.owner}
                                 handleChange={this._handleOwnerChange}
                                 submitted={this.state.submitted} 
                                 submittedMsg='Feed owned!' />
-        }   
+        } 
+
+
 
         return (
             <div>
                 <Modal
                     isOpen={this.state.modalIsOpen}
-                    onRequestClose={this._closeModal}
                     style={modalStyles}>
                     {sessionUserCheck}
                     {setNewOwner}
