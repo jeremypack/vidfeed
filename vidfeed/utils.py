@@ -30,7 +30,7 @@ def send_email(template, template_context, subject, to, from_email=None):
         text = None
 
 #   Toggle Email by removing #
-    html = None
+#    html = None
     if html is not None and text is not None:
         email = EmailMultiAlternatives(subject, text, from_email=from_email, to=[to])
         email.attach_alternative(html, "text/html")

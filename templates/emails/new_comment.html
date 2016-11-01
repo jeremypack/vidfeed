@@ -2,46 +2,29 @@
 {% extends 'emails/base_email.html' %}
 
 
-{% block preheader %}
+{% block preheader %} New comment from {{ comment_author }} {% endblock %}
 
-New comment from {{ comment_author }}
 
-{% endblock %}
+{% block emailtitle %} New Collaborator{% endblock %}
 
 
 {% block content %}
 
             <!-- 1 Column Text : BEGIN -->
-<!--             <tr>
-                <td style="padding: 20px 20px 0px 20px; text-align: left; font-family: sans-serif; font-size: 22px; mso-height-rule: exactly; line-height: 20px; color: #2a2e30;">
-                    <strong>New comment.</strong>
-                </td>
-            </tr> -->
-            <!-- 1 Column Text : END -->
-
-            <!-- 1 Column Text : BEGIN -->
             <tr>
-                <td style="padding: 20px 20px 0px 20px; text-align: left; font-family: sans-serif; font-size: 22px; mso-height-rule: exactly; line-height: 20px;">
-                    <a href="mailto:{{ comment_author }}" style="color: #49C9F5; text-decoration: none;"> 
-                    {{ comment_author }} </a><br>
-                </td>
-            </tr>
-            <!-- 1 Column Text : END -->
+                <td style="padding: 40px; text-align: left; font-family: sans-serif; font-size: 16px; mso-height-rule: exactly; line-height: 20px; color: #2D2F34; border-top: solid 2px #f8f8f8; border-bottom: solid 2px #f8f8f8;">
+                Hey,<br>
+                <br>
+                <strong><a href="#" style="text-decoration: none; color: #2D2F34">{{ comment_author }}</strong> has just left their first comment.<br>
+                    <br>
+                    "{{ message }}"
+                    <br><br>
+                You can jump on the feed now and see the comments they leave in real time, even respond if you want to. Or you can kick back and wait for us to send you a summary of everything they said when they've finished.<br>
+                <br>
+                Hope that's helpful.<br>
+                <br>
+                Vidfeed
+                <br><br><br><br>
 
-                        <!-- 1 Column Text : BEGIN -->
-            <tr>
-                <td style="padding: 10px 20px 0px 20px; text-align: left; font-family: sans-serif; font-size: 18px; mso-height-rule: exactly; line-height: 20px; color: #2a2e30;">
-                    has just left their first comment.<br>
-                </td>
-            </tr>
-            <!-- 1 Column Text : END -->
-
-            <!-- 1 Column Text : BEGIN -->
-            <tr>
-                <td style="padding: 10px 20px 30px 20px; text-align: left; font-family: sans-serif; font-size: 14px; mso-height-rule: exactly; line-height: 20px; color: #888888;">
-                    From now on we will put together a comment summary once an hour to keep you in the loop.
-                </td>
-            </tr>
-            <!-- 1 Column Text : END -->
 
 {% endblock %}
