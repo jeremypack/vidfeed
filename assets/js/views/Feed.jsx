@@ -75,10 +75,19 @@ var Feed = React.createClass({
     },
 
     _getTimecode: function(timecode) {
-        var timecodeInSeconds = hmsToSecondsOnly(timecode);
+        if (timecode != this.state.timecode) {
+            var timecodeInSeconds = hmsToSecondsOnly(timecode);
+            this.setState({
+                timecode: timecode,
+                timecodeSeconds: timecodeInSeconds
+            });
+        }
+        
+    },
+
+    _setOwner: function(owner) {
         this.setState({
-            timecode: timecode,
-            timecodeSeconds: timecodeInSeconds
+            owner:owner
         });
     },
 
@@ -141,7 +150,7 @@ var Feed = React.createClass({
             var ownFeed =   <OwnFeedContainer
                                 modalOpen={this._modalOpen}
                                 modalClose={this._modalClose}
-                                feedOwner={this.state.owner}
+                                setOwner={this._setOwner}
                                 feedId={this.props.params.feedId}
                                 wait={3000} />
         }

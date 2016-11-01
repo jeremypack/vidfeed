@@ -41,6 +41,10 @@
     }
 }
 
+.modal__body {
+    background:#fff;
+}
+
 .modal__footer {
     padding:$inuit-global-spacing-unit/2 $inuit-global-spacing-unit;
     background:$light;
@@ -52,4 +56,12 @@
     span {
         font-weight:700;
     }
+}
+
+.modal__submitted {
+    padding:$inuit-global-spacing-unit/2;
+    background:$mid;
+    color:#fff;
+    text-align:center;
+    border-radius:3px;
 }

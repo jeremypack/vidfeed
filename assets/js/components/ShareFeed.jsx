@@ -58,14 +58,8 @@ var ShareFeed = React.createClass({
 
         if (this.props.submitted) {
             return (
-                <div className="modal__content">
-                    <div className="modal__header">
-                        <h3 className="modal__title">{this.props.heading}</h3>
-                        <a href="#" onClick={this.props.closeModal} className="modal__close">×<span className="u-hidden-visually">Close</span></a>
-                    </div>
-                    <div className="u-padding-small u-padding-top">
-                        <p>{this.props.submittedMsg}</p>
-                    </div>
+                <div className="modal__submitted">
+                    <h3 className="modal__title">{this.props.submittedMsg}</h3>
                 </div>
             );
         }
@@ -77,18 +71,20 @@ var ShareFeed = React.createClass({
                     <h3 className="modal__title">{this.props.heading}</h3>
                     <a href="#" onClick={this.props.closeModal} className="modal__close">×<span className="u-hidden-visually">Close</span></a>
                 </div>
-                <form className="form--border" onSubmit={this.props.handleSubmit}>
-                    <div className="u-padding-small u-padding-top">
-                        <div className="input-with-button">
-                            <input placeholder="Email address" type="email" onChange={this.props.handleChange} value={this.props.currentEmail} className="input--border" />
-                            <a href="#" onClick={this.props.addEmail} className={addEmailBtnClasses}>Add</a>
+                <div className="modal__body">
+                    <form className="form--border" onSubmit={this.props.handleSubmit}>
+                        <div className="u-padding-small u-padding-top">
+                            <div className="input-with-button">
+                                <input placeholder="Email address" type="email" onChange={this.props.handleChange} value={this.props.currentEmail} className="input--border" />
+                                <a href="#" onClick={this.props.addEmail} className={addEmailBtnClasses}>Add</a>
+                            </div>
                         </div>
-                    </div>
-                    {invitees}
-                    <div className="text--center u-padding">
-                        <input type="submit" value="Invite people" className={inviteBtnClasses} />
-                    </div>
-                </form>
+                        {invitees}
+                        <div className="text--center u-padding">
+                            <input type="submit" value="Invite people" className={inviteBtnClasses} />
+                        </div>
+                    </form>
+                </div>
                 <div className="modal__footer">
                     <p><span>Shareable link:</span> {currentUrl}</p>
                 </div>

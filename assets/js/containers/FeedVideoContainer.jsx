@@ -80,7 +80,7 @@ var FeedVideoContainer = React.createClass({
         this.props.onTimecodeChange(this.state.elapsed);
     },
 
-    _onYouTubeProgress(elapsed) {
+    _onYouTubeProgress:function(elapsed) {
         this.props.onTimecodeChange(this._calcElapsed(elapsed));
     },
 

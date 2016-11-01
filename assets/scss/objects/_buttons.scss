@@ -114,13 +114,13 @@
     color:rgba(255,255,255,.5);
     cursor:not-allowed;
     &.o-btn--primary {
-        background-color: darken($red,15%);
+        background-color: lighten($red,10%);
     }
     &.o-btn--secondary {
-        background-color: darken($mid,15%);
+        background-color: lighten($mid,10%);
     } 
     &.o-btn--tertiary {
-        background-color: darken($dark,15%);
+        background-color: lighten($dark,10%);
     }
     &:hover,&:focus {
        

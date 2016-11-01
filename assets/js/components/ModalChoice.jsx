@@ -2,39 +2,50 @@ var React = require('react');
 
 var ModalChoice = React.createClass({
 
+    propTypes: {
+        heading:        React.PropTypes.string.isRequired,
+        closeModal:     React.PropTypes.func,
+        text:           React.PropTypes.string,
+        yesAction:      React.PropTypes.func.isRequired,
+        noAction:       React.PropTypes.func.isRequired,
+        yesText:        React.PropTypes.string.isRequired,
+        noText:         React.PropTypes.string.isRequired,
+        confirmOwner:   React.PropTypes.string
+    },
+
     render:function() {
         if (this.props.confirmOwner) {
-            var confirmOwner = <p>{this.props.confirmOwner}</p>
+            var confirmOwner = <span>{this.props.confirmOwner}</span>
         }
 
         if (this.props.submitted) {
             return (
-                <div>{this.props.submittedMsg}</div>
-            )
+                <div className="modal__submitted">
+                    <h3 className="modal__title">{this.props.submittedMsg}</h3>
+                </div>
+            );
         }
         return (
             <div className="modal__content">
                 <div className="modal__header">
                     <h3 className="modal__title">{this.props.heading}</h3>
-                    <a href="#" onClick={this.props.closeModal} className="modal__close">×<span className="u-hidden-visually">Close</span></a>
+                    { this.props.closeModal ? <a href="#" onClick={this.props.closeModal} className="modal__close">×<span className="u-hidden-visually">Close</span></a> : null }
                 </div>
-                <div className="u-padding-small u-padding-top">
+                <div className="modal__body u-padding-small u-padding-top">
                     <p>{this.props.text}</p>
-                    {confirmOwner}
-                    <ul className="o-list-inline u-padding-top-small">
+                    <ul className="o-list-inline">
                         <li className="o-list-inline__item">
-                            <a href="#" onClick={this.props.yesAction} className="o-btn o-btn--tertiary o-btn--small">Yes</a>
-                        </li>&nbsp;&nbsp;
+                            <a href="#" onClick={this.props.yesAction} className="o-btn o-btn--primary o-btn--small">{this.props.yesText}{confirmOwner}</a>
+                        </li>&nbsp;
                         <li className="o-list-inline__item">
-                            <a href="#" onClick={this.props.noAction} className="o-btn o-btn--tertiary o-btn--small">No</a>
+                            <a href="#" onClick={this.props.noAction} className="o-btn o-btn--secondary o-btn--small">{this.props.noText}</a>
                         </li>
                     </ul>
-                </div>
-                    
+                </div>  
             </div>
         );
     }
 
 });
 
-module.exports = ModalChoice;
+module.exports = ModalChoice;   

@@ -13,7 +13,6 @@ const modalStyles = {
         left                  : '50%',
         right                 : 'auto',
         bottom                : 'auto',
-        minWidth              : '300px',
         marginRight           : '-50%',
         padding               : '0',
         border                : '0',
@@ -26,6 +25,14 @@ const modalStyles = {
 };
 
 var OwnFeedContainer = React.createClass({
+
+    propTypes: {
+        feedId:         React.PropTypes.string.isRequired,
+        setOwner:       React.PropTypes.func.isRequired,
+        modalOpen:      React.PropTypes.func.isRequired,
+        modalClose:     React.PropTypes.func.isRequired,
+        wait:           React.PropTypes.number.isRequired
+    },
     
     getInitialState : function () {
         return {
@@ -52,10 +59,10 @@ var OwnFeedContainer = React.createClass({
     },
 
     _openModal : function () {
-        setTimeout(function() {
-            this.setState({ modalIsOpen: true });
-            this.props.modalOpen();
-        }.bind(this), this.props.wait);
+        this.setState({
+            modalIsOpen: true
+        });
+        this.props.modalOpen();
     },
 
     _closeModal : function (e) {
@@ -68,7 +75,9 @@ var OwnFeedContainer = React.createClass({
         this.props.modalClose();
 
         if (!this.state.submitted) {
-            this._openModal();
+            setTimeout(function(){
+                this._openModal();
+            }.bind(this),4000); 
         }
     },
 
@@ -121,10 +130,9 @@ var OwnFeedContainer = React.createClass({
                 this.setState({
                     submitted:true
                 });
-                setTimeout(function() {
-                    this._closeModal();
-                }.bind(this), 2000);
                 window.vidfeed.user.email = this.state.owner;
+                this._closeModal();
+                this.props.setOwner(this.state.owner);
             },
             error: function (ev) {
                 console.log(this.state.owner,'this.state.owner');
@@ -153,11 +161,12 @@ var OwnFeedContainer = React.createClass({
 
         if (this.state.sessionUser && !this.state.newOwner) {
             var sessionUserCheck =  <ModalChoice
-                                        closeModal={this._closeModal}
                                         yesAction={this._useSessionUser}
                                         noAction={this._setNewOwner}
-                                        heading='Own this Feed'
-                                        text='Is this your email?'
+                                        heading='Success, feed created!'
+                                        text='It looks like you&apos;ve been here before…'
+                                        yesText='Yep, I am '
+                                        noText='No, I am somebody else'
                                         confirmOwner={this.state.sessionUser}
                                         submitted={this.state.submitted} 
                                         submittedMsg='Feed owned!' />
@@ -171,23 +180,24 @@ var OwnFeedContainer = React.createClass({
             if (this.state.validationStarted && this.state.isValid) {
                 var valid = true;
             }
-
+            
             var setNewOwner = <EmailForm
-                                heading='Own this Feed'
-                                closeModal={this._closeModal}
+                                heading='Success, feed created!'
                                 handleSubmit={this._handleSubmit}
+                                text='To keep everything running smoothly we just need to know who you are.'
                                 isValid={valid}
                                 value={this.state.owner}
                                 handleChange={this._handleOwnerChange}
                                 submitted={this.state.submitted} 
                                 submittedMsg='Feed owned!' />
-        }   
+        } 
+
+
 
         return (
             <div>
                 <Modal
                     isOpen={this.state.modalIsOpen}
-                    onRequestClose={this._closeModal}
                     style={modalStyles}>
                     {sessionUserCheck}
                     {setNewOwner}
