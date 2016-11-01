@@ -50,3 +50,22 @@ a {
     @include inuit-font-size(12px,$line-height:1.5);
     color:darken($light,20%);
 }
+
+.text-with-icon {
+    position:relative;
+    padding-left:$inuit-global-spacing-unit;
+    .icon {
+        position:absolute;
+        left:0;
+        opacity:.5;
+        transition: $global-transition;
+    }
+    .icon--tick {
+        top:4px;
+    }
+    &:hover, &:focus {
+        .icon {
+            opacity:1;
+        }
+    }
+}

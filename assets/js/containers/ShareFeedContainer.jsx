@@ -17,6 +17,7 @@ const modalStyles = {
         marginRight           : '-50%',
         padding               : '0',
         border                : '0',
+        background            : 'transparant',
         borderRadius          : '0',
         transform             : 'translate(-50%, -50%)',
         transition            : 'opacity .4s ease-in-out',

@@ -18,7 +18,6 @@ var Header = React.createClass({
                 this.setState({
                     sessionUser:window.vidfeed.user.email
                 });
-                clearInterval(this.sessionCheckInterval);
             } 
         }.bind(this);
         this.sessionCheckInterval = setInterval(getSessionUser,1000);
