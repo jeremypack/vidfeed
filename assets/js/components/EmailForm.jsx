@@ -18,14 +18,8 @@ var EmailForm = React.createClass({
     render: function() {
         if (this.props.submitted) {
             return (
-                <div className="modal__content">
-                    <div className="modal__header">
-                        <h3 className="modal__title">{this.props.heading}</h3>
-                        <a href="#" onClick={this.props.closeModal} className="modal__close">×<span className="u-hidden-visually">Close</span></a>
-                    </div>
-                    <div className="u-padding-small u-padding-top">
-                        <p>{this.props.submittedMsg}</p>
-                    </div>
+                <div className="modal__submitted">
+                    <h3 className="modal__title">{this.props.submittedMsg}</h3>
                 </div>
             );
         }
@@ -50,19 +44,22 @@ var EmailForm = React.createClass({
             <div className="modal__content">
                 <div className="modal__header">
                     <h3 className="modal__title">{this.props.heading}</h3>
-                    <a href="#" onClick={this.props.closeModal} className="modal__close">×<span className="u-hidden-visually">Close</span></a>
+                    { this.props.closeModal ? <a href="#" onClick={this.props.closeModal} className="modal__close">×<span className="u-hidden-visually">Close</span></a> : null }
                 </div>
-                {text}
-                {smallText}
-                <form className="form--border" onSubmit={this.props.handleSubmit}>
-                    <div className="u-padding-small u-padding-bottom">
-                        <div className="input-with-button">
-                            <label htmlFor="email" className="u-hidden-visually">Email address</label>
-                            <input id="email" type="email" placeholder="Email address" value={this.props.value} onChange={this.props.handleChange} className="input--border" />
-                            <input type="submit" className={submitClasses} value="Submit" />
+                <div className="modal__body">
+                    {text}
+                    {smallText}
+                    <form className="form--border" onSubmit={this.props.handleSubmit}>
+                        <div className="u-padding-small u-padding-top u-padding-bottom">
+                            <div className="input-with-button">
+                                <label htmlFor="email" className="u-hidden-visually">Email address</label>
+                                <input id="email" type="email" placeholder="Email address" value={this.props.value} onChange={this.props.handleChange} className="input--border" />
+                                <input type="submit" className={submitClasses} value="Submit" />
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
+                
             </div>
         );
     }

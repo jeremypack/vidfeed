@@ -18,6 +18,7 @@ const modalStyles = {
         marginRight           : '-50%',
         padding               : '0',
         border                : '0',
+        background            : 'transparant',
         borderRadius          : '0',
         transform             : 'translate(-50%, -50%)',
         transition            : 'opacity .4s ease-in-out',
@@ -36,7 +37,7 @@ var CommentFormContainer = React.createClass({
             commentValidationStarted:false,
             authorIsValid:false,
             authorValidationStarted:false,
-            returnToSubmit:false,
+            returnToSubmit:true,
             author: '',
             comment: ''
         };
@@ -80,10 +81,9 @@ var CommentFormContainer = React.createClass({
         this.setState({
             modalSubmitted:true
         });
-        setTimeout(function() {
-            this._closeModal();
-            this._handleCommentSubmit();
-        }.bind(this), 2000);
+        this._closeModal();
+        this._handleCommentSubmit();
+        
     },
 
     _handleCommentChange: function(e) {

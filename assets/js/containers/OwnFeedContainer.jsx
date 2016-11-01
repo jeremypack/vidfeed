@@ -13,7 +13,6 @@ const modalStyles = {
         left                  : '50%',
         right                 : 'auto',
         bottom                : 'auto',
-        minWidth              : '300px',
         marginRight           : '-50%',
         padding               : '0',
         border                : '0',
@@ -132,10 +131,8 @@ var OwnFeedContainer = React.createClass({
                     submitted:true
                 });
                 window.vidfeed.user.email = this.state.owner;
-                setTimeout(function() {
-                    this._closeModal();
-                    this.props.setOwner(this.state.owner);
-                }.bind(this), 2000);
+                this._closeModal();
+                this.props.setOwner(this.state.owner);
             },
             error: function (ev) {
                 console.log(this.state.owner,'this.state.owner');
@@ -164,11 +161,12 @@ var OwnFeedContainer = React.createClass({
 
         if (this.state.sessionUser && !this.state.newOwner) {
             var sessionUserCheck =  <ModalChoice
-                                        closeModal={this._closeModal}
                                         yesAction={this._useSessionUser}
                                         noAction={this._setNewOwner}
-                                        heading='Own this Feed'
-                                        text='Is this your email?'
+                                        heading='Success, feed created!'
+                                        text='It looks like you&apos;ve been here before…'
+                                        yesText='Yep, I am '
+                                        noText='No, I am somebody else'
                                         confirmOwner={this.state.sessionUser}
                                         submitted={this.state.submitted} 
                                         submittedMsg='Feed owned!' />
@@ -182,19 +180,11 @@ var OwnFeedContainer = React.createClass({
             if (this.state.validationStarted && this.state.isValid) {
                 var valid = true;
             }
-
+            
             var setNewOwner = <EmailForm
                                 heading='Success, feed created!'
-                                closeModal={this._closeModal}
                                 handleSubmit={this._handleSubmit}
                                 text='To keep everything running smoothly we just need to know who you are.'
-                                smallText='<p>Why?</p>
-                                            <ul>
-                                                <li>We email you with the direct link to this page so you don&apos;t lose it.</li>
-                                                <li>When people comment on this page we drop you an email.</li>
-                                                <li>When you share this page we let people know who&apos;s sent it too them.</li>
-                                            </ul>
-                                            <p>psst, we hate spam, you won&apos;t get any from us.</p>'
                                 isValid={valid}
                                 value={this.state.owner}
                                 handleChange={this._handleOwnerChange}
