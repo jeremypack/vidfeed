@@ -96,12 +96,21 @@
             margin-left:0;
         }
     }
-    a {
+    a, input[type=submit] {
+        display:block;
         opacity:0.5;
         transition: $global-transition;
         &:hover, &:focus {
             opacity:1;
         }
+    }
+    input[type=submit] {
+        padding:0;
+        border:0;
+        background-color:transparent;
+        font-size: 0;
+        -webkit-appearance: none;
+        -moz-appearance: none;
     }
 }
 .c-comment__created {

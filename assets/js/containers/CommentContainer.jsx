@@ -60,6 +60,7 @@ var CommentContainer = React.createClass({
 
     _saveEdit: function (e) {
         e.preventDefault();
+        var commentId = $(e.currentTarget).closest('.c-comment').data('id');
         this.props.handleCommentEdit(commentId, this.props.author, this.state.commentBody);
         this.setState({
             editable:false
@@ -148,9 +149,10 @@ var CommentContainer = React.createClass({
                         author={this.props.author}
                         value={this.state.commentBody}
                         timecode={formattedTime}
+                        isReply={false}
                         created={this.props.time} 
                         handleChange={this._handleCommentChange}
-                        saveChange={this._saveEdit}
+                        handleSubmit={this._saveEdit}
                         cancelChange={this._cancelEdit} />
                     {replyNodes}
                 </div>
