@@ -29,7 +29,7 @@ def send_email(template, template_context, subject, to, from_email=None):
     except TemplateDoesNotExist:
         text = None
 
-#   Toggle HTML & Text Emails by removing #
+#   Toggle Email by removing #
 #    html = None
     if html is not None and text is not None:
         email = EmailMultiAlternatives(subject, text, from_email=from_email, to=[to])
