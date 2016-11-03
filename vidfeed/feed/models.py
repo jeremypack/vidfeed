@@ -75,8 +75,9 @@ class Feed(models.Model):
         args = {
             'feed': self,
             'sender_email': sender,
+            'recipient_email': recipient,
         }
-        send_email('invite_received', args, self.video_title, recipient)
+        send_email('invite_received', args, sender.email+" invited you to review: "+self.video_title, recipient)
 
     @staticmethod
     def generate_link_id():

@@ -4,7 +4,7 @@
     <meta charset="utf-8"> <!-- utf-8 works for most cases -->
     <meta name="viewport" content="width=device-width"> <!-- Forcing initial-scale shouldn't be necessary -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Use the latest (edge) version of IE rendering engine -->
-    <title></title> <!-- The title tag shows in email notifications, like Android 4.4. -->
+    <title>New Vidfeed Notification</title> <!-- The title tag shows in email notifications, like Android 4.4. -->
 
     <!-- Web Font / @font-face : BEGIN -->
     <!-- NOTE: If web fonts are not required, lines 9 - 26 can be safely removed. -->
@@ -91,8 +91,8 @@
         }
         .button-td:hover,
         .button-a:hover {
-            background: #4BBAE0 !important;
-            border-color: #4BBAE0 !important;
+            background: #ec2e5b !important;
+            border-color: #ec2e5b !important;
             cursor: pointer;
         }
 
@@ -168,19 +168,29 @@
         <!-- Email Header : END -->
 
         <!-- Email Body : BEGIN -->
-        <table cellspacing="0" cellpadding="0" border="0" align="center" bgcolor="#ffffff" width="600" style="margin: auto; border-top:4px solid #49C9F5;" class="email-container">
+        <table cellspacing="0" cellpadding="0" border="0" align="center" bgcolor="#ffffff" width="600" style="margin: auto;" class="email-container">
+
+
+                       <!-- 1 Column Text : BEGIN -->
+            <tr>
+                <td style="padding: 25px 40px; text-align: left; font-family: sans-serif; font-size: 18px; mso-height-rule: exactly; line-height: 20px; color: #ffffff; background-color: #2D2F34; text-transform: capitalize;">
+                    {% block emailtitle %}{% endblock %}
+                </td>
+            </tr>
+            <!-- 1 Column Text : BEGIN -->
+
         
             <!-- Thumbnail Left, Text Right : BEGIN -->
             <tr>
-                <td dir="ltr" align="center" valign="top" width="100%" style="padding: 30px;">
+                <td dir="ltr" align="center" valign="top" width="100%" style="padding: 40px 20px;">
                     <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
                             <!-- Column : BEGIN -->
                             <td width="33.33%" class="stack-column-center">
                                 <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
                                     <tr>
-                                        <td dir="ltr" valign="top" style="padding: 0 10px;">
-                                            <img src="{{ feed.video_thumbnail}}" width="170" width="170" alt="video thumbnail" border="0" class="center-on-narrow">
+                                        <td dir="ltr" valign="top" style="padding: 0 20px; cursor: pointer;">
+                                            <a href="{{ settings.BASE_URL }}{{ feed.get_absolute_url }}"><img src="{{ feed.video_thumbnail}}" width="170" width="170" alt="video thumbnail" border="0" class="center-on-narrow"></a>
                                         </td>
                                     </tr>
                                 </table>
@@ -190,10 +200,10 @@
                             <td width="66.66%" class="stack-column-center">
                                 <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
                                     <tr>
-                                        <td dir="ltr" valign="center" style="font-family: sans-serif; font-size: 18px; mso-height-rule: exactly; line-height: 20px; color: #555555; padding: 10px 10px 10px 30px; text-align: left;" class="center-on-narrow">
-                                            <strong style="color:#2D2F34; font-size: 20px;">{% block emailtitle %}{% endblock %}</strong>
-                                            <br><br>
-                                            "{{ feed.video_title }}"
+                                        <td dir="ltr" valign="center" style="font-family: sans-serif; font-size: 18px; mso-height-rule: exactly; line-height: 20px; color: #555555; padding: 10px 20px; text-align: left;" class="center-on-narrow">
+                                            
+                                            "{{ feed.video_title }}"<br>
+                                            <span style="font-size: 14px;">created by <a href="mailto: {{ feed.owner.email}}" style="text-decoration: none; color: #555555"> {{ feed.owner.email }}</a></span>
                                         </td>
                                     </tr>
                                 </table>
@@ -212,8 +222,8 @@
                     <!-- Button : Begin -->
                     <table cellspacing="0" cellpadding="0" border="0" align="left" style="Margin: auto;">
                         <tr>
-                            <td style="border-radius: 3px; background: #49C9F5; text-align: center;" class="button-td">
-                                <a href="{{ settings.BASE_URL }}{{ feed.get_absolute_url }}" style="background: #49C9F5; border: 15px solid #49C9F5; font-family: sans-serif; font-size: 14px; line-height: 1.1; text-align: center; text-decoration: none; display: block; border-radius: 3px; font-weight: bold; cursor: pointer;" class="button-a">
+                            <td style="border-radius: 3px; background: #f05d80; text-align: center;" class="button-td">
+                                <a href="{{ settings.BASE_URL }}{{ feed.get_absolute_url }}" style="background: #f05d80; border: 15px solid #f05d80; font-family: sans-serif; font-size: 14px; line-height: 1.1; text-align: center; text-decoration: none; display: block; border-radius: 3px; font-weight: bold; cursor: pointer;" class="button-a">
                                     &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ffffff">View the Feed</span>&nbsp;&nbsp;&nbsp;&nbsp;
                                 </a>
                             </td>

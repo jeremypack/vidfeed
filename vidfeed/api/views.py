@@ -133,6 +133,7 @@ class FeedDetail(viewsets.GenericViewSet):
         set_vidfeed_user_cookie(r, feed.owner.email)
         ctx = {
             'feed': feed,
+            'feed_owner': feed.owner.email,
         }
         send_email('feed_created', ctx, "New Feed Created: "+feed.video_title, feed.owner.email)
         return r
