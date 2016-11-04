@@ -5,7 +5,7 @@
 {% block preheader %} Feed sent to {% for u in list_recipients %}{{ u }}{% if not foorloop.last %}, {% endif %}{% endfor %}{% endblock %}
 
 
-{% block emailtitle %}Great! Invite Sent{% endblock %}
+{% block emailtitle %}Invite Sent, Great!{% endblock %}
 
 
 {% block content %}
@@ -21,7 +21,7 @@
                         <strong><a href="mailto:{{ u }}" style="color: #2D2F34">{{ u }}</a></strong>{% if not forloop.last %}<br>{% endif %}
                     {% endfor %}
                     <br><br>
-                    We'll drop you an email letting you know when each new collaborator leave thier first comment. That way you can stay ahead of the game.<br>
+                    We'll drop you an email letting you know when each new collaborator leaves thier first comment. That way you can stay ahead of the game.<br>
                     <br>
                     Hope it goes well!<br>
                     <br>
