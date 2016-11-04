@@ -1,4 +1,5 @@
 var React = require('react');
+import Linkify from 'react-linkify';
 import FormattedRelativeDate from 'react-npm-formatted-relative-date';
 
 var User = require('../components/User');
@@ -47,7 +48,9 @@ var Comment = React.createClass({
                     {this.props.isReply ? null : <p className="c-comment__timecode">{this.props.timecode}</p> }
                 </div>
                 <div className="c-comment__body">
-                    {this.props.value}
+                    <Linkify properties={{target: '_blank'}}>
+                        {this.props.value}
+                    </Linkify>
                     <div className="u-clearfix">
                         {commentActions}
                         <div className="c-comment__created">
