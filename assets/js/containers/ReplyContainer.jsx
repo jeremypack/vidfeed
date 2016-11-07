@@ -86,7 +86,7 @@ var ReplyContainer = React.createClass({
                     created={this.props.created}
                     isReply={this.props.isReply}
                     handleChange={this._handleReplyChange}
-                    saveChange={this._saveEdit}
+                    handleSubmit={this._saveEdit}
                     cancelChange={this._cancelEdit} />
             );
         }

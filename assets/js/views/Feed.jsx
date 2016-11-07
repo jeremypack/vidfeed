@@ -34,7 +34,9 @@ var Feed = React.createClass({
             commentsOpen:false,
             drawerVisible:false,
             commentsBtn:true,
-            windowHeight:undefined
+            windowHeight:undefined,
+            videoColWidth:undefined,
+            notResized:true
         };
     },
 
@@ -71,6 +73,15 @@ var Feed = React.createClass({
         var remainingHeight = window.innerHeight - headerHeight;
         this.setState({
             windowHeight:remainingHeight
+        }, function() {
+            var videoColWidth = this.refs.main.clientWidth;
+            var ratio = videoColWidth/this.refs.main.clientHeight;
+            var requiredWidth = this.state.windowHeight*ratio;
+            var reducedWidth = Math.floor(requiredWidth);
+            this.setState({
+                videoColWidth:reducedWidth-25,
+                notResized:false
+            });
         });
     },
 
@@ -182,8 +193,22 @@ var Feed = React.createClass({
         });
 
         var offCanvasStyle = {
-            height:this.state.windowHeight
+            height:this.state.windowHeight,
+            overflow:'hidden'
         };
+
+        var videoColWidthClasses = classNames({
+            'o-offCanvas__main o-layout__item': true,
+            'u-2/3@tablet u-3/5@desktop':this.state.notResized
+        });
+
+        var videoColWidthStyle = {
+            width:this.state.videoColWidth,
+            transition:'all ease 300ms'
+        };
+
+        console.log(this.state.videoColWidth,'this.state.videoColWidth');
+        console.log(this.state.notResized,'this.state.notResized');
 
         return (
             <div>
@@ -210,7 +235,7 @@ var Feed = React.createClass({
                     
                     <div style={offCanvasStyle} className="o-offCanvas__outer o-layout o-layout--flush o-layout--center ">
                         <a href="#" className={commentsBtnClasses} onClick={this._commentsToggle}><i className="icon icon--bubble"></i><span className="u-hidden-visually">open comments</span></a>
-                        <div className="o-offCanvas__main o-layout__item u-2/3@tablet u-3/5@desktop"> 
+                        <div style={videoColWidthStyle} ref="main" className={videoColWidthClasses}> 
                             <div className="o-offCanvas__main__inner">
                                 
                                 <FeedVideoContainer
