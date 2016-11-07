@@ -2,6 +2,11 @@ var React = require('react');
 var classNames = require('classnames');
 
 var ReplyForm = React.createClass({
+    
+    componentDidMount: function() {
+        this.refs.replyInput.focus();
+    },
+
     render: function() {
         
         var submitClasses = classNames({
@@ -13,7 +18,7 @@ var ReplyForm = React.createClass({
             <div className="u-margin-top-small">
                 <form className="form--border replyForm" onSubmit={this.props.handleReplySubmit}>
                     <div className="input-with-button">
-                        <input type="text" placeholder="Write a reply" value={this.props.comment} onChange={this.props.handleReplyChange} className="input--border" />
+                        <input type="text" ref="replyInput" placeholder="Write a reply" value={this.props.comment} onChange={this.props.handleReplyChange} className="input--border" />
                         <input type="submit" className={submitClasses} value="Reply" />
                     </div>
                 </form>
