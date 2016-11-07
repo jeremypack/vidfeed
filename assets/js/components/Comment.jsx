@@ -16,7 +16,8 @@ var Comment = React.createClass({
         replyIsOpen:           React.PropTypes.bool,
         toggleReply:           React.PropTypes.func,
         editComment:           React.PropTypes.func,
-        deleteComment:         React.PropTypes.func
+        deleteComment:         React.PropTypes.func,
+        timecodeClick:         React.PropTypes.func
     },
 
     render: function() {
@@ -45,7 +46,7 @@ var Comment = React.createClass({
                     <div className="c-comment__author">
                         <User userEmail={this.props.author} />
                     </div>
-                    {this.props.isReply ? null : <p className="c-comment__timecode">{this.props.timecode}</p> }
+                    {this.props.isReply ? null : <a href="#" onClick={this.props.timecodeClick} className="c-comment__timecode">{this.props.timecode}</a> }
                 </div>
                 <div className="c-comment__body">
                     <Linkify properties={{target: '_blank'}}>

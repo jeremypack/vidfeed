@@ -155,7 +155,6 @@ var CommentFormContainer = React.createClass({
 
     _handleKeyPress: function(target) {
         if (this.state.returnToSubmit && target.charCode===13) {
-            console.log('reutrn to sibit');
             this._handleCommentSubmit();
         }
     },

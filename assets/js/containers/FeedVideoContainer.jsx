@@ -11,7 +11,7 @@ var FeedVideoContainer = React.createClass({
     propTypes: {
         feedId:                 React.PropTypes.string.isRequired,
         onTimecodeChange:       React.PropTypes.func.isRequired,
-        videoIsPaused:          React.PropTypes.bool.isRequired
+        seekToTime:             React.PropTypes.number
     },
 
     getInitialState: function() {
@@ -27,7 +27,8 @@ var FeedVideoContainer = React.createClass({
             played:0,
             duration:null,
             elapsed:0,
-            loaded:0
+            loaded:0,
+            lastSeek:undefined
         };
     },
 
@@ -48,6 +49,24 @@ var FeedVideoContainer = React.createClass({
                 });
             }
         });
+    },
+
+    componentWillReceiveProps:function(nextProps) {
+        if (nextProps.seekToTime != this.state.lastSeek) {
+            this.setState({
+                lastSeek:nextProps.seekToTime
+            });
+            this._seekTo(nextProps.seekToTime);
+        }
+    },
+
+    _seekTo:function(number) {
+        var fraction = number / this.state.duration;
+        if (fraction === 0) {
+            fraction = 0.0002;
+        }
+        this.refs.player.seekTo(fraction);
+        this._onPause();
     },
 
     _isYoutube: function() {
@@ -102,9 +121,7 @@ var FeedVideoContainer = React.createClass({
     },
 
     render: function() {
-        
-        console.log(window.vidfeed.playing,'window.vidfeed.playing');
-        
+                
         if (this._isYoutube()) {
             return (
                 <section className="c-player">
@@ -136,7 +153,7 @@ var FeedVideoContainer = React.createClass({
                             onPlay={this._onPlay} 
                             onPause={this._onPause}
                             onProgress={this._onProgress}
-                            onDuration={this._onDuration} 
+                            onDuration={this._onDuration}
                             vimeoConfig={vimeoConfig} />
                     </div>
                 </section>

@@ -16,6 +16,7 @@ var CommentContainer = React.createClass({
         commentBody:            React.PropTypes.string,
         handleCommentEdit:      React.PropTypes.func.isRequired,
         handleDeleteComment:    React.PropTypes.func.isRequired,
+        timecodeClick:          React.PropTypes.func.isRequired
     },
 
     getInitialState: function() {
@@ -110,6 +111,12 @@ var CommentContainer = React.createClass({
         });
     },
 
+    _timecodeClick: function(e) {
+        e.preventDefault();
+        var timecode = this.props.timecode
+        this.props.timecodeClick(this.props.timecode);
+    },
+
     render: function() {
         var formattedTime = this._formattedTime(this.props.timecode);
                 
@@ -153,7 +160,8 @@ var CommentContainer = React.createClass({
                         created={this.props.time} 
                         handleChange={this._handleCommentChange}
                         handleSubmit={this._saveEdit}
-                        cancelChange={this._cancelEdit} />
+                        cancelChange={this._cancelEdit}
+                        timecodeClick={this._timecodeClick} />
                     {replyNodes}
                 </div>
             );
@@ -173,7 +181,8 @@ var CommentContainer = React.createClass({
                         editComment={this._setEditMode} 
                         deleteComment={this._deleteComment}
                         toggleReply={this._toggleReply}
-                        replyIsOpen={this.state.replyOpen} />
+                        replyIsOpen={this.state.replyOpen}
+                        timecodeClick={this._timecodeClick} />
                     {replyNodes}
                     {replyForm}
                 </div>
@@ -191,7 +200,8 @@ var CommentContainer = React.createClass({
                         timecode={formattedTime}
                         created={this.props.time} 
                         toggleReply={this._toggleReply}
-                        replyIsOpen={this.state.replyOpen} />
+                        replyIsOpen={this.state.replyOpen}
+                        timecodeClick={this._timecodeClick} />
                     {replyNodes}
                     {replyForm}
                 </div>
