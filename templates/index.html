@@ -61,6 +61,7 @@
         email: {% if vidfeeduser %}'{{ vidfeeduser }}'{% else %}null{% endif %}
       };
       window.vidfeed.urls = {};
+      window.vidfeed.playing = false;
     </script>
     {% render_bundle 'main' 'js' %}
   </body>

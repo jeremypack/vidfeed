@@ -21,7 +21,7 @@ function hmsToSecondsOnly(str) {
 }
 
 var Feed = React.createClass({
-    
+
     getInitialState: function() {
         return {
             feed:[],
@@ -206,9 +206,6 @@ var Feed = React.createClass({
             width:this.state.videoColWidth,
             transition:'all ease 300ms'
         };
-
-        console.log(this.state.videoColWidth,'this.state.videoColWidth');
-        console.log(this.state.notResized,'this.state.notResized');
 
         return (
             <div>

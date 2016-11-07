@@ -8,6 +8,12 @@ function pad (string) {
 
 var FeedVideoContainer = React.createClass({
 
+    propTypes: {
+        feedId:                 React.PropTypes.string.isRequired,
+        onTimecodeChange:       React.PropTypes.func.isRequired,
+        videoIsPaused:          React.PropTypes.bool.isRequired
+    },
+
     getInitialState: function() {
         return {
             created: "",
@@ -48,16 +54,17 @@ var FeedVideoContainer = React.createClass({
         return this.state.provider.id === 1;
     },
 
-    _playPause: function() {
-        if (this.state.playing) {
-            this.setState({playing:false});
-        } else {
-            this.setState({playing:true});
-        }
+    _onPlay: function() {
+        window.vidfeed.playing = true;
+    },
+    _onPause: function() {
+        window.vidfeed.playing = false;
     },
 
     _onDuration: function(data) {
-        this.setState({duration:data});
+        this.setState({
+            duration:data
+        });
     },
 
     _onProgress:function(data) {
@@ -70,7 +77,6 @@ var FeedVideoContainer = React.createClass({
         } else {
              $('#timecode').text(this._calcElapsed(data.played * this.state.duration));
         }
-
 
         this.setState({
             loaded: data.loaded,
@@ -96,6 +102,9 @@ var FeedVideoContainer = React.createClass({
     },
 
     render: function() {
+        
+        console.log(window.vidfeed.playing,'window.vidfeed.playing');
+        
         if (this._isYoutube()) {
             return (
                 <section className="c-player">
@@ -122,9 +131,10 @@ var FeedVideoContainer = React.createClass({
                             width='100%'
                             height='100%'
                             ref='player'
+                            playing={window.vidfeed.playing}
                             url={vimeoUrl}
-                            onPlay={this._playPause} 
-                            onPause={this._playPause}
+                            onPlay={this._onPlay} 
+                            onPause={this._onPause}
                             onProgress={this._onProgress}
                             onDuration={this._onDuration} 
                             vimeoConfig={vimeoConfig} />

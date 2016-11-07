@@ -5,6 +5,7 @@ var CommentForm = React.createClass({
     
     propTypes: {
         timecode:               React.PropTypes.any.isRequired,
+        commentFormActive:      React.PropTypes.func.isRequired,
         handleCommentChange:    React.PropTypes.func.isRequired,
         handleKeyPress:         React.PropTypes.func.isRequired,
         handleSubmit:           React.PropTypes.func.isRequired,
@@ -25,7 +26,7 @@ var CommentForm = React.createClass({
             <section className="c-commentForm">
                 <p className="c-commentForm__timecode">{this.props.timecode}</p>
                 <form className="c-commentForm__form" onSubmit={this.props.handleSubmit}>
-                    <textarea placeholder="Add a comment…" value={this.props.body} className="c-commentForm__input" onChange={this.props.handleCommentChange} onKeyPress={this.props.handleKeyPress}></textarea>
+                    <textarea placeholder="Add a comment…" onFocus={this.props.commentFormActive} value={this.props.body} className="c-commentForm__input" onChange={this.props.handleCommentChange} onKeyPress={this.props.handleKeyPress}></textarea>
                     <div className="c-commentForm__actions">
                         <label className="label-with-input c-commentForm__returnToSubmit"><input type="checkbox" checked={this.props.returnToSubmitBool} name="returnToSubmit" onChange={this.props.returnToSubmitSwitch} />&apos;Enter&apos; key submits comment</label>
                         <input type="submit" className={submitClasses} value="Comment" />
