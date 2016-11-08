@@ -61,11 +61,17 @@ var FeedVideoContainer = React.createClass({
     },
 
     _seekTo:function(number) {
-        var fraction = number / this.state.duration;
-        if (fraction === 0) {
-            fraction = 0.0002;
+        if (this._isYoutube()) {
+            this.setState({
+                youtubeSeekTo:number
+            });
+        } else {
+            var fraction = number / this.state.duration;
+            if (fraction === 0) {
+                fraction = 0.0002;
+            }
+            this.refs.player.seekTo(fraction);
         }
-        this.refs.player.seekTo(fraction);
         this._onPause();
     },
 
@@ -128,7 +134,11 @@ var FeedVideoContainer = React.createClass({
                     <div className="c-player__height">
                         <YouTubePlayer
                             video_id={this.state.video_id}
-                            onProgress={this._onYouTubeProgress}/>
+                            onProgress={this._onYouTubeProgress}
+                            playing={window.vidfeed.playing}
+                            onPlay={this._onPlay} 
+                            onPause={this._onPause}
+                            seekTo={this.state.youtubeSeekTo} />
                     </div>
                 </section>
             );
