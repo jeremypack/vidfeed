@@ -64,6 +64,10 @@ var Feed = React.createClass({
 
     _resizeContent : function() {
         var windowWidth = window.innerWidth;
+        this.setState({
+            videoColWidth:undefined,
+            notResized:true
+        });
         if (windowWidth < 740) {
             this.setState({
                 windowHeight:undefined
@@ -75,14 +79,16 @@ var Feed = React.createClass({
         this.setState({
             windowHeight:remainingHeight
         }, function() {
-            var videoColWidth = this.refs.main.clientWidth;
-            var ratio = videoColWidth/this.refs.main.clientHeight;
-            var requiredWidth = this.state.windowHeight*ratio;
-            var reducedWidth = Math.floor(requiredWidth);
-            this.setState({
-                videoColWidth:reducedWidth-25,
-                notResized:false
-            });
+            if (windowWidth > 980 && this.state.windowHeight < 690 || this.refs.main.clientHeight > this.state.windowHeight) {
+                var videoColWidth = this.refs.main.clientWidth;
+                var ratio = videoColWidth/this.refs.main.clientHeight;
+                var requiredWidth = this.state.windowHeight*ratio;
+                var reducedWidth = Math.floor(requiredWidth);
+                this.setState({
+                    videoColWidth:reducedWidth-25,
+                    notResized:false
+                });
+            }   
         });
     },
 
