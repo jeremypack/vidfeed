@@ -77,7 +77,7 @@ var ShareFeedContainer = React.createClass({
             this.setState({
                 validationStarted: true
             });
-            this.validateInterval = setInterval(validateTrigger,1000);
+            this.validateInterval = setInterval(validateTrigger,500);
         }
     },
 

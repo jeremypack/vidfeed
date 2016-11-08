@@ -80,7 +80,7 @@ var CommentFormContainer = React.createClass({
             this.setState({
                 authorValidationStarted: true
             });
-            this.authorValidateInterval = setInterval(authorValidateTrigger,1000);
+            this.authorValidateInterval = setInterval(authorValidateTrigger,500);
         }
     },
 
@@ -114,7 +114,7 @@ var CommentFormContainer = React.createClass({
             this.setState({
                 commentValidationStarted: true
             });
-            this.commentValidateInterval = setInterval(commentValidateTrigger,1000);
+            this.commentValidateInterval = setInterval(commentValidateTrigger,500);
         }
     },
 
