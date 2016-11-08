@@ -3,8 +3,8 @@
    ========================================================================== */
 
 .header {
-    height:inuit-rem(80px);
-    padding:$inuit-global-spacing-unit/2 $inuit-global-spacing-unit;
+    height:inuit-rem(65px);
+    padding:$inuit-global-spacing-unit/4 $inuit-global-spacing-unit;
     border-top:4px solid $blue;
     background:#fff;
     &:before {
@@ -17,6 +17,7 @@
         display:inline-block;
         vertical-align:middle;
         max-width:inuit-rem(103px);
+        margin-top:3px;
     }
 }
 .header--home {
