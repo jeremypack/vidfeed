@@ -32,6 +32,7 @@ var CollaboratorsContainer = React.createClass({
         feedId:            React.PropTypes.string.isRequired,
         modalOpen:         React.PropTypes.func.isRequired,
         modalClose:        React.PropTypes.func.isRequired,
+        pollInterval:      React.PropTypes.number.isRequired
     },
 
     getInitialState: function() {
@@ -43,8 +44,12 @@ var CollaboratorsContainer = React.createClass({
 
     componentDidMount: function() {
         this._loadCollaboratorsFromServer();
+        this.collaboratorsInterval = setInterval(this._loadCollaboratorsFromServer, this.props.pollInterval);
     },
 
+    componentWillUnmount:function(){
+        clearInterval(this.collaboratorsInterval);
+    },
     
     _loadCollaboratorsFromServer: function() {
         $.ajax({

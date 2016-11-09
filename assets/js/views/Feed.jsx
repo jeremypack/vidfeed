@@ -79,7 +79,7 @@ var Feed = React.createClass({
         this.setState({
             windowHeight:remainingHeight
         }, function() {
-            if (windowWidth > 980 && this.state.windowHeight < 690 || this.refs.main.clientHeight > this.state.windowHeight) {
+            if (windowWidth > 1040 && this.state.windowHeight < 690 || this.refs.main.clientHeight > this.state.windowHeight) {
                 var videoColWidth = this.refs.main.clientWidth;
                 var ratio = videoColWidth/this.refs.main.clientHeight;
                 var requiredWidth = this.state.windowHeight*ratio;
@@ -238,7 +238,8 @@ var Feed = React.createClass({
                             <CollaboratorsContainer
                                 feedId={this.props.params.feedId}
                                 modalOpen={this._modalOpen}
-                                modalClose={this._modalClose} />
+                                modalClose={this._modalClose}
+                                pollInterval={1000} />
                             
                             <a href="#" onClick={this._shareModalOpen} className="o-btn o-btn--tertiary o-btn--with-icon o-btn--outline o-btn--small">Share <i className="icon icon--user"></i></a>
                         </div>
