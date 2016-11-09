@@ -1,9 +1,31 @@
 var React = require('react');
+var Modal = require('react-modal');
 
 var Comment = require('../components/Comment');
 var EditComment = require('../components/EditComment');
 var ReplyContainer = require('../containers/ReplyContainer');
 var ReplyFormContainer = require('../containers/ReplyFormContainer');
+var ModalChoice = require('../components/ModalChoice');
+
+const modalStyles = {
+    overlay : {
+        backgroundColor       : 'transparant'
+    },
+        content : {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        padding               : '0',
+        border                : '0',
+        borderRadius          : '0',
+        transform             : 'translate(-50%, -50%)',
+        transition            : 'opacity .4s ease-in-out',
+        opacity               : '0',
+        boxShadow             : '1px 1px 4px -1px rgba(0,0,0,.25)'
+    }
+};
 
 var CommentContainer = React.createClass({
     
@@ -24,7 +46,9 @@ var CommentContainer = React.createClass({
             editable: false,
             replyOpen: false,
             commentActions: false,
-            commentBody: this.props.body
+            commentBody: this.props.body,
+            deleteCommentCheck:false,
+            commentIdToDelete:undefined
         };
     },
 
@@ -72,10 +96,35 @@ var CommentContainer = React.createClass({
         this.props.handleCommentEdit(replyId, author, text);
     },
 
-    _deleteComment: function (e) {
-        e.preventDefault();
-        var commentId = $(e.currentTarget).closest('.c-comment').data('id');
-        this.props.handleDeleteComment(commentId);
+    _deleteComment: function (e, id) {
+        if (e) {
+            e.preventDefault();
+        }
+        if (this.state.deleteCommentCheck) {
+            this.props.handleDeleteComment(this.state.commentIdToDelete);
+            this.props.modalClose();
+            this.setState({
+                deleteCommentCheck: false,
+                commentIdToDelete:undefined
+            });
+        } else { 
+            if (!id) {
+                id = $(e.currentTarget).closest('.c-comment').data('id');
+            }
+            this.props.modalOpen();
+            this.setState({
+                deleteCommentCheck: true,
+                commentIdToDelete:id
+            });
+        }
+    },
+
+    _deleteCommentCancel: function() {
+        this.props.modalClose();
+        this.setState({
+            deleteCommentCheck:false,
+            commentIdToDelete:undefined
+        });
     },
 
     _deleteReply: function (replyId) {
@@ -120,9 +169,25 @@ var CommentContainer = React.createClass({
     render: function() {
         var formattedTime = this._formattedTime(this.props.timecode);
                 
+        
+        var deleteCommentModal = <Modal
+                                    isOpen={this.state.deleteCommentCheck}
+                                    onRequestClose={this._deleteCommentCancel}
+                                    style={modalStyles}> 
+                                    <ModalChoice
+                                        closeModal={this._deleteCommentCancel}
+                                        yesAction={this._deleteComment}
+                                        noAction={this._deleteCommentCancel}
+                                        heading='Remove comment'
+                                        text='Are you sure?'
+                                        yesText='Yep, remove comment'
+                                        noText='I&apos;ve changed my mind' />
+                                 </Modal>
+
+
         if (this.props.children.length) {
             var editReply = this._saveReplyEdit;
-            var deleteReply = this._deleteReply; 
+            var deleteReply = this._deleteComment; 
             var repliesArr = this.props.children;
             var replyNodes = repliesArr.map(function(reply){
                 return (
@@ -185,7 +250,9 @@ var CommentContainer = React.createClass({
                         timecodeClick={this._timecodeClick} />
                     {replyNodes}
                     {replyForm}
+                    {deleteCommentModal}
                 </div>
+
             );
         
         } else {

@@ -66,7 +66,7 @@ var ReplyContainer = React.createClass({
     _deleteReply: function (e) {
         e.preventDefault();
         var replyId = $(e.currentTarget).closest('.c-comment').data('id');
-        this.props.deleteReply(replyId);
+        this.props.deleteReply(null, replyId);
     },
 
     _handleReplyChange: function (e) {
