@@ -8,6 +8,12 @@ function pad (string) {
 
 var FeedVideoContainer = React.createClass({
 
+    propTypes: {
+        feedId:                 React.PropTypes.string.isRequired,
+        onTimecodeChange:       React.PropTypes.func.isRequired,
+        seekToTime:             React.PropTypes.number
+    },
+
     getInitialState: function() {
         return {
             created: "",
@@ -21,7 +27,8 @@ var FeedVideoContainer = React.createClass({
             played:0,
             duration:null,
             elapsed:0,
-            loaded:0
+            loaded:0,
+            lastSeek:undefined
         };
     },
 
@@ -44,20 +51,45 @@ var FeedVideoContainer = React.createClass({
         });
     },
 
+    componentWillReceiveProps:function(nextProps) {
+        if (nextProps.seekToTime != this.state.lastSeek) {
+            this.setState({
+                lastSeek:nextProps.seekToTime
+            });
+            this._seekTo(nextProps.seekToTime);
+        }
+    },
+
+    _seekTo:function(number) {
+        if (this._isYoutube()) {
+            this.setState({
+                youtubeSeekTo:number
+            });
+        } else {
+            var fraction = number / this.state.duration;
+            if (fraction === 0) {
+                fraction = 0.0002;
+            }
+            this.refs.player.seekTo(fraction);
+        }
+        this._onPause();
+    },
+
     _isYoutube: function() {
         return this.state.provider.id === 1;
     },
 
-    _playPause: function() {
-        if (this.state.playing) {
-            this.setState({playing:false});
-        } else {
-            this.setState({playing:true});
-        }
+    _onPlay: function() {
+        window.vidfeed.playing = true;
+    },
+    _onPause: function() {
+        window.vidfeed.playing = false;
     },
 
     _onDuration: function(data) {
-        this.setState({duration:data});
+        this.setState({
+            duration:data
+        });
     },
 
     _onProgress:function(data) {
@@ -70,7 +102,6 @@ var FeedVideoContainer = React.createClass({
         } else {
              $('#timecode').text(this._calcElapsed(data.played * this.state.duration));
         }
-
 
         this.setState({
             loaded: data.loaded,
@@ -96,13 +127,18 @@ var FeedVideoContainer = React.createClass({
     },
 
     render: function() {
+                
         if (this._isYoutube()) {
             return (
                 <section className="c-player">
                     <div className="c-player__height">
                         <YouTubePlayer
                             video_id={this.state.video_id}
-                            onProgress={this._onYouTubeProgress}/>
+                            onProgress={this._onYouTubeProgress}
+                            playing={window.vidfeed.playing}
+                            onPlay={this._onPlay} 
+                            onPause={this._onPause}
+                            seekTo={this.state.youtubeSeekTo} />
                     </div>
                 </section>
             );
@@ -122,11 +158,12 @@ var FeedVideoContainer = React.createClass({
                             width='100%'
                             height='100%'
                             ref='player'
+                            playing={window.vidfeed.playing}
                             url={vimeoUrl}
-                            onPlay={this._playPause} 
-                            onPause={this._playPause}
+                            onPlay={this._onPlay} 
+                            onPause={this._onPause}
                             onProgress={this._onProgress}
-                            onDuration={this._onDuration} 
+                            onDuration={this._onDuration}
                             vimeoConfig={vimeoConfig} />
                     </div>
                 </section>

@@ -72,10 +72,16 @@
     padding:4px 8px;
     background:#fff;
     font-weight:600;
+    color:$mid;
     @include inuit-font-size(14px, $line-height:1);
     border-radius:3px;
+    transition: all $global-transition;
     .c-comment__outer:nth-of-type(odd) & {
         background:#f5f6f7;
+    }
+    &:hover {
+        background:$red!important;
+        color:#fff;
     }
 }
 .c-comment__body {

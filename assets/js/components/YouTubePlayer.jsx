@@ -1,10 +1,13 @@
 var React = require('react');
 
+var player;
+
 var YouTubePlayer = React.createClass({
     interval: null,
     getInitialState: function() {
         return {
-            'video_id': 'wMAuk5D6h1w'
+            'video_id': 'wMAuk5D6h1w',
+            lastSeek:undefined
         }
     },
 
@@ -14,15 +17,26 @@ var YouTubePlayer = React.createClass({
     },
 
     componentDidMount: function() {
-        var player;
+        
         window.onPlayerReady = function () {
           this.interval = setInterval(function() {
             this.props.onProgress(player.getCurrentTime());
           }.bind(this), 100);
         }.bind(this);
-        window.onPlayerStateChange = function () {
-          console.log('player state changed');
-        };
+        window.onPlayerStateChange = function (event) {
+            switch(event.data) {
+              case 0:
+                //console.log('video ended');
+                break;
+              case 1:
+                //console.log('video playing from '+player.getCurrentTime());
+                this.props.onPlay();
+                break;
+              case 2:
+                //console.log('video paused at '+player.getCurrentTime());
+                this.props.onPause();
+            }
+        }.bind(this);
 
         if (window.yt_player_id === 1) {
           var tag = document.createElement('script');
@@ -39,6 +53,7 @@ var YouTubePlayer = React.createClass({
                 'onStateChange': onPlayerStateChange
               }
             });
+            
           }.bind(this);
         } else {
           player = new YT.Player('yt_player_' + window.yt_player_id, {
@@ -51,12 +66,35 @@ var YouTubePlayer = React.createClass({
             }
           });
         }
+
+    },
+
+    componentWillReceiveProps:function(nextProps) {
+        if (player) {
+            if (!nextProps.playing) {
+                this._pauseVideo();
+            }
+            if (nextProps.seekTo != this.state.lastSeek) {
+                this.setState({
+                    lastSeek:nextProps.seekTo
+                });
+                this._seekTo(nextProps.seekTo);
+            }
+        }
     },
 
     componentWillUnmount: function () {
       if(this.interval){
         clearInterval(this.interval);
       }
+    },
+
+    _pauseVideo:function() {
+        player.pauseVideo();
+    },
+
+    _seekTo: function(seconds) {
+        player.seekTo(seconds);
     },
 
     render: function() {

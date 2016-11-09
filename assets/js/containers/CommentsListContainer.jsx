@@ -2,14 +2,15 @@ var React = require('react');
 
 var CommentContainer = require('./CommentContainer');
 
-var CommentsContainer = React.createClass({
+var CommentsListContainer = React.createClass({
     
     propTypes: {
         pollInterval:           React.PropTypes.number.isRequired,
         windowHeight:           React.PropTypes.number,
         feedId:                 React.PropTypes.string.isRequired,
         modalOpen:              React.PropTypes.func.isRequired,
-        modalClose:             React.PropTypes.func.isRequired
+        modalClose:             React.PropTypes.func.isRequired,
+        timecodeClick:          React.PropTypes.func.isRequired
     },
 
     getInitialState: function() {
@@ -89,6 +90,7 @@ var CommentsContainer = React.createClass({
         var editHandler = this._handleCommentEdit;
         var deleteHandler = this._handleDeleteComment;
         var replyHandler = this._handleCommentSubmit;
+        var timecodeClick = this.props.timecodeClick;
         var feedId = this.props.feedId;
         var noComments = <div className="c-commentList__no-comments">No comments yet <span className="nowrap">:(</span><br />Be the first!</div>;
         var commentNodes = this.state.data.map(function(comment) {
@@ -105,6 +107,7 @@ var CommentsContainer = React.createClass({
                     children={comment.children}
                     handleCommentEdit={editHandler}
                     handleDeleteComment={deleteHandler}
+                    timecodeClick={timecodeClick}
                     modalOpen={this.props.modalOpen}
                     modalClose={this.props.modalClose} />
             );
@@ -132,4 +135,4 @@ var CommentsContainer = React.createClass({
 
 });
 
-module.exports = CommentsContainer;
+module.exports = CommentsListContainer;

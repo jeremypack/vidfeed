@@ -7,7 +7,7 @@ var ShareFeedContainer =        require('../containers/ShareFeedContainer');
 var OwnFeedContainer =          require('../containers/OwnFeedContainer');
 var FeedVideoContainer =        require('../containers/FeedVideoContainer');
 var CommentFormContainer =      require('../containers/CommentFormContainer');
-var CommentsContainer =         require('../containers/CommentsContainer');
+var CommentsListContainer =         require('../containers/CommentsListContainer');
 
 function hmsToSecondsOnly(str) {
     var p = str.split(':'),
@@ -21,7 +21,7 @@ function hmsToSecondsOnly(str) {
 }
 
 var Feed = React.createClass({
-    
+
     getInitialState: function() {
         return {
             feed:[],
@@ -36,7 +36,8 @@ var Feed = React.createClass({
             commentsBtn:true,
             windowHeight:undefined,
             videoColWidth:undefined,
-            notResized:true
+            notResized:true,
+            timecodeClicked:undefined
         };
     },
 
@@ -63,6 +64,10 @@ var Feed = React.createClass({
 
     _resizeContent : function() {
         var windowWidth = window.innerWidth;
+        this.setState({
+            videoColWidth:undefined,
+            notResized:true
+        });
         if (windowWidth < 740) {
             this.setState({
                 windowHeight:undefined
@@ -74,14 +79,16 @@ var Feed = React.createClass({
         this.setState({
             windowHeight:remainingHeight
         }, function() {
-            var videoColWidth = this.refs.main.clientWidth;
-            var ratio = videoColWidth/this.refs.main.clientHeight;
-            var requiredWidth = this.state.windowHeight*ratio;
-            var reducedWidth = Math.floor(requiredWidth);
-            this.setState({
-                videoColWidth:reducedWidth-25,
-                notResized:false
-            });
+            if (windowWidth > 980 && this.state.windowHeight < 690 || this.refs.main.clientHeight > this.state.windowHeight) {
+                var videoColWidth = this.refs.main.clientWidth;
+                var ratio = videoColWidth/this.refs.main.clientHeight;
+                var requiredWidth = this.state.windowHeight*ratio;
+                var reducedWidth = Math.floor(requiredWidth);
+                this.setState({
+                    videoColWidth:reducedWidth-25,
+                    notResized:false
+                });
+            }   
         });
     },
 
@@ -156,7 +163,14 @@ var Feed = React.createClass({
         }
     },
 
+    _timecodeClick: function(timecodeClicked) {
+        this.setState({
+            timecodeClicked:timecodeClicked
+        });
+    },
+
     render: function() {
+
         if (this.state.ajaxDone && !this.state.owner && !this.state.shareModal) {
             var ownFeed =   <OwnFeedContainer
                                 modalOpen={this._modalOpen}
@@ -207,9 +221,6 @@ var Feed = React.createClass({
             transition:'all ease 300ms'
         };
 
-        console.log(this.state.videoColWidth,'this.state.videoColWidth');
-        console.log(this.state.notResized,'this.state.notResized');
-
         return (
             <div>
                 <div className={blurClasses}>
@@ -240,7 +251,8 @@ var Feed = React.createClass({
                                 
                                 <FeedVideoContainer
                                     feedId={this.props.params.feedId}
-                                    onTimecodeChange={this._getTimecode} />
+                                    onTimecodeChange={this._getTimecode}
+                                    seekToTime={this.state.timecodeClicked} />
 
                                 <CommentFormContainer
                                     modalOpen={this._modalOpen}
@@ -257,13 +269,14 @@ var Feed = React.createClass({
                             <div className="o-offCanvas__drawer__inner">
                                 <a href="#" className="o-offCanvas__close" onClick={this._commentsToggle}><i className="icon icon--crossWhite"></i><span className="u-hidden-visually">Hide comments</span></a>
                                 
-                                <CommentsContainer
+                                <CommentsListContainer
                                     modalOpen={this._modalOpen}
                                     modalClose={this._modalClose}
                                     windowHeight={this.state.windowHeight}
                                     feedId={this.props.params.feedId}
                                     pollInterval={1000}
-                                    timecode={this.state.timecodeSeconds} />
+                                    timecode={this.state.timecodeSeconds}
+                                    timecodeClick={this._timecodeClick} />
 
                             </div>
                             

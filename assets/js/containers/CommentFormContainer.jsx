@@ -29,6 +29,14 @@ const modalStyles = {
 
 var CommentFormContainer = React.createClass({
     
+    propTypes: {
+        feedId:                        React.PropTypes.string.isRequired,
+        timecode:                      React.PropTypes.any.isRequired,
+        timecodeSeconds:               React.PropTypes.number.isRequired,
+        commentSubmitted:              React.PropTypes.func.isRequired,
+        modalClose:                    React.PropTypes.func.isRequired,
+    },
+
     getInitialState: function() {
         return {
             modalIsOpen: false,
@@ -38,6 +46,7 @@ var CommentFormContainer = React.createClass({
             authorIsValid:false,
             authorValidationStarted:false,
             returnToSubmit:true,
+            commentFormActive:false,
             author: '',
             comment: ''
         };
@@ -71,7 +80,7 @@ var CommentFormContainer = React.createClass({
             this.setState({
                 authorValidationStarted: true
             });
-            this.authorValidateInterval = setInterval(authorValidateTrigger,1000);
+            this.authorValidateInterval = setInterval(authorValidateTrigger,500);
         }
     },
 
@@ -105,7 +114,7 @@ var CommentFormContainer = React.createClass({
             this.setState({
                 commentValidationStarted: true
             });
-            this.commentValidateInterval = setInterval(commentValidateTrigger,1000);
+            this.commentValidateInterval = setInterval(commentValidateTrigger,500);
         }
     },
 
@@ -146,9 +155,12 @@ var CommentFormContainer = React.createClass({
 
     _handleKeyPress: function(target) {
         if (this.state.returnToSubmit && target.charCode===13) {
-            console.log('reutrn to sibit');
             this._handleCommentSubmit();
         }
+    },
+
+    _commentFormActive:function() {
+        window.vidfeed.playing = false;
     },
 
     _closeModal : function (e) {
@@ -216,6 +228,7 @@ var CommentFormContainer = React.createClass({
                     isValid={this.state.commentIsValid}
                     timecode={this.props.timecode}
                     body={this.state.comment}
+                    commentFormActive={this._commentFormActive}
                     handleSubmit={this._handleCommentSubmit}
                     handleCommentChange={this._handleCommentChange}
                     handleKeyPress={this._handleKeyPress}
