@@ -53,7 +53,7 @@ var CollaboratorsContainer = React.createClass({
     
     _loadCollaboratorsFromServer: function() {
         $.ajax({
-            url: '/api/feeds/' + this.props.feedId + '/invites',
+            url: '/api/feeds/' + this.props.feedId + '/collaborators',
             dataType: 'json',
             cache: false,
             success: function(data) {
@@ -88,13 +88,14 @@ var CollaboratorsContainer = React.createClass({
 
     render: function() {
         
+        console.log(this.state.data,'this.state.data');
+
         if (!this.state.data) {
             return;
         } else {
-            
-            var collaboratorNodes = this.state.data.map(function(collaborator,i) {
+            var collaboratorNodes = this.state.data.map(function(collaborator, i) {
                 return (
-                    <li className="invitees__item" key={i}><User userEmail={collaborator.recipient} /></li>
+                    <li className="invitees__item" key={i}><User userEmail={collaborator.user.email} /></li>
                 );
             }.bind(this));
 
@@ -119,7 +120,7 @@ var CollaboratorsContainer = React.createClass({
             var avatarNodes = this.state.data.map(function(collaborator,i) {
                 return (
                     <User
-                        userEmail={collaborator.recipient}
+                        userEmail={collaborator.user.email}
                         iconOnly={true}
                         key={i} />
                 );
