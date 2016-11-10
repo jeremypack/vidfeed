@@ -88,8 +88,6 @@ var CollaboratorsContainer = React.createClass({
 
     render: function() {
         
-        console.log(this.state.data,'this.state.data');
-
         if (!this.state.data) {
             return;
         } else {
