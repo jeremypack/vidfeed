@@ -7,7 +7,8 @@ var YouTubePlayer = React.createClass({
     getInitialState: function() {
         return {
             'video_id': 'wMAuk5D6h1w',
-            lastSeek:undefined
+            lastSeek:undefined,
+            playing:false
         }
     },
 
@@ -31,10 +32,16 @@ var YouTubePlayer = React.createClass({
               case 1:
                 //console.log('video playing from '+player.getCurrentTime());
                 this.props.onPlay();
+                this.setState({
+                    playing:true
+                });
                 break;
               case 2:
                 //console.log('video paused at '+player.getCurrentTime());
                 this.props.onPause();
+                this.setState({
+                    playing:false
+                });
             }
         }.bind(this);
 
@@ -71,7 +78,7 @@ var YouTubePlayer = React.createClass({
 
     componentWillReceiveProps:function(nextProps) {
         if (player) {
-            if (!nextProps.playing) {
+            if (!nextProps.playing && this.state.playing) {
                 this._pauseVideo();
             }
             if (nextProps.seekTo != this.state.lastSeek) {
