@@ -1,4 +1,5 @@
 var React = require('react');
+var classNames = require('classnames');
 import Linkify from 'react-linkify';
 import FormattedRelativeDate from 'react-npm-formatted-relative-date';
 
@@ -22,7 +23,12 @@ var Comment = React.createClass({
 
     render: function() {
         var replyToggleText = this.props.replyIsOpen ? 'Hide reply' : 'Reply';
-        var replyClass = this.props.isReply ? 'c-comment c-comment--reply' : 'c-comment';
+
+        var commentClasses = classNames({
+            'c-comment':true,
+            'c-comment--reply':this.props.isReply,
+            'c-comment--fresh':this.props.newComment
+        });
 
         if (this.props.editComment) {
             var commentActions = <div className="c-comment__actions">
@@ -41,7 +47,7 @@ var Comment = React.createClass({
         }
 
         return (
-            <article className={replyClass} data-id={this.props.id}>
+            <article className={commentClasses} data-id={this.props.id}>
                 <div className="u-clearfix">
                     <div className="c-comment__author">
                         <User userEmail={this.props.author} />

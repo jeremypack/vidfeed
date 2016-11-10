@@ -21,7 +21,8 @@ var ReplyContainer = React.createClass({
         return {
             editable: false,
             commentActions:false,
-            replyBody: this.props.value
+            replyBody: this.props.value,
+            newComment:false
         };
     },
 
@@ -35,10 +36,27 @@ var ReplyContainer = React.createClass({
             }
         }.bind(this);
         this.sessionCheckInterval = setInterval(getSessionUser,1000);
+        this._checkNewComments();
     },
 
     componentWillUnmount:function(){
         clearInterval(this.sessionCheckInterval);
+    },
+
+    _checkNewComments:function(){        
+        var now = new Date();
+        var nowMinusTenSecs = new Date(now.getTime() - 10000);
+        var commentCreated = new Date(this.props.created);
+        if (commentCreated > nowMinusTenSecs) {
+            this.setState({
+                newComment:true
+            });
+        }
+        setTimeout(function(){
+            this.setState({
+                newComment:false
+            });
+        }.bind(this),500)
     },
 
     _setEditMode: function(e) {
@@ -68,7 +86,7 @@ var ReplyContainer = React.createClass({
     _deleteReply: function (e) {
         e.preventDefault();
         var replyId = $(e.currentTarget).closest('.c-comment').data('id');
-        this.props.deleteReply(null, replyId);
+        this.props.deleteReply(undefined, replyId);
     },
 
     _handleReplyChange: function (e) {
@@ -105,7 +123,8 @@ var ReplyContainer = React.createClass({
                     toggleReply={this.props.toggleReply}
                     replyIsOpen={this.props.replyIsOpen}
                     editComment={this._setEditMode} 
-                    deleteComment={this._deleteReply} />
+                    deleteComment={this._deleteReply}
+                    newComment={this.state.newComment} />
             );
 
         } else {
@@ -117,7 +136,8 @@ var ReplyContainer = React.createClass({
                     isReply={this.props.isReply}
                     created={this.props.created}
                     toggleReply={this.props.toggleReply}
-                    replyIsOpen={this.props.replyIsOpen} />
+                    replyIsOpen={this.props.replyIsOpen}
+                    newComment={this.state.newComment} />
             );   
         }
     }
