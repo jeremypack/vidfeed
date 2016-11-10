@@ -65,10 +65,10 @@ class Feed(models.Model):
         return "/app/feed/%s" % self.feed_id
 
     def invite_user(self, recipient, sender):
-        if FeedInvites.objects.filter(feed=self, recipient=recipient).count() == 0:
-            invitee = FeedInvites(feed=self,
-                                  recipient=recipient,
-                                  sender=sender)
+        if FeedInvite.objects.filter(feed=self, recipient=recipient).count() == 0:
+            invitee = FeedInvite(feed=self,
+                                 recipient=recipient,
+                                 sender=sender)
             invitee.clean_fields()
             invitee.save()
 
@@ -77,6 +77,11 @@ class Feed(models.Model):
             'sender_email': sender,
         }
         send_email('invite_received', args, self.video_title, recipient)
+
+    def add_collaborator(self, collaborator):
+        if FeedCollaborator.objects.filter(feed=self, user=collaborator).count() == 0:
+            FeedCollaborator.objects.create(feed=self,
+                                            user=collaborator)
 
     @staticmethod
     def generate_link_id():
@@ -88,12 +93,21 @@ class Feed(models.Model):
         return u'Provider: {0}, Video ID: {1}, Feed ID: {2}'.format(self.provider.name, self.video_id, self.feed_id)
 
 
-class FeedInvites(models.Model):
+class FeedInvite(models.Model):
     feed = models.ForeignKey(Feed)
-    recipient = models.EmailField(max_length=254)
-    sender = models.ForeignKey(settings.AUTH_USER_MODEL)
+    recipient = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="recipient")
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="sender")
     created = models.DateTimeField(auto_now_add=True)
     accepted = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = ('created', )
+
+
+class FeedCollaborator(models.Model):
+    feed = models.ForeignKey(Feed)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ('created', )
