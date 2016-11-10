@@ -30,6 +30,7 @@ const modalStyles = {
 var CommentContainer = React.createClass({
     
     propTypes: {
+        id:                     React.PropTypes.number.isRequired,
         author:                 React.PropTypes.string.isRequired,
         body:                   React.PropTypes.string.isRequired,
         children:               React.PropTypes.array,
@@ -38,7 +39,8 @@ var CommentContainer = React.createClass({
         commentBody:            React.PropTypes.string,
         handleCommentEdit:      React.PropTypes.func.isRequired,
         handleDeleteComment:    React.PropTypes.func.isRequired,
-        timecodeClick:          React.PropTypes.func.isRequired
+        timecodeClick:          React.PropTypes.func.isRequired,
+        closeOpenReplyForms:    React.PropTypes.func.isRequired
     },
 
     getInitialState: function() {
@@ -62,6 +64,19 @@ var CommentContainer = React.createClass({
             }
         }.bind(this);
         this.sessionCheckInterval = setInterval(getSessionUser,1000);
+    },
+
+    componentWillReceiveProps: function(nextProps) {
+        if (nextProps.closeReplies) {
+            this.setState({
+                replyOpen:false
+            });
+        }
+        if (this.props.id === nextProps.replyToOpen) {
+            this.setState({
+                replyOpen:true
+            });
+        }
     },
 
     componentWillUnmount:function(){
@@ -136,8 +151,10 @@ var CommentContainer = React.createClass({
            e.preventDefault(); 
         }
         this.setState({
-            replyOpen:!this.state.replyOpen
-        });
+            replyOpen:false
+        }, function(){
+            this.props.closeOpenReplyForms(this.props.id);
+        })
     },
 
     _formattedTime: function (time) {
@@ -167,8 +184,8 @@ var CommentContainer = React.createClass({
     },
 
     render: function() {
+
         var formattedTime = this._formattedTime(this.props.timecode);
-                
         
         var deleteCommentModal = <Modal
                                     isOpen={this.state.deleteCommentCheck}
@@ -197,11 +214,13 @@ var CommentContainer = React.createClass({
                         author={reply.owner.email}
                         value={reply.body}
                         created={reply.created}
+                        toggleReply={this._toggleReply}
+                        replyIsOpen={this.state.replyOpen}
                         isReply={true}
                         editReply={editReply} 
                         deleteReply={deleteReply} />
                 );
-            });
+            }.bind(this));
         }
 
         if (this.state.replyOpen) {

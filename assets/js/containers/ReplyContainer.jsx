@@ -11,6 +11,8 @@ var ReplyContainer = React.createClass({
         value:          React.PropTypes.string.isRequired,
         isReply:        React.PropTypes.bool.isRequired,
         created:        React.PropTypes.string.isRequired,
+        toggleReply:    React.PropTypes.func.isRequired,
+        replyIsOpen:    React.PropTypes.bool.isRequired,
         editReply:      React.PropTypes.func,
         deleteReply:    React.PropTypes.func
     },
@@ -99,7 +101,9 @@ var ReplyContainer = React.createClass({
                     author={this.props.author}
                     value={this.state.replyBody}
                     isReply={this.props.isReply}
-                    created={this.props.created} 
+                    created={this.props.created}
+                    toggleReply={this.props.toggleReply}
+                    replyIsOpen={this.props.replyIsOpen}
                     editComment={this._setEditMode} 
                     deleteComment={this._deleteReply} />
             );
@@ -111,7 +115,9 @@ var ReplyContainer = React.createClass({
                     author={this.props.author}
                     value={this.state.replyBody}
                     isReply={this.props.isReply}
-                    created={this.props.created} />
+                    created={this.props.created}
+                    toggleReply={this.props.toggleReply}
+                    replyIsOpen={this.props.replyIsOpen} />
             );   
         }
     }

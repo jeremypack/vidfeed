@@ -108,13 +108,6 @@ var ReplyFormContainer = React.createClass({
             data: comment,
             success: function(data) {
                 this.props.submitted();
-                clearInterval(this.validateInterval);
-                // if (this.state.setSession) {
-                //     setTimeout(function(){
-                        this._closeModal();
-                //     }.bind(this),2000);
-                // }
-                
             }.bind(this),
             error: function(data) {
                 console.log(JSON.parse(data.responseText),'handleCommentSubmit error');

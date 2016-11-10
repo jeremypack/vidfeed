@@ -10,13 +10,15 @@ var CommentsListContainer = React.createClass({
         feedId:                 React.PropTypes.string.isRequired,
         modalOpen:              React.PropTypes.func.isRequired,
         modalClose:             React.PropTypes.func.isRequired,
-        timecodeClick:          React.PropTypes.func.isRequired
+        timecodeClick:          React.PropTypes.func.isRequired,
+        replyToOpen:            React.PropTypes.number
     },
 
     getInitialState: function() {
         return {
             data: [],
-            commentListHeight:''
+            commentListHeight:'',
+            closeReplies:false
         };
     },
 
@@ -41,6 +43,13 @@ var CommentsListContainer = React.createClass({
         }
     },
 
+    _closeReplies:function(id) {
+        this.setState({
+            replyToOpen:id,
+            closeReplies:true
+        });
+    },
+
     _loadCommentsFromServer: function() {
         $.ajax({
             url: '/api/feeds/' + this.props.feedId + '/comments',
@@ -50,6 +59,7 @@ var CommentsListContainer = React.createClass({
                 data.sort(function(a, b) {
                     return parseFloat(a.timecode) - parseFloat(b.timecode);
                 });
+                
                 this.setState({
                     data: data
                 });
@@ -109,7 +119,10 @@ var CommentsListContainer = React.createClass({
                     handleDeleteComment={deleteHandler}
                     timecodeClick={timecodeClick}
                     modalOpen={this.props.modalOpen}
-                    modalClose={this.props.modalClose} />
+                    modalClose={this.props.modalClose}
+                    closeReplies={this.state.closeReplies}
+                    replyToOpen={this.state.replyToOpen}
+                    closeOpenReplyForms={this._closeReplies} />
             );
         }.bind(this));
         var commentCount = <h3><strong>{commentNodes.length}</strong> { commentNodes.length === 1 ? 'Comment' : 'Comments' }</h3>;

@@ -27,7 +27,7 @@ var Comment = React.createClass({
         if (this.props.editComment) {
             var commentActions = <div className="c-comment__actions">
                                     <ul className="o-list-inline">
-                                        {this.props.isReply ? null : <li className="o-list-inline__item"><a title="Reply" onClick={this.props.toggleReply} href="#"><i className="icon icon--replyArrow"></i><span className="u-hidden-visually">{replyToggleText}</span></a></li> }
+                                        <li className="o-list-inline__item"><a title="Reply" onClick={this.props.toggleReply} href="#"><i className="icon icon--replyArrow"></i><span className="u-hidden-visually">{replyToggleText}</span></a></li>
                                         <li className="o-list-inline__item"><a title="Edit comment" onClick={this.props.editComment} href="#"><i className="icon icon--pencil"></i><span className="u-hidden-visually">edit</span></a></li>
                                         <li className="o-list-inline__item"><a title="Delete comment" onClick={this.props.deleteComment} href="#"><i className="icon icon--cross"></i><span className="u-hidden-visually">delete</span></a></li>
                                     </ul> 
@@ -35,7 +35,7 @@ var Comment = React.createClass({
         } else {
             var commentActions = <div className="c-comment__actions">
                                     <ul className="o-list-inline">
-                                        {this.props.isReply ? null : <li className="o-list-inline__item"><a onClick={this.props.toggleReply} href="#"><i className="icon icon--replyArrow"></i><span className="u-hidden-visually">{replyToggleText}</span></a></li> }
+                                        <li className="o-list-inline__item"><a onClick={this.props.toggleReply} href="#"><i className="icon icon--replyArrow"></i><span className="u-hidden-visually">{replyToggleText}</span></a></li>
                                     </ul> 
                                 </div>;
         }
