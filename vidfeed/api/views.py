@@ -7,10 +7,11 @@ from rest_framework import status
 from rest_framework.decorators import detail_route
 
 from vidfeed.profiles.models import SiteUser
-from vidfeed.feed.models import Comment, Feed, Provider, FeedInvites
+from vidfeed.feed.models import Comment, Feed, Provider, FeedInvite, FeedCollaborator
 from vidfeed.utils import get_youtube_title_and_thumbnail, get_vimeo_title_and_thumbnail, \
     set_vidfeed_user_cookie, send_email
-from serializers import CommentSerializer, FeedSerializer, FeedInvitesSerializer
+from serializers import CommentSerializer, FeedSerializer, FeedInviteSerializer, \
+    FeedCollaboratorSerializer
 
 import json
 
@@ -35,6 +36,7 @@ class CommentList(APIView):
                 return Response({"message": "Invalid parent comment"},
                                 status=status.HTTP_400_BAD_REQUEST)
             owner_email = comment.owner.email
+            feed.add_collaborator(comment.owner)
             r = Response(serializer.data, status=status.HTTP_201_CREATED)
             set_vidfeed_user_cookie(r, owner_email)
 
@@ -130,6 +132,7 @@ class FeedDetail(viewsets.GenericViewSet):
             return Response({"message": "Please enter a valid email"}, status=status.HTTP_400_BAD_REQUEST)
         feed.owner = SiteUser.objects.find_or_create_user(owner)
         feed.save()
+        feed.add_collaborator(feed.owner)
         r = Response(FeedSerializer(instance=feed).data)
         set_vidfeed_user_cookie(r, feed.owner.email)
         ctx = {
@@ -140,13 +143,13 @@ class FeedDetail(viewsets.GenericViewSet):
         return r
 
 
-class FeedInvitesList(APIView):
+class FeedInviteList(APIView):
     def get_objects(self, feed_id):
         feed = get_object_or_404(Feed, feed_id=feed_id)
-        return FeedInvites.objects.filter(feed=feed)
+        return FeedInvite.objects.filter(feed=feed)
 
     def get(self, request, feed_id, format=None):
-        serializer = FeedInvitesSerializer(self.get_objects(feed_id), many=True)
+        serializer = FeedInviteSerializer(self.get_objects(feed_id), many=True)
         return Response(serializer.data)
 
     def post(self, request, feed_id, format=None):
@@ -166,7 +169,9 @@ class FeedInvitesList(APIView):
             if not u or u in list_recipients:
                 continue
             try:
-                feed.invite_user(u, sender)
+                recipient = SiteUser.objects.find_or_create_user(u)
+                feed.invite_user(recipient, sender)
+                feed.add_collaborator(recipient)
                 list_recipients.append(u)
             except ValidationError:
                 pass
@@ -178,8 +183,18 @@ class FeedInvitesList(APIView):
             'feed': feed,
             'list_recipients': list_recipients,
         }
-        send_email('invite_sent', args, "Invite Sent: "+feed.video_title, sender.email)
+        send_email('invite_sent', args, "Invite Sent: " + feed.video_title, sender.email)
 
         r = Response({"message": "successfully invited {0} users".format(len(list_recipients))})
         set_vidfeed_user_cookie(r, sender.email)
         return r
+
+
+class FeedCollaboratorList(APIView):
+    def get_objects(self, feed_id):
+        feed = get_object_or_404(Feed, feed_id=feed_id)
+        return FeedCollaborator.objects.filter(feed=feed)
+
+    def get(self, request, feed_id, format=None):
+        serializer = FeedCollaboratorSerializer(self.get_objects(feed_id), many=True)
+        return Response(serializer.data)

@@ -32,6 +32,7 @@ var CollaboratorsContainer = React.createClass({
         feedId:            React.PropTypes.string.isRequired,
         modalOpen:         React.PropTypes.func.isRequired,
         modalClose:        React.PropTypes.func.isRequired,
+        pollInterval:      React.PropTypes.number.isRequired
     },
 
     getInitialState: function() {
@@ -43,12 +44,16 @@ var CollaboratorsContainer = React.createClass({
 
     componentDidMount: function() {
         this._loadCollaboratorsFromServer();
+        this.collaboratorsInterval = setInterval(this._loadCollaboratorsFromServer, this.props.pollInterval);
     },
 
+    componentWillUnmount:function(){
+        clearInterval(this.collaboratorsInterval);
+    },
     
     _loadCollaboratorsFromServer: function() {
         $.ajax({
-            url: '/api/feeds/' + this.props.feedId + '/invites',
+            url: '/api/feeds/' + this.props.feedId + '/collaborators',
             dataType: 'json',
             cache: false,
             success: function(data) {
@@ -86,10 +91,9 @@ var CollaboratorsContainer = React.createClass({
         if (!this.state.data) {
             return;
         } else {
-            
-            var collaboratorNodes = this.state.data.map(function(collaborator,i) {
+            var collaboratorNodes = this.state.data.map(function(collaborator, i) {
                 return (
-                    <li className="invitees__item" key={i}><User userEmail={collaborator.recipient} /></li>
+                    <li className="invitees__item" key={i}><User userEmail={collaborator.user.email} /></li>
                 );
             }.bind(this));
 
@@ -114,7 +118,7 @@ var CollaboratorsContainer = React.createClass({
             var avatarNodes = this.state.data.map(function(collaborator,i) {
                 return (
                     <User
-                        userEmail={collaborator.recipient}
+                        userEmail={collaborator.user.email}
                         iconOnly={true}
                         key={i} />
                 );

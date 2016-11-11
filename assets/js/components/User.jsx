@@ -3,7 +3,7 @@ var React = require('react');
 var User = React.createClass({
     
     propTypes: {
-        userEmail:      React.PropTypes.string.isRequired,
+        userEmail:      React.PropTypes.string,
         removeUser:     React.PropTypes.bool,
         removeFunc:     React.PropTypes.func,
         iconOnly:       React.PropTypes.bool
@@ -29,7 +29,6 @@ var User = React.createClass({
     },
 
     render:function() {
-        
         if (this.props.removeUser) {
             var user = this.props.userEmail;
             var removeAction = <a href="#" className="user__remove" onClick={this.props.removeFunc(user)}>×<span className="u-hidden-visually">Remove</span></a>;
