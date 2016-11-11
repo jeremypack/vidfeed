@@ -49,7 +49,6 @@
 }
 
 .c-comment__outer {
-    padding:$inuit-global-spacing-unit/2;
     &:nth-of-type(odd) {
         background:#fff;
     }
@@ -57,9 +56,15 @@
         background:#f5f6f7;
     }
 }
+.c-comment {
+    padding:$inuit-global-spacing-unit/2;
+    transition: background-color ease-out .75s;
+}
 .c-comment--reply {
-    margin-top:$inuit-global-spacing-unit/2;
-    padding-left:$inuit-global-spacing-unit/2;
+    padding-left:$inuit-global-spacing-unit;
+}
+.c-comment--fresh {
+    background-color:lighten($blue,25%);
 }
 
 .c-comment__author {

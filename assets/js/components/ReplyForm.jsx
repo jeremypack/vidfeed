@@ -15,7 +15,7 @@ var ReplyForm = React.createClass({
         });
 
         return (
-            <div className="u-margin-top-small">
+            <div className="u-padding-small u-padding-top-none">
                 <form className="form--border replyForm" onSubmit={this.props.handleReplySubmit}>
                     <div className="input-with-button">
                         <input type="text" ref="replyInput" placeholder="Write a reply" value={this.props.comment} onChange={this.props.handleReplyChange} className="input--border" />
