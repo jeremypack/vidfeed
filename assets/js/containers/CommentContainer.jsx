@@ -94,6 +94,7 @@ var CommentContainer = React.createClass({
             this.setState({
                 newComment:true
             });
+            this.props.commentToScroll(this.props.id);
         }
         setTimeout(function(){
             this.setState({
