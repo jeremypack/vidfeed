@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactPlayer = require('react-player');
 var YouTubePlayer = require('../components/YouTubePlayer');
+var moment = require('moment');
 
 function pad (string) {
   return ('0' + string).slice(-2)
@@ -100,9 +101,8 @@ var FeedVideoContainer = React.createClass({
             this.state.duration = null;
             this.refs.player.refs.player.refs.iframe.contentWindow.postMessage('{"method":"getDuration", "value":0}', '*');
         } else {
-             $('#timecode').text(this._calcElapsed(data.played * this.state.duration));
+            $('#timecode').text(this._calcElapsed(data.played * this.state.duration));
         }
-
         this.setState({
             loaded: data.loaded,
             played: data.played
@@ -116,10 +116,10 @@ var FeedVideoContainer = React.createClass({
     },
 
     _calcElapsed: function(data) {
-        var date = new Date(data * 1000)
-        var hh = date.getHours()
-        var mm = date.getMinutes()
-        var ss = pad(date.getSeconds())
+        var hh = moment.duration(data*1000).hours();
+        var mm = moment.duration(data*1000).minutes();
+        var ss = pad(moment.duration(data*1000).seconds());
+        
         if (hh) {
             return `${hh}:${pad(mm)}:${ss}`
         }
