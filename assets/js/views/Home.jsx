@@ -10,8 +10,8 @@ var Home = React.createClass({
             <div className="homePage">
                 <HeaderContainer isHomepage={true} />
                 <main className="hero">
-                    <h1>Make timecoded notes on <span className="nowrap">any video</span>.</h1>
-                    <p>Plus it&apos;s free and unlimited. No account required.</p>
+                    <h1>Simple Video <span className="nowrap">Collaboration</span>.</h1>
+                    <p>Make and receive timecoded notes on any Youtube or Vimeo video, for free.</p>
                     <CreateFeedContainer />
                 </main>
             </div>
