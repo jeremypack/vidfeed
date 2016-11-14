@@ -1,12 +1,9 @@
-{% extends 'emails/base_email.txt' %}{% block content %}{{ number_new_comments }} New Comments
+{% extends 'emails/base_email.txt' %}{% block content %}You have {{new_comment_count}} new comments from {{ comment_author }}
 
-{{ comment_author }}
 "{{ message }}"
 
-{{ comment_author }}
 "{{ message }}"
 
-{{ comment_author }}
 "{{ message }}"
 
 You can view the feed here: 
