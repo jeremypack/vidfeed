@@ -146,11 +146,11 @@ var CommentContainer = React.createClass({
             if (!id) {
                 id = $(e.currentTarget).closest('.c-comment').data('id');
             }
-            this.props.modalOpen();
-            console.log(id,'id');
             this.setState({
                 deleteCommentCheck: true,
                 commentIdToDelete:id
+            }, function(){
+                this.props.modalOpen();
             });
         }
     },
