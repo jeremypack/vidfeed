@@ -13,29 +13,12 @@ Feed sent to {{recipient_email}}
 
             <!-- 1 Column Text : BEGIN -->
             <tr>
-                <td style="padding: 0px 20px; text-align: left; font-family: sans-serif; font-size: 22px; mso-height-rule: exactly; line-height: 20px; color: #2a2e30;">
-                    You have {{new_comment_count}} new comments from:<br>
-                </td>
-            </tr>
-            <!-- 1 Column Text : END -->
-
-                        <!-- 1 Column Text : BEGIN -->
-            <tr>
-                <td style="padding: 10px 20px 0px 20px; text-align: left; font-family: sans-serif; font-size: 18px; mso-height-rule: exactly; line-height: 30px; color: #49C9F5;">
-                    {% for u in list_recipients %}
-                        {{ u.email }}{% if not forloop.last %}<br>{% endif %}
+                <td style="padding: 40px; text-align: left; font-family: sans-serif; font-size: 16px; mso-height-rule: exactly; line-height: 20px; color: #2D2F34; border-top: solid 2px #f8f8f8; border-bottom: solid 2px #f8f8f8;">
+                    <strong><a href="#" style="text-decoration: none; color: #2D2F34">You have {{comments.count}} new comments from {{ commenter.email }}</strong><br>
+                    <br>
+                    {% for comment in comments %}
+                    "{{ comment.body }}"
                     {% endfor %}
-
-                </td>
-            </tr>
-            <!-- 1 Column Text : END -->
-
-            <!-- 1 Column Text : BEGIN -->
-            <tr>
-                <td style="padding: 10px 20px 30px 20px; text-align: left; font-family: sans-serif; font-size: 13px; mso-height-rule: exactly; line-height: 20px; color: #888888;">
-                    When there is more activity, we'll send you another update.
-                </td>
-            </tr>
-            <!-- 1 Column Text : END -->
+                    <br><br>
 
 {% endblock %}

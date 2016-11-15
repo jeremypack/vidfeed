@@ -134,3 +134,6 @@ class Comment(models.Model):
     def children(self):
         return Comment.objects.filter(parent_comment=self,
                                       deleted=False).order_by('created')
+
+    def __unicode__(self):
+        return u'Created: {0}, {1}'.format(self.created, self.body[0:50])

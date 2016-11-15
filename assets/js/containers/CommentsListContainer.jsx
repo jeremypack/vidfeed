@@ -59,7 +59,6 @@ var CommentsListContainer = React.createClass({
                 data.sort(function(a, b) {
                     return parseFloat(a.timecode) - parseFloat(b.timecode);
                 });
-                
                 this.setState({
                     data: data
                 });
@@ -96,6 +95,15 @@ var CommentsListContainer = React.createClass({
         });
     },
 
+    _scrollToComment: function(commentId) {
+        var newComment = $('.c-comment[data-id='+commentId+']').closest('.c-comment__outer');
+        var commentHeight = $(newComment).outerHeight();
+        var commentList = this.refs.commentList;
+        $(commentList).animate({
+            scrollTop: $(commentList).scrollTop() + $(newComment).position().top - $(commentList).height()/2 + commentHeight/2
+        },500);
+    },
+
     render: function() {
         var editHandler = this._handleCommentEdit;
         var deleteHandler = this._handleDeleteComment;
@@ -122,7 +130,8 @@ var CommentsListContainer = React.createClass({
                     modalClose={this.props.modalClose}
                     closeReplies={this.state.closeReplies}
                     replyToOpen={this.state.replyToOpen}
-                    closeOpenReplyForms={this._closeReplies} />
+                    closeOpenReplyForms={this._closeReplies}
+                    commentToScroll={this._scrollToComment} />
             );
         }.bind(this));
         var commentCount = <h3><strong>{commentNodes.length}</strong> { commentNodes.length === 1 ? 'Comment' : 'Comments' }</h3>;
