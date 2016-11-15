@@ -1,10 +1,5 @@
-{% extends 'emails/base_email.txt' %}{% block content %}You have {{new_comment_count}} new comments from {{ comment_author }}
+{% extends 'emails/base_email.txt' %}{% block content %}
 
-"{{ message }}"
-
-"{{ message }}"
-
-"{{ message }}"
 
 You can view the feed here: 
 {{ settings.BASE_URL }}{{ feed.get_absolute_url }}
