@@ -55,7 +55,7 @@
     }
 }
 
-.home__features {
+.features {
     background:$mid;
     color:#fff;
     text-align:center;
@@ -65,9 +65,15 @@
         font-weight:400;
     }
 }
-.home__features__icon .icon {
+.feature__icon .icon {
     width:inuit-rem(32px);
     height:inuit-rem(32px);
+    &.icon--message {
+        width:inuit-rem(42px);
+    }
+    &.icon--user {
+        width:inuit-rem(28px);
+    }
 }
 
 .testimonials {
@@ -78,6 +84,7 @@
     }
 }
 .testimonial {
+    margin-bottom:$inuit-global-spacing-unit;
     color:$mid;
 }
 .testimonial__avatar {
@@ -90,7 +97,7 @@
 }
 .testimonial__title {
     margin-bottom:inuit-rem(10px);
-    color:$blue;
+    color:darken($light,20%);
     font-weight:400;
 }
 .testimonial__quote {
