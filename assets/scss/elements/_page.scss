@@ -25,5 +25,4 @@ html {
 body {
     background:$light;
     @include scrollbars(0.4em, $dark, transparent);
-
 }

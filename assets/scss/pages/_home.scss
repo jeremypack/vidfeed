@@ -3,39 +3,96 @@
    ========================================================================== */
 
 .homePage {
-    position:fixed;
-    width:100%;
-    height:100%;
-    background:url(../images/home.jpg) top center no-repeat;
-    background-size:cover;
-    text-align:center;
+   @include scrollbars(0.4em, $dark, transparent);
 }
 
-.hero {
-    padding:$inuit-global-spacing-unit $inuit-global-spacing-unit/2;
+.home__hero {
+    width:100%;
+    min-height:inuit-rem(500px);
+    padding:0 $inuit-global-spacing-unit/2 $inuit-global-spacing-unit/2;
+    background-image:linear-gradient(darken($blue,20%), $blue);
     text-align:center;
     color:#fff;
     h1 {
+        margin-top:$inuit-global-spacing-unit*2.5;
         margin-bottom: $inuit-global-spacing-unit/2;
     }
     h1 + p {
-        margin-bottom: $inuit-global-spacing-unit*1.5;
+        margin-bottom: $inuit-global-spacing-unit;
         @include inuit-font-size(18px);
         font-weight:400;
     }
     @include mq($from: tablet) {
-        padding-top:$inuit-global-spacing-unit*2;
         padding-bottom:$inuit-global-spacing-unit*2;
         h1 {
+            margin-top:$inuit-global-spacing-unit*4.5;
             @include inuit-font-size(50px, $line-height:1.2);
         }
     }
     @include mq($from: desktop) {
-        padding-top:$inuit-global-spacing-unit*4;
+        min-height:inuit-rem(650px);
         padding-bottom:$inuit-global-spacing-unit*4;
+        h1 {
+            margin-top:$inuit-global-spacing-unit*6;
+        }
     }
     .form--single__input {
         padding-left:$inuit-global-spacing-unit;
         padding-right:$inuit-global-spacing-unit;
     }
+}
+
+.home__video {
+    
+    .c-player__wrapper {
+        display:inline-block;
+        width:100%;
+        margin-top:-15%;
+    }
+    .c-player {
+        display:inline-block;
+        margin-bottom:0;
+    }
+}
+
+.home__features {
+    background:$mid;
+    color:#fff;
+    text-align:center;
+    h3 {
+        margin-top:inuit-rem(5px);
+        margin-bottom:inuit-rem(10px);
+        font-weight:400;
+    }
+}
+.home__features__icon .icon {
+    width:inuit-rem(32px);
+    height:inuit-rem(32px);
+}
+
+.testimonials {
+    background:#fff;
+    h3 {
+        @include inuit-font-size(32px);
+        font-weight:400;
+    }
+}
+.testimonial {
+    color:$mid;
+}
+.testimonial__avatar {
+    margin-bottom:$inuit-global-spacing-unit;
+}
+.testimonial__name {
+    margin-bottom:inuit-rem(10px);
+    @include inuit-font-size(22px);
+    font-weight:400;
+}
+.testimonial__title {
+    margin-bottom:inuit-rem(10px);
+    color:$blue;
+    font-weight:400;
+}
+.testimonial__quote {
+    //@include inuit-font-size(20px);
 }

@@ -26,6 +26,10 @@
     background-image:url(../images/tool.svg);
 }
 
+.icon--message {
+    background-image:url(../images/message.svg);
+}
+
 .icon--cross {
     &:after {
         content:'×';

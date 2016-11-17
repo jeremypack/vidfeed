@@ -94,6 +94,9 @@
     @include inuit-font-size(14px,$line-height:1.5);
 }
 .c-comment__actions {
+    .c-comment--edit & {
+        margin-top:4px;
+    }
     float:left;
     margin-top:10px;
     opacity:.75;
@@ -125,6 +128,9 @@
     }
 }
 .c-comment__created {
+    .c-comment--edit & {
+        margin-top:4px;
+    }
     float:right;
     margin-top:9px;
     @include inuit-font-size(12px);
