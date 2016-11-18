@@ -24,5 +24,5 @@ DATABASES = {
 ########## SITE SETTINGS
 YOUTUBE_API_KEY = 'AIzaSyDvSM-xqZ_P2g2asg7DO-0z1R4CL9d8OXA'
 COOKIE_DOMAIN = 'vidfeed.io'
-BASE_URL = 'http://vidfeed.io'
+BASE_URL = 'https://vidfeed.io'
 ########## END SITE SETTINGS

@@ -58,6 +58,7 @@ class CommentList(APIView):
                         'feed': feed,
                         'comment_author': owner_email,
                         'message' : comment.body,
+                        'too_email' : feed.owner.email,
                     }
                     send_email('new_comment', ctx, "New Collaborator: "+feed.video_title, feed.owner.email)
 
@@ -136,6 +137,7 @@ class FeedDetail(viewsets.GenericViewSet):
         set_vidfeed_user_cookie(r, feed.owner.email)
         ctx = {
             'feed': feed,
+            'feed_owner': feed.owner.email,
         }
         send_email('feed_created', ctx, "New Feed Created: "+feed.video_title, feed.owner.email)
         return r
