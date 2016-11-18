@@ -14,7 +14,9 @@ def send_email(template, template_context, subject, to, from_email=None):
         'settings': {
             'BASE_URL': settings.BASE_URL,
             'STATIC_URL': '/static/',
-            'LOGO_SMALL': 'email-logo-262x80.png',
+            'LOGO_SMALL_DARK': 'email-logo-dark.png',
+            'LOGO_SMALL_LIGHT': 'email-logo-light.png',
+            'LOCKED_VIDEO': 'locked-video.jpg',
         }
     }
     template_context.update(base_template_context)
