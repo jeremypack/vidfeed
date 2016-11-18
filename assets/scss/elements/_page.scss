@@ -19,8 +19,10 @@ html {
   line-height: $inuit-global-line-height / $inuit-global-font-size; /* [1] */
   overflow-y: scroll; /* [2] */
   min-height: 100%; /* [3] */
+  @include scrollbars(0, transparent);
 }
 
 body {
     background:$light;
+    @include scrollbars(0.4em, $dark, transparent);
 }

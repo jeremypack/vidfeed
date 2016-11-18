@@ -24,6 +24,7 @@
     "jquery": "^3.1.0",
     "jshint": "^2.9.3",
     "jshint-loader": "^0.8.3",
+    "moment": "^2.16.0",
     "node-sass": "^3.10.0",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
