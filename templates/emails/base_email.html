@@ -166,7 +166,7 @@
             </tr>
             <tr>
                 <td style="padding: 25px 35px; text-align: left; font-family: sans-serif; font-size: 18px; mso-height-rule: exactly; line-height: 30px; color: #f8f8f8; background-color: #2D2F34;">
-                    <img src="{{ settings.BASE_URL }}{{ settings.STATIC_URL }}images/{{ settings.LOGO_SMALL }}" width="98" height="30" alt="Vidfeed Logo White 30" border="0">
+                    <img src="{{ settings.BASE_URL }}{{ settings.STATIC_URL }}images/{{ settings.LOGO_SMALL_LIGHT }}" width="98" height="30" alt="Vidfeed Logo White 30" border="0">
                 </td>
             </tr>
         </table>
@@ -203,7 +203,12 @@
                                             <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
                                                 <tr>
                                                     <td dir="ltr" valign="top">
-                                                        <a href="{{ settings.BASE_URL }}{{ feed.get_absolute_url }}"><img src="{{ feed.video_thumbnail}}" width="170" width="170" alt="video thumbnail" border="0" class="fluid" style="cursor: pointer;"></a>
+                                                        {% if feed.video_thumbnail %}
+                                                        <a href="{{ settings.BASE_URL }}{{ feed.get_absolute_url }}"><img src="{{ feed.video_thumbnail}}" width="170" alt="video thumbnail" border="0" class="fluid" style="cursor: pointer;"></a>
+
+                                                        {% else %}
+                                                        <a href="{{ settings.BASE_URL }}{{ feed.get_absolute_url }}"><img src="{{ settings.BASE_URL }}{{ settings.STATIC_URL }}images/{{ settings.LOCKED_VIDEO }}" width="170" alt="video thumbnail" border="0" class="fluid" style="cursor: pointer;"></a>
+                                                        {% endif %}
                                                     </td>
                                                 </tr>
                                             </table>
@@ -216,7 +221,11 @@
                                                     <td dir="ltr" valign="center" style="font-family: sans-serif; font-size: 18px; mso-height-rule: exactly; line-height: 30px; color: #2D2F34; padding: 10px 20px; text-align: left;" class="center-on-narrow">
                                                         
                                                         <!-- <br><br> -->
+                                                        {% if feed.video_title %}
                                                         {{ feed.video_title }}<br>
+                                                        {% else %}
+                                                        Password Protected Video<br>
+                                                        {% endif %}
                                                         <span style="font-size: 14px;"><a href="{{ feed.owner.email }}" style="text-decoration: none; color: #2D2F34;">created by {{ feed.owner.email }}</a></span>
                                                     </td>
                                                 </tr>
@@ -265,7 +274,7 @@
                                             <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
                                                 <tr>
                                                     <td dir="ltr" valign="top" align="right" style="padding: 0 10px;">
-                                                        <img src="{{ settings.BASE_URL }}{{ settings.STATIC_URL }}images/{{ settings.LOGO_SMALL }}" width="100" width="100" alt="vidfeed logo black 30" border="0" class="center-on-narrow">
+                                                        <img src="{{ settings.BASE_URL }}{{ settings.STATIC_URL }}images/{{ settings.LOGO_SMALL_DARK }}" width="100" width="100" alt="vidfeed logo black 30" border="0" class="center-on-narrow">
                                                     </td>
                                                 </tr>
                                             </table>
