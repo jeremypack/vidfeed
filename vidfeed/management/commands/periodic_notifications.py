@@ -28,5 +28,6 @@ class Command(BaseCommand):
                                 'commenter': c.owner,
                                 'comments': comments_to_notify,
                             }
-                            send_email('regular_udpate', ctx, 'Comments on Feed', collaborator.user.email)
+                            # this doesn't work yet
+                            send_email('regular_update', ctx, 'Comments on Feed', collaborator.user.email)
                     comments_to_notify.update(has_notified=True)
