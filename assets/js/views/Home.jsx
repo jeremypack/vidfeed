@@ -6,6 +6,12 @@ var CreateFeedContainer =           require('../containers/CreateFeedContainer')
 
 var YouTubePlayer = require('../components/YouTubePlayer');
 
+function is_touch_device() {
+    return (('ontouchstart' in window)
+      || (navigator.MaxTouchPoints > 0)
+      || (navigator.msMaxTouchPoints > 0));
+}
+
 var Home = React.createClass({
     
     getInitialState: function() {
@@ -18,7 +24,9 @@ var Home = React.createClass({
     componentDidMount: function() {
         this._resizeContent();
         window.addEventListener('resize', this._resizeContent);
-        window.addEventListener('scroll', this._playScreencast);
+        if (!is_touch_device()) {
+            window.addEventListener('scroll', this._playScreencast);
+        }
     },
 
     componentWillUnmount:function() {
