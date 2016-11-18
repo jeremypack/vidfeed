@@ -182,6 +182,7 @@ class FeedInviteList(APIView):
         args = {
             'feed': feed,
             'list_recipients': list_recipients,
+            'sender' : sender,
         }
         send_email('invite_sent', args, "Invite Sent: " + feed.video_title, sender.email)
 
