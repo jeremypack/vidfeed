@@ -24,7 +24,11 @@
             {% endfor %}
             <br>
             <br>
-            {% if %} We’ll drop you an email letting you know when each new collaborator leaves thier first comment. That way you can stay ahead of the game.
+            {% if feed.owner == sender %} We’ll drop you an email letting you know when each new collaborator leaves thier first comment. That way you can stay ahead of the game.
+            {% else %}
+            Happy Collaborating.
+            {% endif %}
+
         </td>
     </tr>    
 
