@@ -95,6 +95,14 @@ DATABASES = {
         'PASSWORD': 'vidfeed',
         'PORT': '',
         'USER': 'vidfeed'
+    },
+    'from_db': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'HOST': 'localhost',
+        'NAME': 'vidfeed_migrate_from',
+        'PASSWORD': 'vidfeed',
+        'PORT': '',
+        'USER': 'vidfeed'
     }
 }
 
@@ -162,5 +170,5 @@ EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.sendgrid.net')
 EMAIL_PORT = os.environ.get('EMAIL_PORT', 587)
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'vidfeedapp')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'cSNTmT4uHn5lSb94cJDW')
-DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'Vidfeed Notifications <notifications@vidfeed.io>')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'Vidfeed Notification <notification@vidfeed.io>')
 ########## END SITE SETTINGS

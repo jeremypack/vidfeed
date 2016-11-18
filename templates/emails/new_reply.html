@@ -7,17 +7,20 @@
 
 {% block emailtitle %}New Reply{% endblock %}
 
+{% block emailsubtitle %}from {{ comment_author }}{% endblock %}
+
 
 {% block content %}
 
 
-            <!-- 1 Column Text : BEGIN -->
-            <tr>
-                <td style="padding: 40px; text-align: left; font-family: sans-serif; font-size: 16px; mso-height-rule: exactly; line-height: 20px; color: #2D2F34; border-top: solid 2px #f8f8f8; border-bottom: solid 2px #f8f8f8;">
-                    <strong><a href="#" style="text-decoration: none; color: #2D2F34">{{ comment_author }}</strong><br>
-                    <br>
-                    "{{ message }}"
-                    <br><br>
-
+    <!-- CONTENT : 1 Column Text : BEGIN -->
+    <tr>
+        <td style="padding: 30px 15px; border-top: solid 3px #f8f8f8; text-align: left; font-family: sans-serif; font-size: 16px; mso-height-rule: exactly; line-height: 30px; color: #2D2F34;">
+            
+            <strong><a href="mailto: {{ comment_author }}" style="text-decoration: none; color: #2D2F34;">{{ comment_author }}</a></strong>
+            <br>
+            {{ message }}
+        </td>
+    </tr>    
 
 {% endblock %}
