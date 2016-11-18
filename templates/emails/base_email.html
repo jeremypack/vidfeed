@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width"> <!-- Forcing initial-scale shouldn't be necessary -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Use the latest (edge) version of IE rendering engine -->
     <title>New Vidfeed Notification</title> <!-- The title tag shows in email notifications, like Android 4.4. -->
-
+    
     <!-- Web Font / @font-face : BEGIN -->
     <!-- NOTE: If web fonts are not required, lines 9 - 26 can be safely removed. -->
     
@@ -24,7 +24,7 @@
     <!--<![endif]-->
 
     <!-- Web Font / @font-face : END -->
-    
+
     <!-- CSS Reset -->
     <style type="text/css">
 
@@ -160,114 +160,139 @@
         <!-- Email Header : BEGIN -->
         <table cellspacing="0" cellpadding="0" border="0" align="center" width="600" style="margin: auto;" class="email-container">
             <tr>
-                <td style="padding: 10px 0; text-align: center; font-size: 10px; font-family: sans-serif; mso-height-rule: exactly; line-height: 20px; color: #95989A;">
+                <td style="padding: 10px 0; text-align: center; font-size: 10px; font-family: sans-serif; mso-height-rule: exactly; line-height: 30px; color: #95989A;">
                     To ensure delivery, add <a href="mailto: notification@vidfeed.io" style="text-decoration: underline; color: #95989A; cursor: pointer;">notification@vidfeed.io</a> to your address book
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 25px 35px; text-align: left; font-family: sans-serif; font-size: 18px; mso-height-rule: exactly; line-height: 30px; color: #f8f8f8; background-color: #2D2F34;">
+                    <img src="{{ settings.BASE_URL }}{{ settings.STATIC_URL }}images/{{ settings.LOGO_SMALL }}" width="98" height="30" alt="Vidfeed Logo White 30" border="0">
                 </td>
             </tr>
         </table>
         <!-- Email Header : END -->
+        
 
         <!-- Email Body : BEGIN -->
         <table cellspacing="0" cellpadding="0" border="0" align="center" bgcolor="#ffffff" width="600" style="margin: auto;" class="email-container">
-
-
-                       <!-- 1 Column Text : BEGIN -->
             <tr>
-                <td style="padding: 25px 40px; text-align: left; font-family: sans-serif; font-size: 18px; mso-height-rule: exactly; line-height: 20px; color: #ffffff; background-color: #2D2F34; text-transform: capitalize;">
-                    {% block emailtitle %}{% endblock %}
-                </td>
-            </tr>
-            <!-- 1 Column Text : BEGIN -->
+                <td dir="ltr" align="center" valign="top" width="100%" style="padding: 20px;">
+                    <table cellspacing="0" cellpadding="0" border="0" align="center" bgcolor="#ffffff" width="560" style="margin: auto;" class="email-container">
+                    
 
-        
-            <!-- Thumbnail Left, Text Right : BEGIN -->
-            <tr>
-                <td dir="ltr" align="center" valign="top" width="100%" style="padding: 40px 20px;">
-                    <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <!-- 1 Column Text ABOUT : BEGIN -->
                         <tr>
-                            <!-- Column : BEGIN -->
-                            <td width="33.33%" class="stack-column-center">
-                                <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
-                                    <tr>
-                                        <td dir="ltr" valign="top" style="padding: 0 20px; cursor: pointer;">
-                                            <a href="{{ settings.BASE_URL }}{{ feed.get_absolute_url }}"><img src="{{ feed.video_thumbnail}}" width="170" width="170" alt="video thumbnail" border="0" class="center-on-narrow"></a>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                            <!-- Column : END -->
-                            <!-- Column : BEGIN -->
-                            <td width="66.66%" class="stack-column-center">
-                                <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
-                                    <tr>
-                                        <td dir="ltr" valign="center" style="font-family: sans-serif; font-size: 18px; mso-height-rule: exactly; line-height: 20px; color: #555555; padding: 10px 20px; text-align: left;" class="center-on-narrow">
-                                            
-                                            "{{ feed.video_title }}"<br>
-                                            <span style="font-size: 14px;">created by <a href="mailto: {{ feed.owner.email}}" style="text-decoration: none; color: #555555"> {{ feed.owner.email }}</a></span>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                            <!-- Column : END -->
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-            <!-- Thumbnail Left, Text Right : END -->
-        
-            {% block content %} 
-
-            {% endblock %}
-
-                    <!-- Button : Begin -->
-                    <table cellspacing="0" cellpadding="0" border="0" align="left" style="Margin: auto;">
-                        <tr>
-                            <td style="border-radius: 3px; background: #f05d80; text-align: center;" class="button-td">
-                                <a href="{{ settings.BASE_URL }}{{ feed.get_absolute_url }}" style="background: #f05d80; border: 15px solid #f05d80; font-family: sans-serif; font-size: 14px; line-height: 1.1; text-align: center; text-decoration: none; display: block; border-radius: 3px; font-weight: bold; cursor: pointer;" class="button-a">
-                                    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ffffff">View the Feed</span>&nbsp;&nbsp;&nbsp;&nbsp;
-                                </a>
+                            <td style="padding: 15px; text-align: left; font-family: sans-serif; font-size: 14px; mso-height-rule: exactly; line-height: 30px; color: #2D2F34;">
+                                <strong><a href="#" style="text-decoration: none; color: #2D2F34; font-size: 20px;">
+                                {% block emailtitle %}{% endblock %}</a></strong>
+                                <br>
+                                <a href="#" style="text-decoration: none; color: #2D2F34; font-size: 14px; ">
+                                {% block emailsubtitle %}{% endblock %}</a>
                             </td>
                         </tr>
-                    </table>
-                    <!-- Button : END -->
-                </td>
-            </tr>
-            <!-- 1 Column Text : BEGIN -->
-        
-            <!-- Thumbnail Right, Text Left : BEGIN -->
-            <tr>
-                <td dir="rtl" align="center" valign="top" width="100%" style="padding: 30px;">
-                    <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
-                        <tr>
-                            <!-- Column : BEGIN -->
-                            <td width="33.33%" class="stack-column-center">
-                                <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
-                                    <tr>
-                                        <td dir="ltr" valign="top" align="right" style="padding: 0 10px;">
-                                            <img src="{{ settings.BASE_URL }}{{ settings.STATIC_URL }}images/{{ settings.LOGO_SMALL }}" width="100" width="100" alt="vidfeed logo" border="0" class="center-on-narrow">
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                            <!-- Column : END -->
-                            <!-- Column : BEGIN -->
-                            <td width="66.66%" class="stack-column-center">
-                                <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
-                                    <tr>
-                                        <td dir="ltr" valign="top" style="font-family: sans-serif; font-size: 10px; mso-height-rule: exactly; line-height: 20px; color: #555555; padding: 10px; text-align: left;" class="center-on-narrow">
-                                            Sent from Vidfeed<br>
-                                            14 Gray’s Inn Rd, London WC1X 8HN
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                            <!-- Column : END -->
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-            <!-- Thumbnail Right, Text Left : END -->
+                        <!-- 1 Column Text ABOUT : BEGIN -->
 
+
+                        <!-- FEED DETAILS : Thumbnail Left, Text Right : BEGIN -->
+                        <tr>
+                            <td dir="ltr" align="center" valign="top" width="100%" style="padding: 15px; background-color:#f8f8f8">
+                                <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                    <tr>
+                                        <!-- Column : BEGIN -->
+                                        <td width="33.33%" class="stack-column-center">
+                                            <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                <tr>
+                                                    <td dir="ltr" valign="top">
+                                                        <a href="{{ settings.BASE_URL }}{{ feed.get_absolute_url }}"><img src="{{ feed.video_thumbnail}}" width="170" width="170" alt="video thumbnail" border="0" class="fluid" style="cursor: pointer;"></a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <!-- Column : END -->
+                                        <!-- Column : BEGIN -->
+                                        <td width="66.66%" class="stack-column-center">
+                                            <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                <tr>
+                                                    <td dir="ltr" valign="center" style="font-family: sans-serif; font-size: 18px; mso-height-rule: exactly; line-height: 30px; color: #2D2F34; padding: 10px 20px; text-align: left;" class="center-on-narrow">
+                                                        
+                                                        <!-- <br><br> -->
+                                                        {{ feed.video_title }}<br>
+                                                        <span style="font-size: 14px;"><a href="{{ feed.owner.email }}" style="text-decoration: none; color: #2D2F34;">created by {{ feed.owner.email }}</a></span>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <!-- Column : END -->
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- FEED DETAILS : Thumbnail Left, Text Right : END -->
+                        
+
+                        {% block content %}{% endblock %}
+
+
+                            <!-- VIEW FEED : Button : BEGIN -->
+                            <tr>
+                                <td style="border-radius: 3px; background: #f05d80; text-align: center;" class="button-td">
+                                    <a href="#" style="background: #f05d80; border: 15px solid #f05d80; font-family: sans-serif; font-size: 14px; line-height: 1.1; text-align: center; text-decoration: none; display: block; border-radius: 3px; cursor: pointer;" class="button-a">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ffffff">View Feed</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </a>
+                                </td>
+                            </tr>
+                            <!-- VIEW FEED : Button : END -->
+                            
+                            <!-- PADDING : Button : BEGIN -->
+
+                            <tr>
+                            <td style="padding: 10px; text-align: left; font-family: sans-serif; font-size: 16px; mso-height-rule: exactly; line-height: 30px; color: #2D2F34;">
+                            &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                            </td>
+                            </tr>
+                            <!-- PADDING : Button : END -->
+
+
+
+                    
+                        <!-- Thumbnail Right, Text Left : BEGIN -->
+                        <tr>
+                            <td dir="rtl" align="center" valign="top" width="100%" style="border-top: solid 3px #f8f8f8; padding: 20px 0px 0px 0px;">
+                                <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                    <tr>
+                                        <!-- Column : BEGIN -->
+                                        <td width="33.33%" class="stack-column-center">
+                                            <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                <tr>
+                                                    <td dir="ltr" valign="top" align="right" style="padding: 0 10px;">
+                                                        <img src="{{ settings.BASE_URL }}{{ settings.STATIC_URL }}images/{{ settings.LOGO_SMALL }}" width="100" width="100" alt="vidfeed logo black 30" border="0" class="center-on-narrow">
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <!-- Column : END -->
+                                        <!-- Column : BEGIN -->
+                                        <td width="66.66%" class="stack-column-center">
+                                            <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                <tr>
+                                                    <td dir="ltr" valign="top" style="font-family: sans-serif; font-size: 10px; mso-height-rule: exactly; line-height: 20px; color: #555555; padding: 10px; text-align: left;" class="center-on-narrow">
+                                                        Sent from Vidfeed<br>
+                                                        14 Gray’s Inn Rd, London WC1X 8HN
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <!-- Column : END -->
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- Thumbnail Right, Text Left : END -->
+
+                    </table>
+                    <!-- Email Body : END -->
+                </td>
+            </tr>
         </table>
         <!-- Email Body : END -->
 
