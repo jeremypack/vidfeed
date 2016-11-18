@@ -21,9 +21,10 @@ class Command(BaseCommand):
             for c in user_latest_comment:
                 if c.created < timezone.now() - datetime.timedelta(minutes=30):
                     collaborators = feed.feedcollaborator_set.all()
-                    comments_to_notify = feed.comment_set.filter(owner=c.owner)
+                    comments_to_notify = feed.comment_set.filter(owner=c.owner,
+                                                                 has_notified=False)
                     for collaborator in collaborators:
-                        if c.owner != collaborator:
+                        if c.owner != collaborator.user:
                             ctx = {
                                 'commenter': c.owner,
                                 'comments': comments_to_notify,
