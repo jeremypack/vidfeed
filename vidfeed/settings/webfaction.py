@@ -12,9 +12,17 @@ WEBPACK_LOADER = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'live',
+        'NAME': 'vidfeed_master',
         'USER': 'vidfeed_live',
         'PASSWORD': 'Hti5ExjnbDpgpDd',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    },
+    'from_db': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'vidfeed',
+        'USER': 'vidfeed',
+        'PASSWORD': 'yq1lQosFtf0T3EAtm7R0',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
