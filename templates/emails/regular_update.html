@@ -2,7 +2,7 @@
 {% extends 'emails/base_email.html' %}
 
 
-{% block preheader %}Feed sent to {{recipient_email}}{% endblock %}
+{% block preheader %}You have unseen comments on your feed.{% endblock %}
 
 
 {% block emailtitle %}{{comments.count}} {% if comments.count > 1 %}Comments {% else %} Comment{% endif %}{% endblock %}
