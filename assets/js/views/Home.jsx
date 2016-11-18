@@ -4,21 +4,26 @@ var ReactPlayer = require('react-player');
 var HeaderContainer =               require('../containers/HeaderContainer');
 var CreateFeedContainer =           require('../containers/CreateFeedContainer');
 
+var YouTubePlayer = require('../components/YouTubePlayer');
+
 var Home = React.createClass({
     
     getInitialState: function() {
         return {
-            playerHeight:undefined
+            playerHeight:undefined,
+            playing:false
         };
     },
 
     componentDidMount: function() {
         this._resizeContent();
         window.addEventListener('resize', this._resizeContent);
+        window.addEventListener('scroll', this._playScreencast);
     },
 
     componentWillUnmount:function() {
         window.removeEventListener('resize', this._resizeContent);
+        window.removeEventListener('scroll', this._playScreencast);
     },
 
     _resizeContent:function() {
@@ -27,15 +32,16 @@ var Home = React.createClass({
         });
     },
 
+    _playScreencast: function() {
+        if (!this.state.playing) {
+            this.setState({
+                playing:true
+            });
+        }
+    },
+
     render: function() {
-
-        var vimeoUrl = "https://vimeo.com/191680754";
-        var vimeoConfig = {
-            iframeParams : {
-                color:'49c9f5'
-            }
-        };
-
+        
         var playerWrapperStyle = {
             height:this.state.playerHeight
         }
@@ -52,19 +58,13 @@ var Home = React.createClass({
                 </main>
                 <section className="home__video">
                     <div className="o-wrapper">
-                        <div className="c-player__wrapper" style={playerWrapperStyle}>                    
+                        <div className="c-player__wrapper" style={playerWrapperStyle}>   
                             <div className="c-player" ref="playerHolder">
-                                <div className="c-player__height" >
-                                    <ReactPlayer
-                                        controls={false}
-                                        progressFrequency={100}
-                                        width='100%'
-                                        height='100%'
-                                        ref='player'
-                                        onReady={this._resizeVideo}
-                                        onDuration={this._resizeVideo}
-                                        url={vimeoUrl}
-                                        vimeoConfig={vimeoConfig} />
+                                <div className="c-player__height">
+                                    <YouTubePlayer
+                                        video_id='pKWLcym7zu0'
+                                        playOnScroll={this.state.playing}
+                                        homepage={true} />   
                                 </div>
                             </div>
                         </div>
