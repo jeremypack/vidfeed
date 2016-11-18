@@ -27,6 +27,7 @@ class Command(BaseCommand):
                             ctx = {
                                 'commenter': c.owner,
                                 'comments': comments_to_notify,
+                                'feed' : c.feed,
                             }
                             # this doesn't work yet
                             send_email('regular_update', ctx, 'Comments on Feed', collaborator.user.email)
