@@ -66,6 +66,11 @@ class SiteUser(AbstractBaseUser, PermissionsMixin):
 
     objects = SiteUserManager()
 
+    def get_display_name(self):
+        if self.get_full_name():
+            return self.get_full_name()
+        return self.email.split('@')[0]
+
     def get_full_name(self):
         """
         Returns the first_name plus the last_name, with a space in between.

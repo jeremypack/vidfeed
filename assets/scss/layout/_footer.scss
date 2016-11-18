@@ -1,0 +1,21 @@
+/* ==========================================================================
+   #FOOTER
+   ========================================================================== */
+
+.siteFooter {
+    display:block;
+    padding:$inuit-global-spacing-unit 0;
+    background:$mid;
+    color:#fff;
+    text-align:center;
+    transition: all $global-transition;
+    strong {
+        transition: all $global-transition;
+    }
+    &:hover,&:focus {
+        background:$blue;
+        strong {
+            color:$red;
+        }
+    }
+}
