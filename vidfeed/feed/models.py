@@ -55,6 +55,11 @@ class Feed(models.Model):
     active = models.BooleanField(blank=True, null=False, default=True)
     video_title = models.CharField(max_length=250, default='')
     video_thumbnail = models.CharField(max_length=500, default='')
+    
+    def get_video_title(self):
+        if not self.video_title: 
+            return "Password Protected Video"
+        return self.video_title
 
     def get_full_name(self):
         if self.owner:
