@@ -7,7 +7,7 @@
 
 {% block emailtitle %}Invite Successfully Sent{% endblock %}
 
-{% block emailsubtitle %}{{list_recipients.count}} {% if list_recipients.count > 1 %}Collaborators {% else %} Collaborator{% endif %}{% endblock %}
+{% block emailsubtitle %}{{list_recipients|length}}{% if list_recipients|length > 1 %} Collaborators{% else %} Collaborator{% endif %}{% endblock %}
 
 
 {% block content %}
