@@ -185,7 +185,7 @@ class FeedInviteList(APIView):
             'list_recipients': list_recipients,
             'sender' : sender,
         }
-        send_email('invite_sent', args, "Invite Successfully Sent for" + feed.get_video_title(), sender.email)
+        send_email('invite_sent', args, "Successfully Invited {0} Collaborator{1}".format(len(list_recipients),"s" if len(list_recipients) > 1 else "") + " to " + feed.get_video_title(), sender.email)
 
         r = Response({"message": "successfully invited {0} users".format(len(list_recipients))})
         set_vidfeed_user_cookie(r, sender.email)
