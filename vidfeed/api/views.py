@@ -47,7 +47,7 @@ class CommentList(APIView):
                     'comment_author': owner_email,
                     'message' : comment.body,
                 }
-                send_email('new_reply', ctx, "New Reply: "+feed.get_video_title(), comment.parent_comment.owner.email)
+                send_email('new_reply', ctx, owner_email + " replied to your comment on "+feed.get_video_title(), comment.parent_comment.owner.email)
             # else send first comment email if first comment from this user
             else:
                 user_comments = Comment.objects.filter(feed=feed,
