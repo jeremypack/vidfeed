@@ -47,7 +47,7 @@ class CommentList(APIView):
                     'comment_author': owner_email,
                     'message' : comment.body,
                 }
-                send_email('new_reply', ctx, "New Reply: "+feed.video_title, comment.parent_comment.owner.email)
+                send_email('new_reply', ctx, "New Reply: "+feed.get_video_title(), comment.parent_comment.owner.email)
             # else send first comment email if first comment from this user
             else:
                 user_comments = Comment.objects.filter(feed=feed,
@@ -60,7 +60,7 @@ class CommentList(APIView):
                         'message' : comment.body,
                         'too_email' : feed.owner.email,
                     }
-                    send_email('new_comment', ctx, "New Collaborator: "+feed.video_title, feed.owner.email)
+                    send_email('new_comment', ctx, "New Collaborator: "+feed.get_video_title(), feed.owner.email)
 
             return r
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

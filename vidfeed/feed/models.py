@@ -82,7 +82,7 @@ class Feed(models.Model):
             'sender_email': sender,
             'recipient_email': recipient,
         }
-        send_email('invite_received', args, sender.email+" invited you to review: "+self.video_title, recipient)
+        send_email('invite_received', args, sender.email+" invited you to review: "+self.get_video_title(), recipient)
 
     def add_collaborator(self, collaborator):
         if FeedCollaborator.objects.filter(feed=self, user=collaborator).count() == 0:
