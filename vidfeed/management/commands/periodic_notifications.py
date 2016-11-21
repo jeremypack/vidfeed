@@ -30,5 +30,5 @@ class Command(BaseCommand):
                                 'comments': comments_to_notify,
                                 'feed': c.feed,
                             }
-                            send_email('regular_update', ctx, 'Comments on Feed', collaborator.user.email)
+                            send_email('regular_update', ctx, '{0} Comment{1} on Feed'.format(comments_to_notify.count, 's' if comments_to_notify.count > 1 else ""), collaborator.user.email)
                     comments_to_notify.update(has_notified=True)
