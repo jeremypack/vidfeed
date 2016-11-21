@@ -140,7 +140,7 @@ class FeedDetail(viewsets.GenericViewSet):
             'feed_owner': feed.owner.email,
         }
 
-        send_email('feed_created', ctx, "New Feed Created: "+ feed.get_video_title(), feed.owner.email)
+        send_email('feed_created', ctx, "New Feed Created for "+ feed.get_video_title(), feed.owner.email)
         return r
 
 

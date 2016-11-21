@@ -58,7 +58,7 @@ class Feed(models.Model):
     
     def get_video_title(self):
         if not self.video_title: 
-            return "Password Protected Video"
+            return "a Password Protected Video"
         return self.video_title
 
     def get_full_name(self):
@@ -82,7 +82,7 @@ class Feed(models.Model):
             'sender_email': sender,
             'recipient_email': recipient,
         }
-        send_email('invite_received', args, sender.email+" invited you to review: "+self.get_video_title(), recipient)
+        send_email('invite_received', args, sender.email+" has invited you to collaborate on: "+self.get_video_title(), recipient)
 
     def add_collaborator(self, collaborator):
         if FeedCollaborator.objects.filter(feed=self, user=collaborator).count() == 0:
