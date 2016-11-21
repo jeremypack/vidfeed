@@ -155,7 +155,7 @@ class FeedInviteList(APIView):
 
     def post(self, request, feed_id, format=None):
         feed = get_object_or_404(Feed, feed_id=feed_id)
-        d = json.loads(request.body)
+        d = json.loads(dict(request.data).items()[0][0])
         try:
             sender = SiteUser.objects.find_or_create_user(d.get('sender').strip())
         except AttributeError:
