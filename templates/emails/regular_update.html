@@ -5,7 +5,7 @@
 {% block preheader %}You have unseen comments on your feed.{% endblock %}
 
 
-{% block emailtitle %}{{comments.count}} {% if comments.count > 1 %}Comments {% else %} Comment{% endif %}{% endblock %}
+{% block emailtitle %}{{comments.count}} New {% if comments.count > 1 %}Comments {% else %}Comment{% endif %}{% endblock %}
 
 {% block emailsubtitle %}from {{ commenter.email }}{% endblock %}
 
