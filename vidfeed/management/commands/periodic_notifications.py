@@ -19,7 +19,7 @@ class Command(BaseCommand):
             user_latest_comment = feed.comment_set.filter(has_notified=False)\
                 .order_by('owner', '-created').distinct('owner')
             for c in user_latest_comment:
-                if c.created < timezone.now() - datetime.timedelta(minutes=30):
+                if c.created < timezone.now() - datetime.timedelta(minutes=1):
                     collaborators = feed.feedcollaborator_set.all()
                     comments_to_notify = feed.comment_set.filter(owner=c.owner,
                                                                  has_notified=False)
@@ -30,5 +30,5 @@ class Command(BaseCommand):
                                 'comments': comments_to_notify,
                                 'feed': c.feed,
                             }
-                            send_email('regular_update', ctx, 'Comments on Feed', collaborator.user.email)
+                            send_email('regular_update', ctx, '{0} New Comment{1} on '.format(comments_to_notify.count(), 's' if comments_to_notify.count() > 1 else "") + feed.get_video_title(), collaborator.user.email)
                     comments_to_notify.update(has_notified=True)

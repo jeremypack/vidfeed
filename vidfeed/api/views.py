@@ -42,12 +42,26 @@ class CommentList(APIView):
 
             # if this is a reply send an email to the comment owner
             if comment.parent_comment:
+                # find all people in the thread
+                all_replies = Comment.objects.filter(feed=comment.feed,
+                                                     parent_comment=comment.parent_comment)
+                reply_list = [comment.parent_comment.owner]
+                for c in all_replies:
+                    reply_list.append(c.owner)
+
+                # remove duplicates
+                reply_list = list(set(reply_list))
                 ctx = {
                     'feed': feed,
                     'comment_author': owner_email,
-                    'message' : comment.body,
+                    'message': comment.body,
                 }
-                send_email('new_reply', ctx, "New Reply: "+feed.video_title, comment.parent_comment.owner.email)
+                # send to everyone in the list
+                for u in reply_list:
+                    # actually skip the person who created the comment
+                    if u != comment.owner:
+                        send_email('new_reply', ctx,
+                                   owner_email + " replied to your comment on "+feed.get_video_title(), u.email)
             # else send first comment email if first comment from this user
             else:
                 user_comments = Comment.objects.filter(feed=feed,
@@ -60,7 +74,7 @@ class CommentList(APIView):
                         'message' : comment.body,
                         'too_email' : feed.owner.email,
                     }
-                    send_email('new_comment', ctx, "New Collaborator: "+feed.video_title, feed.owner.email)
+                    send_email('new_comment', ctx, owner_email + " just left their first comment on "+feed.get_video_title(), feed.owner.email)
 
             return r
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -139,7 +153,8 @@ class FeedDetail(viewsets.GenericViewSet):
             'feed': feed,
             'feed_owner': feed.owner.email,
         }
-        send_email('feed_created', ctx, "New Feed Created: "+feed.video_title, feed.owner.email)
+
+        send_email('feed_created', ctx, "New Feed Created for "+ feed.get_video_title(), feed.owner.email)
         return r
 
 
@@ -154,7 +169,7 @@ class FeedInviteList(APIView):
 
     def post(self, request, feed_id, format=None):
         feed = get_object_or_404(Feed, feed_id=feed_id)
-        d = json.loads(request.body)
+        d = json.loads(dict(request.data).items()[0][0])
         try:
             sender = SiteUser.objects.find_or_create_user(d.get('sender').strip())
         except AttributeError:
@@ -182,8 +197,9 @@ class FeedInviteList(APIView):
         args = {
             'feed': feed,
             'list_recipients': list_recipients,
+            'sender' : sender,
         }
-        send_email('invite_sent', args, "Invite Sent: " + feed.video_title, sender.email)
+        send_email('invite_sent', args, "Successfully Invited {0} Collaborator{1}".format(len(list_recipients),"s" if len(list_recipients) > 1 else "") + " to " + feed.get_video_title(), sender.email)
 
         r = Response({"message": "successfully invited {0} users".format(len(list_recipients))})
         set_vidfeed_user_cookie(r, sender.email)

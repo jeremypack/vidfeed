@@ -7,7 +7,7 @@
 
 {% block emailtitle %}Invite Successfully Sent{% endblock %}
 
-{% block emailsubtitle %}to 2 Collaborators{% endblock %}
+{% block emailsubtitle %} to {{list_recipients|length}}{% if list_recipients|length > 1 %} Collaborators{% else %} Collaborator{% endif %}{% endblock %}
 
 
 {% block content %}
@@ -24,7 +24,11 @@
             {% endfor %}
             <br>
             <br>
-            {% if %} We’ll drop you an email letting you know when each new collaborator leaves thier first comment. That way you can stay ahead of the game.
+            {% if feed.owner == sender %} We’ll drop you an email letting you know when each new collaborator leaves thier first comment. That way you can stay ahead of the game.
+            {% else %}
+            Happy Collaborating.
+            {% endif %}
+
         </td>
     </tr>    
 

@@ -2,7 +2,11 @@
 {% extends 'emails/base_email.html' %}
 
 
-{% block preheader %}New feed created for {{ feed.video_title }}{% endblock %}
+{% block preheader %}New feed created for {% if feed.video_title %}
+                                                        {{ feed.video_title }}
+                                                        {% else %}
+                                                        Password Protected Video
+                                                        {% endif %}{% endblock %}
 
 
 {% block emailtitle %}New Feed Created{% endblock %}

@@ -20,12 +20,13 @@ DATABASES = {
     },
     'from_db': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'vidfeed',
+        'NAME': 'vidfeed_live',
         'USER': 'vidfeed',
-        'PASSWORD': 'yq1lQosFtf0T3EAtm7R0',
+        'PASSWORD': 'ajJ5USVZ9DVdbQe',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
+
 }
 
 
