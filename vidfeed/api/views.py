@@ -42,12 +42,26 @@ class CommentList(APIView):
 
             # if this is a reply send an email to the comment owner
             if comment.parent_comment:
+                # find all people in the thread
+                all_replies = Comment.objects.filter(feed=comment.feed,
+                                                     parent_comment=comment.parent_comment)
+                reply_list = [comment.parent_comment.owner]
+                for c in all_replies:
+                    reply_list.append(c.owner)
+
+                # remove duplicates
+                reply_list = list(set(reply_list))
                 ctx = {
                     'feed': feed,
                     'comment_author': owner_email,
-                    'message' : comment.body,
+                    'message': comment.body,
                 }
-                send_email('new_reply', ctx, owner_email + " replied to your comment on "+feed.get_video_title(), comment.parent_comment.owner.email)
+                # send to everyone in the list
+                for u in reply_list:
+                    # actually skip the person who created the comment
+                    if u != comment.owner:
+                        send_email('new_reply', ctx,
+                                   owner_email + " replied to your comment on "+feed.get_video_title(), u.email)
             # else send first comment email if first comment from this user
             else:
                 user_comments = Comment.objects.filter(feed=feed,
