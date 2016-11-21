@@ -60,7 +60,7 @@ class CommentList(APIView):
                         'message' : comment.body,
                         'too_email' : feed.owner.email,
                     }
-                    send_email('new_comment', ctx, "New Collaborator: "+feed.get_video_title(), feed.owner.email)
+                    send_email('new_comment', ctx, owner_email + " just left their first comment on "+feed.get_video_title(), feed.owner.email)
 
             return r
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
