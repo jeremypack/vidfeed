@@ -6,6 +6,10 @@ var User = require('./User');
 
 var Header = React.createClass({
 
+    propTypes: {
+        isHomepage:             React.PropTypes.bool
+    },
+
     getInitialState:function() {
         return {
             sessionUser:'',
