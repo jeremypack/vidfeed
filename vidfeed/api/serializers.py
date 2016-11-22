@@ -54,11 +54,13 @@ class CommentSerializer(serializers.ModelSerializer):
         author = validated_data.pop('author')
         parent_id = validated_data.pop('parent_id', None)
         parent = None
+        has_notified = False
         if parent_id:
             parent = Comment.objects.get(feed=validated_data['feed'],
                                          deleted=False, id=parent_id)
+            has_notified = True
         owner = SiteUser.objects.find_or_create_user(author)
-        return Comment.objects.create(owner=owner,
+        return Comment.objects.create(owner=owner, has_notified=has_notified,
                                       parent_comment=parent, **validated_data)
 
     def update(self, instance, validated_data):
@@ -83,3 +85,8 @@ class FeedCollaboratorSerializer(serializers.ModelSerializer):
     class Meta:
         model = FeedCollaborator
         fields = ('user', 'created',)
+
+
+class FeedInvitesSerializer(serializers.Serializer):
+    sender = serializers.EmailField()
+    invites = serializers.ListField(child=serializers.EmailField())

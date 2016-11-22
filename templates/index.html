@@ -33,7 +33,9 @@
     </script>
     <!-- End Google Analytics -->
 
-
+    <!-- Intercom -->
+    <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/tz8a2jnu';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
+    <!-- End Intercom -->
 
     <!-- Hotjar Tracking Code for http://www.vidfeed.io/ -->
     <script>
@@ -62,7 +64,15 @@
       };
       window.vidfeed.urls = {};
       window.vidfeed.playing = false;
+      
+      window.Intercom("boot", {
+        app_id: "tz8a2jnu",
+        email: window.vidfeed.user.email
+      });
+
+
     </script>
+
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en"></script>
     {% render_bundle 'main' 'js' %}
   </body>
