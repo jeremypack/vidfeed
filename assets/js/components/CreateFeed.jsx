@@ -2,6 +2,15 @@ var React = require('react');
 var classNames = require('classnames');
 
 var CreateFeed = React.createClass({
+    
+    propTypes: {
+        isValid:            React.PropTypes.bool,
+        submitHandler:      React.PropTypes.func.isRequired,
+        value:              React.PropTypes.string,
+        changeHandler:      React.PropTypes.func.isRequired
+
+    },
+
     render: function() {
         
         var submitClasses = classNames({

@@ -167,11 +167,7 @@ var CommentContainer = React.createClass({
         if (e) {
            e.preventDefault(); 
         }
-        this.setState({
-            replyOpen:false
-        }, function(){
-            this.props.closeOpenReplyForms(this.props.id);
-        })
+        this.props.closeOpenReplyForms(this.props.id);
     },
 
     _closeReply: function() {

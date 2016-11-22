@@ -108,6 +108,7 @@ var ReplyFormContainer = React.createClass({
             data: comment,
             success: function(data) {
                 this.props.submitted();
+                this.props.modalClose();
             }.bind(this),
             error: function(data) {
                 console.log(JSON.parse(data.responseText),'handleCommentSubmit error');

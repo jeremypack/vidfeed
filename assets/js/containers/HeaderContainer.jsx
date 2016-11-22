@@ -4,6 +4,11 @@ var Header = require('../components/Header');
 
 var HeaderContainer = React.createClass({
     
+    propTypes: {
+        isHomepage:         React.PropTypes.bool,
+        isLoggedIn:         React.PropTypes.bool
+    },
+
     getInitialState: function() {
         return {
             isHomepage:false,
@@ -13,11 +18,15 @@ var HeaderContainer = React.createClass({
 
     componentWillMount: function() {
         if (this.props.isHomepage) {
-            this.setState({ isHomepage:true });
+            this.setState({ 
+                isHomepage:true
+            });
         }
 
         if (this.props.isLoggedIn) {
-            this.setState({ isLoggedIn:true });
+            this.setState({
+                isLoggedIn:true
+            });
         }
     },
 

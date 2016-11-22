@@ -3,7 +3,20 @@ var React = require('react');
 var player;
 
 var YouTubePlayer = React.createClass({
+    
+    propTypes: {
+        video_id:               React.PropTypes.string.isRequired,
+        onProgress:             React.PropTypes.func,
+        onPlay:                 React.PropTypes.func,
+        onPause:                React.PropTypes.func,
+        homepage:               React.PropTypes.bool,
+        playing:                React.PropTypes.bool,
+        seekTo:                 React.PropTypes.number,
+        playOnScroll:           React.PropTypes.bool
+    },
+
     interval: null,
+
     getInitialState: function() {
         return {
             'video_id': 'wMAuk5D6h1w',
