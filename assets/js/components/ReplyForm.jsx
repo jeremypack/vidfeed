@@ -3,6 +3,13 @@ var classNames = require('classnames');
 
 var ReplyForm = React.createClass({
     
+    propTypes: {
+        isValid:            React.PropTypes.bool,
+        handleReplySubmit:  React.PropTypes.func.isRequired,
+        comment:            React.PropTypes.string,
+        handleReplyChange:  React.PropTypes.func.isRequired
+    },
+
     componentDidMount: function() {
         this.refs.replyInput.focus();
     },

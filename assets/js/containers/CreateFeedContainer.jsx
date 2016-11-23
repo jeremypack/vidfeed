@@ -1,7 +1,6 @@
 var React = require('react');
 import { browserHistory } from 'react-router';
 
-
 var CreateFeed = require('../components/CreateFeed');
 
 var CreateFeedContainer =  React.createClass({
