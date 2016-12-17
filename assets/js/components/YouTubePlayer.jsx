@@ -32,7 +32,6 @@ var YouTubePlayer = React.createClass({
 
     componentDidMount: function() {
         
-        
         window.onPlayerReady = function () {
             if (this.props.onProgress) {
                 this.interval = setInterval(function() {
@@ -110,6 +109,7 @@ var YouTubePlayer = React.createClass({
             player = new YT.Player('yt_player_' + window.yt_player_id, {
                 width: '100%',
                 height: '100%',
+                playerVars: playerVars,
                 videoId: this.props.video_id,
                 events: {
                     'onReady': onPlayerReady,
