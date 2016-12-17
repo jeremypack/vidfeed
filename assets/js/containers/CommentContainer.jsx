@@ -105,6 +105,8 @@ var CommentContainer = React.createClass({
 
     _setEditMode: function(e) {
         e.preventDefault();
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
         this.setState({
             editable:true
         });
@@ -112,6 +114,8 @@ var CommentContainer = React.createClass({
 
     _cancelEdit: function(e){
         e.preventDefault();
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
         this.setState({
             editable:false,
             commentBody: this.props.body
@@ -120,6 +124,8 @@ var CommentContainer = React.createClass({
 
     _saveEdit: function (e) {
         e.preventDefault();
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
         var commentId = $(e.currentTarget).closest('.c-comment').data('id');
         this.props.handleCommentEdit(commentId, this.props.author, this.state.commentBody);
         this.setState({
@@ -134,7 +140,10 @@ var CommentContainer = React.createClass({
     _deleteComment: function (e, id) {
         if (e) {
             e.preventDefault();
+            e.stopPropagation();
+            e.nativeEvent.stopImmediatePropagation();
         }
+
         if (this.state.deleteCommentCheck) {
             this.props.handleDeleteComment(this.state.commentIdToDelete);
             this.props.modalClose();
@@ -163,9 +172,11 @@ var CommentContainer = React.createClass({
         });
     },
 
-    _openReply: function(e) {
+    _openReplyForm: function(e) {
         if (e) {
-           e.preventDefault(); 
+            e.preventDefault();
+            e.stopPropagation();
+            e.nativeEvent.stopImmediatePropagation();
         }
         this.props.closeOpenReplyForms(this.props.id);
     },
@@ -231,7 +242,7 @@ var CommentContainer = React.createClass({
                         author={reply.owner.email}
                         value={reply.body}
                         created={reply.created}
-                        toggleReply={this._openReply}
+                        toggleReply={this._openReplyForm}
                         replyIsOpen={this.state.replyOpen}
                         isReply={true}
                         editReply={editReply} 
@@ -261,8 +272,7 @@ var CommentContainer = React.createClass({
                         created={this.props.created} 
                         handleChange={this._handleCommentChange}
                         handleSubmit={this._saveEdit}
-                        cancelChange={this._cancelEdit}
-                        timecodeClick={this._timecodeClick} />
+                        cancelChange={this._cancelEdit} />
                     {replyNodes}
                 </div>
             );
@@ -271,7 +281,7 @@ var CommentContainer = React.createClass({
 
         if (this.state.commentActions) {
             return (
-                <div className="c-comment__outer">
+                <div className="c-comment__outer" onClick={this._timecodeClick}>
                     <Comment
                         id={this.props.id}
                         author={this.props.author}
@@ -281,9 +291,8 @@ var CommentContainer = React.createClass({
                         created={this.props.created} 
                         editComment={this._setEditMode} 
                         deleteComment={this._deleteComment}
-                        toggleReply={this._openReply}
+                        toggleReply={this._openReplyForm}
                         replyIsOpen={this.state.replyOpen}
-                        timecodeClick={this._timecodeClick}
                         newComment={this.state.newComment} />
                     {replyNodes}
                     {replyForm}
@@ -295,7 +304,7 @@ var CommentContainer = React.createClass({
         } else {
             
             return (
-                <div className="c-comment__outer">
+                <div className="c-comment__outer" onClick={this._timecodeClick}>
                     <Comment
                         id={this.props.id}
                         author={this.props.author}
@@ -303,9 +312,8 @@ var CommentContainer = React.createClass({
                         isReply={false}
                         timecode={formattedTime}
                         created={this.props.created} 
-                        toggleReply={this._openReply}
+                        toggleReply={this._openReplyForm}
                         replyIsOpen={this.state.replyOpen}
-                        timecodeClick={this._timecodeClick}
                         newComment={this.state.newComment} />
                     {replyNodes}
                     {replyForm}

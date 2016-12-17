@@ -22,6 +22,10 @@ form {
 
 }
 
+input[type=submit]:hover {
+    cursor:pointer;
+}
+
 .form--border {
     .input--border {
         height:inuit-rem(45px);

@@ -14,8 +14,7 @@ var EditComment = React.createClass({
         created:               React.PropTypes.string.isRequired,
         handleChange:          React.PropTypes.func,
         handleSubmit:          React.PropTypes.func,
-        cancelChange:          React.PropTypes.func,
-        timecodeClick:         React.PropTypes.func
+        cancelChange:          React.PropTypes.func
     },
 
     render: function() {
@@ -27,7 +26,7 @@ var EditComment = React.createClass({
                     <div className="c-comment__author">
                         <User userEmail={this.props.author} />
                     </div>
-                    {this.props.isReply ? null : <a href="#" onClick={this.props.timecodeClick} className="c-comment__timecode">{this.props.timecode}</a> }
+                    {this.props.isReply ? null : <a href="#" className="c-comment__timecode">{this.props.timecode}</a> }
                 </div>
                 <form onSubmit={this.props.handleSubmit} className="c-comment__body form--border">
                     <input className="input--border input--edit" type="text" onChange={this.props.handleChange} value={this.props.value} />
