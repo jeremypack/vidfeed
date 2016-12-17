@@ -1,4 +1,5 @@
 var React = require('react');
+var classNames = require('classnames');
 
 var User = React.createClass({
     
@@ -29,6 +30,9 @@ var User = React.createClass({
     },
 
     render:function() {
+
+        var iconClass = 'user__icon pastelSwatch--'+this.props.swatchNumber;
+
         if (this.props.removeUser) {
             var user = this.props.userEmail;
             var removeAction = <a href="#" className="user__remove" onClick={this.props.removeFunc(user)}>×<span className="u-hidden-visually">Remove</span></a>;
@@ -37,14 +41,15 @@ var User = React.createClass({
         if (this.props.iconOnly) {
             return (
                 <div className="user user--iconOnly">
-                    <span className="user__icon">{this.state.firstLetter}</span>
+                    <span className={iconClass}>{this.state.firstLetter}</span>
+                    <div className="user__email">{this.props.userEmail}</div>
                 </div>
             );
         }
 
         return (
             <div className="user">
-                <span className="user__icon">{this.state.firstLetter}</span>
+                <span className={iconClass}>{this.state.firstLetter}</span>
                 <span className="user__title">{this.props.userEmail}</span>
                 {removeAction}
             </div>

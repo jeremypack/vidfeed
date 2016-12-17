@@ -26,7 +26,11 @@ const modalStyles = {
     }
 };
 
-var CollaboratorsContainer = React.createClass({
+function getRandomArbitrary(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+const CollaboratorsContainer = React.createClass({
     
     propTypes: {
         feedId:            React.PropTypes.string.isRequired,
@@ -92,8 +96,9 @@ var CollaboratorsContainer = React.createClass({
             return;
         } else {
             var collaboratorNodes = this.state.data.map(function(collaborator, i) {
+                var randomNumber = getRandomArbitrary(1,501);
                 return (
-                    <li className="invitees__item" key={i}><User userEmail={collaborator.user.email} /></li>
+                    <li className="invitees__item" key={i}><User swatchNumber={randomNumber} userEmail={collaborator.user.email} /></li>
                 );
             }.bind(this));
 
@@ -116,8 +121,10 @@ var CollaboratorsContainer = React.createClass({
                                     </div>;
 
             var avatarNodes = this.state.data.map(function(collaborator,i) {
+                var randomNumber = getRandomArbitrary(1,501);
                 return (
                     <User
+                        swatchNumber={randomNumber}
                         userEmail={collaborator.user.email}
                         iconOnly={true}
                         key={i} />

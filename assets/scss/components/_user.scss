@@ -10,14 +10,6 @@
         padding:0;
     }
 }
-.user--iconOnly {
-    display:inline-block;
-    padding:0;
-    .user__icon {
-        margin-right:5px;
-    }
-}
-
 .user__icon {
     display:inline-block;
     width:$inuit-global-spacing-unit;
@@ -31,6 +23,44 @@
     @include inuit-font-size(12px, $line-height:$inuit-global-spacing-unit);
     text-transform:uppercase;
 }
+
+
+.user--iconOnly {
+    position:relative;
+    display:inline-block;
+    padding:0;
+    .user__icon {
+        margin-right:5px;
+    }
+    .user__email {
+        position:absolute;
+        top:140%;
+        left:50%;
+        transform: translate(-50%, 0);
+        display:none;
+        padding:4px 8px;
+        background: #fff;
+        color:$mid;
+        z-index:10;
+        border-radius:2px;
+        @include inuit-font-size(12px,$line-height:1.2);
+        &:before {
+            @include triangle(top, $color:#fff, $size:3px);
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, 0);
+            margin-left:-2px;
+            bottom: 100%;
+        }
+    }
+    &:hover {
+        cursor:default;
+        .user__email {
+            display:block;
+        }
+    }
+}
+
 
 .user__title {
     font-weight: 700;
