@@ -106,7 +106,6 @@ var CommentContainer = React.createClass({
     _setEditMode: function(e) {
         e.preventDefault();
         e.stopPropagation();
-        e.nativeEvent.stopImmediatePropagation();
         this.setState({
             editable:true
         });
@@ -115,7 +114,6 @@ var CommentContainer = React.createClass({
     _cancelEdit: function(e){
         e.preventDefault();
         e.stopPropagation();
-        e.nativeEvent.stopImmediatePropagation();
         this.setState({
             editable:false,
             commentBody: this.props.body
@@ -125,7 +123,6 @@ var CommentContainer = React.createClass({
     _saveEdit: function (e) {
         e.preventDefault();
         e.stopPropagation();
-        e.nativeEvent.stopImmediatePropagation();
         var commentId = $(e.currentTarget).closest('.c-comment').data('id');
         this.props.handleCommentEdit(commentId, this.props.author, this.state.commentBody);
         this.setState({
@@ -141,7 +138,6 @@ var CommentContainer = React.createClass({
         if (e) {
             e.preventDefault();
             e.stopPropagation();
-            e.nativeEvent.stopImmediatePropagation();
         }
 
         if (this.state.deleteCommentCheck) {
@@ -176,7 +172,6 @@ var CommentContainer = React.createClass({
         if (e) {
             e.preventDefault();
             e.stopPropagation();
-            e.nativeEvent.stopImmediatePropagation();
         }
         this.props.closeOpenReplyForms(this.props.id);
     },
