@@ -1,12 +1,13 @@
-var React = require('react');
+import React from 'react';
 
-var Comment = require('../components/Comment');
-var EditComment = require('../components/EditComment');
+import Comment from '../components/Comment';
+import EditComment from '../components/EditComment';
 
-var ReplyContainer = React.createClass({
+const ReplyContainer = React.createClass({
     
     propTypes: {
         id:             React.PropTypes.number.isRequired,
+        authorId:       React.PropTypes.number.isRequired,
         author:         React.PropTypes.string.isRequired,
         value:          React.PropTypes.string.isRequired,
         isReply:        React.PropTypes.bool.isRequired,
@@ -102,6 +103,7 @@ var ReplyContainer = React.createClass({
                 <EditComment 
                     id={this.props.id}
                     author={this.props.author}
+                    authorId={this.props.authorId}
                     value={this.state.replyBody}
                     created={this.props.created}
                     isReply={this.props.isReply}
@@ -117,6 +119,7 @@ var ReplyContainer = React.createClass({
                 <Comment
                     id={this.props.id}
                     author={this.props.author}
+                    authorId={this.props.authorId}
                     value={this.state.replyBody}
                     isReply={this.props.isReply}
                     created={this.props.created}
@@ -132,6 +135,7 @@ var ReplyContainer = React.createClass({
                 <Comment
                     id={this.props.id}
                     author={this.props.author}
+                    authorId={this.props.authorId}
                     value={this.state.replyBody}
                     isReply={this.props.isReply}
                     created={this.props.created}

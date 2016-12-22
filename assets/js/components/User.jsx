@@ -1,9 +1,14 @@
-var React = require('react');
-var classNames = require('classnames');
+import React from 'react';
+import classNames from 'classnames';
 
-var User = React.createClass({
+function swatchNumber(id) {
+    return (id * 3 % 501) + 1;
+}
+
+const User = React.createClass({
     
     propTypes: {
+        id:             React.PropTypes.number,
         userEmail:      React.PropTypes.string,
         removeUser:     React.PropTypes.bool,
         removeFunc:     React.PropTypes.func,
@@ -12,7 +17,8 @@ var User = React.createClass({
 
     getInitialState: function() {
         return {
-            firstLetter:''
+            firstLetter:'',
+            swatchNumber:''
         };
     },
 
@@ -25,13 +31,14 @@ var User = React.createClass({
     componentDidMount:function() {
         var firstLetter = this.props.userEmail.charAt(0);
         this.setState({
-            firstLetter:firstLetter
+            firstLetter:firstLetter,
+            swatchNumber: swatchNumber(parseInt(this.props.id),10)
         });
     },
 
     render:function() {
 
-        var iconClass = 'user__icon pastelSwatch--'+this.props.swatchNumber;
+        var iconClass = 'user__icon pastelSwatch--'+this.state.swatchNumber;
 
         if (this.props.removeUser) {
             var user = this.props.userEmail;

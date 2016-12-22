@@ -1,8 +1,8 @@
-var React = require('react');
+import React from 'react';
 
 import { Router, Route, Link, browserHistory } from 'react-router';
 
-var User = require('./User');
+const User = require('./User');
 
 var Header = React.createClass({
 
@@ -20,7 +20,8 @@ var Header = React.createClass({
         var getSessionUser = function() {
             if (window.vidfeed.user.email) {
                 this.setState({
-                    sessionUser:window.vidfeed.user.email
+                    sessionUser:window.vidfeed.user.email,
+                    sessionUserId:window.vidfeed.user.id
                 });
             } 
         }.bind(this);
@@ -50,7 +51,7 @@ var Header = React.createClass({
         var logo = window.vidfeed.images_dir + '/logo-black.svg';
 
         if (this.state.sessionUser) {
-            var displayUser = <User userEmail={this.state.sessionUser} />
+            var displayUser = <User id={this.state.sessionUserId} userEmail={this.state.sessionUser} />
         }
 
         return (

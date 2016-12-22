@@ -1,11 +1,11 @@
-var React = require('react');
-var Modal = require('react-modal');
+import React from 'react';
+import Modal from 'react-modal';
 
-var Comment = require('../components/Comment');
-var EditComment = require('../components/EditComment');
-var ReplyContainer = require('../containers/ReplyContainer');
-var ReplyFormContainer = require('../containers/ReplyFormContainer');
-var ModalChoice = require('../components/ModalChoice');
+import Comment from '../components/Comment';
+import EditComment from '../components/EditComment';
+import ReplyContainer from '../containers/ReplyContainer';
+import ReplyFormContainer from '../containers/ReplyFormContainer';
+import ModalChoice from '../components/ModalChoice';
 
 const modalStyles = {
     overlay : {
@@ -32,6 +32,7 @@ var CommentContainer = React.createClass({
     propTypes: {
         id:                     React.PropTypes.number.isRequired,
         author:                 React.PropTypes.string.isRequired,
+        authorId:               React.PropTypes.number.isRequired,
         body:                   React.PropTypes.string.isRequired,
         created:                React.PropTypes.string.isRequired,
         children:               React.PropTypes.array,
@@ -229,6 +230,7 @@ var CommentContainer = React.createClass({
                         id={reply.id}
                         key={reply.id}
                         author={reply.owner.email}
+                        authorId={reply.owner.id}
                         value={reply.body}
                         created={reply.created}
                         toggleReply={this._openReply}
@@ -255,6 +257,7 @@ var CommentContainer = React.createClass({
                     <EditComment 
                         id={this.props.id}
                         author={this.props.author}
+                        authorId={this.props.authorId}
                         value={this.state.commentBody}
                         timecode={formattedTime}
                         isReply={false}
@@ -275,6 +278,7 @@ var CommentContainer = React.createClass({
                     <Comment
                         id={this.props.id}
                         author={this.props.author}
+                        authorId={this.props.authorId}
                         value={this.state.commentBody}
                         isReply={false}
                         timecode={formattedTime}
@@ -299,6 +303,7 @@ var CommentContainer = React.createClass({
                     <Comment
                         id={this.props.id}
                         author={this.props.author}
+                        authorId={this.props.authorId}
                         value={this.state.commentBody}
                         isReply={false}
                         timecode={formattedTime}

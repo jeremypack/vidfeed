@@ -1,8 +1,8 @@
-var React = require('react');
-var Modal = require('react-modal');
+import React from 'react';
+import Modal from 'react-modal';
 
-var User = require('../components/User');
-var ModalInner = require('../components/ModalInner');
+import User from '../components/User';
+import ModalInner from '../components/ModalInner';
 
 const modalStyles = {
     overlay : {
@@ -25,10 +25,6 @@ const modalStyles = {
         boxShadow             : '1px 1px 4px -1px rgba(0,0,0,.25)'
     }
 };
-
-function getRandomArbitrary(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 const CollaboratorsContainer = React.createClass({
     
@@ -96,9 +92,8 @@ const CollaboratorsContainer = React.createClass({
             return;
         } else {
             var collaboratorNodes = this.state.data.map(function(collaborator, i) {
-                var randomNumber = getRandomArbitrary(1,501);
                 return (
-                    <li className="invitees__item" key={i}><User swatchNumber={randomNumber} userEmail={collaborator.user.email} /></li>
+                    <li className="invitees__item" key={i}><User id={collaborator.user.id} userEmail={collaborator.user.email} /></li>
                 );
             }.bind(this));
 
@@ -121,10 +116,9 @@ const CollaboratorsContainer = React.createClass({
                                     </div>;
 
             var avatarNodes = this.state.data.map(function(collaborator,i) {
-                var randomNumber = getRandomArbitrary(1,501);
                 return (
                     <User
-                        swatchNumber={randomNumber}
+                        id={collaborator.user.id}
                         userEmail={collaborator.user.email}
                         iconOnly={true}
                         key={i} />

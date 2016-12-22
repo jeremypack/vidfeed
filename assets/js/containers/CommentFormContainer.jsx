@@ -1,9 +1,9 @@
-var React = require('react');
-var Modal = require('react-modal');
+import React from 'react';
+import Modal from 'react-modal';
 
-var CommentForm = require('../components/CommentForm');
+import CommentForm from '../components/CommentForm';
 
-var EmailForm = require('../components/EmailForm');
+import EmailForm from '../components/EmailForm';
 
 const modalStyles = {
     overlay : {
@@ -27,7 +27,7 @@ const modalStyles = {
     }
 };
 
-var CommentFormContainer = React.createClass({
+const CommentFormContainer = React.createClass({
     
     propTypes: {
         feedId:                        React.PropTypes.string.isRequired,
@@ -146,6 +146,7 @@ var CommentFormContainer = React.createClass({
                     comment:''
                 });
                 this.props.commentSubmitted(null, 'open');
+                window.vidfeed.user.id = data.owner.id
             }.bind(this),
             error: function(data) {
                 console.log(JSON.parse(data.responseText),'handleCommentSubmit error');

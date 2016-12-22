@@ -1,12 +1,13 @@
-var React = require('react');
+import React from 'react';
 import FormattedRelativeDate from 'react-npm-formatted-relative-date';
 
-var User = require('../components/User');
+import User from '../components/User';
 
-var EditComment = React.createClass({
+const EditComment = React.createClass({
     
     propTypes: {
         id:                    React.PropTypes.number.isRequired,
+        authorId:              React.PropTypes.number.isRequired,
         author:                React.PropTypes.string.isRequired,
         value:                 React.PropTypes.string.isRequired,
         isReply:               React.PropTypes.bool.isRequired,
@@ -25,7 +26,7 @@ var EditComment = React.createClass({
             <article className={replyClass} data-id={this.props.id}>
                 <div className="u-clearfix">
                     <div className="c-comment__author">
-                        <User userEmail={this.props.author} />
+                        <User id={this.props.authorId} userEmail={this.props.author} />
                     </div>
                     {this.props.isReply ? null : <a href="#" onClick={this.props.timecodeClick} className="c-comment__timecode">{this.props.timecode}</a> }
                 </div>
