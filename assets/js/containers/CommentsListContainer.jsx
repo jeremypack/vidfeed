@@ -1,8 +1,8 @@
-var React = require('react');
+import React from 'react';
 
-var CommentContainer = require('./CommentContainer');
+import CommentContainer from './CommentContainer';
 
-var CommentsListContainer = React.createClass({
+const CommentsListContainer = React.createClass({
     
     propTypes: {
         pollInterval:           React.PropTypes.number.isRequired,
@@ -116,6 +116,7 @@ var CommentsListContainer = React.createClass({
                 <CommentContainer 
                     feedId = {feedId}
                     author={comment.owner.email}
+                    authorId={comment.owner.id}
                     id={comment.id}
                     parentCommentId={comment.parent_id}
                     key={comment.id}

@@ -60,7 +60,8 @@
       window.vidfeed.images_dir = '{% static "images" %}';
       window.vidfeed.user = {
         isAuthenticated: {% if request.user.is_authenticated %}true{% else %}false{% endif %},
-        email: {% if vidfeeduser %}'{{ vidfeeduser }}'{% else %}null{% endif %}
+        email: {% if vidfeeduser %}'{{ vidfeeduser }}'{% else %}null{% endif %},
+        id: {% if vidfeeduser_id %}{{ vidfeeduser_id }}{% else %}null{% endif %}
       };
       window.vidfeed.urls = {};
       window.vidfeed.playing = false;

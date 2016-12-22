@@ -1,8 +1,8 @@
-var React = require('react');
-var Modal = require('react-modal');
+import React from 'react';
+import Modal from 'react-modal';
 
-var ReplyForm = require('../components/ReplyForm');
-var SetSessionUserContainer = require('../containers/SetSessionUserContainer');
+import ReplyForm from '../components/ReplyForm';
+import SetSessionUserContainer from '../containers/SetSessionUserContainer';
 
 const modalStyles = {
     overlay : {
@@ -24,7 +24,7 @@ const modalStyles = {
     }
 };
 
-var ReplyFormContainer = React.createClass({
+const ReplyFormContainer = React.createClass({
     
     propTypes: {
         parentId:       React.PropTypes.number.isRequired,
@@ -107,6 +107,7 @@ var ReplyFormContainer = React.createClass({
             type: 'POST',
             data: comment,
             success: function(data) {
+                window.vidfeed.user.id = data.owner.id
                 this.props.submitted();
                 this.props.modalClose();
             }.bind(this),
