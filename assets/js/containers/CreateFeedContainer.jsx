@@ -1,16 +1,17 @@
-var React = require('react');
+import React from 'react';
 import { browserHistory } from 'react-router';
 
-var CreateFeed = require('../components/CreateFeed');
+import CreateFeed from '../components/CreateFeed';
 
-var CreateFeedContainer =  React.createClass({
+const CreateFeedContainer =  React.createClass({
     
     getInitialState: function () {
         return {
             videoUrl:'',
             validationStarted:false,
             isValid:false,
-            error: ''
+            error: '',
+            showInvalidMsg:false
         };
     },
 
@@ -29,14 +30,19 @@ var CreateFeedContainer =  React.createClass({
             this.setState({
                 validationStarted: true
             });
-            this.validateInterval = setInterval(validateTrigger,500);
+            this.validateInterval = setInterval(validateTrigger,250);
         }
+
     },
 
     _handleSubmit: function (e) {
         e.preventDefault();
         var videoUrl = this.state.videoUrl.trim();
-        if (!videoUrl || !this.state.isValid) {
+        if (!this.state.isValid) {
+            this.setState({
+                showInvalidMsg:true
+            });
+            console.log('nope');
             return;
         }
         $.ajax({
@@ -59,13 +65,23 @@ var CreateFeedContainer =  React.createClass({
     },
 
     _validate:function(){
-        if (this.state.videoUrl.indexOf('vimeo') !== -1 || this.state.videoUrl.indexOf('youtube') !== -1 || this.state.videoUrl.indexOf('youtu.be') !== -1) {
+
+        var urlRegexTest = /(http:\/\/|https:\/\/|)(player.|www.)?(vimeo\.com|youtu(be\.com|\.be|be\.googleapis\.com))\/(video\/|embed\/|watch\?v=|v\/)?([A-Za-z0-9._%-]*)(\&\S+)?/.test(this.state.videoUrl);
+
+        if (urlRegexTest) {
             this.setState({
-                isValid:true
+                isValid:true,
+                showInvalidMsg:false
             });
         } else {
             this.setState({
-                isValid:false
+                isValid:false,
+                showInvalidMsg:true
+            });
+        }
+        if (!this.state.videoUrl) {
+            this.setState({
+                showInvalidMsg:false
             });
         }
     },
@@ -82,6 +98,7 @@ var CreateFeedContainer =  React.createClass({
         return (
             <CreateFeed 
                 isValid={valid}
+                showInvalidMsg={this.state.showInvalidMsg}
                 submitHandler={this._handleSubmit}
                 value={this.state.videoUrl}
                 changeHandler={this._handleUrlChange}

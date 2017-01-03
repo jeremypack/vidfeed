@@ -12,3 +12,17 @@
         text-transform:none;
     }
 }
+
+.invalidUrl {
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    background:$dark;
+    color:#fff;
+    text-align: center;
+    p {
+        padding:$inuit-global-spacing-unit;
+        margin:0;
+    }
+}
