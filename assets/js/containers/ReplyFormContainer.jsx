@@ -82,7 +82,6 @@ const ReplyFormContainer = React.createClass({
     },
 
     _handleReplySubmit: function(e) {
-        console.log('replay subut');
         if (e) {
             e.preventDefault();
             e.stopPropagation();
@@ -103,7 +102,6 @@ const ReplyFormContainer = React.createClass({
         comment.author = window.vidfeed.user.email;
         comment.body = body;
         comment.parent_id = parentId;
-        console.log(body,'body');
         $.ajax({
             url: '/api/feeds/' + this.props.feedId + '/comments',
             dataType: 'json',

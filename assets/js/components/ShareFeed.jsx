@@ -1,9 +1,9 @@
-var React = require('react');
-var classNames = require('classnames');
+import React from 'react';
+import classNames from 'classnames';
 
-var User = require('../components/User');
+import User from '../components/User';
 
-var ShareFeed = React.createClass({
+const ShareFeed = React.createClass({
     
     propTypes: {
         heading:            React.PropTypes.string.isRequired,

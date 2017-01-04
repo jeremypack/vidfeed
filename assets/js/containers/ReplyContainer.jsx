@@ -62,6 +62,7 @@ const ReplyContainer = React.createClass({
 
     _setEditMode: function(e) {
         e.preventDefault();
+        e.stopPropagation();
         this.setState({
             editable:true
         });
@@ -69,6 +70,7 @@ const ReplyContainer = React.createClass({
 
     _cancelEdit: function(e){
         e.preventDefault();
+        e.stopPropagation();
         this.setState({
             editable:false,
             replyBody: this.props.value
@@ -77,6 +79,7 @@ const ReplyContainer = React.createClass({
 
     _saveEdit: function (e) {
         e.preventDefault();
+        e.stopPropagation();
         var replyId = $(e.currentTarget).closest('.c-comment').data('id');
         this.props.editReply(replyId, this.props.author, this.state.replyBody);
         this.setState({
@@ -86,8 +89,9 @@ const ReplyContainer = React.createClass({
 
     _deleteReply: function (e) {
         e.preventDefault();
+        e.stopPropagation();
         var replyId = $(e.currentTarget).closest('.c-comment').data('id');
-        this.props.deleteReply(undefined, replyId);
+        this.props.deleteReply(e);
     },
 
     _handleReplyChange: function (e) {

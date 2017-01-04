@@ -1,8 +1,8 @@
-var React = require('react');
+import React from'react';
 
 var player;
 
-var YouTubePlayer = React.createClass({
+const YouTubePlayer = React.createClass({
     
     propTypes: {
         video_id:               React.PropTypes.string.isRequired,
