@@ -27,7 +27,7 @@ const modalStyles = {
     }
 };
 
-var CommentContainer = React.createClass({
+const CommentContainer = React.createClass({
     
     propTypes: {
         id:                     React.PropTypes.number.isRequired,
@@ -135,12 +135,11 @@ var CommentContainer = React.createClass({
         this.props.handleCommentEdit(replyId, author, text);
     },
 
-    _deleteComment: function (e, id) {
+    _deleteComment: function (e) {
         if (e) {
             e.preventDefault();
             e.stopPropagation();
         }
-
         if (this.state.deleteCommentCheck) {
             this.props.handleDeleteComment(this.state.commentIdToDelete);
             this.props.modalClose();
@@ -149,9 +148,7 @@ var CommentContainer = React.createClass({
                 commentIdToDelete:undefined
             });
         } else { 
-            if (!id) {
-                id = $(e.currentTarget).closest('.c-comment').data('id');
-            }
+            var id = $(e.currentTarget).closest('.c-comment').data('id');
             this.setState({
                 deleteCommentCheck: true,
                 commentIdToDelete:id

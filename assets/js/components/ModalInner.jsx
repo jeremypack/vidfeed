@@ -1,6 +1,6 @@
-var React = require('react');
+import React from 'react';
 
-var ModalInner = React.createClass({
+const ModalInner = React.createClass({
     
     propTypes: {
         heading:        React.PropTypes.string.isRequired,

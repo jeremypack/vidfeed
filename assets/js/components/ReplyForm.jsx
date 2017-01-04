@@ -1,7 +1,7 @@
-var React = require('react');
-var classNames = require('classnames');
+import React from 'react';
+import classNames from 'classnames';
 
-var ReplyForm = React.createClass({
+const ReplyForm = React.createClass({
     
     propTypes: {
         isValid:            React.PropTypes.bool,

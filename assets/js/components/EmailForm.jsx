@@ -1,7 +1,7 @@
-var React = require('react');
-var classNames = require('classnames');
+import React from 'react';
+import classNames from 'classnames';
 
-var EmailForm = React.createClass({
+const EmailForm = React.createClass({
     
     propTypes: {
         heading:        React.PropTypes.string.isRequired,

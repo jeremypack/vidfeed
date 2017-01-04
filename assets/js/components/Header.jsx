@@ -4,7 +4,7 @@ import { Router, Route, Link, browserHistory } from 'react-router';
 
 const User = require('./User');
 
-var Header = React.createClass({
+const Header = React.createClass({
 
     propTypes: {
         isHomepage:             React.PropTypes.bool
