@@ -4,7 +4,7 @@ const ProjectsListContainer = React.createClass({
 
     getInitialState: function() {
         return {
-
+            
         };
     },
 
