@@ -1,0 +1,14 @@
+/* ==========================================================================
+   #FEED-LIST
+   ========================================================================== */
+
+.c-feedList {
+    overflow:hidden;
+    padding-top:$inuit-global-spacing-unit;
+    padding-right:$inuit-global-spacing-unit;
+    padding-bottom:$inuit-global-spacing-unit;
+}
+
+.c-feedList__item {
+    background:#fff;
+}

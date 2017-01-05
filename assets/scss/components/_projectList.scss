@@ -1,0 +1,14 @@
+/* ==========================================================================
+   #PROJECT-LIST
+   ========================================================================== */
+
+.c-projectList {
+    padding:$inuit-global-spacing-unit/2 0;
+    background:$dark;
+    color:#fff;
+}
+
+.c-projectList__item a {
+    display:block;
+    padding:$inuit-global-spacing-unit/2;
+}
