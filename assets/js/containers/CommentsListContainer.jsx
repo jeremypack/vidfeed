@@ -105,16 +105,11 @@ const CommentsListContainer = React.createClass({
     },
 
     render: function() {
-        var editHandler = this._handleCommentEdit;
-        var deleteHandler = this._handleDeleteComment;
-        var replyHandler = this._handleCommentSubmit;
-        var timecodeClick = this.props.timecodeClick;
-        var feedId = this.props.feedId;
         var noComments = <div className="c-commentList__no-comments">No comments yet <span className="nowrap">:(</span><br />Be the first!</div>;
         var commentNodes = this.state.data.map(function(comment) {
             return (
                 <CommentContainer 
-                    feedId = {feedId}
+                    feedId = {this.props.feedId}
                     author={comment.owner.email}
                     authorId={comment.owner.id}
                     id={comment.id}
@@ -124,9 +119,9 @@ const CommentsListContainer = React.createClass({
                     created={comment.created}
                     timecode={comment.timecode}
                     children={comment.children}
-                    handleCommentEdit={editHandler}
-                    handleDeleteComment={deleteHandler}
-                    timecodeClick={timecodeClick}
+                    handleCommentEdit={this._handleCommentEdit}
+                    handleDeleteComment={this._handleDeleteComment}
+                    timecodeClick={this.props.timecodeClick}
                     modalOpen={this.props.modalOpen}
                     modalClose={this.props.modalClose}
                     closeReplies={this.state.closeReplies}

@@ -68,6 +68,7 @@ const CommentContainer = React.createClass({
         }.bind(this);
         this.sessionCheckInterval = setInterval(getSessionUser,1000);
         this._checkNewComments();
+        console.log(this.state.deleteCommentCheck, 'this.state.deleteCommentCheck didMount');
     },
 
     componentWillReceiveProps: function(nextProps) {
@@ -131,7 +132,8 @@ const CommentContainer = React.createClass({
         });
     },
 
-    _saveReplyEdit: function(replyId, author, text) {
+    _saveReplyEdit: function(e, replyId, author, text) {
+        e.stopPropagation();
         this.props.handleCommentEdit(replyId, author, text);
     },
 
@@ -206,8 +208,8 @@ const CommentContainer = React.createClass({
 
     render: function() {
 
-        var formattedTime = this._formattedTime(this.props.timecode);
-        
+        var formattedTime = this._formattedTime(this.props.timecode);        
+
         var deleteCommentModal = <Modal
                                     isOpen={this.state.deleteCommentCheck}
                                     onRequestClose={this._deleteCommentCancel}
@@ -222,12 +224,11 @@ const CommentContainer = React.createClass({
                                         noText='I&apos;ve changed my mind' />
                                  </Modal>
 
+        
+
 
         if (this.props.children.length) {
-            var editReply = this._saveReplyEdit;
-            var deleteReply = this._deleteComment; 
-            var repliesArr = this.props.children;
-            var replyNodes = repliesArr.map(function(reply){
+            var replyNodes = this.props.children.map(function(reply){
                 return (
                     <ReplyContainer
                         id={reply.id}
@@ -239,8 +240,8 @@ const CommentContainer = React.createClass({
                         toggleReply={this._openReplyForm}
                         replyIsOpen={this.state.replyOpen}
                         isReply={true}
-                        editReply={editReply} 
-                        deleteReply={deleteReply} />
+                        editReply={this._saveReplyEdit} 
+                        deleteReply={this._deleteComment} />
                 );
             }.bind(this));
         }
@@ -314,6 +315,7 @@ const CommentContainer = React.createClass({
                         newComment={this.state.newComment} />
                     {replyNodes}
                     {replyForm}
+                    {deleteCommentModal}
                 </div>
             );   
         }

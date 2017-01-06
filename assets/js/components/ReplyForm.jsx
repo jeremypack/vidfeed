@@ -7,7 +7,8 @@ const ReplyForm = React.createClass({
         isValid:            React.PropTypes.bool,
         handleReplySubmit:  React.PropTypes.func.isRequired,
         comment:            React.PropTypes.string,
-        handleReplyChange:  React.PropTypes.func.isRequired
+        handleReplyChange:  React.PropTypes.func.isRequired,
+        onClick:            React.PropTypes.func.isRequired
     },
 
     componentDidMount: function() {
@@ -25,7 +26,7 @@ const ReplyForm = React.createClass({
             <div className="u-padding-small u-padding-top-none">
                 <form className="form--border replyForm" onSubmit={this.props.handleReplySubmit}>
                     <div className="input-with-button">
-                        <input type="text" ref="replyInput" placeholder="Write a reply" value={this.props.comment} onChange={this.props.handleReplyChange} className="input--border" />
+                        <input type="text" ref="replyInput" placeholder="Write a reply" value={this.props.comment} onChange={this.props.handleReplyChange} onClick={this.props.onClick} className="input--border" />
                         <input onClick={this.props.handleReplySubmit} type="submit" className={submitClasses} value="Reply" />
                     </div>
                 </form>
