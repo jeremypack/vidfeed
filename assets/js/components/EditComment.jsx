@@ -38,7 +38,7 @@ const EditComment = React.createClass({
                     <div className="u-clearfix">
                         <div className="c-comment__actions">
                             <ul className="o-list-inline">
-                                <li className="o-list-inline__item"><input type="submit" className="icon icon--tick" title="Save change" value="Save change" /></li>
+                                <li className="o-list-inline__item"><input type="submit" className="icon icon--tick" title="Save change" onClick={this.props.handleSubmit} value="Save change" /></li>
                                 <li className="o-list-inline__item"><a title="Cancel change" onClick={this.props.cancelChange} href="#"><i className="icon icon--cross"></i><span className="u-hidden-visually">Cancel</span></a></li>
                             </ul> 
                         </div>

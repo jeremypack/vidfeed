@@ -68,7 +68,6 @@ const CommentContainer = React.createClass({
         }.bind(this);
         this.sessionCheckInterval = setInterval(getSessionUser,1000);
         this._checkNewComments();
-        console.log(this.state.deleteCommentCheck, 'this.state.deleteCommentCheck didMount');
     },
 
     componentWillReceiveProps: function(nextProps) {
@@ -132,8 +131,7 @@ const CommentContainer = React.createClass({
         });
     },
 
-    _saveReplyEdit: function(e, replyId, author, text) {
-        e.stopPropagation();
+    _saveReplyEdit: function(replyId, author, text) {
         this.props.handleCommentEdit(replyId, author, text);
     },
 
