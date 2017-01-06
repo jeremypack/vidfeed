@@ -1,8 +1,8 @@
-var React = require('react');
-var Modal = require('react-modal');
+import React from 'react';
+import Modal from 'react-modal';
 
-var ReplyForm = require('../components/ReplyForm');
-var SetSessionUserContainer = require('../containers/SetSessionUserContainer');
+import ReplyForm from '../components/ReplyForm';
+import SetSessionUserContainer from '../containers/SetSessionUserContainer';
 
 const modalStyles = {
     overlay : {
@@ -24,7 +24,7 @@ const modalStyles = {
     }
 };
 
-var ReplyFormContainer = React.createClass({
+const ReplyFormContainer = React.createClass({
     
     propTypes: {
         parentId:       React.PropTypes.number.isRequired,
@@ -58,6 +58,10 @@ var ReplyFormContainer = React.createClass({
         this.props.modalClose();
     },
 
+    _onClick: function(e) {
+        e.stopPropagation();
+    },
+
     _handleReplyChange: function(e) {
         this.setState({
             comment: e.target.value
@@ -84,6 +88,7 @@ var ReplyFormContainer = React.createClass({
     _handleReplySubmit: function(e) {
         if (e) {
             e.preventDefault();
+            e.stopPropagation();
         }
         if (!window.vidfeed.user.email) {
             this.setState({
@@ -107,6 +112,7 @@ var ReplyFormContainer = React.createClass({
             type: 'POST',
             data: comment,
             success: function(data) {
+                window.vidfeed.user.id = data.owner.id
                 this.props.submitted();
                 this.props.modalClose();
             }.bind(this),
@@ -138,7 +144,8 @@ var ReplyFormContainer = React.createClass({
             <ReplyForm
                 isValid={this.state.isValid}
                 handleReplySubmit={this._handleReplySubmit}
-                handleReplyChange={this._handleReplyChange} />
+                handleReplyChange={this._handleReplyChange}
+                onClick={this._onClick} />
         );
     }
 });

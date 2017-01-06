@@ -1,10 +1,10 @@
-var React = require('react');
-var ReactPlayer = require('react-player');
+import React from 'react';
+import ReactPlayer from 'react-player';
 
-var HeaderContainer =               require('../containers/HeaderContainer');
-var CreateFeedContainer =           require('../containers/CreateFeedContainer');
+import HeaderContainer from '../containers/HeaderContainer';
+import CreateFeedContainer from '../containers/CreateFeedContainer';
 
-var YouTubePlayer = require('../components/YouTubePlayer');
+import YouTubePlayer from '../components/YouTubePlayer';
 
 function is_touch_device() {
     return (('ontouchstart' in window)
@@ -12,7 +12,7 @@ function is_touch_device() {
       || (navigator.msMaxTouchPoints > 0));
 }
 
-var Home = React.createClass({
+const Home = React.createClass({
     
     getInitialState: function() {
         return {
@@ -49,7 +49,7 @@ var Home = React.createClass({
     },
 
     render: function() {
-        
+
         var playerWrapperStyle = {
             height:this.state.playerHeight
         }

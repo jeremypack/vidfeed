@@ -1,8 +1,8 @@
-var React = require('react');
+import React from 'react';
 
-var Header = require('../components/Header');
+import Header from '../components/Header';
 
-var HeaderContainer = React.createClass({
+const HeaderContainer = React.createClass({
     
     propTypes: {
         isHomepage:         React.PropTypes.bool,

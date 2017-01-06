@@ -1,11 +1,11 @@
-var React = require('react');
-var Modal = require('react-modal');
+import React from 'react';
+import Modal from 'react-modal';
 
-var Comment = require('../components/Comment');
-var EditComment = require('../components/EditComment');
-var ReplyContainer = require('../containers/ReplyContainer');
-var ReplyFormContainer = require('../containers/ReplyFormContainer');
-var ModalChoice = require('../components/ModalChoice');
+import Comment from '../components/Comment';
+import EditComment from '../components/EditComment';
+import ReplyContainer from '../containers/ReplyContainer';
+import ReplyFormContainer from '../containers/ReplyFormContainer';
+import ModalChoice from '../components/ModalChoice';
 
 const modalStyles = {
     overlay : {
@@ -27,11 +27,12 @@ const modalStyles = {
     }
 };
 
-var CommentContainer = React.createClass({
+const CommentContainer = React.createClass({
     
     propTypes: {
         id:                     React.PropTypes.number.isRequired,
         author:                 React.PropTypes.string.isRequired,
+        authorId:               React.PropTypes.number.isRequired,
         body:                   React.PropTypes.string.isRequired,
         created:                React.PropTypes.string.isRequired,
         children:               React.PropTypes.array,
@@ -105,6 +106,7 @@ var CommentContainer = React.createClass({
 
     _setEditMode: function(e) {
         e.preventDefault();
+        e.stopPropagation();
         this.setState({
             editable:true
         });
@@ -112,6 +114,7 @@ var CommentContainer = React.createClass({
 
     _cancelEdit: function(e){
         e.preventDefault();
+        e.stopPropagation();
         this.setState({
             editable:false,
             commentBody: this.props.body
@@ -120,6 +123,7 @@ var CommentContainer = React.createClass({
 
     _saveEdit: function (e) {
         e.preventDefault();
+        e.stopPropagation();
         var commentId = $(e.currentTarget).closest('.c-comment').data('id');
         this.props.handleCommentEdit(commentId, this.props.author, this.state.commentBody);
         this.setState({
@@ -131,9 +135,10 @@ var CommentContainer = React.createClass({
         this.props.handleCommentEdit(replyId, author, text);
     },
 
-    _deleteComment: function (e, id) {
+    _deleteComment: function (e) {
         if (e) {
             e.preventDefault();
+            e.stopPropagation();
         }
         if (this.state.deleteCommentCheck) {
             this.props.handleDeleteComment(this.state.commentIdToDelete);
@@ -143,9 +148,7 @@ var CommentContainer = React.createClass({
                 commentIdToDelete:undefined
             });
         } else { 
-            if (!id) {
-                id = $(e.currentTarget).closest('.c-comment').data('id');
-            }
+            var id = $(e.currentTarget).closest('.c-comment').data('id');
             this.setState({
                 deleteCommentCheck: true,
                 commentIdToDelete:id
@@ -163,9 +166,10 @@ var CommentContainer = React.createClass({
         });
     },
 
-    _openReply: function(e) {
+    _openReplyForm: function(e) {
         if (e) {
-           e.preventDefault(); 
+            e.preventDefault();
+            e.stopPropagation();
         }
         this.props.closeOpenReplyForms(this.props.id);
     },
@@ -202,8 +206,8 @@ var CommentContainer = React.createClass({
 
     render: function() {
 
-        var formattedTime = this._formattedTime(this.props.timecode);
-        
+        var formattedTime = this._formattedTime(this.props.timecode);        
+
         var deleteCommentModal = <Modal
                                     isOpen={this.state.deleteCommentCheck}
                                     onRequestClose={this._deleteCommentCancel}
@@ -218,24 +222,24 @@ var CommentContainer = React.createClass({
                                         noText='I&apos;ve changed my mind' />
                                  </Modal>
 
+        
+
 
         if (this.props.children.length) {
-            var editReply = this._saveReplyEdit;
-            var deleteReply = this._deleteComment; 
-            var repliesArr = this.props.children;
-            var replyNodes = repliesArr.map(function(reply){
+            var replyNodes = this.props.children.map(function(reply){
                 return (
                     <ReplyContainer
                         id={reply.id}
                         key={reply.id}
                         author={reply.owner.email}
+                        authorId={reply.owner.id}
                         value={reply.body}
                         created={reply.created}
-                        toggleReply={this._openReply}
+                        toggleReply={this._openReplyForm}
                         replyIsOpen={this.state.replyOpen}
                         isReply={true}
-                        editReply={editReply} 
-                        deleteReply={deleteReply} />
+                        editReply={this._saveReplyEdit} 
+                        deleteReply={this._deleteComment} />
                 );
             }.bind(this));
         }
@@ -255,14 +259,14 @@ var CommentContainer = React.createClass({
                     <EditComment 
                         id={this.props.id}
                         author={this.props.author}
+                        authorId={this.props.authorId}
                         value={this.state.commentBody}
                         timecode={formattedTime}
                         isReply={false}
                         created={this.props.created} 
                         handleChange={this._handleCommentChange}
                         handleSubmit={this._saveEdit}
-                        cancelChange={this._cancelEdit}
-                        timecodeClick={this._timecodeClick} />
+                        cancelChange={this._cancelEdit} />
                     {replyNodes}
                 </div>
             );
@@ -271,19 +275,19 @@ var CommentContainer = React.createClass({
 
         if (this.state.commentActions) {
             return (
-                <div className="c-comment__outer">
+                <div className="c-comment__outer" onClick={this._timecodeClick}>
                     <Comment
                         id={this.props.id}
                         author={this.props.author}
+                        authorId={this.props.authorId}
                         value={this.state.commentBody}
                         isReply={false}
                         timecode={formattedTime}
                         created={this.props.created} 
                         editComment={this._setEditMode} 
                         deleteComment={this._deleteComment}
-                        toggleReply={this._openReply}
+                        toggleReply={this._openReplyForm}
                         replyIsOpen={this.state.replyOpen}
-                        timecodeClick={this._timecodeClick}
                         newComment={this.state.newComment} />
                     {replyNodes}
                     {replyForm}
@@ -295,20 +299,21 @@ var CommentContainer = React.createClass({
         } else {
             
             return (
-                <div className="c-comment__outer">
+                <div className="c-comment__outer" onClick={this._timecodeClick}>
                     <Comment
                         id={this.props.id}
                         author={this.props.author}
+                        authorId={this.props.authorId}
                         value={this.state.commentBody}
                         isReply={false}
                         timecode={formattedTime}
                         created={this.props.created} 
-                        toggleReply={this._openReply}
+                        toggleReply={this._openReplyForm}
                         replyIsOpen={this.state.replyOpen}
-                        timecodeClick={this._timecodeClick}
                         newComment={this.state.newComment} />
                     {replyNodes}
                     {replyForm}
+                    {deleteCommentModal}
                 </div>
             );   
         }

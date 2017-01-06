@@ -1,12 +1,13 @@
-var React = require('react');
+import React from 'react';
 
-var Comment = require('../components/Comment');
-var EditComment = require('../components/EditComment');
+import Comment from '../components/Comment';
+import EditComment from '../components/EditComment';
 
-var ReplyContainer = React.createClass({
+const ReplyContainer = React.createClass({
     
     propTypes: {
         id:             React.PropTypes.number.isRequired,
+        authorId:       React.PropTypes.number.isRequired,
         author:         React.PropTypes.string.isRequired,
         value:          React.PropTypes.string.isRequired,
         isReply:        React.PropTypes.bool.isRequired,
@@ -61,6 +62,7 @@ var ReplyContainer = React.createClass({
 
     _setEditMode: function(e) {
         e.preventDefault();
+        e.stopPropagation();
         this.setState({
             editable:true
         });
@@ -68,6 +70,7 @@ var ReplyContainer = React.createClass({
 
     _cancelEdit: function(e){
         e.preventDefault();
+        e.stopPropagation();
         this.setState({
             editable:false,
             replyBody: this.props.value
@@ -76,6 +79,7 @@ var ReplyContainer = React.createClass({
 
     _saveEdit: function (e) {
         e.preventDefault();
+        e.stopPropagation();
         var replyId = $(e.currentTarget).closest('.c-comment').data('id');
         this.props.editReply(replyId, this.props.author, this.state.replyBody);
         this.setState({
@@ -85,8 +89,8 @@ var ReplyContainer = React.createClass({
 
     _deleteReply: function (e) {
         e.preventDefault();
-        var replyId = $(e.currentTarget).closest('.c-comment').data('id');
-        this.props.deleteReply(undefined, replyId);
+        e.stopPropagation();
+        this.props.deleteReply(e);
     },
 
     _handleReplyChange: function (e) {
@@ -102,6 +106,7 @@ var ReplyContainer = React.createClass({
                 <EditComment 
                     id={this.props.id}
                     author={this.props.author}
+                    authorId={this.props.authorId}
                     value={this.state.replyBody}
                     created={this.props.created}
                     isReply={this.props.isReply}
@@ -117,6 +122,7 @@ var ReplyContainer = React.createClass({
                 <Comment
                     id={this.props.id}
                     author={this.props.author}
+                    authorId={this.props.authorId}
                     value={this.state.replyBody}
                     isReply={this.props.isReply}
                     created={this.props.created}
@@ -132,6 +138,7 @@ var ReplyContainer = React.createClass({
                 <Comment
                     id={this.props.id}
                     author={this.props.author}
+                    authorId={this.props.authorId}
                     value={this.state.replyBody}
                     isReply={this.props.isReply}
                     created={this.props.created}

@@ -1,7 +1,7 @@
-var React = require('react');
-var classNames = require('classnames');
+import React from 'react';
+import classNames from 'classnames';
 
-var CommentForm = React.createClass({
+const CommentForm = React.createClass({
     
     propTypes: {
         timecode:               React.PropTypes.any.isRequired,

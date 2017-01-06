@@ -1,6 +1,6 @@
-var React = require('react');
+import React from 'react';
 
-var ModalChoice = React.createClass({
+const ModalChoice = React.createClass({
 
     propTypes: {
         heading:        React.PropTypes.string.isRequired,

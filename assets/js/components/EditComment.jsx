@@ -1,12 +1,13 @@
-var React = require('react');
+import React from 'react';
 import FormattedRelativeDate from 'react-npm-formatted-relative-date';
 
-var User = require('../components/User');
+import User from '../components/User';
 
-var EditComment = React.createClass({
+const EditComment = React.createClass({
     
     propTypes: {
         id:                    React.PropTypes.number.isRequired,
+        authorId:              React.PropTypes.number.isRequired,
         author:                React.PropTypes.string.isRequired,
         value:                 React.PropTypes.string.isRequired,
         isReply:               React.PropTypes.bool.isRequired,
@@ -14,8 +15,11 @@ var EditComment = React.createClass({
         created:               React.PropTypes.string.isRequired,
         handleChange:          React.PropTypes.func,
         handleSubmit:          React.PropTypes.func,
-        cancelChange:          React.PropTypes.func,
-        timecodeClick:         React.PropTypes.func
+        cancelChange:          React.PropTypes.func
+    },
+
+    componentDidMount: function() {
+        this.refs.editInput.focus();
     },
 
     render: function() {
@@ -25,16 +29,16 @@ var EditComment = React.createClass({
             <article className={replyClass} data-id={this.props.id}>
                 <div className="u-clearfix">
                     <div className="c-comment__author">
-                        <User userEmail={this.props.author} />
+                        <User id={this.props.authorId} userEmail={this.props.author} />
                     </div>
-                    {this.props.isReply ? null : <a href="#" onClick={this.props.timecodeClick} className="c-comment__timecode">{this.props.timecode}</a> }
+                    {this.props.isReply ? null : <a href="#" className="c-comment__timecode">{this.props.timecode}</a> }
                 </div>
                 <form onSubmit={this.props.handleSubmit} className="c-comment__body form--border">
-                    <input className="input--border input--edit" type="text" onChange={this.props.handleChange} value={this.props.value} />
+                    <input ref="editInput" className="input--border input--edit" type="text" onChange={this.props.handleChange} value={this.props.value} />
                     <div className="u-clearfix">
                         <div className="c-comment__actions">
                             <ul className="o-list-inline">
-                                <li className="o-list-inline__item"><input type="submit" className="icon icon--tick" title="Save change" value="Save change" /></li>
+                                <li className="o-list-inline__item"><input type="submit" className="icon icon--tick" title="Save change" onClick={this.props.handleSubmit} value="Save change" /></li>
                                 <li className="o-list-inline__item"><a title="Cancel change" onClick={this.props.cancelChange} href="#"><i className="icon icon--cross"></i><span className="u-hidden-visually">Cancel</span></a></li>
                             </ul> 
                         </div>

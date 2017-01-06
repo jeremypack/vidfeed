@@ -1,8 +1,8 @@
-var React = require('react');
-var Modal = require('react-modal');
+import React from 'react';
+import Modal from 'react-modal';
 
-var User = require('../components/User');
-var ModalInner = require('../components/ModalInner');
+import User from '../components/User';
+import ModalInner from '../components/ModalInner';
 
 const modalStyles = {
     overlay : {
@@ -26,7 +26,7 @@ const modalStyles = {
     }
 };
 
-var CollaboratorsContainer = React.createClass({
+const CollaboratorsContainer = React.createClass({
     
     propTypes: {
         feedId:            React.PropTypes.string.isRequired,
@@ -93,7 +93,7 @@ var CollaboratorsContainer = React.createClass({
         } else {
             var collaboratorNodes = this.state.data.map(function(collaborator, i) {
                 return (
-                    <li className="invitees__item" key={i}><User userEmail={collaborator.user.email} /></li>
+                    <li className="invitees__item" key={i}><User id={collaborator.user.id} userEmail={collaborator.user.email} /></li>
                 );
             }.bind(this));
 
@@ -118,6 +118,7 @@ var CollaboratorsContainer = React.createClass({
             var avatarNodes = this.state.data.map(function(collaborator,i) {
                 return (
                     <User
+                        id={collaborator.user.id}
                         userEmail={collaborator.user.email}
                         iconOnly={true}
                         key={i} />

@@ -1,13 +1,13 @@
-var React = require('react');
-var classNames = require('classnames');
+import React from 'react';
+import classNames from 'classnames';
 
-var HeaderContainer =           require('../containers/HeaderContainer');
-var CollaboratorsContainer =    require('../containers/CollaboratorsContainer');
-var ShareFeedContainer =        require('../containers/ShareFeedContainer');
-var OwnFeedContainer =          require('../containers/OwnFeedContainer');
-var FeedVideoContainer =        require('../containers/FeedVideoContainer');
-var CommentFormContainer =      require('../containers/CommentFormContainer');
-var CommentsListContainer =         require('../containers/CommentsListContainer');
+import HeaderContainer from '../containers/HeaderContainer';
+import CollaboratorsContainer from '../containers/CollaboratorsContainer';
+import ShareFeedContainer from '../containers/ShareFeedContainer';
+import OwnFeedContainer from '../containers/OwnFeedContainer';
+import FeedVideoContainer from '../containers/FeedVideoContainer';
+import CommentFormContainer from '../containers/CommentFormContainer';
+import CommentsListContainer from '../containers/CommentsListContainer';
 
 function hmsToSecondsOnly(str) {
     var p = str.split(':'),
@@ -20,7 +20,7 @@ function hmsToSecondsOnly(str) {
     return s;
 }
 
-var Feed = React.createClass({
+const Feed = React.createClass({
 
     getInitialState: function() {
         return {

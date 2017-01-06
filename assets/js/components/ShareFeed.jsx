@@ -1,9 +1,9 @@
-var React = require('react');
-var classNames = require('classnames');
+import React from 'react';
+import classNames from 'classnames';
 
-var User = require('../components/User');
+import User from '../components/User';
 
-var ShareFeed = React.createClass({
+const ShareFeed = React.createClass({
     
     propTypes: {
         heading:            React.PropTypes.string.isRequired,
@@ -15,6 +15,13 @@ var ShareFeed = React.createClass({
         handleSubmit:       React.PropTypes.func.isRequired,
         submittedMsg:       React.PropTypes.string.isRequired,
         submitted:          React.PropTypes.bool.isRequired
+    },
+
+    componentDidMount:function() {
+        setTimeout(function(){
+            this.refs.emailInput.focus();
+        }.bind(this),200);
+        
     },
 
     _remove: function(item) {
@@ -31,7 +38,7 @@ var ShareFeed = React.createClass({
             var emailsArr = this.props.collectedEmails;
             var emailNodes = emailsArr.map(function(email, i){
                 return (
-                    <li className="invitees__item" key={i}><User userEmail={email} removeUser={true} removeFunc={this._remove} /></li>
+                    <li className="invitees__item" key={i}><User userEmail={email} id={i} removeUser={true} removeFunc={this._remove} /></li>
                 );
             }.bind(this));
             var invitees =  <div className="invitees">
@@ -72,16 +79,16 @@ var ShareFeed = React.createClass({
                     <a href="#" onClick={this.props.closeModal} className="modal__close">×<span className="u-hidden-visually">Close</span></a>
                 </div>
                 <div className="modal__body">
-                    <form className="form--border" onSubmit={this.props.handleSubmit}>
+                    <form className="form--border" onSubmit={this.props.addEmail}>
                         <div className="u-padding-small u-padding-top">
                             <div className="input-with-button">
-                                <input placeholder="Email address" type="email" onChange={this.props.handleChange} value={this.props.currentEmail} className="input--border" />
-                                <a href="#" onClick={this.props.addEmail} className={addEmailBtnClasses}>Add</a>
+                                <input ref="emailInput"  placeholder="Email address" type="email" onChange={this.props.handleChange} value={this.props.currentEmail} className="input--border" />
+                                <input type="submit" value="Add" className={addEmailBtnClasses} />
                             </div>
                         </div>
                         {invitees}
                         <div className="text--center u-padding">
-                            <input type="submit" value="Invite people" className={inviteBtnClasses} />
+                            <a href="#" onClick={this.props.handleSubmit} className={inviteBtnClasses}>Invite people</a>
                         </div>
                     </form>
                 </div>

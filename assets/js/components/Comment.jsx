@@ -1,15 +1,16 @@
-var React = require('react');
-var classNames = require('classnames');
+import React from 'react';
+import classNames from 'classnames';
 import Linkify from 'react-linkify';
 import FormattedRelativeDate from 'react-npm-formatted-relative-date';
 
-var User = require('../components/User');
+import User from '../components/User';
 
-var Comment = React.createClass({
+const Comment = React.createClass({
     
     propTypes: {
         id:                    React.PropTypes.number.isRequired,
         author:                React.PropTypes.string.isRequired,
+        authorId:              React.PropTypes.number.isRequired,
         value:                 React.PropTypes.string.isRequired,
         isReply:               React.PropTypes.bool.isRequired,
         timecode:              React.PropTypes.string,
@@ -17,8 +18,7 @@ var Comment = React.createClass({
         replyIsOpen:           React.PropTypes.bool,
         toggleReply:           React.PropTypes.func,
         editComment:           React.PropTypes.func,
-        deleteComment:         React.PropTypes.func,
-        timecodeClick:         React.PropTypes.func
+        deleteComment:         React.PropTypes.func
     },
 
     render: function() {
@@ -50,9 +50,9 @@ var Comment = React.createClass({
             <article className={commentClasses} data-id={this.props.id}>
                 <div className="u-clearfix">
                     <div className="c-comment__author">
-                        <User userEmail={this.props.author} />
+                        <User id={this.props.authorId} userEmail={this.props.author} />
                     </div>
-                    {this.props.isReply ? null : <a href="#" onClick={this.props.timecodeClick} className="c-comment__timecode">{this.props.timecode}</a> }
+                    {this.props.isReply ? null : <a href="#" className="c-comment__timecode">{this.props.timecode}</a> }
                 </div>
                 <div className="c-comment__body">
                     <Linkify properties={{target: '_blank'}}>
