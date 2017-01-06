@@ -18,6 +18,10 @@ const EditComment = React.createClass({
         cancelChange:          React.PropTypes.func
     },
 
+    componentDidMount: function() {
+        this.refs.editInput.focus();
+    },
+
     render: function() {
         var replyClass = this.props.isReply ? 'c-comment c-comment--edit c-comment--reply' : 'c-comment c-comment--edit';
 
@@ -30,11 +34,11 @@ const EditComment = React.createClass({
                     {this.props.isReply ? null : <a href="#" className="c-comment__timecode">{this.props.timecode}</a> }
                 </div>
                 <form onSubmit={this.props.handleSubmit} className="c-comment__body form--border">
-                    <input className="input--border input--edit" type="text" onChange={this.props.handleChange} value={this.props.value} />
+                    <input ref="editInput" className="input--border input--edit" type="text" onChange={this.props.handleChange} value={this.props.value} />
                     <div className="u-clearfix">
                         <div className="c-comment__actions">
                             <ul className="o-list-inline">
-                                <li className="o-list-inline__item"><input type="submit" className="icon icon--tick" title="Save change" value="Save change" /></li>
+                                <li className="o-list-inline__item"><input type="submit" className="icon icon--tick" title="Save change" onClick={this.props.handleSubmit} value="Save change" /></li>
                                 <li className="o-list-inline__item"><a title="Cancel change" onClick={this.props.cancelChange} href="#"><i className="icon icon--cross"></i><span className="u-hidden-visually">Cancel</span></a></li>
                             </ul> 
                         </div>

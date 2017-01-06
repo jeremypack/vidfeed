@@ -90,7 +90,6 @@ const ReplyContainer = React.createClass({
     _deleteReply: function (e) {
         e.preventDefault();
         e.stopPropagation();
-        var replyId = $(e.currentTarget).closest('.c-comment').data('id');
         this.props.deleteReply(e);
     },
 

@@ -15,6 +15,12 @@ const EmailForm = React.createClass({
         submittedMsg:   React.PropTypes.string
     },
 
+    componentDidMount:function() {
+        setTimeout(function(){
+            this.refs.emailInput.focus();
+        }.bind(this),200);  
+    },
+
     render: function() {
         if (this.props.submitted) {
             return (
@@ -53,7 +59,7 @@ const EmailForm = React.createClass({
                         <div className="u-padding-small u-padding-top u-padding-bottom">
                             <div className="input-with-button">
                                 <label htmlFor="email" className="u-hidden-visually">Email address</label>
-                                <input id="email" type="email" placeholder="Email address" value={this.props.value} onChange={this.props.handleChange} className="input--border" />
+                                <input ref="emailInput" id="email" type="email" placeholder="Email address" value={this.props.value} onChange={this.props.handleChange} className="input--border" />
                                 <input type="submit" className={submitClasses} value="Submit" />
                             </div>
                         </div>

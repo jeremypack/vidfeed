@@ -16,6 +16,6 @@
 
 @for $i from 1 to 501 {
     .pastelSwatch--#{$i}{
-        background: random_pastel() !important;
+        background: tint(darken(random_pastel(), 10%), 5%) !important;
     }
 }

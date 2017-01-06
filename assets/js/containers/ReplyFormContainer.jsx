@@ -58,6 +58,10 @@ const ReplyFormContainer = React.createClass({
         this.props.modalClose();
     },
 
+    _onClick: function(e) {
+        e.stopPropagation();
+    },
+
     _handleReplyChange: function(e) {
         this.setState({
             comment: e.target.value
@@ -140,7 +144,8 @@ const ReplyFormContainer = React.createClass({
             <ReplyForm
                 isValid={this.state.isValid}
                 handleReplySubmit={this._handleReplySubmit}
-                handleReplyChange={this._handleReplyChange} />
+                handleReplyChange={this._handleReplyChange}
+                onClick={this._onClick} />
         );
     }
 });
