@@ -4,11 +4,31 @@
 
 .c-feedList {
     overflow:hidden;
-    padding-top:$inuit-global-spacing-unit;
-    padding-right:$inuit-global-spacing-unit;
-    padding-bottom:$inuit-global-spacing-unit;
+    padding:$inuit-global-spacing-unit;
+    padding-left:0;
 }
 
-.c-feedList__item {
+.c-feedItem {
+    position:relative;
+    min-height:280px;
+    margin-bottom:$inuit-global-spacing-unit;
     background:#fff;
+    color:$dark;
+    @include inuit-clearfix();
+    transition: $global-transition;
+    &:hover {
+        background-color:lighten($blue,25%);
+    }
+}
+.c-feedItem__title {
+    display:block;
+    font-weight:700;
+    @include inuit-font-size(12px, $line-height:1.4);
+}
+.c-feedItem__created {
+    position:absolute;
+    right:12px;
+    bottom:10px;
+    @include inuit-font-size(12px);
+    color:darken($light,10%);
 }

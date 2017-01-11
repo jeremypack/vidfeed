@@ -1,4 +1,5 @@
 import React from 'react';
+import Equalizer from 'react-equalizer';
 
 import FeedListItem from '../components/FeedListItem';
 
@@ -6,7 +7,8 @@ const FeedListContainer = React.createClass({
 
     getInitialState: function() {
         return {
-            feeds:[]
+            feeds:[],
+            tallestInfo:undefined
         };
     },
 
@@ -49,11 +51,17 @@ const FeedListContainer = React.createClass({
         }
 
         var feedNodes = this.state.feeds.map(function(feed, i) {
+            if (feed.provider.name === 'vimeo') {
+                var isVimeo = true;
+            } else {
+                var isVimeo = false;
+            }
             return (
                 <FeedListItem
                     key={i}
                     created={feed.created}
                     feedId={feed.feed_id}
+                    isVimeo={isVimeo}
                     videoTitle={feed.video_title} 
                     videoThumb={feed.video_thumbnail} />
             );

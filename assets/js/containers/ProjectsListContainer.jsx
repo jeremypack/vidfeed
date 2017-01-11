@@ -33,8 +33,6 @@ const ProjectsListContainer = React.createClass({
             );
         });
 
-        console.log(this.props.windowHeight,'windowHeight');
-
         return (
             <section style={projectListStyle} className="c-projectList">
                 <ul className="o-list-bare">

@@ -42,7 +42,6 @@ const CreateFeedContainer =  React.createClass({
             this.setState({
                 showInvalidMsg:true
             });
-            console.log('nope');
             return;
         }
         $.ajax({
