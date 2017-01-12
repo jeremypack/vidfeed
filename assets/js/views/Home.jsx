@@ -61,7 +61,7 @@ const Home = React.createClass({
                 <main className="home__hero">
                     <HeaderContainer isHomepage={true} />
                     <h1>Simple Video <span className="nowrap">Collaboration</span>.</h1>
-                    <p>Make and receive timecoded notes on any Youtube or Vimeo video, for free.</p>
+                    <p>Make and receive timecoded notes on any YouTube or Vimeo video, for free.</p>
                     <CreateFeedContainer />
                 </main>
                 <section className="home__video">
