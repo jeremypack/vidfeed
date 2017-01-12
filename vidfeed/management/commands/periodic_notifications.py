@@ -19,7 +19,7 @@ class Command(BaseCommand):
             user_latest_comment = feed.comment_set.filter(has_notified=False)\
                 .order_by('owner', '-created').distinct('owner')
             for c in user_latest_comment:
-                if c.created < timezone.now() - datetime.timedelta(minutes=1):
+                if c.created < timezone.now() - datetime.timedelta(minutes=30):
                     collaborators = feed.feedcollaborator_set.all()
                     comments_to_notify = feed.comment_set.filter(owner=c.owner,
                                                                  has_notified=False)
