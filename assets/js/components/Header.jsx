@@ -9,7 +9,8 @@ const Header = React.createClass({
     propTypes: {
         isHomepage:             React.PropTypes.bool,
         sessionUserId:          React.PropTypes.number,
-        sessionUser:            React.PropTypes.string
+        sessionUser:            React.PropTypes.string,
+        showGetPlus:            React.PropTypes.func
     },
 
     render: function() {
@@ -23,6 +24,7 @@ const Header = React.createClass({
                                 <img src={logo} alt="Vidfeed" />
                             </Link>
                         </div>
+                        <a href="#" className="o-btn o-btn--ghost float--right" onClick={this.props.showGetPlus}>Got plus?</a>
                     </div>
                 </header>
             );

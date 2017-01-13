@@ -66,7 +66,7 @@ const ShareFeed = React.createClass({
         if (this.props.submitted) {
             return (
                 <div className="modal__submitted">
-                    <h3 className="modal__title">{this.props.submittedMsg}</h3>
+                    <h3 className="box__title">{this.props.submittedMsg}</h3>
                 </div>
             );
         }
@@ -74,8 +74,8 @@ const ShareFeed = React.createClass({
         return (
 
             <div className="modal__content">
-                <div className="modal__header">
-                    <h3 className="modal__title">{this.props.heading}</h3>
+                <div className="box__header">
+                    <h3 className="box__title">{this.props.heading}</h3>
                     <a href="#" onClick={this.props.closeModal} className="modal__close">×<span className="u-hidden-visually">Close</span></a>
                 </div>
                 <div className="modal__body">

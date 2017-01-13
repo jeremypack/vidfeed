@@ -7,7 +7,7 @@
 
 }
 
-.modal__header {
+.box__header {
     position:relative;
     padding:$inuit-global-spacing-unit/2;
     background:$mid;
@@ -15,13 +15,13 @@
     @include inuit-clearfix();
 }
 
-.modal__title {
+.box__title {
     margin:0;
     @include inuit-font-size(18px);
     font-weight:400;
 }
 
-.modal__close {
+.box__close {
     position:absolute;
     top:0;
     right:0;

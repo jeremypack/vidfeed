@@ -3,6 +3,7 @@ import ReactPlayer from 'react-player';
 
 import HeaderContainer from '../containers/HeaderContainer';
 import CreateFeedContainer from '../containers/CreateFeedContainer';
+import GetPlusContainer from '../containers/GetPlusContainer';
 
 import YouTubePlayer from '../components/YouTubePlayer';
 
@@ -17,7 +18,8 @@ const Home = React.createClass({
     getInitialState: function() {
         return {
             playerHeight:undefined,
-            playing:false
+            playing:false,
+            getPlusShowing:false
         };
     },
 
@@ -48,6 +50,13 @@ const Home = React.createClass({
         }
     },
 
+    _toggleGetPlus:function() {
+        this.setState({
+            getPlusShowing:!this.state.getPlusShowing
+        })
+        console.log('hehr');
+    },
+
     render: function() {
 
         var playerWrapperStyle = {
@@ -59,20 +68,28 @@ const Home = React.createClass({
         return ( 
             <div className="homePage">
                 <main className="home__hero">
-                    <HeaderContainer isHomepage={true} />
+
+                    <HeaderContainer
+                        isHomepage={true}
+                        showGetPlus={this._toggleGetPlus} />
+
                     <h1>Simple Video <span className="nowrap">Collaboration</span>.</h1>
                     <p>Make and receive timecoded notes on any YouTube or Vimeo video, for free.</p>
+                    
                     <CreateFeedContainer />
+
                 </main>
                 <section className="home__video">
                     <div className="o-wrapper">
                         <div className="c-player__wrapper" style={playerWrapperStyle}>   
                             <div className="c-player" ref="playerHolder">
                                 <div className="c-player__height">
+                                    
                                     <YouTubePlayer
                                         video_id='pKWLcym7zu0'
                                         playOnScroll={this.state.playing}
-                                        homepage={true} />   
+                                        homepage={true} />
+
                                 </div>
                             </div>
                         </div>
@@ -134,6 +151,11 @@ const Home = React.createClass({
                 </section>
                 <a href="mailto:theteam@vidfeed.io" className="siteFooter"> Drop us a line at <strong>theteam@vidfeed.io</strong>
                 </a>
+
+                <GetPlusContainer 
+                    show={this.state.getPlusShowing}
+                    hide={this._toggleGetPlus} />
+
             </div>
         );
     }
