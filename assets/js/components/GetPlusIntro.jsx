@@ -10,14 +10,23 @@ const GetPlusIntro = React.createClass({
                     <p>Get more out of Vidfeed, get plus</p>
                 </div>
                 <div className="c-getPlus__content">
-                    <ul>
-                        <li>Vimeo and Youtube Integration</li>
-                        <li>Comment Todo List</li>
-                        <li>Draw on video frames</li>
-                        <li>Dashboard Organisation</li>
-                        <li>Unlimited Feeds</li>
-                    </ul>
-                    <a href="#" onClick={this.props.next} className="o-btn o-btn--primary">Sign up</a>
+                    <div className="c-getPlus__features o-layout text--left u-margin-bottom u-padding-left">
+                        <div className="o-layout__item u-1/2">
+                            <p className="c-getPlus__features__item">Vimeo &amp; Youtube Integration</p>
+                            <p className="c-getPlus__features__item">Dashboard Organisation</p>
+                            <p className="c-getPlus__features__item">Comment Todo List</p>
+                        </div>
+                        <div className="o-layout__item u-1/2">
+                            <p className="c-getPlus__features__item">Draw on video frames</p>
+                            <p className="c-getPlus__features__item">Unlimited Feeds</p>
+                            <p className="c-getPlus__features__item">Lorem Ipsum Dolar</p>
+                        </div>
+                        
+                        
+                    </div>
+                    <div className="o-layout__item">
+                        <a href="#" onClick={this.props.next} className="o-btn o-btn--primary">Sound good? Sign up.</a>
+                    </div>
                 </div>
             </section>
         );

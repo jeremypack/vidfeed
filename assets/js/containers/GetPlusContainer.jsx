@@ -10,19 +10,33 @@ const GetPlusContainer = React.createClass({
 
     propTypes: {
         show:           React.PropTypes.bool.isRequired,
-        hide:           React.PropTypes.bool.isRequired
+        hide:           React.PropTypes.bool.isRequired,
+
     },
 
     getInitialState:function(){
         return {
             signUpStage:0,
-            paymentChoice:0
+            planSelect:'year'
         };
     },
 
     componentWillUnmount:function() {
         this.setState({
-            signUpStage:0
+            signUpStage:0,
+            planSelect:'year'
+        });
+    },
+
+    _yearPlanSelect:function() {
+        this.setState({
+            planSelect:'year'
+        });
+    },
+
+    _monthPlanSelect:function() {
+        this.setState({
+            planSelect:'month'
         });
     },
 
@@ -38,7 +52,12 @@ const GetPlusContainer = React.createClass({
         }
 
         if (this.state.signUpStage === 1) {
-            var form = <GetPlusForm next={this._nextStage} />
+            var form = <GetPlusForm
+                            yearPlanSelected={this.state.planSelect === 'year' ? true : false}
+                            monthPlanSelected={this.state.planSelect === 'month' ? true : false}
+                            yearPlanSelect={this._yearPlanSelect}
+                            monthPlanSelect={this._monthPlanSelect}
+                            next={this._nextStage} />
         }
 
         if (this.state.signUpStage === 2) {
