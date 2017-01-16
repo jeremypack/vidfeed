@@ -96,14 +96,14 @@ DATABASES = {
         'PORT': '',
         'USER': 'vidfeed'
     },
-    'from_db': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': 'localhost',
-        'NAME': 'vidfeed_migrate_from',
-        'PASSWORD': 'vidfeed',
-        'PORT': '',
-        'USER': 'vidfeed'
-    }
+    # 'from_db': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'HOST': 'localhost',
+    #     'NAME': 'vidfeed_migrate_from',
+    #     'PASSWORD': 'vidfeed',
+    #     'PORT': '',
+    #     'USER': 'vidfeed'
+    # }
 }
 
 

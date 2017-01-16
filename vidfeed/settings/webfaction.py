@@ -18,14 +18,14 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'PORT': '5432',
     },
-    'from_db': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'vidfeed_live',
-        'USER': 'vidfeed',
-        'PASSWORD': 'ajJ5USVZ9DVdbQe',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-    }
+    # 'from_db': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'vidfeed_live',
+    #     'USER': 'vidfeed',
+    #     'PASSWORD': 'ajJ5USVZ9DVdbQe',
+    #     'HOST': '127.0.0.1',
+    #     'PORT': '5432',
+    # }
 
 }
 
