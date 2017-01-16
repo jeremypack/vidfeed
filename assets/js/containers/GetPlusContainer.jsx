@@ -10,33 +10,91 @@ const GetPlusContainer = React.createClass({
 
     propTypes: {
         show:           React.PropTypes.bool.isRequired,
-        hide:           React.PropTypes.bool.isRequired,
+        hide:           React.PropTypes.func.isRequired,
 
     },
 
     getInitialState:function(){
         return {
             signUpStage:0,
-            planSelect:'year'
+            planSelect:2,
+            name:'',
+            email:'',
+            password:''
         };
+    },
+
+    componentDidMount: function() {
+        if (window.vidfeed.user.email) {
+            this.setState({
+                email:window.vidfeed.user.email
+            });
+        }
     },
 
     componentWillUnmount:function() {
         this.setState({
             signUpStage:0,
-            planSelect:'year'
+            planSelect:2
         });
     },
 
-    _yearPlanSelect:function() {
+    _yearPlanSelect:function(e) {
+        e.preventDefault();
         this.setState({
-            planSelect:'year'
+            planSelect:2
         });
     },
 
-    _monthPlanSelect:function() {
+    _monthPlanSelect:function(e) {
+        e.preventDefault();
         this.setState({
-            planSelect:'month'
+            planSelect:1
+        });
+    },
+
+    _handleNameChange:function(e){
+        this.setState({
+            name: e.target.value
+        });
+    },
+
+    _handleEmailChange:function(e){
+        this.setState({
+            email: e.target.value
+        });
+    },
+
+    _handlePasswordChange:function(e){
+        this.setState({
+            password: e.target.value
+        });
+    },
+
+    _handleSubmit: function(e) {
+        e.preventDefault();
+        var nameArray = this.state.name.split(' ');
+        $.ajax({
+            method: 'POST',
+            url: '/api/profile/register',
+            context: this,
+            data: {
+                'first_name': nameArray[0],
+                'last_name': nameArray[1],
+                'email': this.state.email,
+                'password': this.state.password,
+                'subscription_type': this.state.planSelect // 1 == Monthly, 2 == Yearly
+            },
+            success: function (data) {
+                console.log(data,'success');
+                this._nextStage();
+                if (window.vidfeed.user.email != this.state.email) {
+                    window.vidfeed.user.email = this.state.email
+                }
+            }.bind(this),
+            error: function (data) {
+                console.log(data,'error');
+            }.bind(this)
         });
     },
 
@@ -53,11 +111,15 @@ const GetPlusContainer = React.createClass({
 
         if (this.state.signUpStage === 1) {
             var form = <GetPlusForm
-                            yearPlanSelected={this.state.planSelect === 'year' ? true : false}
-                            monthPlanSelected={this.state.planSelect === 'month' ? true : false}
+                            yearPlanSelected={this.state.planSelect === 2 ? true : false}
+                            monthPlanSelected={this.state.planSelect === 1 ? true : false}
                             yearPlanSelect={this._yearPlanSelect}
                             monthPlanSelect={this._monthPlanSelect}
-                            next={this._nextStage} />
+                            emailValue={this.state.email}
+                            handleNameChange={this._handleNameChange}
+                            handleEmailChange={this._handleEmailChange}
+                            handlePasswordChange={this._handlePasswordChange}
+                            onSubmit={this._handleSubmit} />
         }
 
         if (this.state.signUpStage === 2) {

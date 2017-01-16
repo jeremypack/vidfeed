@@ -42,16 +42,16 @@ const GetPlusForm = React.createClass({
                         </ul>
                         <div className="u-1/1 u-2/3@tablet o-layout__item">
                             <div className="u-padding-tiny u-padding-top">
-                                <input type="text" onChange={this.props.handleNameChange} value={this.props.name} placeholder="Name" className="input--border" />
+                                <input type="text" onChange={this.props.handleNameChange} placeholder="Name" className="input--border" required />
                             </div>
                             <div className="u-padding-tiny">
-                                <input type="email" onChange={this.props.handleEmailChange} value={this.props.email} placeholder="Email address" className="input--border" />
+                                <input type="email" onChange={this.props.handleEmailChange} value={this.props.emailValue} placeholder="Email address" className="input--border" required />
                             </div>
                             <div className="u-padding-tiny">
-                                <input type="password" onChange={this.props.handlePasswordChange} value={this.props.password} placeholder="Password" className="input--border" />
+                                <input type="password" onChange={this.props.handlePasswordChange} placeholder="Password" className="input--border" required />
                             </div>
                             <div className="u-margin-top text--center">
-                                <input type="Submit" onClick={this.props.next} className="o-btn o-btn--primary" value="Become a plus user" />
+                                <input type="Submit" className="o-btn o-btn--primary" value="Become a plus user" />
                             </div>
                         </div>
                     </form>

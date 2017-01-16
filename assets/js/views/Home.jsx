@@ -54,7 +54,6 @@ const Home = React.createClass({
         this.setState({
             getPlusShowing:!this.state.getPlusShowing
         })
-        console.log('hehr');
     },
 
     render: function() {
