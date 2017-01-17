@@ -74,19 +74,20 @@ const GetPlusContainer = React.createClass({
     _handleSubmit: function(e) {
         e.preventDefault();
         var nameArray = this.state.name.split(' ');
+        var firstName = nameArray[0];
+        var lastName = nameArray[nameArray.length - 1];
         $.ajax({
             method: 'POST',
             url: '/api/profile/register',
             context: this,
             data: {
-                'first_name': nameArray[0],
-                'last_name': nameArray[1],
+                'first_name': firstName,
+                'last_name': lastName,
                 'email': this.state.email,
                 'password': this.state.password,
                 'subscription_type': this.state.planSelect // 1 == Monthly, 2 == Yearly
             },
             success: function (data) {
-                console.log(data,'success');
                 this._nextStage();
                 if (window.vidfeed.user.email != this.state.email) {
                     window.vidfeed.user.email = this.state.email
