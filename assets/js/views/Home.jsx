@@ -18,6 +18,7 @@ const Home = React.createClass({
     getInitialState: function() {
         return {
             playerHeight:undefined,
+            windowHeight:undefined,
             playing:false,
             getPlusShowing:false
         };
@@ -38,7 +39,8 @@ const Home = React.createClass({
 
     _resizeContent:function() {
         this.setState({
-            playerHeight:this.refs.playerHolder.clientHeight 
+            playerHeight:this.refs.playerHolder.clientHeight,
+            pageHeight:this.refs.homepage.clientHeight
         });
     },
 
@@ -50,7 +52,8 @@ const Home = React.createClass({
         }
     },
 
-    _toggleGetPlus:function() {
+    _toggleGetPlus:function(e) {
+        e.preventDefault();
         this.setState({
             getPlusShowing:!this.state.getPlusShowing
         })
@@ -65,7 +68,7 @@ const Home = React.createClass({
         var images = window.vidfeed.images_dir;
 
         return ( 
-            <div className="homePage">
+            <div className="homePage" ref="homepage">
                 <main className="home__hero">
 
                     <HeaderContainer
@@ -153,7 +156,8 @@ const Home = React.createClass({
 
                 <GetPlusContainer 
                     show={this.state.getPlusShowing}
-                    hide={this._toggleGetPlus} />
+                    hide={this._toggleGetPlus}
+                    pageHeight={this.state.pageHeight} />
 
             </div>
         );

@@ -11,8 +11,10 @@ const GetPlusThanks = React.createClass({
                 </div>
                 <div className="c-getPlus__content o-layout">
                     <div className="o-layout__item u-3/4@tablet">
-                        <p>We’re currently working extra hard to get these features released. We’ll be sure to drop you an email when we launch.</p>
-                        <p>If you’d like to give us any feedback then please drop us an email, <a href="mailto:jeremy@vidfeed.io">jeremy@vidfeed.io</a>. We’d love to hear your thoughts.</p>
+                        <div className="u-margin-top">
+                            <p>We’re currently working extra hard to get these features released. We’ll be sure to drop you an email when we launch.</p>
+                            <p>If you’d like to give us any feedback then please drop us an email, <a href="mailto:jeremy@vidfeed.io">jeremy@vidfeed.io</a>. We’d love to hear your thoughts.</p>
+                        </div>
                     </div>
                 </div>
             </section>

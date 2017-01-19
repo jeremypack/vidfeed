@@ -11,7 +11,7 @@ const GetPlusContainer = React.createClass({
     propTypes: {
         show:           React.PropTypes.bool.isRequired,
         hide:           React.PropTypes.func.isRequired,
-
+        pageHeight:   React.PropTypes.number
     },
 
     getInitialState:function(){
@@ -20,7 +20,8 @@ const GetPlusContainer = React.createClass({
             planSelect:2,
             name:'',
             email:'',
-            password:''
+            password:'',
+            position:'absolute'
         };
     },
 
@@ -30,12 +31,33 @@ const GetPlusContainer = React.createClass({
                 email:window.vidfeed.user.email
             });
         }
+        this._resizeContent();
+        window.addEventListener('resize', this._resizeContent);
     },
 
     componentWillUnmount:function() {
         this.setState({
             signUpStage:0,
             planSelect:2
+        });
+        window.removeEventListener('resize', this._resizeContent);
+    },
+
+    _resizeContent:function() {
+        this.setState({
+            position:'resizing'
+        }, function(){
+            setTimeout(function(){
+                if (this.refs.getPlusDiv.clientHeight > window.innerHeight) {
+                    this.setState({
+                        position:'absolute'
+                    });
+                } else {
+                    this.setState({
+                        position:'fixed'
+                    });
+                }
+            }.bind(this), 200);
         });
     },
 
@@ -106,6 +128,7 @@ const GetPlusContainer = React.createClass({
     },
 
     render:function(){
+
         if (this.state.signUpStage === 0) {
             var intro = <GetPlusIntro next={this._nextStage} />
         }
@@ -132,13 +155,29 @@ const GetPlusContainer = React.createClass({
             'o-offCanvas__drawer--open':this.props.show
         });
 
+        if (this.state.position === 'absolute') {
+             var getPlusStyle = {
+                position:'absolute',
+                height:this.props.pageHeight
+            }
+        }
+        if (this.state.position === 'fixed') {
+            var getPlusStyle = {
+                position:'fixed',
+                height:'100%'
+            }
+        }
+        if (this.state.position === 'resizing') {
+            var getPlusStyle = {
+                position:'absolute',
+                height:'auto'
+            }
+        }
+
         return (
             <div className={drawerClasses}>
-                <div className="c-getPlus o-offCanvas__drawer__inner u-3/4 u-2/3@tablet u-1/2@desktop">
-                    <div className="box__header">
-                        <h3 className="box__title">Get Vidfeed plus</h3>
-                        <a href="#" onClick={this.props.hide} className="box__close">×<span className="u-hidden-visually">Close</span></a>
-                    </div>
+                <div className="c-getPlus o-offCanvas__drawer__inner u-3/4 u-3/4@tablet" style={getPlusStyle} ref="getPlusDiv">
+                    <a href="#" onClick={this.props.hide} className="c-getPlus__close">×<span className="u-hidden-visually">Close</span></a>
                     {intro}
                     {form}
                     {thanks}

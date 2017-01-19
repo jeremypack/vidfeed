@@ -30,6 +30,25 @@
     background-image:url(../images/message.svg);
 }
 
+.icon--dashboard {
+    background-image:url(../images/dashboard.svg);
+}
+.icon--todo {
+    background-image:url(../images/tick.svg);
+}
+.icon--paint {
+    background-image:url(../images/paint.svg);
+}
+.icon--vimeo {
+    background-image:url(../images/vimeo.svg);
+}
+.icon--youtube {
+    background-image:url(../images/youtube.svg);
+}
+.icon--unlimited {
+    background-image:url(../images/unlimited.svg);
+}
+
 .icon--cross {
     &:after {
         content:'×';
