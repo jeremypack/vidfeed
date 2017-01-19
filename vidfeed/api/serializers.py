@@ -9,6 +9,13 @@ class SiteUserSerializer(serializers.ModelSerializer):
         fields = ('id', 'email', 'first_name', 'last_name')
 
 
+class UserSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+    first_name = serializers.CharField(max_length=200, required=True)
+    last_name = serializers.CharField(max_length=200, required=True)
+    password = serializers.CharField(max_length=500, required=True)
+
+
 class ProviderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Provider

@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^feeds/(?P<feed_id>\S+)/$', views.FeedDetail.as_view({'get': 'get'})),
     url(r'^feeds/(?P<feed_id>\S+)/invites$', views.FeedInviteList.as_view()),
     url(r'^feeds/(?P<feed_id>\S+)/collaborators$', views.FeedCollaboratorList.as_view()),
+    url(r'^profile/register$', views.register),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

@@ -187,7 +187,7 @@ const Feed = React.createClass({
                                 feedId={this.props.params.feedId} />
         } else {
             var shareFeed = undefined;
-        }
+        }        
 
         if (this.state.blur) {
             var blurClasses = 'blurLayer blurLayer--active';
@@ -196,8 +196,8 @@ const Feed = React.createClass({
         }
 
         var drawerClasses = classNames({
-            'o-offCanvas__drawer o-layout__item':true,
-            'o-offCanvas__drawer--open':this.state.drawerVisible,
+            'o-offCanvas__drawer--tablet o-layout__item':true,
+            'o-offCanvas__drawer--tablet--open':this.state.drawerVisible,
             'u-1/3@tablet u-1/4@desktop':this.state.commentsOpen
         });
 
@@ -227,7 +227,8 @@ const Feed = React.createClass({
                     
                     <div ref="header">
                         
-                        <HeaderContainer />
+                        <HeaderContainer 
+                            plusAccountInterest={this._plusAccountSignUp} />
                     
                     </div>
                     
@@ -245,7 +246,7 @@ const Feed = React.createClass({
                         </div>
                     </section>
                     
-                    <div style={offCanvasStyle} className="o-offCanvas__outer o-layout o-layout--flush o-layout--center ">
+                    <div style={offCanvasStyle} className="o-offCanvas__outer--tablet o-layout o-layout--flush o-layout--center ">
                         <a href="#" className={commentsBtnClasses} onClick={this._commentsToggle}><i className="icon icon--bubble"></i><span className="u-hidden-visually">open comments</span></a>
                         <div style={videoColWidthStyle} ref="main" className={videoColWidthClasses}> 
                             <div className="o-offCanvas__main__inner">
@@ -267,7 +268,7 @@ const Feed = React.createClass({
                         </div>
                         
                         <div ref="drawer" className={drawerClasses}>
-                            <div className="o-offCanvas__drawer__inner">
+                            <div className="o-offCanvas__drawer__inner--tablet u-1/3@tablet u-1/4@desktop">
                                 <a href="#" className="o-offCanvas__close" onClick={this._commentsToggle}><i className="icon icon--crossWhite"></i><span className="u-hidden-visually">Hide comments</span></a>
                                 
                                 <CommentsListContainer
