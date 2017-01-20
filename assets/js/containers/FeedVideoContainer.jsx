@@ -67,11 +67,22 @@ var FeedVideoContainer = React.createClass({
                 youtubeSeekTo:number
             });
         } else {
-            var fraction = number / this.state.duration;
-            if (fraction === 0) {
-                fraction = 0.0002;
+            if (this.state.duration === null) {
+                this.refs.player.refs.player.refs.iframe.contentWindow.postMessage('{"method":"getDuration", "value":0}', '*');
+                setTimeout(function(){
+                    var fraction = number / this.state.duration;
+                    if (fraction === 0) {
+                        fraction = 0.0002;
+                    }
+                    this.refs.player.seekTo(fraction);
+                }.bind(this),300);
+            } else {
+                var fraction = number / this.state.duration;
+                if (fraction === 0) {
+                    fraction = 0.0002;
+                }
+                this.refs.player.seekTo(fraction);
             }
-            this.refs.player.seekTo(fraction);
         }
         this._onPause();
     },
@@ -91,6 +102,7 @@ var FeedVideoContainer = React.createClass({
         this.setState({
             duration:data
         });
+        console.log(this.state.duration,'_onDuration');
     },
 
     _onProgress:function(data) {
@@ -127,7 +139,7 @@ var FeedVideoContainer = React.createClass({
     },
 
     render: function() {
-                
+        
         if (this._isYoutube()) {
             return (
                 <section className="c-player">
