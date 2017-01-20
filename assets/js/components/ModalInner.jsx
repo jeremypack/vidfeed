@@ -14,7 +14,7 @@ const ModalInner = React.createClass({
             <div className="modal__content">
                 <div className="box__header">
                     <h3 className="box__title">{this.props.heading}</h3>
-                    <a href="#" onClick={this.props.closeModal} className="modal__close">×<span className="u-hidden-visually">Close</span></a>
+                    <a href="#" onClick={this.props.closeModal} className="box__close">×<span className="u-hidden-visually">Close</span></a>
                 </div>
                 <div className="modal__body">
                     {this.props.children}
