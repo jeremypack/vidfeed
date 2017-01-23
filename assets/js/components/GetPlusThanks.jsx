@@ -7,7 +7,7 @@ const GetPlusThanks = React.createClass({
             <section className="text--center">
                 <div className="c-getPlus__hero pastelSwatch--88">
                     <h2>Thanks for your interest</h2>
-                    <p>Get more out of Vidfeed, get plus</p>
+                    <p>but we're not quite finished.</p>
                 </div>
                 <div className="c-getPlus__content o-layout">
                     <div className="o-layout__item u-3/4@tablet">
