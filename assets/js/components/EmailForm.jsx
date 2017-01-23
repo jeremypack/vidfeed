@@ -50,7 +50,7 @@ const EmailForm = React.createClass({
             <div className="modal__content">
                 <div className="box__header">
                     <h3 className="box__title">{this.props.heading}</h3>
-                    { this.props.closeModal ? <a href="#" onClick={this.props.closeModal} className="modal__close">×<span className="u-hidden-visually">Close</span></a> : null }
+                    { this.props.closeModal ? <a href="#" onClick={this.props.closeModal} className="box__close">×<span className="u-hidden-visually">Close</span></a> : null }
                 </div>
                 <div className="modal__body">
                     {text}

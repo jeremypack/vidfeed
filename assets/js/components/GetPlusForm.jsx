@@ -18,15 +18,15 @@ const GetPlusForm = React.createClass({
 
         return (
             <section className="text--center">
-                <div className="c-getPlus__hero pastelSwatch--175">
+                <div className="c-getPlus__hero">
                     <h2>Select a payment plan</h2>
-                    <p>Get more out of Vidfeed, get plus</p>
                 </div>
                 <div className="c-getPlus__content">
                     <form onSubmit={this.props.onSubmit} className="form--border o-layout o-layout--center">
                         <ul className="o-list-inline">
                             <li className="o-list-inline__item u-1/2 o-layout__item">
                                 <a href="#" onClick={this.props.yearPlanSelect} className={yearPlanClasses}>
+                                    { this.props.yearPlanSelected ? <span className="c-getPlus__priceOption__tick"><i className="icon icon--tickBlue"></i></span> : null }
                                     <h3>£50</h3>
                                     <h4>Annual</h4>
                                     <p>Best value: save 17% !</p>
@@ -34,6 +34,7 @@ const GetPlusForm = React.createClass({
                             </li>
                             <li className="o-list-inline__item u-1/2 o-layout__item">
                                 <a href="#" onClick={this.props.monthPlanSelect} className={monthPlanClasses}>
+                                    { this.props.monthPlanSelected ? <span className="c-getPlus__priceOption__tick"><i className="icon icon--tickBlue"></i></span> : null }
                                     <h3>£5</h3>
                                     <h4>Monthly</h4>
                                     <p>Recurring billing</p>

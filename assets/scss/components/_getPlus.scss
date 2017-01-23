@@ -18,11 +18,14 @@
 }
 
 .c-getPlus__content {
+    max-width:960px;
     padding:$inuit-global-spacing-unit;
+    margin:0 auto;
 }
 
 .c-getPlus__hero {
     padding:$inuit-global-spacing-unit;
+    background-image:linear-gradient(lighten($red,5%), $red);
     color:#fff;
     h2 {
         margin-bottom:0;
@@ -34,7 +37,6 @@
 .c-getPlus__img {
     display:none;
     width:100%;
-    max-width:500px;
     margin:0 auto $inuit-global-spacing-unit;
     @include mq($from: tablet) {
         display: block;
@@ -61,6 +63,7 @@
 }
 
 .c-getPlus__priceOption {
+    position:relative;
     display:block;
     padding:$inuit-global-spacing-unit/2 0;
     background:$light;
@@ -76,4 +79,14 @@
 .c-getPlus__priceOption--selected {
     background:$blue;
     color:#fff;
+}
+.c-getPlus__priceOption__tick {
+    position:absolute;
+    top:$inuit-global-spacing-unit/2;
+    left:$inuit-global-spacing-unit/2;
+    width:32px;
+    height:32px;
+    padding:5px;
+    background:#fff;
+    border-radius:50%;
 }
