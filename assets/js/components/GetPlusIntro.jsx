@@ -8,9 +8,8 @@ const GetPlusIntro = React.createClass({
 
         return (
             <section className="text--center">
-                <div className="c-getPlus__hero pastelSwatch--322">
+                <div className="c-getPlus__hero">
                     <h2>Get Vidfeed plus</h2>
-                    <p>Get more out of Vidfeed, get plus</p>
                 </div>
                 <div className="c-getPlus__content">
                     <img src={getPlusImg} alt="Vidfeed Plus screens" className="c-getPlus__img" />
@@ -31,23 +30,9 @@ const GetPlusIntro = React.createClass({
                         </div>
                         <div className="o-layout__item u-1/2@tablet">
                             <div className="c-getPlus__features__item">
-                                <i className="c-getPlus__icon icon icon--paint"></i>
-                                <h3>Draw on Videos</h3>
-                                <p>For when a comment needs an extra layer of clarity, you can draw on the video frame.</p>
-                            </div>
-                        </div>
-                        <div className="o-layout__item u-1/2@tablet">
-                            <div className="c-getPlus__features__item">
                                 <i className="c-getPlus__icon icon icon--vimeo"></i>
-                                <h3>Vimeo Integration</h3>
-                                <p>Link your Vimeo account to Vidfeed to enable seamless integration.</p>
-                            </div>
-                        </div>
-                        <div className="o-layout__item u-1/2@tablet">
-                            <div className="c-getPlus__features__item">
-                                <i className="c-getPlus__icon icon icon--youtube"></i>
-                                <h3>Youtube Integration</h3>
-                                <p>Same as above, only with Youtube.</p>
+                                <h3>Vimeo & Youtube Integration</h3>
+                                <p>Link your Vimeo and YouTube accounts to Vidfeed to enable seamless integration.</p>
                             </div>
                         </div>
                         <div className="o-layout__item u-1/2@tablet">
