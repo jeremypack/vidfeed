@@ -102,7 +102,6 @@ var FeedVideoContainer = React.createClass({
         this.setState({
             duration:data
         });
-        console.log(this.state.duration,'_onDuration');
     },
 
     _onProgress:function(data) {
