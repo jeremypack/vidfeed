@@ -19,7 +19,8 @@ const GetPlusForm = React.createClass({
         return (
             <section className="text--center">
                 <div className="c-getPlus__hero">
-                    <h2>Select a payment plan</h2>
+                    <h2>Payment Plan</h2>
+                    <p>Straight forward like our product</p>
                 </div>
                 <div className="c-getPlus__content">
                     <form onSubmit={this.props.onSubmit} className="form--border o-layout o-layout--center">
@@ -52,7 +53,7 @@ const GetPlusForm = React.createClass({
                                 <input type="password" onChange={this.props.handlePasswordChange} placeholder="Password" className="input--border" required />
                             </div>
                             <div className="u-margin-top text--center">
-                                <input type="Submit" className="o-btn o-btn--primary" value="Become a plus user" />
+                                <input type="Submit" className="o-btn o-btn--primary" value="Next" />
                             </div>
                         </div>
                     </form>
