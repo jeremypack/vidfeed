@@ -46,7 +46,7 @@ const GetPlusIntro = React.createClass({
                         
                     </div>
                     <div className="o-layout__item">
-                        <a href="#" onClick={this.props.next} className="o-btn o-btn--primary">Sound good? Sign up.</a>
+                        <a href="#" onClick={this.props.next} className="o-btn o-btn--primary">Sounds good! Sign me up.</a>
                     </div>
                 </div>
             </section>
