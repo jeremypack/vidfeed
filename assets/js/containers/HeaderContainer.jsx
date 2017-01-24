@@ -5,7 +5,8 @@ import Header from '../components/Header';
 const HeaderContainer = React.createClass({
     
     propTypes: {
-        isHomepage:         React.PropTypes.bool
+        isHomepage:         React.PropTypes.bool,
+        showGetPlus:        React.PropTypes.func
     },
 
     getInitialState: function() {
@@ -36,7 +37,8 @@ const HeaderContainer = React.createClass({
             <Header
                 isHomepage={this.props.isHomepage}
                 sessionUser={this.state.sessionUser}
-                sessionUserId={this.state.sessionUserId} />
+                sessionUserId={this.state.sessionUserId}
+                showGetPlus={this.props.showGetPlus} />
         );
     }
 

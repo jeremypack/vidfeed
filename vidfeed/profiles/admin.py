@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import SiteUser
+from models import SiteUser, Subscription
 
 
 class SiteUserAdmin(admin.ModelAdmin):
@@ -10,3 +10,9 @@ class SiteUserAdmin(admin.ModelAdmin):
     feeds_created.admin_order_field = 'feeds_created'
 
 admin.site.register(SiteUser, SiteUserAdmin)
+
+
+class SubscriptionAdmin(admin.ModelAdmin):
+    list_display = ('user', 'subscription_type', 'created', 'active')
+
+admin.site.register(Subscription, SubscriptionAdmin)

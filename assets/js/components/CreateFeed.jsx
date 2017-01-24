@@ -17,7 +17,6 @@ const CreateFeed = React.createClass({
             'form--single__submit o-btn o-btn--primary':true,
             'o-btn--disabled':!this.props.isValid,
             'o-btn--pulse':this.props.isValid
-
         });
 
         var invalidMsg = <p>Whoops, that doesn&apos;t look like a Vimeo or Youtube URL</p>;

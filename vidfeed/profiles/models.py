@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 
-from django.db import models
+from django.db import models, IntegrityError
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
@@ -40,6 +40,24 @@ class SiteUserManager(BaseUserManager):
 
         return self._create_user(email, password, **extra_fields)
 
+    def register_user(self, email, first_name, last_name, password):
+        existing_user = self.filter(email__iexact=email)
+        if existing_user and existing_user[0].is_active:
+            raise IntegrityError('Email address already registered')
+        elif existing_user:
+            user = existing_user[0]
+            user.first_name = first_name
+            user.last_name = last_name
+            user.is_active = True
+            user.set_password(password)
+            user.save()
+        else:
+            user = self.create_user(email=email, password=password,
+                                    first_name=first_name, last_name=last_name)
+            user.is_active = True
+            user.save()
+        return user
+
 
 # Create your models here.
 class SiteUser(AbstractBaseUser, PermissionsMixin):
@@ -56,7 +74,7 @@ class SiteUser(AbstractBaseUser, PermissionsMixin):
     )
     is_active = models.BooleanField(
         _('active'),
-        default=True,
+        default=False,
         help_text=_(
             'Designates whether this user should be treated as active. '
             'Unselect this instead of deleting accounts.'
@@ -81,3 +99,17 @@ class SiteUser(AbstractBaseUser, PermissionsMixin):
     def get_short_name(self):
         "Returns the short name for the user."
         return self.first_name
+
+
+class Subscription(models.Model):
+    SUBSCRIPTION_MONTHLY = 1
+    SUBSCRIPTION_YEARLY = 2
+    SUBSCRIPTION_TYPE = (
+        (SUBSCRIPTION_MONTHLY, 'Monthly'),
+        (SUBSCRIPTION_YEARLY, 'Yearly'),
+    )
+    user = models.OneToOneField(SiteUser)
+    subscription_type = models.SmallIntegerField(choices=SUBSCRIPTION_TYPE)
+    active = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True)
+

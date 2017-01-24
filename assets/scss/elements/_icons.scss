@@ -21,6 +21,10 @@
     width:$inuit-global-spacing-unit*.75;
     background-image:url(../images/checked.svg);
 }
+.icon--tickBlue {
+    width:$inuit-global-spacing-unit*.75;
+    background-image:url(../images/tick-blue.svg);
+}
 
 .icon--pencil {
     background-image:url(../images/tool.svg);
@@ -28,6 +32,25 @@
 
 .icon--message {
     background-image:url(../images/message.svg);
+}
+
+.icon--dashboard {
+    background-image:url(../images/dashboard.svg);
+}
+.icon--todo {
+    background-image:url(../images/tick.svg);
+}
+.icon--paint {
+    background-image:url(../images/paint.svg);
+}
+.icon--vimeo {
+    background-image:url(../images/vimeo.svg);
+}
+.icon--youtube {
+    background-image:url(../images/youtube.svg);
+}
+.icon--unlimited {
+    background-image:url(../images/unlimited.svg);
 }
 
 .icon--cross {

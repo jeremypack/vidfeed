@@ -1,17 +1,18 @@
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 from rest_framework.views import APIView
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.decorators import detail_route
+from rest_framework.decorators import detail_route, api_view
 
-from vidfeed.profiles.models import SiteUser
+from vidfeed.profiles.models import SiteUser, Subscription
 from vidfeed.feed.models import Comment, Feed, Provider, FeedInvite, FeedCollaborator
 from vidfeed.utils import get_youtube_title_and_thumbnail, get_vimeo_title_and_thumbnail, \
     set_vidfeed_user_cookie, send_email
 from serializers import CommentSerializer, FeedSerializer, FeedInviteSerializer, \
-    FeedCollaboratorSerializer
+    FeedCollaboratorSerializer, UserSerializer, SiteUserSerializer
 
 import json
 
@@ -214,3 +215,17 @@ class FeedCollaboratorList(APIView):
     def get(self, request, feed_id, format=None):
         serializer = FeedCollaboratorSerializer(self.get_objects(feed_id), many=True)
         return Response(serializer.data)
+
+
+@api_view(['POST'])
+def register(request):
+    user = UserSerializer(data=request.data)
+    if user.is_valid():
+        try:
+            site_user = SiteUser.objects.register_user(user.data['email'], user.data['first_name'],
+                                                       user.data['last_name'], user.data['password'])
+            Subscription.objects.create(user=site_user, subscription_type=user.initial_data['subscription_type'])
+        except IntegrityError:
+            return Response({'email': ['Email already registered']}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(SiteUserSerializer(site_user).data, status=status.HTTP_201_CREATED)
+    return Response(user._errors, status=status.HTTP_400_BAD_REQUEST)
