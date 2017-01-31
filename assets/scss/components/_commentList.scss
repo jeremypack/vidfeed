@@ -99,10 +99,46 @@
     }
 }
 .c-comment__body {
+    position:relative;
     padding-left:30px;
     @include inuit-font-size(14px,$line-height:1.5);
 }
+.c-comment__lock {
+    position:absolute;
+    top:0;
+    left:0;
+    width:$inuit-global-spacing-unit;
+    height:$inuit-global-spacing-unit;
+    border:1px solid;
+    border-radius:100%;
+    text-align:center;
+    transition: $global-transition;
+    .icon {
+        vertical-align:middle;
+    }
+}
+.c-comment__lock--unlocked {
+    border-color:$mid;
+    opacity:0.5;
+    &:hover {
+        opacity:1;
+        border-color:#fff;
+        background:#fff;
+    }
+}
+.c-comment__lock--locked {
+    border-color:$red;
+    background:$red;
+    .icon {
+        opacity:1;
+    }
+    &:hover {
+        border-color:lighten($red,10%);
+        background:lighten($red,10%);
+    }
+}
 .c-comment__actions {
+    padding-left:30px;
     .c-comment--edit & {
         margin-top:4px;
     }
@@ -136,12 +172,18 @@
         -moz-appearance: none;
     }
 }
+.c-comment__toggleReply .icon {
+    width:$inuit-global-spacing-unit*.75;
+}
+.c-comment__saveEdit.icon {
+    width:$inuit-global-spacing-unit*.75;
+}
 .c-comment__created {
     .c-comment--edit & {
         margin-top:4px;
     }
     float:right;
-    margin-top:9px;
+    margin-top:16px;
     @include inuit-font-size(12px);
     color:darken($light,10%);
 }

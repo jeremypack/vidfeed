@@ -33,13 +33,15 @@ const EditComment = React.createClass({
                     </div>
                     {this.props.isReply ? null : <a href="#" className="c-comment__timecode">{this.props.timecode}</a> }
                 </div>
-                <form onSubmit={this.props.handleSubmit} className="c-comment__body form--border">
-                    <input ref="editInput" className="input--border input--edit" type="text" onChange={this.props.handleChange} value={this.props.value} />
+                <form onSubmit={this.props.handleSubmit} className="form--border">
+                    <div className="c-comment__body">
+                        <input ref="editInput" className="input--edit" type="text" onChange={this.props.handleChange} value={this.props.value} />
+                    </div>
                     <div className="u-clearfix">
                         <div className="c-comment__actions">
                             <ul className="o-list-inline">
-                                <li className="o-list-inline__item"><input type="submit" className="icon icon--tick" title="Save change" onClick={this.props.handleSubmit} value="Save change" /></li>
-                                <li className="o-list-inline__item"><a title="Cancel change" onClick={this.props.cancelChange} href="#"><i className="icon icon--cross"></i><span className="u-hidden-visually">Cancel</span></a></li>
+                                <li className="o-list-inline__item"><input className="c-comment__saveEdit icon icon--tick" type="submit" title="Save change" onClick={this.props.handleSubmit} value="Save change" /></li>
+                                <li className="o-list-inline__item"><a className="c-comment__cancelEdit" title="Cancel change" onClick={this.props.cancelChange} href="#"><i className="icon icon--cross"></i><span className="u-hidden-visually">Cancel</span></a></li>
                             </ul> 
                         </div>
                         <div className="c-comment__created">

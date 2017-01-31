@@ -53,7 +53,9 @@ const CommentContainer = React.createClass({
             commentBody: this.props.body,
             deleteCommentCheck:false,
             commentIdToDelete:undefined,
-            newComment:false
+            newComment:false,
+            lockHover:false,
+            isLocked:false
         };
     },
 
@@ -204,6 +206,26 @@ const CommentContainer = React.createClass({
         this.props.timecodeClick(this.props.timecode);
     },
 
+    _handleLockHoverEnter:function() {
+        this.setState({
+            lockHover:true
+        });
+    },
+
+    _handleLockHoverLeave:function() {
+        this.setState({
+            lockHover:false
+        });
+    },
+
+    _handleLockClick:function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.setState({
+            isLocked:!this.state.isLocked
+        });
+    },
+
     render: function() {
 
         var formattedTime = this._formattedTime(this.props.timecode);        
@@ -288,7 +310,12 @@ const CommentContainer = React.createClass({
                         deleteComment={this._deleteComment}
                         toggleReply={this._openReplyForm}
                         replyIsOpen={this.state.replyOpen}
-                        newComment={this.state.newComment} />
+                        newComment={this.state.newComment}
+                        handleLockHoverEnter={this._handleLockHoverEnter}
+                        handleLockHoverLeave={this._handleLockHoverLeave}
+                        handleLockClick={this._handleLockClick}
+                        lockHover={this.state.lockHover}
+                        isLocked={this.state.isLocked} />
                     {replyNodes}
                     {replyForm}
                     {deleteCommentModal}
@@ -310,7 +337,12 @@ const CommentContainer = React.createClass({
                         created={this.props.created} 
                         toggleReply={this._openReplyForm}
                         replyIsOpen={this.state.replyOpen}
-                        newComment={this.state.newComment} />
+                        newComment={this.state.newComment}
+                        handleLockHoverEnter={this._handleLockHoverEnter}
+                        handleLockHoverLeave={this._handleLockHoverLeave}
+                        handleLockClick={this._handleLockClick}
+                        lockHover={this.state.lockHover}
+                        isLocked={this.state.isLocked} />
                     {replyNodes}
                     {replyForm}
                     {deleteCommentModal}

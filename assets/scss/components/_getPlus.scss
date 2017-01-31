@@ -89,4 +89,7 @@
     padding:5px;
     background:#fff;
     border-radius:50%;
+    .icon {
+        width:$inuit-global-spacing-unit*.75;
+    }
 }
