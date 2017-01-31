@@ -52,6 +52,15 @@
 .icon--unlimited {
     background-image:url(../images/unlimited.svg);
 }
+.icon--plusCircle {
+    background-image:url(../images/plusCircle.svg);
+    width:$inuit-global-spacing-unit*.75;
+    height:$inuit-global-spacing-unit*.75;
+}
+.icon--arrowRight {
+    width:6px;
+    background-image:url(../images/arrow-right.svg);
+}
 
 .icon--cross {
     &:after {

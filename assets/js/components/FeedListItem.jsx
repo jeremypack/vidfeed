@@ -23,7 +23,7 @@ const FeedListItem = React.createClass({
         var feedRouterLink = '/app/feed/'+this.props.feedId;
 
         return (
-            <div className="o-layout__item  u-1/2 u-1/3@tablet u-1/4@desktop">
+            <div className="o-layout__item u-1/2@tablet u-1/3@desktop">
                 <Link to={feedRouterLink}>
                     <article className="c-feedItem">
                         <div className={imgCropClasses}>

@@ -5,7 +5,10 @@
 .c-feedList {
     overflow:hidden;
     padding:$inuit-global-spacing-unit;
-    padding-left:0;
+    padding-bottom:0;
+    @include mq($from: tablet) {
+        padding-left:0;
+    }
 }
 
 .c-feedItem {

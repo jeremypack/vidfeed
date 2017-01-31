@@ -102,40 +102,14 @@
     padding-left:30px;
     @include inuit-font-size(14px,$line-height:1.5);
 }
-.c-comment__actions {
-    .c-comment--edit & {
-        margin-top:4px;
-    }
+
+.c-comment .c-actions {
     float:left;
-    margin-top:10px;
-    opacity:.75;
-    ul {
-        margin:0;
-    }
-    li {
-        margin-left:10px;
-        vertical-align:middle;
-        &:first-child {
-            margin-left:0;
-        }
-    }
-    a, input[type=submit] {
-        display:block;
-        opacity:0.5;
-        transition: $global-transition;
-        &:hover, &:focus {
-            opacity:1;
-        }
-    }
-    input[type=submit] {
-        padding:0;
-        border:0;
-        background-color:transparent;
-        font-size: 0;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-    }
 }
+.c-comment--edit .c-actions {
+    margin-top:4px;
+}
+
 .c-comment__created {
     .c-comment--edit & {
         margin-top:4px;

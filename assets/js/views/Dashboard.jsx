@@ -8,7 +8,6 @@ const Dashboard = React.createClass({
 
     getInitialState:function() {
         return {
-
             windowHeight:undefined
         }
     },

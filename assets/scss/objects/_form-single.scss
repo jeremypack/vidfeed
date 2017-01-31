@@ -17,6 +17,7 @@
     }
 }
 .form--single__submit {
+    width:100%;
     border-radius:0;
     @include mq($from: tablet) {
         border-radius:3px;

@@ -111,8 +111,10 @@ $inuit-use-markup-fix: false !default;
 
 @import 'components/_commentForm';
 @import 'components/_player';
+@import 'components/_actions';
 @import 'components/_commentList';
 @import 'components/_projectList';
+@import 'components/_projectTitle';
 @import 'components/_feedList';
 @import 'components/_user';
 @import 'components/_invitees';

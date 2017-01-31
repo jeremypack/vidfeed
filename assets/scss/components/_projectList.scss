@@ -3,12 +3,46 @@
    ========================================================================== */
 
 .c-projectList {
-    padding:$inuit-global-spacing-unit/2 0;
-    background:$dark;
+    position:relative;
+    padding:0 0 $inuit-global-spacing-unit*2.5;
+    background:$mid;
     color:#fff;
+    @include mq($from: tablet) {
+         padding:0 0 $inuit-global-spacing-unit/2;
+    }
 }
 
+.c-projectList__count {
+    padding:$inuit-global-spacing-unit*.75 $inuit-global-spacing-unit/2;
+    margin:0;
+    background:$dark;
+
+}
 .c-projectList__item a {
+    position:relative;
     display:block;
-    padding:$inuit-global-spacing-unit/2;
+    padding:$inuit-global-spacing-unit/2 $inuit-global-spacing-unit $inuit-global-spacing-unit/2 $inuit-global-spacing-unit/2;
+    border-bottom:1px solid $dark;
+    color:#fff;
+    font-weight:300;
+    transition:all .15s linear;
+    .icon {
+        position:absolute;
+        top:$inuit-global-spacing-unit*.75;
+        right:$inuit-global-spacing-unit/2;
+    }
+    &:hover, &:focus {
+        border-left:2px solid $blue;
+        background:$dark;
+    }
+}
+.c-projectList__item--selected a {
+    border-left:2px solid $blue;
+} 
+.c-projectList__addBtn {
+    position:absolute;
+    left:$inuit-global-spacing-unit/2;
+    right:$inuit-global-spacing-unit/2;
+    bottom:$inuit-global-spacing-unit/2;
+    line-height:2em;
 }

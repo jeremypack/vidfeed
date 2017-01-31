@@ -3,6 +3,8 @@ import classNames from 'classnames';
 import Linkify from 'react-linkify';
 import FormattedRelativeDate from 'react-npm-formatted-relative-date';
 
+import Actions from '../components/Actions';
+
 import User from '../components/User';
 
 const Comment = React.createClass({
@@ -22,7 +24,6 @@ const Comment = React.createClass({
     },
 
     render: function() {
-        var replyToggleText = this.props.replyIsOpen ? 'Hide reply' : 'Reply';
 
         var commentClasses = classNames({
             'c-comment':true,
@@ -31,19 +32,12 @@ const Comment = React.createClass({
         });
 
         if (this.props.editComment) {
-            var commentActions = <div className="c-comment__actions">
-                                    <ul className="o-list-inline">
-                                        <li className="o-list-inline__item"><a title="Reply" onClick={this.props.toggleReply} href="#"><i className="icon icon--replyArrow"></i><span className="u-hidden-visually">{replyToggleText}</span></a></li>
-                                        <li className="o-list-inline__item"><a title="Edit comment" onClick={this.props.editComment} href="#"><i className="icon icon--pencil"></i><span className="u-hidden-visually">edit</span></a></li>
-                                        <li className="o-list-inline__item"><a title="Delete comment" onClick={this.props.deleteComment} href="#"><i className="icon icon--cross"></i><span className="u-hidden-visually">delete</span></a></li>
-                                    </ul> 
-                                </div>;
+            var commentActions = <Actions
+                                    replyAction={this.props.toggleReply}
+                                    editAction={this.props.editComment}
+                                    deleteAction={this.props.deleteComment} />;
         } else {
-            var commentActions = <div className="c-comment__actions">
-                                    <ul className="o-list-inline">
-                                        <li className="o-list-inline__item"><a onClick={this.props.toggleReply} href="#"><i className="icon icon--replyArrow"></i><span className="u-hidden-visually">{replyToggleText}</span></a></li>
-                                    </ul> 
-                                </div>;
+            var commentActions = <Actions replyAction={this.props.toggleReply} />;
         }
 
         return (
