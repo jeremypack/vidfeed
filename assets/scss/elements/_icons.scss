@@ -13,19 +13,18 @@
 }
 
 .icon--replyArrow {
-    width:$inuit-global-spacing-unit*.75;
     background-image:url(../images/arrow.svg);
 }
 
 .icon--tick {
-    width:$inuit-global-spacing-unit*.75;
     background-image:url(../images/checked.svg);
 }
 .icon--tickBlue {
-    width:$inuit-global-spacing-unit*.75;
     background-image:url(../images/tick-blue.svg);
 }
-
+.icon--tickWhite {
+    background-image:url(../images/tick-white.svg);
+}
 .icon--pencil {
     background-image:url(../images/tool.svg);
 }

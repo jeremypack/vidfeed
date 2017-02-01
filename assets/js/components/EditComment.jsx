@@ -34,8 +34,10 @@ const EditComment = React.createClass({
                     </div>
                     {this.props.isReply ? null : <a href="#" className="c-comment__timecode">{this.props.timecode}</a> }
                 </div>
-                <form onSubmit={this.props.handleSubmit} className="c-comment__body form--border">
-                    <input ref="editInput" className="input--border input--edit" type="text" onChange={this.props.handleChange} value={this.props.value} />
+                <form onSubmit={this.props.handleSubmit} className="form--border">
+                    <div className="c-comment__body">
+                        <input ref="editInput" className="input--edit" type="text" onChange={this.props.handleChange} value={this.props.value} />
+                    </div>
                     <div className="u-clearfix">
                         <Actions
                             saveAction={this.props.handleSubmit} 

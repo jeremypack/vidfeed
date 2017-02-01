@@ -19,7 +19,7 @@
 
 .c-getPlus__content {
     max-width:960px;
-    padding:$inuit-global-spacing-unit;
+    padding:$inuit-global-spacing-unit $inuit-global-spacing-unit 0;
     margin:0 auto;
 }
 
@@ -89,4 +89,7 @@
     padding:5px;
     background:#fff;
     border-radius:50%;
+    .icon {
+        width:$inuit-global-spacing-unit*.75;
+    }
 }
