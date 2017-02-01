@@ -19,9 +19,8 @@ const ShareFeed = React.createClass({
 
     componentDidMount:function() {
         setTimeout(function(){
-            this.refs.emailInput.focus();
-        }.bind(this),200);
-        
+            this.refs.inputField.focus();
+        }.bind(this),200);  
     },
 
     _remove: function(item) {
@@ -82,7 +81,7 @@ const ShareFeed = React.createClass({
                     <form className="form--border" onSubmit={this.props.addEmail}>
                         <div className="u-padding-small u-padding-top">
                             <div className="input-with-button">
-                                <input ref="emailInput"  placeholder="Email address" type="email" onChange={this.props.handleChange} value={this.props.currentEmail} className="input--border" />
+                                <input ref="inputField"  placeholder="Email address" type="email" onChange={this.props.handleChange} value={this.props.currentEmail} className="input--border" />
                                 <input type="submit" value="Add" className={addEmailBtnClasses} />
                             </div>
                         </div>

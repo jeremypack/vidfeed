@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 
 import CommentForm from '../components/CommentForm';
 
-import EmailForm from '../components/EmailForm';
+import SingleInputInModal from '../components/SingleInputInModal';
 
 const modalStyles = {
     overlay : {
@@ -212,7 +212,9 @@ const CommentFormContainer = React.createClass({
                                         isOpen={this.state.modalIsOpen}
                                         onRequestClose={this._closeModal}
                                         style={modalStyles}>
-                                        <EmailForm
+                                        <SingleInputInModal
+                                            inputType="email"
+                                            placeholder="Email address"
                                             heading='Please tell us who you are'
                                             closeModal={this._closeModal}
                                             handleSubmit={this._handleAuthorSubmit}

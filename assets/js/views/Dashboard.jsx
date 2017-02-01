@@ -8,7 +8,8 @@ const Dashboard = React.createClass({
 
     getInitialState:function() {
         return {
-            windowHeight:undefined
+            windowHeight:undefined,
+            blur:false
         }
     },
 
@@ -36,16 +37,37 @@ const Dashboard = React.createClass({
         });
     },
 
+    _modalOpen: function() {
+        this.setState({
+            blur:true
+        });
+    },
+
+    _modalClose: function() {
+        this.setState({
+            blur:false
+        });
+    },
+
     render: function() {
+        
+        if (this.state.blur) {
+            var blurClasses = 'blurLayer blurLayer--active';
+        } else {
+            var blurClasses = 'blurLayer';
+        }
+
         return (
-            <div>
+            <div className={blurClasses}>
                 <div ref="header">
                     <HeaderContainer />
                 </div>
                 <div className="o-layout">
                     <div className="o-layout__item u-1/4@tablet u-1/5@desktop">
                         <ProjectsListContainer
-                            windowHeight={this.state.windowHeight} />
+                            windowHeight={this.state.windowHeight}
+                            modalOpen={this._modalOpen}
+                            modalClose={this._modalClose} />
                     </div>
                     <div className="o-layout__item u-3/4@tablet u-4/5@desktop">
                         <FeedListContainer
