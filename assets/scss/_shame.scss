@@ -21,3 +21,8 @@
 .u-opacity-0 {
     opacity:0;
 }
+
+.disabledAction {
+    opacity:.25!important;
+    cursor:not-allowed;
+}

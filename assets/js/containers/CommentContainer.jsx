@@ -53,7 +53,9 @@ const CommentContainer = React.createClass({
             commentBody: this.props.body,
             deleteCommentCheck:false,
             commentIdToDelete:undefined,
-            newComment:false
+            newComment:false,
+            isValid:true,
+            validationStarted:false
         };
     },
 
@@ -85,6 +87,7 @@ const CommentContainer = React.createClass({
 
     componentWillUnmount:function(){
         clearInterval(this.sessionCheckInterval);
+        clearInterval(this.validateInterval);
     },
 
     _checkNewComments:function(){        
@@ -119,16 +122,22 @@ const CommentContainer = React.createClass({
             editable:false,
             commentBody: this.props.body
         });
+        clearInterval(this.validateInterval);
     },
 
     _saveEdit: function (e) {
         e.preventDefault();
         e.stopPropagation();
+        var body = this.state.commentBody.trim();
+        if (!body) {
+            return;
+        }
         var commentId = $(e.currentTarget).closest('.c-comment').data('id');
         this.props.handleCommentEdit(commentId, this.props.author, this.state.commentBody);
         this.setState({
             editable:false
         });
+        clearInterval(this.validateInterval);
     },
 
     _saveReplyEdit: function(replyId, author, text) {
@@ -196,6 +205,23 @@ const CommentContainer = React.createClass({
         this.setState({
             commentBody: e.target.value
         });
+        var validateTrigger = function() {
+            if(this.state.commentBody) {
+                this.setState({
+                    isValid:true
+                });
+            } else {
+                this.setState({
+                    isValid:false
+                });
+            }
+        }.bind(this);
+        if (!this.state.validationStarted) {
+            this.setState({
+                validationStarted: true
+            });
+            this.validateInterval = setInterval(validateTrigger,500);
+        }
     },
 
     _timecodeClick: function(e) {
@@ -266,7 +292,8 @@ const CommentContainer = React.createClass({
                         created={this.props.created} 
                         handleChange={this._handleCommentChange}
                         handleSubmit={this._saveEdit}
-                        cancelChange={this._cancelEdit} />
+                        cancelChange={this._cancelEdit}
+                        isValid={this.state.isValid} />
                     {replyNodes}
                 </div>
             );

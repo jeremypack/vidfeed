@@ -38,6 +38,12 @@ input[type=submit]:hover {
     }
 }
 
+.contenteditable {
+    margin-bottom:5px;
+    outline:0;
+    text-decoration: underline;
+}
+
 .input-with-button {
     position:relative;
     input {
