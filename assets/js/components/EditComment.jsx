@@ -22,8 +22,7 @@ const EditComment = React.createClass({
     },
 
     render: function() {
-        var replyClass = this.props.isReply ? 'c-comment c-comment--edit c-comment--reply' : 'c-comment c-comment--edit';
-
+        
         var commentClasses = classNames({
             'c-comment c-comment--edit':true,
             'c-comment--reply': this.props.isReply
