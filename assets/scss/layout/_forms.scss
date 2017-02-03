@@ -38,6 +38,15 @@ input[type=submit]:hover {
     }
 }
 
+.contenteditable {
+    height:auto!important;
+    padding:0!important;
+    border:0!important;
+    background:transparent!important;
+    outline:0!important;
+    text-decoration: underline;
+}
+
 .input-with-button {
     position:relative;
     input {

@@ -141,15 +141,9 @@
 .c-comment .c-actions {
     float:left;
     padding-left:30px;
-    .c-comment--edit & {
-        margin-top:4px;
-    }
     
 }
 
-.c-comment--edit .c-actions {
-    margin-top:4px;
-}
 
 .c-comment__toggleReply .icon {
     width:$inuit-global-spacing-unit*.75;
@@ -157,11 +151,13 @@
 .c-comment__saveEdit.icon {
     width:$inuit-global-spacing-unit*.75;
 }
+.c-comment__saveEdit--disabled {
+    opacity:.25!important;
+    cursor:not-allowed;
+}
+
 
 .c-comment__created {
-    .c-comment--edit & {
-        margin-top:4px;
-    }
     float:right;
     margin-top:16px;
     @include inuit-font-size(12px);

@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 const Actions = React.createClass({
     
@@ -17,7 +18,13 @@ const Actions = React.createClass({
         }
 
         if (this.props.saveAction) {
-            var saveAction = <li className="o-list-inline__item"><input type="submit" className="c-comment__saveEdit icon icon--tick" title="Save change" onClick={this.props.saveAction} value="Save change" /></li>;
+            
+            var submitClasses = classNames({
+                'c-comment__saveEdit icon icon--tick':true,
+                'c-comment__saveEdit--disabled':!this.props.isValid
+            });
+
+            var saveAction = <li className="o-list-inline__item"><input type="submit" className={submitClasses} title="Save change" onClick={this.props.saveAction} value="Save change" /></li>;
         }
 
         if (this.props.cancelAction) {
