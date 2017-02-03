@@ -12,7 +12,7 @@ from vidfeed.feed.models import Comment, Feed, Provider, FeedInvite, FeedCollabo
 from vidfeed.utils import get_youtube_title_and_thumbnail, get_vimeo_title_and_thumbnail, \
     set_vidfeed_user_cookie, send_email
 from serializers import CommentSerializer, FeedSerializer, FeedInviteSerializer, \
-    FeedCollaboratorSerializer, UserSerializer, SiteUserSerializer
+    FeedCollaboratorSerializer, UserSerializer, SiteUserSerializer, CommentDoneSerializer
 
 import json
 
@@ -31,6 +31,11 @@ class CommentList(APIView):
         feed = get_object_or_404(Feed, feed_id=feed_id)
         serializer = CommentSerializer(data=request.data)
         if serializer.is_valid():
+            if serializer.data.get('parent_id'):
+                parent_comment = Comment.objects.get(pk=serializer.data.get('parent_id'))
+                if parent_comment.done:
+                    return Response({"message": "Comment locked"},
+                                    status=status.HTTP_400_BAD_REQUEST)
             try:
                 comment = serializer.save(feed=feed)
             except Comment.DoesNotExist:
@@ -87,6 +92,9 @@ class CommentDetail(APIView):
 
     def put(self, request, feed_id, comment_id, format=None):
         comment = self.get_object(feed_id, comment_id)
+        if comment.done:
+            return Response({"message": "Comment locked"},
+                            status=status.HTTP_400_BAD_REQUEST)
         serializer = CommentSerializer(comment, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -95,9 +103,23 @@ class CommentDetail(APIView):
 
     def delete(self, request, feed_id, comment_id, format=None):
         comment = self.get_object(feed_id, comment_id)
+        if comment.done:
+            return Response({"message": "Comment locked"},
+                            status=status.HTTP_400_BAD_REQUEST)
         comment.deleted = True
         comment.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['POST'])
+def set_comment_done(request, feed_id, comment_id):
+    comment_done = CommentDoneSerializer(data=request.data)
+    if comment_done.is_valid():
+        comment = get_object_or_404(Comment, feed__feed_id=feed_id, pk=comment_id)
+        comment.done = comment_done.data.get('done')
+        comment.save()
+        return Response(CommentSerializer(comment).data, status=status.HTTP_200_OK)
+    return Response(comment_done._errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class FeedList(APIView):

@@ -126,6 +126,7 @@ class Comment(models.Model):
     body = models.TextField()
     timecode = models.FloatField(default=0)
     deleted = models.BooleanField(default=False)
+    done = models.BooleanField(default=False)
     parent_comment = models.ForeignKey('Comment', null=True, blank=True)
     has_notified = models.BooleanField(default=False)
 
