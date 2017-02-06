@@ -2,15 +2,6 @@
    #FEED-LIST
    ========================================================================== */
 
-.c-feedList {
-    overflow:hidden;
-    padding:$inuit-global-spacing-unit;
-    padding-bottom:0;
-    @include mq($from: tablet) {
-        padding-left:0;
-    }
-}
-
 .c-feedItem {
     position:relative;
     min-height:280px;
