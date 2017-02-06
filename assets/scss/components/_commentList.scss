@@ -79,6 +79,10 @@
 .c-comment__author {
     float:left;
     margin-bottom:4px;
+    transition: $global-transition;
+    .c-comment--locked & {
+        opacity:0.3;
+    }
 }
 .c-comment__timecode {
     float:right;
@@ -99,25 +103,34 @@
     }
 }
 .c-comment__body {
-    position:relative;
     padding-left:30px;
     @include inuit-font-size(14px,$line-height:1.5);
+    transition: $global-transition;
+    .c-comment--locked & {
+        opacity:0.3;
+    }
 }
-.c-comment__lock {
+
+.c-comment__footer {
+    position:relative;
+}
+.c-comment__lockBtn {
     position:absolute;
-    top:0;
+    top:12px;
     left:0;
     width:$inuit-global-spacing-unit;
     height:$inuit-global-spacing-unit;
     border:1px solid;
     border-radius:100%;
     text-align:center;
+    line-height:19px;
     transition: $global-transition;
+    z-index:20;
     .icon {
         vertical-align:middle;
     }
 }
-.c-comment__lock--unlocked {
+.c-comment__lockBtn--unlocked {
     border-color:$mid;
     opacity:0.5;
     &:hover {
@@ -126,7 +139,7 @@
         background:#fff;
     }
 }
-.c-comment__lock--locked {
+.c-comment__lockBtn--locked {
     border-color:$red;
     background:$red;
     .icon {
@@ -138,7 +151,7 @@
     }
 }
 .c-comment__actions {
-    padding-left:30px;
+    padding-left:32px;
     .c-comment--edit & {
         margin-top:4px;
     }

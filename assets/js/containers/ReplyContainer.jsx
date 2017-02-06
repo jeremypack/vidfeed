@@ -15,7 +15,8 @@ const ReplyContainer = React.createClass({
         toggleReply:    React.PropTypes.func.isRequired,
         replyIsOpen:    React.PropTypes.bool.isRequired,
         editReply:      React.PropTypes.func,
-        deleteReply:    React.PropTypes.func
+        deleteReply:    React.PropTypes.func,
+        isLocked:       React.PropTypes.bool.isRequired
     },
 
     getInitialState: function() {
@@ -130,7 +131,8 @@ const ReplyContainer = React.createClass({
                     replyIsOpen={this.props.replyIsOpen}
                     editComment={this._setEditMode} 
                     deleteComment={this._deleteReply}
-                    newComment={this.state.newComment} />
+                    newComment={this.state.newComment}
+                    isLocked={this.props.isLocked} />
             );
 
         } else {
@@ -144,7 +146,8 @@ const ReplyContainer = React.createClass({
                     created={this.props.created}
                     toggleReply={this.props.toggleReply}
                     replyIsOpen={this.props.replyIsOpen}
-                    newComment={this.state.newComment} />
+                    newComment={this.state.newComment}
+                    isLocked={this.props.isLocked} />
             );   
         }
     }
