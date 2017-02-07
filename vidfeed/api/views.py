@@ -31,8 +31,8 @@ class CommentList(APIView):
         feed = get_object_or_404(Feed, feed_id=feed_id)
         serializer = CommentSerializer(data=request.data)
         if serializer.is_valid():
-            if serializer.data.get('parent_id'):
-                parent_comment = Comment.objects.get(pk=serializer.data.get('parent_id'))
+            if serializer.validated_data.get('parent_id'):
+                parent_comment = Comment.objects.get(pk=serializer.validated_data.get('parent_id'))
                 if parent_comment.done:
                     return Response({"message": "Comment locked"},
                                     status=status.HTTP_400_BAD_REQUEST)
