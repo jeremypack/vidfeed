@@ -184,6 +184,19 @@
         -webkit-appearance: none;
         -moz-appearance: none;
     }
+    .c-comment--locked & {
+        position:relative;
+        opacity:.3;
+        &:after {
+            content:'';
+            position:absolute;
+            top:0;
+            right:0;
+            bottom:0;
+            left:0;
+            background:transparent;
+        }
+    }
 }
 .c-comment__toggleReply .icon {
     width:$inuit-global-spacing-unit*.75;

@@ -49,22 +49,20 @@ const Comment = React.createClass({
             'icon--tickWhite':this.props.isLocked
         });
 
-        if (!this.props.isLocked) {
-            if (this.props.editComment) {
-                var commentActions = <div className="c-comment__actions">
-                                        <ul className="o-list-inline">
-                                            <li className="o-list-inline__item"><a className="c-comment__toggleReply" title="Reply" onClick={this.props.toggleReply} href="#"><i className="icon icon--replyArrow"></i><span className="u-hidden-visually">{replyToggleText}</span></a></li>
-                                            <li className="o-list-inline__item"><a className="c-comment__editComment" title="Edit comment" onClick={this.props.editComment} href="#"><i className="icon icon--pencil"></i><span className="u-hidden-visually">edit</span></a></li>
-                                            <li className="o-list-inline__item"><a className="c-comment__deleteComment" title="Delete comment" onClick={this.props.deleteComment} href="#"><i className="icon icon--cross"></i><span className="u-hidden-visually">delete</span></a></li>
-                                        </ul> 
-                                    </div>;
-            } else {
-                var commentActions = <div className="c-comment__actions">
-                                        <ul className="o-list-inline">
-                                            <li className="o-list-inline__item"><a className="c-comment__toggleReply" onClick={this.props.toggleReply} href="#"><i className="icon icon--replyArrow"></i><span className="u-hidden-visually">{replyToggleText}</span></a></li>
-                                        </ul> 
-                                    </div>;
-            }
+        if (this.props.editComment) {
+            var commentActions = <div className="c-comment__actions">
+                                    <ul className="o-list-inline">
+                                        <li className="o-list-inline__item"><a className="c-comment__toggleReply" title="Reply" onClick={this.props.toggleReply} href="#"><i className="icon icon--replyArrow"></i><span className="u-hidden-visually">{replyToggleText}</span></a></li>
+                                        <li className="o-list-inline__item"><a className="c-comment__editComment" title="Edit comment" onClick={this.props.editComment} href="#"><i className="icon icon--pencil"></i><span className="u-hidden-visually">edit</span></a></li>
+                                        <li className="o-list-inline__item"><a className="c-comment__deleteComment" title="Delete comment" onClick={this.props.deleteComment} href="#"><i className="icon icon--cross"></i><span className="u-hidden-visually">delete</span></a></li>
+                                    </ul> 
+                                </div>;
+        } else {
+            var commentActions = <div className="c-comment__actions">
+                                    <ul className="o-list-inline">
+                                        <li className="o-list-inline__item"><a className="c-comment__toggleReply" onClick={this.props.toggleReply} href="#"><i className="icon icon--replyArrow"></i><span className="u-hidden-visually">{replyToggleText}</span></a></li>
+                                    </ul> 
+                                </div>;
         }
         
 
