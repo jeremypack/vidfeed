@@ -5,14 +5,27 @@ import CreateFeed from '../components/CreateFeed';
 
 const CreateFeedContainer =  React.createClass({
     
+    propTypes: {
+        projectId:          React.PropTypes.number
+    },
+
     getInitialState: function () {
         return {
             videoUrl:'',
             validationStarted:false,
             isValid:false,
             error: '',
-            showInvalidMsg:false
+            showInvalidMsg:false,
+            isDashboard:false
         };
+    },
+
+    componentDidMount:function(){
+        if (this.props.projectId) {
+            this.setState({
+                isDashboard:true
+            })
+        }
     },
 
     componentWillUnmount: function() {
@@ -42,7 +55,6 @@ const CreateFeedContainer =  React.createClass({
             this.setState({
                 showInvalidMsg:true
             });
-            console.log('nope');
             return;
         }
         $.ajax({
@@ -102,7 +114,8 @@ const CreateFeedContainer =  React.createClass({
                 submitHandler={this._handleSubmit}
                 value={this.state.videoUrl}
                 changeHandler={this._handleUrlChange}
-                error={this.state.error} />
+                error={this.state.error}
+                isDashboard={this.state.isDashboard} />
         );
     }
 

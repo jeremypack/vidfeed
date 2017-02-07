@@ -242,7 +242,7 @@ const Feed = React.createClass({
                                 modalClose={this._modalClose}
                                 pollInterval={1000} />
                             
-                            <a href="#" onClick={this._shareModalOpen} className="o-btn o-btn--tertiary o-btn--with-icon o-btn--outline o-btn--small">Share <i className="icon icon--user"></i></a>
+                            <a href="#" onClick={this._shareModalOpen} className="o-btn o-btn--tertiary o-btn--iconRight o-btn--outline o-btn--small">Share <i className="icon icon--user"></i></a>
                         </div>
                     </section>
                     

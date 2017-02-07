@@ -21,3 +21,16 @@
 .u-opacity-0 {
     opacity:0;
 }
+
+.scrollPane {
+    overflow:hidden;
+}
+
+.scrollPane__content {
+    overflow:hidden;
+    padding:$inuit-global-spacing-unit;
+    padding-bottom:0;
+    @include mq($from: tablet) {
+        padding-left:0;
+    }
+}
