@@ -14,7 +14,7 @@ const GetPlusIntro = React.createClass({
                 </div>
                 <div className="c-getPlus__content">
                     <img src={getPlusImg} alt="Vidfeed Plus screens" className="c-getPlus__img" />
-                    <div className="c-getPlus__features o-layout text--left u-margin-bottom u-padding-left">
+                    <div className="c-getPlus__features o-layout text--left u-padding-left">
                         <div className="o-layout__item u-1/2@tablet">
                             <div className="c-getPlus__features__item">
                                 <i className="c-getPlus__icon icon icon--dashboard"></i>

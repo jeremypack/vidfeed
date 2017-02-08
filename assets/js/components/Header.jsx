@@ -24,7 +24,7 @@ const Header = React.createClass({
                                 <img src={logo} alt="Vidfeed" />
                             </Link>
                         </div>
-                        <a href="#" className="o-btn o-btn--ghost float--right" onClick={this.props.showGetPlus}>Get Plus!</a>
+                        <a href="#" className="o-btn--getPlus o-btn o-btn--ghost float--right" onClick={this.props.showGetPlus}>Get Plus!</a>
                     </div>
                 </header>
             );

@@ -26,3 +26,9 @@
     opacity:.25!important;
     cursor:not-allowed;
 }
+
+.o-btn--getPlus {
+    @include mq($from: mobile, $until: tablet) {
+        margin-top:-7px;
+    }
+}
