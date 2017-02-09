@@ -72,7 +72,10 @@ const Dashboard = React.createClass({
             var heading = 'Youtube videos'
         }
         if (!this.state.vimeoMode || !this.state.youtubeMode) {
-            var heading = <ProjectTitleContainer editable={!this.state.moveProjects} />;
+            var heading = <ProjectTitleContainer
+                            editable={!this.state.moveProjects}
+                            modalOpen={this._modalOpen}
+                            modalClose={this._modalClose} />;
         }
 
         return (
