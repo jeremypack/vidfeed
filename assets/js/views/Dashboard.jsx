@@ -100,7 +100,9 @@ const Dashboard = React.createClass({
                                         <a href="#" className="o-btn o-btn--primary o-btn--iconLeft"><i className="icon icon--plusCircle"></i>Youtube</a>
                                     </div>
                                 </div>
-                                <FeedListContainer />
+                                <FeedListContainer
+                                    modalOpen={this._modalOpen}
+                                    modalClose={this._modalClose} />
                             </div>
                         </div>
                     </div>

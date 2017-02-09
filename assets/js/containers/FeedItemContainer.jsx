@@ -1,8 +1,30 @@
 import React from 'react';
+import Modal from 'react-modal';
 import classNames from 'classnames';
 
 import FeedListItem from '../components/FeedListItem';
 import EditFeedTitleItem from '../components/EditFeedTitleItem';
+import ModalChoice from '../components/ModalChoice';
+
+const modalStyles = {
+    overlay : {
+        backgroundColor       : 'transparant'
+    },
+        content : {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        padding               : '0',
+        border                : '0',
+        borderRadius          : '0',
+        transform             : 'translate(-50%, -50%)',
+        transition            : 'opacity .4s ease-in-out',
+        opacity               : '0',
+        boxShadow             : '0px 0px 4px -1px rgba(0,0,0,.25)'
+    }
+};
 
 const FeedItemContainer = React.createClass({
 
@@ -11,16 +33,19 @@ const FeedItemContainer = React.createClass({
         isVimeo:               React.PropTypes.bool.isRequired,
         videoTitle:            React.PropTypes.string.isRequired,
         videoThumb:            React.PropTypes.string.isRequired,
-        created:               React.PropTypes.string.isRequired
+        created:               React.PropTypes.string.isRequired,
+        modalOpen:             React.PropTypes.func.isRequired,
+        modalClose:            React.PropTypes.func.isRequired
     },
 
     getInitialState:function() {
         return {
-            feedTitle:this.props.videoTitle,
             editTitleMode:false,
             feedTitle:this.props.videoTitle,
             isValid:false,
-            validationStarted:false
+            validationStarted:false,
+            deleteFeedCheck:false,
+            feedIdToDelete:undefined
         };
     },
 
@@ -90,6 +115,35 @@ const FeedItemContainer = React.createClass({
 
     },
 
+    _deleteFeed:function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (this.state.deleteFeedCheck) {
+            //this.props.handleDeleteComment(this.state.commentIdToDelete);
+            this.props.modalClose();
+            this.setState({
+                deleteFeedCheck: false,
+                feedIdToDelete:undefined
+            });
+        } else { 
+            //var id = $(e.currentTarget).closest('.c-comment').data('id');
+            this.setState({
+                deleteFeedCheck: true,
+                //feedIdToDelete:id
+            }, function(){
+                this.props.modalOpen();
+            });
+        }
+    },
+
+    _deleteFeedCancel: function() {
+        this.props.modalClose();
+        this.setState({
+            deleteFeedCheck:false,
+            feedIdToDelete:undefined
+        });
+    },
+
     render: function() {
 
         var imgCropClasses = classNames({
@@ -98,6 +152,20 @@ const FeedItemContainer = React.createClass({
         });
 
         var feedRouterLink = '/app/feed/'+this.props.feedId;
+
+        var deleteFeedModal = <Modal
+                                    isOpen={this.state.deleteFeedCheck}
+                                    onRequestClose={this._deleteFeedCancel}
+                                    style={modalStyles}> 
+                                    <ModalChoice
+                                        closeModal={this._deleteFeedCancel}
+                                        yesAction={this._deleteFeed}
+                                        noAction={this._deleteFeedCancel}
+                                        heading='Remove feed'
+                                        text='Are you sure?'
+                                        yesText='Yep, remove feed'
+                                        noText='I&apos;ve changed my mind' />
+                                 </Modal>
 
         if (this.state.editTitleMode) {
             return (
@@ -126,6 +194,7 @@ const FeedItemContainer = React.createClass({
                     moveToProject={this._setMoveMode}
                     editFeedTitle={this._setEditMode}
                     deleteFeed={this._deleteFeed} />
+                {deleteFeedModal}
             </div>
         );
     }

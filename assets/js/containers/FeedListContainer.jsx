@@ -58,7 +58,9 @@ const FeedListContainer = React.createClass({
                     feedId={feed.feed_id}
                     isVimeo={isVimeo}
                     videoTitle={feed.video_title} 
-                    videoThumb={feed.video_thumbnail} />
+                    videoThumb={feed.video_thumbnail}
+                    modalOpen={this.props.modalOpen}
+                    modalClose={this.props.modalClose} />
             );
         }.bind(this));
 
