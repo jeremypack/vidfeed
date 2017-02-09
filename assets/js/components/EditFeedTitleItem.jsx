@@ -29,11 +29,13 @@ const EditFeedTitleItem = React.createClass({
                         <img src={this.props.videoThumb} alt={this.props.feedTitle} />
                     </div>
                     <div className="u-padding-small u-padding-bottom">
-                        <input ref="input" type="text" onChange={this.props.handleChange} className="c-feedItem__title c-feedItem__title--edit contenteditable" value={this.props.feedTitle} />
-                        <Actions
-                            isValid={this.props.isValid}
-                            saveAction={this.props.saveEdit} 
-                            cancelAction={this.props.cancelEdit} />
+                        <form onSubmit={this.props.saveEdit}>
+                            <input ref="input" type="text" onChange={this.props.handleChange} className="c-feedItem__title c-feedItem__title--edit contenteditable" value={this.props.feedTitle} />
+                            <Actions
+                                isValid={this.props.isValid}
+                                saveAction={this.props.saveEdit} 
+                                cancelAction={this.props.cancelEdit} />
+                        </form>
                         <span className="c-feedItem__created"><FormattedRelativeDate date={this.props.created} /></span>
                     </div>
                 </article>
