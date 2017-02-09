@@ -11,7 +11,8 @@ const Dashboard = React.createClass({
     getInitialState:function() {
         return {
             windowHeight:undefined,
-            blur:false
+            blur:false,
+            moveProjects:false
         }
     },
 
@@ -64,6 +65,16 @@ const Dashboard = React.createClass({
             var blurClasses = 'blurLayer';
         }
 
+        if (this.state.vimeoMode) {
+            var heading = 'Vimeo videos'
+        }
+        if (this.state.youtubeMode) {
+            var heading = 'Youtube videos'
+        }
+        if (!this.state.vimeoMode || !this.state.youtubeMode) {
+            var heading = <ProjectTitleContainer editable={!this.state.moveProjects} />;
+        }
+
         return (
             <div className={blurClasses}>
                 <div ref="header">
@@ -79,7 +90,7 @@ const Dashboard = React.createClass({
                     <div className="o-layout__item u-3/4@tablet u-4/5@desktop">
                         <div style={ScrollPaneStyle} className="scrollPane">
                             <div className="scrollPane__content">
-                                <ProjectTitleContainer />
+                                {heading}
                                 <div className="o-layout u-margin-bottom">
                                     <div className="o-layout__item u-1/2@desktop">
                                         <CreateFeedContainer projectId={12} />

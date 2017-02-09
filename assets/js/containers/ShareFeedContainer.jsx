@@ -1,9 +1,8 @@
-var React = require('react');
-var Modal = require('react-modal');
+import React from 'react';
+import Modal from 'react-modal';
 
-var SetSessionUserContainer = require('../containers/SetSessionUserContainer');
-
-var ShareFeed = require('../components/ShareFeed');
+import SetSessionUserContainer from '../containers/SetSessionUserContainer';
+import ShareFeed from '../components/ShareFeed';
 
 const modalStyles = {
     overlay : {
@@ -26,7 +25,7 @@ const modalStyles = {
     }
 };
 
-var ShareFeedContainer = React.createClass({
+const ShareFeedContainer = React.createClass({
     
     propTypes: {
         feedId:             React.PropTypes.string.isRequired,

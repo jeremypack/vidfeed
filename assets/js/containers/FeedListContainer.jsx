@@ -1,7 +1,7 @@
 import React from 'react';
 import Equalizer from 'react-equalizer';
 
-import FeedListItem from '../components/FeedListItem';
+import FeedItemContainer from '../containers/FeedItemContainer';
 
 const FeedListContainer = React.createClass({
 
@@ -52,7 +52,7 @@ const FeedListContainer = React.createClass({
                 var isVimeo = false;
             }
             return (
-                <FeedListItem
+                <FeedItemContainer
                     key={i}
                     created={feed.created}
                     feedId={feed.feed_id}

@@ -9,7 +9,7 @@ const ProjectTitleContainer = React.createClass({
     getInitialState:function(){
         return {
             title:'Really long project title to test input field.v23',
-            editable:false,
+            editMode:false,
             deleteProjectCheck:false
         };
     },
@@ -18,14 +18,14 @@ const ProjectTitleContainer = React.createClass({
         e.preventDefault();
         e.stopPropagation();
         this.setState({
-            editable:true
+            editMode:true
         });
     },
 
     _cancelEdit: function(e){
         e.preventDefault();
         this.setState({
-            editable:false,
+            editMode:false,
             title: this.state.title
         });
     },
@@ -33,7 +33,7 @@ const ProjectTitleContainer = React.createClass({
     _saveEdit: function (e) {
         e.preventDefault();
         this.setState({
-            editable:false,
+            editMode:false,
             title:this.state.title
         });
     },
@@ -68,7 +68,7 @@ const ProjectTitleContainer = React.createClass({
 
     render: function() {
         
-        if (this.state.editable) {
+        if (this.state.editMode) {
             return (
                 <EditProjectTitle 
                     title={this.state.title}
@@ -81,6 +81,7 @@ const ProjectTitleContainer = React.createClass({
         return (
             <ProjectTitle 
                 title={this.state.title} 
+                editable={this.props.editable}
                 setEditMode={this._setEditMode}
                 deleteProject={this._deleteProject} />
         );

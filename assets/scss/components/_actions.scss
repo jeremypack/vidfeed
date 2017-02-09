@@ -16,10 +16,11 @@
             margin-left:0;
         }
     }
-    a, input[type=submit] {
+    .c-action__item, input[type=submit] {
         display:block;
         opacity:0.5;
         transition: $global-transition;
+        cursor:pointer;
         &:hover, &:focus {
             opacity:1;
         }
@@ -32,4 +33,15 @@
         -webkit-appearance: none;
         -moz-appearance: none;
     }
+}
+
+.c-action--reply .icon {
+    width:$inuit-global-spacing-unit*.75;
+}
+.c-action--save.icon {
+    width:$inuit-global-spacing-unit*.75;
+}
+.c-action--save--disabled {
+    opacity:.25!important;
+    cursor:not-allowed;
 }

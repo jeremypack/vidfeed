@@ -1,37 +1,38 @@
 import React from 'react';
 import { Router, Route, Link, browserHistory } from 'react-router';
-import classNames from 'classnames';
 import FormattedRelativeDate from 'react-npm-formatted-relative-date';
+
+import Actions from '../components/Actions';
 
 const FeedListItem = React.createClass({
 
     propTypes: {
-        feedId:                React.PropTypes.string.isRequired,
-        isVimeo:               React.PropTypes.bool.isRequired,
-        videoTitle:            React.PropTypes.string.isRequired,
+        route:                 React.PropTypes.string.isRequired,
+        imgClasses:            React.PropTypes.string.isRequired,
+        feedTitle:            React.PropTypes.string.isRequired,
         videoThumb:            React.PropTypes.string.isRequired,
-        created:               React.PropTypes.string.isRequired
+        created:               React.PropTypes.string.isRequired,
+        moveToProject:         React.PropTypes.func.isRequired,
+        editFeedTitle:         React.PropTypes.func.isRequired,
+        deleteFeed:            React.PropTypes.func.isRequired
     },
 
     render: function() {
 
-        var imgCropClasses = classNames({
-            'imgCrop': true,
-            'imgCrop--letterbox':this.props.isVimeo
-        });
-
-        var feedRouterLink = '/app/feed/'+this.props.feedId;
-
         return (
-            <div className="o-layout__item u-1/2@tablet u-1/3@desktop">
-                <Link to={feedRouterLink}>
+            <div>
+                <Link to={this.props.route}>
                     <article className="c-feedItem">
-                        <div className={imgCropClasses}>
-                            <img src={this.props.videoThumb} alt={this.props.videoTitle} />
+                        <div className={this.props.imgClasses}>
+                            <img src={this.props.videoThumb} alt={this.props.feedTitle} />
                         </div>
-                        <div className="u-padding-small u-padding-bottom-large">
-                            <span className="c-feedItem__title">{this.props.videoTitle}</span>
-                            <span className="c-feedItem__created"><FormattedRelativeDate className="" date={this.props.created} /></span>
+                        <div className="u-padding-small u-padding-bottom">
+                            <span className="c-feedItem__title">{this.props.feedTitle}</span>
+                            <Actions
+                                addAction={this.props.moveToProject}
+                                editAction={this.props.editFeedTitle}
+                                deleteAction={this.props.deleteFeed} />
+                            <span className="c-feedItem__created"><FormattedRelativeDate date={this.props.created} /></span>
                         </div>
                     </article>
                 </Link>

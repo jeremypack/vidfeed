@@ -168,19 +168,6 @@
     }
 }
 
-
-.c-comment__toggleReply .icon {
-    width:$inuit-global-spacing-unit*.75;
-}
-.c-comment__saveEdit.icon {
-    width:$inuit-global-spacing-unit*.75;
-}
-.c-comment__saveEdit--disabled {
-    opacity:.25!important;
-    cursor:not-allowed;
-}
-
-
 .c-comment__created {
     float:right;
     margin-top:16px;
