@@ -35,3 +35,41 @@
     left:12px;
     bottom:10px;
 }
+
+.c-feedItem__tick {
+    position:absolute;
+    top:12px;
+    left:6px;
+    width:$inuit-global-spacing-unit;
+    height:$inuit-global-spacing-unit;
+    border:1px solid;
+    border-radius:100%;
+    background:#fff;
+    text-align:center;
+    line-height:19px;
+    transition: $global-transition;
+    z-index:20;
+    .icon {
+        vertical-align:middle;
+    }
+}
+.c-feedItem__tick--unselected {
+    border-color:#fff;
+    opacity:0.5;
+    &:hover {
+        opacity:1;
+        border-color:#fff;
+        background:#fff;
+    }
+}
+.c-feedItem__tick--selected {
+    border-color:$red;
+    background:$red;
+    .icon {
+        opacity:1;
+    }
+    &:hover {
+        border-color:lighten($red,10%);
+        background:lighten($red,10%);
+    }
+}

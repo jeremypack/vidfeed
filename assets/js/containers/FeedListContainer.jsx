@@ -8,7 +8,8 @@ const FeedListContainer = React.createClass({
     getInitialState: function() {
         return {
             feeds:[],
-            tallestInfo:undefined
+            moveMode:false,
+            firstFeedSelected:undefined
         };
     },
 
@@ -43,6 +44,13 @@ const FeedListContainer = React.createClass({
         });
     },
 
+    _toggleMoveMode:function(feedId){
+        this.setState({
+            moveMode:!this.state.moveMode,
+            firstFeedSelected:feedId
+        });
+    },
+
     render: function() {
 
         var feedNodes = this.state.feeds.map(function(feed, i) {
@@ -60,7 +68,10 @@ const FeedListContainer = React.createClass({
                     videoTitle={feed.video_title} 
                     videoThumb={feed.video_thumbnail}
                     modalOpen={this.props.modalOpen}
-                    modalClose={this.props.modalClose} />
+                    modalClose={this.props.modalClose}
+                    moveMode={this.state.moveMode}
+                    setMoveMode={this._toggleMoveMode}
+                    firstFeedSelected={this.state.firstFeedSelected} />
             );
         }.bind(this));
 

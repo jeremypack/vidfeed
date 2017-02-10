@@ -28,18 +28,20 @@ const EditProjectTitle = React.createClass({
         return (
             <div ref="parent">
                 <div className="c-projectTitle c-projectTitle--edit">
-                    <span style={inputStyles} className="input--autoWidth">
-                        <AutosizeInput
-                            ref="input"
-                            name="edit-project-title"
-                            value={this.props.title}
-                            onChange={this.props.handleChange} />
-                    </span>
-                    <div className="c-projectTitle__actions">
-                        <Actions
-                            saveAction={this.props.saveEdit} 
-                            cancelAction={this.props.cancelEdit} />
-                    </div>
+                    <form onSubmit={this.props.saveEdit}>
+                        <span style={inputStyles} className="input--autoWidth">
+                            <AutosizeInput
+                                ref="input"
+                                name="edit-project-title"
+                                value={this.props.title}
+                                onChange={this.props.handleChange} />
+                        </span>
+                        <div className="c-projectTitle__actions">
+                            <Actions
+                                saveAction={this.props.saveEdit} 
+                                cancelAction={this.props.cancelEdit} />
+                        </div>
+                    </form>
                 </div>
             </div>
         );

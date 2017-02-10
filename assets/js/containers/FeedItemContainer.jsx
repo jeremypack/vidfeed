@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import classNames from 'classnames';
 
 import FeedListItem from '../components/FeedListItem';
+import MoveFeedListItem from '../components/MoveFeedListItem';
 import EditFeedTitleItem from '../components/EditFeedTitleItem';
 import ModalChoice from '../components/ModalChoice';
 
@@ -35,7 +36,10 @@ const FeedItemContainer = React.createClass({
         videoThumb:            React.PropTypes.string.isRequired,
         created:               React.PropTypes.string.isRequired,
         modalOpen:             React.PropTypes.func.isRequired,
-        modalClose:            React.PropTypes.func.isRequired
+        modalClose:            React.PropTypes.func.isRequired,
+        moveMode:              React.PropTypes.bool.isRequired,
+        setMoveMode:           React.PropTypes.func.isRequired,
+        firstFeedSelected:     React.PropTypes.string
     },
 
     getInitialState:function() {
@@ -45,12 +49,28 @@ const FeedItemContainer = React.createClass({
             isValid:false,
             validationStarted:false,
             deleteFeedCheck:false,
-            feedIdToDelete:undefined
+            feedIdToDelete:undefined,
+            moveMode:this.props.moveMode,
+            selectedForMove:false,
+            feedHover:false
         };
     },
 
     componentWillUnmount:function() {
         clearInterval(this.validateInterval);
+    },
+
+    componentWillReceiveProps:function(nextProps){
+        if (nextProps.moveMove != this.props.moveMode) {
+            this.setState({
+                moveMode:nextProps.moveMode
+            });
+        }
+        if (this.props.feedId === nextProps.firstFeedSelected) {
+            this.setState({
+                selectedForMove:true
+            });
+        }
     },
 
     _setEditMode: function(e) {
@@ -107,12 +127,9 @@ const FeedItemContainer = React.createClass({
         clearInterval(this.validateInterval);
     },
 
-    _setMoveMode:function(){
-
-    },
-
-    _deleteFeed:function(){
-
+    _setMoveMode:function(e){
+        e.preventDefault();
+        this.props.setMoveMode(this.props.feedId);
     },
 
     _deleteFeed:function(e) {
@@ -141,6 +158,25 @@ const FeedItemContainer = React.createClass({
         this.setState({
             deleteFeedCheck:false,
             feedIdToDelete:undefined
+        });
+    },
+
+    _handleMoveSelect: function(e){
+        e.preventDefault();
+        this.setState({
+            selectedForMove:!this.state.selectedForMove
+        });
+    },
+
+    _feedHoverEnter:function(){
+        this.setState({
+            feedHover:true
+        });
+    },
+
+     _feedHoverLeave:function(){
+        this.setState({
+            feedHover:false
         });
     },
 
@@ -179,6 +215,22 @@ const FeedItemContainer = React.createClass({
                         isValid={this.state.isValid}
                         saveEdit={this._saveEdit} 
                         cancelEdit={this._cancelEdit} />
+                </div>
+            );
+        }
+
+        if (this.state.moveMode) {
+            return (
+                <div className="o-layout__item u-1/2@tablet u-1/3@desktop">
+                    <MoveFeedListItem 
+                        imgClasses={imgCropClasses}
+                        videoThumb={this.props.videoThumb}
+                        feedTitle={this.state.feedTitle}
+                        selected={this.state.selectedForMove}
+                        handleClick={this._handleMoveSelect}
+                        handleFeedHoverEnter={this._feedHoverEnter}
+                        handleFeedHoverLeave={this._feedHoverLeave} 
+                        feedHover={this.state.feedHover} />
                 </div>
             );
         }
