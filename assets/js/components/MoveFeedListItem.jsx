@@ -28,9 +28,9 @@ const MoveFeedListItem = React.createClass({
         });
 
         var tickIconClasses = classNames({
-            'icon icon--tickWhite':true,
-            'icon--tickBlue':!this.props.selected && this.props.feedHover,
-            'icon--tickWhite':this.props.selected
+            'icon':true,
+            'icon--tickWhite':this.props.selected,
+            'icon--tickBlue':!this.props.selected && this.props.feedHover
         });
 
         return (

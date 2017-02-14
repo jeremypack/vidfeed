@@ -38,8 +38,8 @@
 
 .c-feedItem__tick {
     position:absolute;
-    top:12px;
-    left:6px;
+    top:$inuit-global-spacing-unit/2;
+    left:$inuit-global-spacing-unit/2;
     width:$inuit-global-spacing-unit;
     height:$inuit-global-spacing-unit;
     border:1px solid;
@@ -54,11 +54,10 @@
     }
 }
 .c-feedItem__tick--unselected {
-    border-color:#fff;
+    border-color:darken($light,10%);
     opacity:0.5;
-    &:hover {
+    .c-feedItem:hover & {
         opacity:1;
-        border-color:#fff;
         background:#fff;
     }
 }
@@ -68,7 +67,7 @@
     .icon {
         opacity:1;
     }
-    &:hover {
+    .c-feedItem:hover & {
         border-color:lighten($red,10%);
         background:lighten($red,10%);
     }
