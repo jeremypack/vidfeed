@@ -8,6 +8,10 @@ from django.shortcuts import render
 def index(request):
     return render(request, 'index.html', {})
 
+@ensure_csrf_cookie
+def api_test(request):
+    return render(request, 'api_test.html', {})
+
 
 def robots(request):
     template = loader.get_template('robots.txt')

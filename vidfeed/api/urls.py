@@ -10,6 +10,10 @@ urlpatterns = [
     url(r'^feeds/(?P<feed_id>\S+)/$', views.FeedDetail.as_view({'get': 'get'})),
     url(r'^feeds/(?P<feed_id>\S+)/invites$', views.FeedInviteList.as_view()),
     url(r'^feeds/(?P<feed_id>\S+)/collaborators$', views.FeedCollaboratorList.as_view()),
+    url(r'^projects/$', views.ProjectList.as_view()),
+    url(r'^projects/(?P<project_id>\d+)$', views.ProjectDetail.as_view()),
+    url(r'^projects/(?P<project_id>\d+)/feed/(?P<feed_id>\S+)$', views.ManageProjectFeeds.as_view()),
+    url(r'^projects/(?P<project_id>\d+)/feeds$', views.ProjectFeedList.as_view()),
     url(r'^profile/register$', views.register),
 ]
 

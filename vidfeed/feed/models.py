@@ -142,3 +142,18 @@ class Comment(models.Model):
 
     def __unicode__(self):
         return u'Created: {0}, {1}'.format(self.created, self.body[0:50])
+
+
+class Project(models.Model):
+    title = models.CharField(max_length=250)
+    feeds = models.ManyToManyField(Feed)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL)
+    created = models.DateTimeField(auto_now_add=True)
+    deleted = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return self.title
+
+    class Meta:
+        ordering = ('created',)
+

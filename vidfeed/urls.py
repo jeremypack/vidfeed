@@ -6,6 +6,7 @@ from vidfeed import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
+    url(r'^api-test$', views.api_test, name='api_test'),
     url(r'^robots\.txt$', views.robots),
     url(r'^app/', views.index),
     # url(r'^api/auth/', include('rest_auth.urls')),

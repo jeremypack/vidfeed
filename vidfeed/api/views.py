@@ -2,17 +2,18 @@ from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import detail_route, api_view
 
 from vidfeed.profiles.models import SiteUser, Subscription
-from vidfeed.feed.models import Comment, Feed, Provider, FeedInvite, FeedCollaborator
+from vidfeed.feed.models import Comment, Feed, Provider, FeedInvite, FeedCollaborator, Project
 from vidfeed.utils import get_youtube_title_and_thumbnail, get_vimeo_title_and_thumbnail, \
     set_vidfeed_user_cookie, send_email
 from serializers import CommentSerializer, FeedSerializer, FeedInviteSerializer, \
-    FeedCollaboratorSerializer, UserSerializer, SiteUserSerializer
+    FeedCollaboratorSerializer, UserSerializer, SiteUserSerializer, ProjectSerializer
 
 import json
 
@@ -102,7 +103,10 @@ class CommentDetail(APIView):
 
 class FeedList(APIView):
     def get(self, request, format=None):
-        feeds = Feed.objects.all()
+        if not request.user.is_authenticated():
+            return Response({'message': 'You must login to see your feeds'},
+                            status=status.HTTP_401_UNAUTHORIZED)
+        feeds = Feed.objects.filter(owner=request.user, active=True).all()
         serializer = FeedSerializer(feeds, many=True)
         return Response(serializer.data)
 
@@ -229,3 +233,96 @@ def register(request):
             return Response({'email': ['Email already registered']}, status=status.HTTP_400_BAD_REQUEST)
         return Response(SiteUserSerializer(site_user).data, status=status.HTTP_201_CREATED)
     return Response(user._errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ProjectList(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get_objects(self, user):
+        return Project.objects.filter(owner=user,
+                                      deleted=False)
+
+    """
+    Create a new project.
+    """
+    def post(self, request, format=None):
+        serializer = ProjectSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.validated_data['owner'] = request.user
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    """
+    Get projects
+    """
+    def get(self, request, format=None):
+        serializer = ProjectSerializer(self.get_objects(request.user), many=True)
+        return Response(serializer.data)
+
+
+class ProjectDetail(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, project_id, owner):
+        return get_object_or_404(Project, pk=project_id, owner=owner)
+
+    """
+    Update project
+    """
+    def put(self, request, project_id, format=None):
+        project = self.get_object(project_id, request.user)
+        serializer = ProjectSerializer(project, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    """
+    Delete project
+    """
+    def delete(self, request, project_id, format=None):
+        project = self.get_object(project_id, request.user)
+        project.deleted = True
+        project.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ManageProjectFeeds(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get_project(self, project_id, owner):
+        return get_object_or_404(Project, pk=project_id, owner=owner, deleted=False)
+
+    def get_feed(self, feed_id, owner):
+        return get_object_or_404(Feed, feed_id=feed_id, owner=owner)
+
+    def post(self, request, project_id, feed_id, format=None):
+        project = self.get_project(project_id, request.user)
+        feed = self.get_feed(feed_id, request.user)
+        # currently a feed can't be in more than one project
+        # this removes from all projects before adding to another
+        projects = Project.objects.filter(feeds__feed_id=feed_id)
+        for p in projects:
+            p.feeds.remove(feed)
+        project.feeds.add(feed)
+        return Response({"message": "successfully added feed to project"}, status=status.HTTP_200_OK)
+
+    def delete(self, request, project_id, feed_id, format=None):
+        project = self.get_project(project_id, request.user)
+        feed = self.get_feed(feed_id, request.user)
+        project.feeds.remove(feed)
+        return Response({"message": "successfully removed feed from project"}, status=status.HTTP_200_OK)
+
+
+
+class ProjectFeedList(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get_project(self, project_id, owner):
+        return get_object_or_404(Project, pk=project_id, owner=owner, deleted=False)
+
+    def get(self, request, project_id, format=None):
+        project = self.get_project(project_id, request.user)
+        serializer = FeedSerializer(project.feeds.all(), many=True)
+        return Response(serializer.data)
