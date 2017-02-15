@@ -30,7 +30,8 @@ class FeedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Feed
         fields = ('created', 'owner', 'feed_id', 'provider',
-                  'video_id', 'video_title', 'video_thumbnail')
+                  'video_id', 'video_title', 'video_thumbnail',
+                  'comment_count', 'collaborator_count')
 
 
 class ChildCommentSerializer(serializers.ModelSerializer):

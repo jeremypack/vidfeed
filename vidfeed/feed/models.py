@@ -55,7 +55,15 @@ class Feed(models.Model):
     active = models.BooleanField(blank=True, null=False, default=True)
     video_title = models.CharField(max_length=250, default='')
     video_thumbnail = models.CharField(max_length=500, default='')
-    
+
+    @property
+    def comment_count(self):
+        return self.comment_set.filter(deleted=False).count()
+
+    @property
+    def collaborator_count(self):
+        return self.feedcollaborator_set.count()
+
     def get_video_title(self):
         if not self.video_title: 
             return "a Password Protected Video"
