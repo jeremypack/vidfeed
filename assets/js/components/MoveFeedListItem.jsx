@@ -36,7 +36,7 @@ const MoveFeedListItem = React.createClass({
         return (
             <div>
                 <a href="#" onClick={this.props.handleClick} onMouseEnter={this.props.handleFeedHoverEnter} onMouseLeave={this.props.handleFeedHoverLeave}>
-                    <article className="c-feedItem">
+                    <article className={feedClasses}>
                         <div className={tickBtnClasses}><i className={tickIconClasses}></i><span className="u-hidden-visually">{ this.props.selected ? 'Unselect' : 'Select' }</span></div>
                         <div className={this.props.imgClasses}>
                             <img src={this.props.videoThumb} alt={this.props.feedTitle} />

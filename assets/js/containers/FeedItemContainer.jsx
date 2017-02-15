@@ -61,16 +61,24 @@ const FeedItemContainer = React.createClass({
     },
 
     componentWillReceiveProps:function(nextProps){
-        if (nextProps.moveMove != this.props.moveMode) {
+        if (nextProps.moveMode != this.props.moveMode) {
             this.setState({
                 moveMode:nextProps.moveMode
             });
         }
-        if (this.props.feedId === nextProps.firstFeedSelected) {
+        if (nextProps.moveMode === false && this.state.selectedForMove) {
             this.setState({
-                selectedForMove:true
+                selectedForMove:false,
             });
         }
+        if (this.props.feedId === nextProps.firstFeedSelected && !this.state.selectedForMove && this.state.moveMode) {
+            this.setState({
+                selectedForMove:true
+            }, function(){
+                this.props.selectedCount(true);
+            });
+        } 
+        
     },
 
     _setEditMode: function(e) {
@@ -129,7 +137,7 @@ const FeedItemContainer = React.createClass({
 
     _setMoveMode:function(e){
         e.preventDefault();
-        this.props.setMoveMode(this.props.feedId);
+        this.props.setMoveMode(true, this.props.feedId);
     },
 
     _deleteFeed:function(e) {
@@ -153,7 +161,8 @@ const FeedItemContainer = React.createClass({
         }
     },
 
-    _deleteFeedCancel: function() {
+    _deleteFeedCancel: function(e) {
+        e.preventDefault();
         this.props.modalClose();
         this.setState({
             deleteFeedCheck:false,
@@ -165,6 +174,8 @@ const FeedItemContainer = React.createClass({
         e.preventDefault();
         this.setState({
             selectedForMove:!this.state.selectedForMove
+        }, function(){
+            this.props.selectedCount(this.state.selectedForMove);
         });
     },
 

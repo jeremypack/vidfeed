@@ -14,6 +14,9 @@
         background-color:lighten($blue,25%);
     }
 }
+.c-feedItem--selected {
+    outline:3px solid $blue;
+}
 .c-feedItem__title {
     display:block;
     font-weight:700;

@@ -9,7 +9,7 @@ const FeedListItem = React.createClass({
     propTypes: {
         route:                 React.PropTypes.string.isRequired,
         imgClasses:            React.PropTypes.string.isRequired,
-        feedTitle:            React.PropTypes.string.isRequired,
+        feedTitle:             React.PropTypes.string.isRequired,
         videoThumb:            React.PropTypes.string.isRequired,
         created:               React.PropTypes.string.isRequired,
         moveToProject:         React.PropTypes.func.isRequired,

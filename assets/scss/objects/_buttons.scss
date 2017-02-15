@@ -92,6 +92,22 @@
 
 }
 
+.o-btn--blue {
+  background-color: $blue;
+  
+  &,
+  &:hover,
+  &:active,
+  &:focus {
+    //text-transform:uppercase;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: darken($blue, 10%);
+  }
+}
+
 /* Size variants
    ========================================================================== */
 

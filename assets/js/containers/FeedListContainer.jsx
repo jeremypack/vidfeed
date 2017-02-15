@@ -1,5 +1,4 @@
 import React from 'react';
-import Equalizer from 'react-equalizer';
 
 import FeedItemContainer from '../containers/FeedItemContainer';
 
@@ -9,12 +8,23 @@ const FeedListContainer = React.createClass({
         return {
             feeds:[],
             moveMode:false,
-            firstFeedSelected:undefined
+            firstFeedSelected:undefined,
+            selectedCount:0
         };
     },
 
+
     componentDidMount: function() {
         this._loadFeedsFromServer();    
+    },
+
+    componentWillReceiveProps: function(nextProps) {
+        if (nextProps.cancelMove != this.state.moveMode) {
+            this.setState({
+                moveMode:nextProps.cancelMove,
+                selectedCount:0
+            });
+        }
     },
 
     _loadFeedsFromServer: function() {
@@ -44,11 +54,32 @@ const FeedListContainer = React.createClass({
         });
     },
 
-    _toggleMoveMode:function(feedId){
+    _toggleMoveMode:function(bool, feedId){
         this.setState({
-            moveMode:!this.state.moveMode,
+            moveMode:bool,
             firstFeedSelected:feedId
+        }, function(){
+            this.props.moveMode(this.state.moveMode);
         });
+    },
+
+    _selectedCount:function(bool) {
+        this.setState({
+            firstFeedSelected:undefined
+        });
+        if (bool) {
+            this.setState({
+                selectedCount:this.state.selectedCount+1
+            }, function(){
+                this.props.selectedCount(this.state.selectedCount);
+            });
+        } else {
+            this.setState({
+                selectedCount:this.state.selectedCount-1
+            }, function(){
+                this.props.selectedCount(this.state.selectedCount);
+            });
+        }
     },
 
     render: function() {
@@ -71,7 +102,8 @@ const FeedListContainer = React.createClass({
                     modalClose={this.props.modalClose}
                     moveMode={this.state.moveMode}
                     setMoveMode={this._toggleMoveMode}
-                    firstFeedSelected={this.state.firstFeedSelected} />
+                    firstFeedSelected={this.state.firstFeedSelected}
+                    selectedCount={this._selectedCount} />
             );
         }.bind(this));
 
