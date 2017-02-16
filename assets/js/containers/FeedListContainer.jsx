@@ -1,5 +1,4 @@
 import React from 'react';
-import Equalizer from 'react-equalizer';
 
 import FeedListItem from '../components/FeedListItem';
 
