@@ -24,13 +24,13 @@
 
 .scrollPane {
     overflow:hidden;
+    @include mq($from: tablet) {
+        margin-left:-$inuit-global-spacing-unit;
+    }
 }
 
 .scrollPane__content {
     overflow:hidden;
     padding:$inuit-global-spacing-unit;
     padding-bottom:0;
-    @include mq($from: tablet) {
-        padding-left:0;
-    }
 }

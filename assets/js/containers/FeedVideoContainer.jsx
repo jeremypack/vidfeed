@@ -1,13 +1,14 @@
-var React = require('react');
-var ReactPlayer = require('react-player');
-var YouTubePlayer = require('../components/YouTubePlayer');
-var moment = require('moment');
+import React from 'react';
+import ReactPlayer from 'react-player';
+import moment from 'moment';
+
+import YouTubePlayer from '../components/YouTubePlayer';
 
 function pad (string) {
   return ('0' + string).slice(-2)
 }
 
-var FeedVideoContainer = React.createClass({
+const FeedVideoContainer = React.createClass({
 
     propTypes: {
         feedId:                 React.PropTypes.string.isRequired,
