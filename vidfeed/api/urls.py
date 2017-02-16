@@ -3,6 +3,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from vidfeed.api import views
 
 urlpatterns = [
+    url(r'^feeds/(?P<feed_id>\S+)/comments/(?P<comment_id>\S+)/set-done$', views.set_comment_done),
     url(r'^feeds/(?P<feed_id>\S+)/comments$', views.CommentList.as_view()),
     url(r'^feeds/(?P<feed_id>\S+)/comments/(?P<comment_id>\S+)$', views.CommentDetail.as_view()),
     url(r'^feeds/$', views.FeedList.as_view()),

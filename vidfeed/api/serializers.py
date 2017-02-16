@@ -50,6 +50,7 @@ class CommentSerializer(serializers.ModelSerializer):
     author = serializers.EmailField(write_only=True, required=True)
     owner = SiteUserSerializer(many=False, read_only=True)
     created = serializers.DateTimeField(read_only=True)
+    done = serializers.BooleanField(read_only=True)
     parent_id = serializers.IntegerField(required=False)
     children = ChildCommentSerializer(many=True, read_only=True)
 
@@ -57,7 +58,7 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ('id', 'body', 'created', 'owner',
                   'timecode', 'author', 'parent_id',
-                  'children')
+                  'children', 'done',)
 
     def create(self, validated_data):
         author = validated_data.pop('author')
@@ -99,6 +100,10 @@ class FeedCollaboratorSerializer(serializers.ModelSerializer):
 class FeedInvitesSerializer(serializers.Serializer):
     sender = serializers.EmailField()
     invites = serializers.ListField(child=serializers.EmailField())
+
+
+class CommentDoneSerializer(serializers.Serializer):
+    done = serializers.BooleanField(required=True)
 
 
 class ProjectSerializer(serializers.ModelSerializer):

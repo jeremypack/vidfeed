@@ -33,13 +33,14 @@ const Comment = React.createClass({
         var commentClasses = classNames({
             'c-comment':true,
             'c-comment--reply':this.props.isReply,
-            'c-comment--fresh':this.props.newComment
+            'c-comment--fresh':this.props.newComment,
+            'c-comment--locked':this.props.isLocked
         });
 
         var lockBtnClasses = classNames({
-            'c-comment__lock':true,
-            'c-comment__lock--unlocked':!this.props.isLocked,
-            'c-comment__lock--locked':this.props.isLocked
+            'c-comment__lockBtn':true,
+            'c-comment__lockBtn--unlocked':!this.props.isLocked,
+            'c-comment__lockBtn--locked':this.props.isLocked
         });
 
         var lockIconClasses = classNames({
@@ -57,6 +58,7 @@ const Comment = React.createClass({
         } else {
             var commentActions = <Actions replyAction={this.props.toggleReply} />;
         }
+        
 
         return (
             <article className={commentClasses} data-id={this.props.id}>
@@ -70,9 +72,9 @@ const Comment = React.createClass({
                     <Linkify properties={{target: '_blank'}}>
                         {this.props.value}
                     </Linkify>
-                    { this.props.isReply ? null : <a href="#" onClick={this.props.handleLockClick} onMouseEnter={this.props.handleLockHoverEnter} onMouseLeave={this.props.handleLockHoverLeave} className={lockBtnClasses}><i className={lockIconClasses}></i><span className="u-hidden-visually">todo item</span></a> }
                 </div>
-                <div className="u-clearfix">
+                <div className="c-comment__footer u-clearfix">
+                    { this.props.isReply ? null : <a href="#" onClick={this.props.handleLockClick} onMouseEnter={this.props.handleLockHoverEnter} onMouseLeave={this.props.handleLockHoverLeave} className={lockBtnClasses}><i className={lockIconClasses}></i><span className="u-hidden-visually">{ this.props.isLocked ? 'Unlock' : 'Lock' }</span></a> }
                     {commentActions}
                     <div className="c-comment__created">
                         <FormattedRelativeDate date={this.props.created} />

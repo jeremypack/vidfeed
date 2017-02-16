@@ -35,6 +35,7 @@ const CommentContainer = React.createClass({
         authorId:               React.PropTypes.number.isRequired,
         body:                   React.PropTypes.string.isRequired,
         created:                React.PropTypes.string.isRequired,
+        done:                   React.PropTypes.bool.isRequired,
         children:               React.PropTypes.array,
         modalOpen:              React.PropTypes.func.isRequired,
         modalClose:             React.PropTypes.func.isRequired,
@@ -42,7 +43,8 @@ const CommentContainer = React.createClass({
         handleCommentEdit:      React.PropTypes.func.isRequired,
         handleDeleteComment:    React.PropTypes.func.isRequired,
         timecodeClick:          React.PropTypes.func.isRequired,
-        closeOpenReplyForms:    React.PropTypes.func.isRequired
+        closeOpenReplyForms:    React.PropTypes.func.isRequired,
+        lockClick:              React.PropTypes.func.isRequired
     },
 
     getInitialState: function() {
@@ -55,7 +57,7 @@ const CommentContainer = React.createClass({
             commentIdToDelete:undefined,
             newComment:false,
             lockHover:false,
-            isLocked:false,
+            isLocked:this.props.done,
             isValid:true,
             validationStarted:false
         };
@@ -83,6 +85,11 @@ const CommentContainer = React.createClass({
         if (this.props.id === nextProps.replyToOpen) {
             this.setState({
                 replyOpen:true
+            });
+        }
+        if (nextProps.done != this.state.isLocked) {
+            this.setState({
+                isLocked:nextProps.done
             });
         }
     },
@@ -250,6 +257,8 @@ const CommentContainer = React.createClass({
         e.stopPropagation();
         this.setState({
             isLocked:!this.state.isLocked
+        }, function(){
+            this.props.lockClick(this.props.id,this.state.isLocked);
         });
     },
 
@@ -288,7 +297,8 @@ const CommentContainer = React.createClass({
                         replyIsOpen={this.state.replyOpen}
                         isReply={true}
                         editReply={this._saveReplyEdit} 
-                        deleteReply={this._deleteComment} />
+                        deleteReply={this._deleteComment}
+                        isLocked={this.state.isLocked} />
                 );
             }.bind(this));
         }
