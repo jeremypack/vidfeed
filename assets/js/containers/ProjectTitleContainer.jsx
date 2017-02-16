@@ -29,10 +29,53 @@ const ProjectTitleContainer = React.createClass({
     
     getInitialState:function(){
         return {
-            title:'Really long project title to test input field.v23',
+            title:'',
             editMode:false,
-            deleteProjectCheck:false
+            editable:false,
+            deleteProjectCheck:false,
+            projectIdToDelete:undefined
         };
+    },
+
+    componentDidMount:function(){
+        if (this.props.projectId === 0) {
+            this._allFeeds();
+        } else {
+            this._getProjectTitle(this.props.projectId);
+        }
+    },
+
+    componentWillReceiveProps:function(nextProps) {
+        if (nextProps.projectId != this.props.projectId && nextProps.projectId != 0) {
+            this._getProjectTitle(nextProps.projectId);
+        }
+        if (nextProps.projectId === 0) {
+            this._allFeeds();
+        }
+        if (nextProps.editable != this.state.editable && nextProps.projectId != 0) {
+            this.setState({
+                editable:nextProps.editable
+            });
+        }
+    },
+
+    _getProjectTitle:function(projectId) {
+        for (var x = 0; x < this.props.projects.length; x++) {
+            if (this.props.projects[x].id === projectId) {
+                var title = this.props.projects[x].title;
+            }
+        }
+        this.setState({
+            title:title,
+            editable:true
+        });     
+    },
+
+    _allFeeds:function(){
+        this.setState({
+            title:'All Feeds',
+            editable:false
+        });
     },
 
     _setEditMode: function(e) {
@@ -70,24 +113,24 @@ const ProjectTitleContainer = React.createClass({
             e.preventDefault();
         }
         if (this.state.deleteProjectCheck) {
-            //this.props.handleDeleteProject(this.state.commentIdToDelete);
+            this.props.handleDeleteProject(this.state.projectIdToDelete);
             this.props.modalClose();
             this.setState({
                 deleteProjectCheck: false,
                 projectIdToDelete:undefined
             });
         } else { 
-            //var id = $(e.currentTarget).closest('.c-comment').data('id');
             this.setState({
-                deleteProjectCheck: true
-                // projectIdToDelete:id
+                deleteProjectCheck: true,
+                projectIdToDelete:this.props.projectId
             }, function(){
                 this.props.modalOpen();
             });
         }
     },
 
-    _deleteProjectCancel: function() {
+    _deleteProjectCancel: function(e) {
+        e.preventDefault();
         this.props.modalClose();
         this.setState({
             deleteProjectCheck:false,
@@ -121,14 +164,24 @@ const ProjectTitleContainer = React.createClass({
             );
         }
 
+        if (this.state.editable) {
+            return (
+                <div>
+                    <ProjectTitle 
+                        title={this.state.title} 
+                        editable={this.state.editable}
+                        setEditMode={this._setEditMode}
+                        deleteProject={this._deleteProject} />
+                    {deleteProjectModal}
+                </div>
+            );
+        }
+        
         return (
             <div>
                 <ProjectTitle 
                     title={this.state.title} 
-                    editable={this.props.editable}
-                    setEditMode={this._setEditMode}
-                    deleteProject={this._deleteProject} />
-                {deleteProjectModal}
+                    editable={this.state.editable} />
             </div>
         );
     }

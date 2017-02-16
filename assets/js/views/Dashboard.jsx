@@ -15,12 +15,15 @@ const Dashboard = React.createClass({
             moveProjects:false,
             vimeoMode:false,
             youtubeMode:false,
-            selectedCount:0,
-            cancelMoveProjects:true
+            selectedFeedCount:0,
+            selectedProjectId:0,
+            defaultProjectSelected:true,
+            projects:[]
         }
     },
 
     componentDidMount: function() {
+        this._loadProjectsFromServer();
         this._resizeContent();
         window.addEventListener('resize', this._resizeContent);
     },
@@ -41,6 +44,60 @@ const Dashboard = React.createClass({
         var remainingHeight = window.innerHeight - headerHeight;
         this.setState({
             windowHeight:remainingHeight
+        });
+    },
+
+    _loadProjectsFromServer:function(){
+        $.ajax({
+            type: 'get',
+            url: '/api/projects/',
+            success: function (data) {
+                this.setState({
+                    projects:data
+                })
+            }.bind(this),
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    },
+
+    _addNewProject:function(title, callback){
+        $.ajax({
+            type: 'post',
+            url: '/api/projects/',
+            data: {
+                title: title
+            },
+            success: function (data) {
+                this.setState({
+                    projects: this.state.projects.concat([data])
+                });
+                callback;
+            }.bind(this),
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    },
+
+    _deleteProject:function(projectId) {
+        if (!projectId) {
+            return;
+        }
+        $.ajax({
+            type: 'delete',
+            url: '/api/projects/' + projectId,
+            success: function (data) {
+                this._loadProjectsFromServer();
+                this.setState({
+                    defaultProjectSelected:true,
+                    selectedProjectId:0,
+                })
+            }.bind(this),
+            error: function (data) {
+                console.log(data);
+            }
         });
     },
 
@@ -68,15 +125,23 @@ const Dashboard = React.createClass({
         }
     },
 
-    _selectedCount:function(count){
+    _selectedFeedCount:function(count){
         this.setState({
-            selectedCount:count
+            selectedFeedCount:count
         });
     },
 
     _cancelMove:function(e){
         e.preventDefault();
         this._moveProjectsModeToggle(false);
+    },
+
+    _selectProject:function(id) {
+        this.setState({
+            selectedProjectId:id,
+            moveProjects:false,
+            defaultProjectSelected:false
+        });
     },
 
     render: function() {
@@ -102,7 +167,10 @@ const Dashboard = React.createClass({
             var heading = <ProjectTitleContainer
                             editable={!this.state.moveProjects}
                             modalOpen={this._modalOpen}
-                            modalClose={this._modalClose} />;
+                            modalClose={this._modalClose}
+                            projects={this.state.projects}
+                            projectId={this.state.selectedProjectId}
+                            handleDeleteProject={this._deleteProject} />;
         }
 
         let button1, button2 = null;
@@ -114,7 +182,7 @@ const Dashboard = React.createClass({
         }
 
         if (this.state.moveProjects) {
-            var selectedCount = this.state.selectedCount === 1 ? <h3 className="selectedCount">1 Video Selected</h3> : <h3 className="selectedCount">{this.state.selectedCount} Videos Selected</h3>;
+            var selectedFeedCount = this.state.selectedFeedCount === 1 ? <h3 className="selectedCount">1 Video Selected</h3> : <h3 className="selectedCount">{this.state.selectedFeedCount} Videos Selected</h3>;
             button1 = <a href="#" className="o-btn o-btn--primary u-margin-right">Move to another project</a>;
             button2 = <a href="#" className="o-btn o-btn--secondary" onClick={this._cancelMove}>I don&apos;t want to move any videos</a>;
         }
@@ -129,7 +197,11 @@ const Dashboard = React.createClass({
                         <ProjectsListContainer
                             windowHeight={this.state.windowHeight}
                             modalOpen={this._modalOpen}
-                            modalClose={this._modalClose} />
+                            modalClose={this._modalClose}
+                            projects={this.state.projects}
+                            defaultProjectSelected={this.state.defaultProjectSelected}
+                            selectedProject={this._selectProject}
+                            newProject={this._addNewProject} />
                     </div>
                     <div className="o-layout__item u-3/4@tablet u-4/5@desktop">
                         <div style={ScrollPaneStyle} className="scrollPane">
@@ -138,7 +210,7 @@ const Dashboard = React.createClass({
                                 <div className={this.state.moveProjects === true ? 'o-layout u-margin-bottom o-layout--auto o-layout--middle' : 'o-layout u-margin-bottom'}>
                                     <div className="o-layout__item u-1/2@desktop">
                                         {createFeed}
-                                        {selectedCount}
+                                        {selectedFeedCount}
                                     </div>
                                     <div className="o-layout__item u-1/2@desktop">
                                         {button1}
@@ -149,7 +221,8 @@ const Dashboard = React.createClass({
                                     modalOpen={this._modalOpen}
                                     modalClose={this._modalClose}
                                     moveMode={this._moveProjectsModeToggle}
-                                    selectedCount={this._selectedCount}
+                                    selectedCount={this._selectedFeedCount}
+                                    projectId={this.state.selectedProjectId}
                                     cancelMove={this.state.moveProjects} />
                             </div>
                         </div>

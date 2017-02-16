@@ -15,7 +15,7 @@ const FeedListContainer = React.createClass({
 
 
     componentDidMount: function() {
-        this._loadFeedsFromServer();    
+        this._loadFeedsFromServer(this.props.projectId);
     },
 
     componentWillReceiveProps: function(nextProps) {
@@ -25,22 +25,21 @@ const FeedListContainer = React.createClass({
                 selectedCount:0
             });
         }
+        if (nextProps.projectId != this.props.projectId) {
+            this._loadFeedsFromServer(nextProps.projectId);
+        }
     },
 
-    _loadFeedsFromServer: function() {
+    _loadFeedsFromServer: function(projectId) {
+        let feedPath;
+        if (projectId != 0) {
+            feedPath = '/api/projects/' + projectId + '/feeds';
+        } else {
+            feedPath = '/api/feeds/'
+        }
         $.ajax({
-            url: '/api/feeds/',
-            dataType: 'json',
-            cache: false,
+            url: feedPath,
             success: function(data) {
-                for (var i = data.length-1; i >= 0; i--) {
-                    if (!data[i].owner) {
-                        data.splice(i, 1);
-                    }
-                    if (data[i].owner.email != window.vidfeed.user.email) {
-                        data.splice(i, 1);
-                    }
-                }
                 data.sort(function(a,b){
                     return new Date(b.created) - new Date(a.created);
                 });

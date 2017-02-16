@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
+import classNames from 'classnames';
 
 import SingleInputInModal from '../components/SingleInputInModal';
 
@@ -29,24 +30,12 @@ const ProjectsListContainer = React.createClass({
 
     getInitialState: function() {
         return {
-            projects: [
-                {
-                    'id': 0,
-                    'body':'My first vidfeed project'
-                },
-                {
-                    'id': 1,
-                    'body':'Second'
-                },
-                {
-                    'id': 2,
-                    'body':'Third'
-                }
-            ],
+            projects: this.props.projects,
             newProjectTitle:'',
             modalIsOpen:false,
             validationStarted:false,
-            isValid:false
+            isValid:false,
+            selectedProjectId:0
         };
     },
 
@@ -54,8 +43,26 @@ const ProjectsListContainer = React.createClass({
         clearInterval(this.validateInterval);
     },
 
+    componentWillReceiveProps:function(nextProps) {
+        if (nextProps.projects != this.props.projects) {
+            this.setState({
+                projects:nextProps.projects
+            });
+        }
+        if (nextProps.defaultProjectSelected != this.props.defaultProjectSelected) {
+            this.setState({
+                selectedProjectId:0
+            });
+        }
+    },
+
     _selectProject: function(e) {
         e.preventDefault();
+        this.setState({
+            selectedProjectId:parseInt(e.target.attributes.getNamedItem('data-project-id').value, 10)
+        }, function(){
+            this.props.selectedProject(this.state.selectedProjectId);
+        });
     },
 
     _openModal : function (e) {
@@ -102,15 +109,11 @@ const ProjectsListContainer = React.createClass({
 
     _handleSubmit: function(e) {
         e.preventDefault();
-        var newProject = [];
-        newProject.id = this.state.projects.length;
-        newProject.body = this.state.newProjectTitle;
-        var newProjects = this.state.projects.concat([newProject]);
-        this.setState({ 
-            projects: newProjects,
-            newProjectTitle:''   
-        });
-        this._closeModal();
+        if (!this.state.newProjectTitle) {
+            return;
+        }
+        var newProjectTitle = this.state.newProjectTitle.trim()
+        this.props.newProject(newProjectTitle, this._closeModal());
     },
 
     render: function() {
@@ -120,8 +123,13 @@ const ProjectsListContainer = React.createClass({
         }
 
         var projectNodes = this.state.projects.map(function(project) {
+            if (this.state.selectedProjectId === project.id) {
+                var projectItemClasses = 'c-projectList__item c-projectList__item--selected';
+            } else {
+                var projectItemClasses = 'c-projectList__item';
+            }
             return (
-                <li className="c-projectList__item" key={project.id}><a href="#" onClick={this._selectProject}>{project.body}<i className="icon icon--arrowRight"></i></a></li>
+                <li className={projectItemClasses} key={project.id}><a href="#" data-project-id={project.id} onClick={this._selectProject}>{project.title}<i className="icon icon--arrowRight"></i></a></li>
             );
         }.bind(this));
 
@@ -149,8 +157,9 @@ const ProjectsListContainer = React.createClass({
 
         return (
             <section style={projectListStyle} className="c-projectList">
-                <h3 className="c-projectList__count">6 Projects</h3>
+                <h3 className="c-projectList__count">{this.state.projects.length} Projects</h3>
                 <ul className="o-list-bare">
+                   <li className={'c-projectList__item' + (this.state.selectedProjectId === 0 ? ' c-projectList__item--selected' : '')}><a href="#" data-project-id="0" onClick={this._selectProject}>All Feeds<i className="icon icon--arrowRight"></i></a></li>
                    {projectNodes}
                 </ul>
                 <a href="#" onClick={this._openModal} className="c-projectList__addBtn o-btn o-btn--tertiary o-btn--iconLeft o-btn--outline o-btn--small"><i className="icon icon--plusCircle"></i>Add project</a>

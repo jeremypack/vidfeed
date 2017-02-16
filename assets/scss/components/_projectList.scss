@@ -31,13 +31,14 @@
         top:$inuit-global-spacing-unit*.75;
         right:$inuit-global-spacing-unit/2;
     }
-    &:hover, &:focus {
+    &:hover {
         border-left:2px solid $blue;
         background:$dark;
     }
 }
 .c-projectList__item--selected a {
     border-left:2px solid $blue;
+    background:$dark;
 } 
 .c-projectList__addBtn {
     position:absolute;
