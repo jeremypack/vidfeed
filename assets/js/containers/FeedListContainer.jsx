@@ -53,6 +53,25 @@ const FeedListContainer = React.createClass({
         });
     },
 
+    _deleteFeedFromProject:function(feedId, callback) {
+        $.ajax({
+            type: 'delete',
+            url: '/api/projects/' + this.props.projectId + '/feed/' + feedId,
+            success: function (data) {
+                var filteredFeeds = this.state.feeds.filter(function(feed) { 
+                    return feed.feed_id != feedId 
+                });
+                this.setState({
+                    feeds: filteredFeeds
+                });
+                callback;
+            }.bind(this),
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    },
+
     _toggleMoveMode:function(bool, feedId){
         this.setState({
             moveMode:bool,
@@ -102,7 +121,8 @@ const FeedListContainer = React.createClass({
                     moveMode={this.state.moveMode}
                     setMoveMode={this._toggleMoveMode}
                     firstFeedSelected={this.state.firstFeedSelected}
-                    selectedCount={this._selectedCount} />
+                    selectedCount={this._selectedCount}
+                    handleDeleteFeed={this._deleteFeedFromProject} />
             );
         }.bind(this));
 

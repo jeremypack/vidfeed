@@ -144,17 +144,15 @@ const FeedItemContainer = React.createClass({
         e.preventDefault();
         e.stopPropagation();
         if (this.state.deleteFeedCheck) {
-            //this.props.handleDeleteComment(this.state.commentIdToDelete);
-            this.props.modalClose();
+            this.props.handleDeleteFeed(this.state.feedIdToDelete, this.props.modalClose());
             this.setState({
                 deleteFeedCheck: false,
                 feedIdToDelete:undefined
             });
         } else { 
-            //var id = $(e.currentTarget).closest('.c-comment').data('id');
             this.setState({
                 deleteFeedCheck: true,
-                //feedIdToDelete:id
+                feedIdToDelete:this.props.feedId
             }, function(){
                 this.props.modalOpen();
             });

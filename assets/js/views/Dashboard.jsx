@@ -90,12 +90,12 @@ const Dashboard = React.createClass({
             url: '/api/projects/' + projectId,
             success: function (data) {
                 var filteredProjects = this.state.projects.filter(function(project) { return project.id != projectId });
-                callback;
                 this.setState({
                     projects:filteredProjects,
                     defaultProjectSelected:true,
                     selectedProjectId:0,
-                })
+                });
+                callback;
             }.bind(this),
             error: function (data) {
                 console.log(data);
