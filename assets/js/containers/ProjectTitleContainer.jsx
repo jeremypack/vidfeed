@@ -96,10 +96,11 @@ const ProjectTitleContainer = React.createClass({
 
     _saveEdit: function (e) {
         e.preventDefault();
-        this.setState({
-            editMode:false,
-            title:this.state.title
-        });
+        if (!this.state.title || !this.props.projectId) {
+            return;
+        }
+        var projectTitle = this.state.title.trim();
+        this.props.updateProjectTitle(projectTitle, this.props.projectId, this.setState({ editMode: false }));
     },
 
     _handleChange: function (e) {

@@ -103,6 +103,36 @@ const Dashboard = React.createClass({
         });
     },
 
+    _updateProjectTitle:function(projectTitle, projectId, callback){
+        $.ajax({
+            type: 'put',
+            url: '/api/projects/' + projectId,
+            data: {
+                title: projectTitle
+            },
+            success: function (data) {
+                function getIndex(value, arr, prop) {
+                    for(var i = 0; i < arr.length; i++) {
+                        if(arr[i][prop] === value) {
+                            return i;
+                        }
+                    }
+                    return -1; //to handle the case where the value doesn't exist
+                }
+                var index = getIndex(projectId, this.state.projects, 'id');
+                const projects = this.state.projects;
+                projects[index] = { id:projectId, title: projectTitle };
+                this.setState({
+                    projects:projects
+                });
+                callback;
+            }.bind(this),
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    },
+
     _modalOpen: function() {
         this.setState({
             blur:true
@@ -172,7 +202,8 @@ const Dashboard = React.createClass({
                             modalClose={this._modalClose}
                             projects={this.state.projects}
                             projectId={this.state.selectedProjectId}
-                            handleDeleteProject={this._deleteProject} />;
+                            handleDeleteProject={this._deleteProject}
+                            updateProjectTitle={this._updateProjectTitle} />;
         }
 
         let button1, button2 = null;
