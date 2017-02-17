@@ -2,6 +2,21 @@
    #FEED-LIST
    ========================================================================== */
 
+.c-feedList__no-feeds {
+    display:block;
+    width:100%;
+    color:darken($light,10%);
+    text-align:center;
+    font-weight:600;
+    @include inuit-font-size(48px, $line-height:1.2);
+    @include mq($from: mobile, $until: tablet) {
+        margin:$inuit-global-spacing-unit 0 $inuit-global-spacing-unit*2;
+    }
+    @include mq($from: tablet) {
+        padding:10% 20px;
+    }
+}
+
 .c-feedItem {
     position:relative;
     min-height:240px;

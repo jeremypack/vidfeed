@@ -46,13 +46,11 @@
 
   &,
   &:hover,
-  &:active,
-  &:focus {
+  &:active{
     //text-transform:uppercase;
   }
 
-  &:hover,
-  &:focus {
+  &:hover{
     background-color: darken($red, 10%);
   }
 
@@ -63,13 +61,11 @@
 
   &,
   &:hover,
-  &:active,
-  &:focus {
+  &:active{
     //text-transform:uppercase;
   }
 
-  &:hover,
-  &:focus {
+  &:hover{
     background-color: darken($mid, 10%);
   }
 
@@ -80,13 +76,11 @@
   
   &,
   &:hover,
-  &:active,
-  &:focus {
+  &:active{
     //text-transform:uppercase;
   }
 
-  &:hover,
-  &:focus {
+  &:hover{
     background-color: darken($dark, 10%);
   }
 
@@ -97,13 +91,11 @@
   
   &,
   &:hover,
-  &:active,
-  &:focus {
+  &:active{
     //text-transform:uppercase;
   }
 
-  &:hover,
-  &:focus {
+  &:hover{
     background-color: darken($blue, 10%);
   }
 }
@@ -213,13 +205,11 @@ $btn-ghost-border-width: 2px;
 
   &,
   &:hover,
-  &:active,
-  &:focus {
+  &:active {
     background: none;
   }
 
-  &:hover,
-  &:focus {
+  &:hover {
     background: #fff;
     color:$dark;
   }
@@ -235,8 +225,7 @@ $btn-ghost-border-width: 2px;
   &.o-btn--primary {
     color: #4a8ec2;
 
-    &:hover,
-    &:focus {
+    &:hover{
       color: #3774a2;
     }
 
@@ -245,8 +234,7 @@ $btn-ghost-border-width: 2px;
   &.o-btn--secondary {
     color: #2f4054;
 
-    &:hover,
-    &:focus {
+    &:hover {
       color: #1d2733;
     }
 
@@ -255,8 +243,7 @@ $btn-ghost-border-width: 2px;
   &.o-btn--tertiary {
     color: #fff;
 
-    &:hover,
-    &:focus {
+    &:hover{
       color: #fff;
     }
 

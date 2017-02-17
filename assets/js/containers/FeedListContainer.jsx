@@ -102,6 +102,7 @@ const FeedListContainer = React.createClass({
 
     render: function() {
 
+        var noFeeds = <div className="o-layout__item c-feedList__no-feeds">No feeds added yet <span className="nowrap">:(</span></div>;
         var feedNodes = this.state.feeds.map(function(feed, i) {
             if (feed.provider.name === 'vimeo') {
                 var isVimeo = true;
@@ -127,8 +128,8 @@ const FeedListContainer = React.createClass({
         }.bind(this));
 
         return (
-            <section className="o-layout">
-                {feedNodes}
+            <section className="o-layout c-feedList">
+                {feedNodes.length ? feedNodes : noFeeds }
             </section>
         );
     }
