@@ -54,7 +54,7 @@ const Dashboard = React.createClass({
             success: function (data) {
                 this.setState({
                     projects:data
-                })
+                });
             }.bind(this),
             error: function (data) {
                 console.log(data);
@@ -81,7 +81,7 @@ const Dashboard = React.createClass({
         });
     },
 
-    _deleteProject:function(projectId) {
+    _deleteProject:function(projectId, callback) {
         if (!projectId) {
             return;
         }
@@ -89,8 +89,10 @@ const Dashboard = React.createClass({
             type: 'delete',
             url: '/api/projects/' + projectId,
             success: function (data) {
-                this._loadProjectsFromServer();
+                var filteredProjects = this.state.projects.filter(function(project) { return project.id != projectId });
+                callback;
                 this.setState({
+                    projects:filteredProjects,
                     defaultProjectSelected:true,
                     selectedProjectId:0,
                 })

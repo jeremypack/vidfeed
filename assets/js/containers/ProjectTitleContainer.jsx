@@ -113,8 +113,8 @@ const ProjectTitleContainer = React.createClass({
             e.preventDefault();
         }
         if (this.state.deleteProjectCheck) {
-            this.props.handleDeleteProject(this.state.projectIdToDelete);
-            this.props.modalClose();
+            this.props.handleDeleteProject(this.state.projectIdToDelete, this.props.modalClose());
+            
             this.setState({
                 deleteProjectCheck: false,
                 projectIdToDelete:undefined
