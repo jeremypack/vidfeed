@@ -157,7 +157,7 @@ const ProjectsListContainer = React.createClass({
 
         return (
             <section style={projectListStyle} className="c-projectList">
-                <h3 className="c-projectList__count">{this.state.projects.length} Projects</h3>
+                <h3 className="c-projectList__count">{ this.state.projects.length === 1 ? this.state.projects.length + ' Project' : this.state.projects.length + ' Projects'}</h3>
                 <ul className="o-list-bare">
                    <li className={'c-projectList__item' + (this.state.selectedProjectId === 0 ? ' c-projectList__item--selected' : '')}><a href="#" data-project-id="0" onClick={this._selectProject}>All Feeds<i className="icon icon--arrowRight"></i></a></li>
                    {projectNodes}
