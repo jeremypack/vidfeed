@@ -75,7 +75,7 @@ const FeedItemContainer = React.createClass({
             this.setState({
                 selectedForMove:true
             }, function(){
-                this.props.selectedCount(true);
+                this.props.selectedItem(true, this.props.feedId);
             });
         } 
         
@@ -173,7 +173,7 @@ const FeedItemContainer = React.createClass({
         this.setState({
             selectedForMove:!this.state.selectedForMove
         }, function(){
-            this.props.selectedCount(this.state.selectedForMove);
+            this.props.selectedItem(this.state.selectedForMove, this.props.feedId);
         });
     },
 

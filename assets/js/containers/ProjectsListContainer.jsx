@@ -54,6 +54,11 @@ const ProjectsListContainer = React.createClass({
                 selectedProjectId:0
             });
         }
+        if (nextProps.selectedProjectId != this.state.selectedProjectId && !nextProps.defaultProjectSelected) {
+            this.setState({
+                selectedProjectId:nextProps.selectedProjectId
+            });
+        }
     },
 
     _selectProject: function(e) {
@@ -61,7 +66,7 @@ const ProjectsListContainer = React.createClass({
         this.setState({
             selectedProjectId:parseInt(e.target.attributes.getNamedItem('data-project-id').value, 10)
         }, function(){
-            this.props.selectedProject(this.state.selectedProjectId);
+            this.props.selectProject(this.state.selectedProjectId);
         });
     },
 

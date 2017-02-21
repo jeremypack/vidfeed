@@ -1,10 +1,42 @@
 import React from 'react';
+import Modal from 'react-modal';
 
 import HeaderContainer from '../containers/HeaderContainer';
 import ProjectsListContainer from '../containers/ProjectsListContainer';
 import ProjectTitleContainer from '../containers/ProjectTitleContainer';
 import CreateFeedContainer from '../containers/CreateFeedContainer';
 import FeedListContainer from '../containers/FeedListContainer';
+import ModalProjectChoice from '../components/ModalProjectChoice';
+
+
+function getIndex(value, arr, prop) {
+    for(var i = 0; i < arr.length; i++) {
+        if(arr[i][prop] === value) {
+            return i;
+        }
+    }
+    return -1; //to handle the case where the value doesn't exist
+}
+
+const modalStyles = {
+    overlay : {
+        backgroundColor       : 'transparant'
+    },
+        content : {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        padding               : '0',
+        border                : '0',
+        borderRadius          : '0',
+        transform             : 'translate(-50%, -50%)',
+        transition            : 'opacity .4s ease-in-out',
+        opacity               : '0',
+        boxShadow             : '0px 0px 4px -1px rgba(0,0,0,.25)'
+    }
+};
 
 const Dashboard = React.createClass({
 
@@ -18,9 +50,15 @@ const Dashboard = React.createClass({
             selectedFeedCount:0,
             selectedProjectId:0,
             defaultProjectSelected:true,
-            projects:[]
+            projects:[],
+            feedsSelected:[],
+            moveFeedModal:false
         }
     },
+
+    // componentWillMount:function(){
+    //     this._loadProjectsFromServer();
+    // },
 
     componentDidMount: function() {
         this._loadProjectsFromServer();
@@ -111,14 +149,6 @@ const Dashboard = React.createClass({
                 title: projectTitle
             },
             success: function (data) {
-                function getIndex(value, arr, prop) {
-                    for(var i = 0; i < arr.length; i++) {
-                        if(arr[i][prop] === value) {
-                            return i;
-                        }
-                    }
-                    return -1; //to handle the case where the value doesn't exist
-                }
                 var index = getIndex(projectId, this.state.projects, 'id');
                 const projects = this.state.projects;
                 projects[index] = { id:projectId, title: projectTitle };
@@ -176,6 +206,60 @@ const Dashboard = React.createClass({
         });
     },
 
+    _addFeedForMove:function(feedId){
+        this.setState({
+            feedsSelected: this.state.feedsSelected.concat([feedId])
+        });
+    },
+
+    _removeFeedFromMove:function(feedId){
+        var index = getIndex(feedId, this.state.feedsSelected);
+        const feeds = this.state.feedsSelected;
+        feeds.splice(index, 1);
+        this.setState({
+            feedsSelected:feeds
+        });
+    },
+
+    _moveToProject:function(e){
+        e.preventDefault();
+        if (!this.state.moveFeedModal) {
+            this.setState({
+                moveFeedModal:true,
+                blur:true
+            });
+        } else {
+            const projectId = parseInt(e.target.attributes.getNamedItem('data-project-id').value, 10);
+            const feeds = this.state.feedsSelected
+            for (var i = 0; i < feeds.length; i++) {
+                $.ajax({
+                    type: 'post',
+                    url: '/api/projects/' + projectId + '/feed/' + feeds[i],
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            }
+            this.setState({
+                moveFeedModal:false,
+                blur:false
+            }, function(){
+                this._selectProject(projectId);
+            });
+        }
+    },
+
+    _moveFeedCancel:function(e){
+        e.preventDefault();
+        this.setState({
+            moveFeedModal:false,
+            blur:false
+        });
+    },
+
     render: function() {
         
         var ScrollPaneStyle = {
@@ -216,9 +300,21 @@ const Dashboard = React.createClass({
 
         if (this.state.moveProjects) {
             var selectedFeedCount = this.state.selectedFeedCount === 1 ? <h3 className="selectedCount">1 Video Selected</h3> : <h3 className="selectedCount">{this.state.selectedFeedCount} Videos Selected</h3>;
-            button1 = <a href="#" className="o-btn o-btn--primary u-margin-right">Move to another project</a>;
+            button1 = <a href="#" className="o-btn o-btn--primary u-margin-right" onClick={this._moveToProject}>Move to another project</a>;
             button2 = <a href="#" className="o-btn o-btn--secondary" onClick={this._cancelMove}>I don&apos;t want to move any videos</a>;
         }
+
+        var moveFeedModal = <Modal
+                                isOpen={this.state.moveFeedModal}
+                                onRequestClose={this._moveFeedCancel}
+                                style={modalStyles}> 
+                                <ModalProjectChoice
+                                    closeModal={this._moveFeedCancel}
+                                    heading='Select Project'
+                                    text='Which project wil you choose?'
+                                    projects={this.state.projects}
+                                    projectClick={this._moveToProject} />
+                             </Modal>
         
         return (
             <div className={blurClasses}>
@@ -233,7 +329,8 @@ const Dashboard = React.createClass({
                             modalClose={this._modalClose}
                             projects={this.state.projects}
                             defaultProjectSelected={this.state.defaultProjectSelected}
-                            selectedProject={this._selectProject}
+                            selectProject={this._selectProject}
+                            selectedProjectId={this.state.selectedProjectId}
                             newProject={this._addNewProject} />
                     </div>
                     <div className="o-layout__item u-3/4@tablet u-4/5@desktop">
@@ -256,11 +353,14 @@ const Dashboard = React.createClass({
                                     moveMode={this._moveProjectsModeToggle}
                                     selectedCount={this._selectedFeedCount}
                                     projectId={this.state.selectedProjectId}
-                                    cancelMove={this.state.moveProjects} />
+                                    cancelMove={this.state.moveProjects}
+                                    addFeedForMove={this._addFeedForMove}
+                                    removeFeedFromMove={this._removeFeedFromMove} />
                             </div>
                         </div>
                     </div>
                 </div>
+                {moveFeedModal}
             </div>
         );
     }

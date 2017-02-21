@@ -13,7 +13,6 @@ const FeedListContainer = React.createClass({
         };
     },
 
-
     componentDidMount: function() {
         this._loadFeedsFromServer(this.props.projectId);
     },
@@ -32,6 +31,7 @@ const FeedListContainer = React.createClass({
 
     _loadFeedsFromServer: function(projectId) {
         let feedPath;
+        console.log('_loadFeedsFromServer');
         if (projectId != 0) {
             feedPath = '/api/projects/' + projectId + '/feeds';
         } else {
@@ -81,7 +81,7 @@ const FeedListContainer = React.createClass({
         });
     },
 
-    _selectedCount:function(bool) {
+    _selectedItem:function(bool, feedId) {
         this.setState({
             firstFeedSelected:undefined
         });
@@ -89,12 +89,14 @@ const FeedListContainer = React.createClass({
             this.setState({
                 selectedCount:this.state.selectedCount+1
             }, function(){
+                this.props.addFeedForMove(feedId);
                 this.props.selectedCount(this.state.selectedCount);
             });
         } else {
             this.setState({
                 selectedCount:this.state.selectedCount-1
             }, function(){
+                this.props.removeFeedFromMove(feedId);
                 this.props.selectedCount(this.state.selectedCount);
             });
         }
@@ -122,7 +124,7 @@ const FeedListContainer = React.createClass({
                     moveMode={this.state.moveMode}
                     setMoveMode={this._toggleMoveMode}
                     firstFeedSelected={this.state.firstFeedSelected}
-                    selectedCount={this._selectedCount}
+                    selectedItem={this._selectedItem}
                     handleDeleteFeed={this._deleteFeedFromProject} />
             );
         }.bind(this));
