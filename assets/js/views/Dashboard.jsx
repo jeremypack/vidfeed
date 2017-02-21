@@ -301,7 +301,7 @@ const Dashboard = React.createClass({
         if (this.state.moveProjects) {
             var selectedFeedCount = this.state.selectedFeedCount === 1 ? <h3 className="selectedCount">1 Video Selected</h3> : <h3 className="selectedCount">{this.state.selectedFeedCount} Videos Selected</h3>;
             button1 = <a href="#" className="o-btn o-btn--primary u-margin-right" onClick={this._moveToProject}>Move to another project</a>;
-            button2 = <a href="#" className="o-btn o-btn--secondary" onClick={this._cancelMove}>I don&apos;t want to move any videos</a>;
+            button2 = <a href="#" className="o-btn o-btn--secondary" onClick={this._cancelMove}>I don&apos;t want to move any feeds</a>;
         }
 
         var moveFeedModal = <Modal

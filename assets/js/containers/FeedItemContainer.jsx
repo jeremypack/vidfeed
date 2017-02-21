@@ -39,7 +39,9 @@ const FeedItemContainer = React.createClass({
         modalClose:            React.PropTypes.func.isRequired,
         moveMode:              React.PropTypes.bool.isRequired,
         setMoveMode:           React.PropTypes.func.isRequired,
-        firstFeedSelected:     React.PropTypes.string
+        firstFeedSelected:     React.PropTypes.string,
+        collaboratorCount:     React.PropTypes.number.isRequired,
+        commentCount:          React.PropTypes.number.isRequired
     },
 
     getInitialState:function() {
@@ -254,7 +256,9 @@ const FeedItemContainer = React.createClass({
                     created={this.props.created}
                     moveToProject={this._setMoveMode}
                     editFeedTitle={this._setEditMode}
-                    deleteFeed={this._deleteFeed} />
+                    deleteFeed={this._deleteFeed}
+                    collaboratorCount={this.props.collaboratorCount}
+                    commentCount={this.props.commentCount} />
                 {deleteFeedModal}
             </div>
         );

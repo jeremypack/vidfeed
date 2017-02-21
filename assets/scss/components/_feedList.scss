@@ -25,9 +25,42 @@
     color:$dark;
     @include inuit-clearfix();
     transition: $global-transition;
+}
+.c-feedItem--active {
     &:hover {
         background-color:lighten($blue,25%);
     }
+}
+.c-feedItem__stats {
+    position:absolute;
+    z-index:20;
+    top:$inuit-global-spacing-unit/2;
+    right:$inuit-global-spacing-unit/2;
+    background:#fff;
+    @include inuit-font-size(10px, $line-height:0);
+    border-radius:3px;
+    ul {
+        margin-bottom:0;
+    }
+    li {
+        padding:8px 4px;
+        &:first-child {
+            border-right:1px solid $light;
+        }
+        .icon {
+            width:8px;
+            min-height:8px;
+            margin-left:3px;
+        }
+        &:last-child {
+            .icon {
+                background-position:top center;
+            }
+        }
+    }
+}
+.c-feedItem__stats__count {
+    display:inline-block;
 }
 .c-feedItem--selected {
     outline:3px solid $blue;

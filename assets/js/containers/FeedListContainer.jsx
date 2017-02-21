@@ -31,7 +31,6 @@ const FeedListContainer = React.createClass({
 
     _loadFeedsFromServer: function(projectId) {
         let feedPath;
-        console.log('_loadFeedsFromServer');
         if (projectId != 0) {
             feedPath = '/api/projects/' + projectId + '/feeds';
         } else {
@@ -104,6 +103,8 @@ const FeedListContainer = React.createClass({
 
     render: function() {
 
+        console.log(this.state.feeds);
+
         var noFeeds = <div className="o-layout__item c-feedList__no-feeds">No feeds added yet <span className="nowrap">:(</span></div>;
         var feedNodes = this.state.feeds.map(function(feed, i) {
             if (feed.provider.name === 'vimeo') {
@@ -125,7 +126,9 @@ const FeedListContainer = React.createClass({
                     setMoveMode={this._toggleMoveMode}
                     firstFeedSelected={this.state.firstFeedSelected}
                     selectedItem={this._selectedItem}
-                    handleDeleteFeed={this._deleteFeedFromProject} />
+                    handleDeleteFeed={this._deleteFeedFromProject}
+                    collaboratorCount={feed.collaborator_count}
+                    commentCount={feed.comment_count} />
             );
         }.bind(this));
 

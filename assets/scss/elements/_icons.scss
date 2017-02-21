@@ -86,8 +86,16 @@
     background-image:url(../images/avatar.svg);
 }
 
+.icon--userDark {
+    background-image:url(../images/avatar-dark.svg);
+}
+
 .icon--bubble {
     @include inuit-rem(width,32px);
     @include inuit-rem(height,28px);
     background-image:url(../images/speechBubble.svg);
+}
+
+.icon--bubbleDark {
+    background-image:url(../images/speechBubble-dark.svg);   
 }
