@@ -7,29 +7,10 @@ const User = require('./User');
 const Header = React.createClass({
 
     propTypes: {
-        isHomepage:             React.PropTypes.bool
-    },
-
-    getInitialState:function() {
-        return {
-            sessionUser:'',
-        };
-    },
-
-    componentDidMount:function() {
-        var getSessionUser = function() {
-            if (window.vidfeed.user.email) {
-                this.setState({
-                    sessionUser:window.vidfeed.user.email,
-                    sessionUserId:window.vidfeed.user.id
-                });
-            } 
-        }.bind(this);
-        this.sessionCheckInterval = setInterval(getSessionUser,1000);
-    },
-
-    componentWillUnmount:function(){
-        clearInterval(this.sessionCheckInterval);
+        isHomepage:             React.PropTypes.bool,
+        sessionUserId:          React.PropTypes.number,
+        sessionUser:            React.PropTypes.string,
+        showGetPlus:            React.PropTypes.func
     },
 
     render: function() {
@@ -43,6 +24,7 @@ const Header = React.createClass({
                                 <img src={logo} alt="Vidfeed" />
                             </Link>
                         </div>
+                        <a href="#" className="o-btn o-btn--ghost float--right" onClick={this.props.showGetPlus}>Get Plus!</a>
                     </div>
                 </header>
             );
@@ -50,8 +32,8 @@ const Header = React.createClass({
 
         var logo = window.vidfeed.images_dir + '/logo-black.svg';
 
-        if (this.state.sessionUser) {
-            var displayUser = <User id={this.state.sessionUserId} userEmail={this.state.sessionUser} />
+        if (this.props.sessionUser) {
+            var displayUser = <User id={this.props.sessionUserId} userEmail={this.props.sessionUser} />
         }
 
         return (

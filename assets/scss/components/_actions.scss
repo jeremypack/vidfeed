@@ -1,0 +1,47 @@
+/* ==========================================================================
+   #ACTIONS
+   ========================================================================== */
+
+.c-actions {
+    display:inline-block;
+    margin-top:10px;
+    opacity:.75;
+    ul {
+        margin:0;
+    }
+    li {
+        margin-left:10px;
+        vertical-align:middle;
+        &:first-child {
+            margin-left:0;
+        }
+    }
+    .c-action__item, input[type=submit] {
+        display:block;
+        opacity:0.5;
+        transition: $global-transition;
+        cursor:pointer;
+        &:hover, &:focus {
+            opacity:1;
+        }
+    }
+    input[type=submit] {
+        padding:0;
+        border:0;
+        background-color:transparent;
+        font-size: 0;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+    }
+}
+
+.c-action--reply .icon {
+    width:$inuit-global-spacing-unit*.75;
+}
+.c-action--save.icon {
+    width:$inuit-global-spacing-unit*.75;
+}
+.c-action--save--disabled {
+    opacity:.25!important;
+    cursor:not-allowed;
+}

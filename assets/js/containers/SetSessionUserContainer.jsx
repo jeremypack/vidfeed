@@ -1,8 +1,8 @@
-var React = require('react');
+import React from 'react';
 
-var EmailForm = require('../components/EmailForm');
+import SingleInputInModal from '../components/SingleInputInModal';
 
-var SetSessionUserContainer = React.createClass({
+const SetSessionUserContainer = React.createClass({
     
     propTypes: {
         modalHeading:       React.PropTypes.string.isRequired,
@@ -78,7 +78,9 @@ var SetSessionUserContainer = React.createClass({
         }
 
         return (
-            <EmailForm
+            <SingleInputInModal
+                inputType="email"
+                placeholder="Email address"
                 heading={this.props.modalHeading}
                 text={this.props.extraText}
                 closeModal={this._closeModal}
@@ -90,10 +92,6 @@ var SetSessionUserContainer = React.createClass({
                 submittedMsg={this.props.submittedMsg} />
         );
     }
-
-
-
-
 
 });
 

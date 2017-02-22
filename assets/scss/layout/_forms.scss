@@ -2,16 +2,20 @@
    #FORMS
    ========================================================================== */
 
-input[type=text], input[type=email],
-input[type=url], input[type=date],
-input[type=tel], input[type=number],
-textarea {
+@mixin inputStyle {
     width:100%;
     height:inuit-rem(55px);
     padding:$inuit-global-spacing-unit/2 $inuit-global-spacing-unit/1.5;
     background:#fff;
     border:0;
     outline:none;
+}
+
+input[type=text], input[type=email],
+input[type=url], input[type=date],
+input[type=tel], input[type=number],
+input[type=password], textarea {
+    @include inputStyle;
 }
 textarea {
     min-height:inuit-rem(55px);
@@ -35,6 +39,27 @@ input[type=submit]:hover {
         height:auto;
         padding:4px;
         margin:-5px 0 0 -5px;
+    }
+}
+
+.contenteditable {
+    height:auto!important;
+    padding:0!important;
+    text-decoration:underline;
+    background:transparent!important;
+    outline:0!important;
+}
+
+.input--autoWidth {
+    overflow:hidden;
+    display:inline-block;
+    input {
+        @include inputStyle;
+        height:auto!important;
+        padding:0!important;
+        border-bottom:1px solid $mid!important;
+        background:transparent!important;
+        outline:0!important;
     }
 }
 

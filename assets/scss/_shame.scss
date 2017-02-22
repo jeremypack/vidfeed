@@ -21,3 +21,37 @@
 .u-opacity-0 {
     opacity:0;
 }
+
+.scrollPane {
+    overflow:hidden;
+    @include mq($from: tablet) {
+        margin-left:-$inuit-global-spacing-unit;
+    }
+}
+
+.scrollPane__content {
+    overflow:hidden;
+    padding:$inuit-global-spacing-unit;
+    padding-bottom:0;
+}
+
+.modalProject__item {
+    @include inuit-font-size(14px);
+    &:nth-of-type(odd) .modalProject__link {
+        background:#fff;
+        &:hover {
+            background-color:lighten($blue,25%);
+        }
+    }
+    &:nth-of-type(even) .modalProject__link {
+        background:#f5f6f7;
+        &:hover {
+            background-color:lighten($blue,25%);
+        }
+    }
+}
+.modalProject__link {
+    display:block;
+    color:$dark;
+    padding:$inuit-global-spacing-unit/2;
+}

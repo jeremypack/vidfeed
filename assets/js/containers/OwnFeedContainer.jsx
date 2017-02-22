@@ -1,8 +1,8 @@
-var React = require('react');
-var Modal = require('react-modal');
+import React from 'react';
+import Modal from 'react-modal';
 
-var EmailForm = require('../components/EmailForm');
-var ModalChoice = require('../components/ModalChoice');
+import SingleInputInModal from '../components/SingleInputInModal';
+import ModalChoice from '../components/ModalChoice';
 
 const modalStyles = {
     overlay : {
@@ -20,11 +20,11 @@ const modalStyles = {
         transform             : 'translate(-50%, -50%)',
         transition            : 'opacity .4s ease-in-out',
         opacity               : '0',
-        boxShadow             : '1px 1px 4px -1px rgba(0,0,0,.25)'
+        boxShadow             : '0px 0px 4px -1px rgba(0,0,0,.25)'
     }
 };
 
-var OwnFeedContainer = React.createClass({
+const OwnFeedContainer = React.createClass({
 
     propTypes: {
         feedId:         React.PropTypes.string.isRequired,
@@ -181,7 +181,9 @@ var OwnFeedContainer = React.createClass({
                 var valid = true;
             }
             
-            var setNewOwner = <EmailForm
+            var setNewOwner = <SingleInputInModal
+                                inputType="email"
+                                placeholder="Email address"
                                 heading='Success, feed created!'
                                 handleSubmit={this._handleSubmit}
                                 text='To keep everything running smoothly we just need to know who you are.'

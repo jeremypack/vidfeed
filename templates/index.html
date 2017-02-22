@@ -18,7 +18,7 @@
     <!-- Analytics Code -->
     {% comment %} 
     {% if not localhost %}
-    {% endif }
+    {% endif %}
     {% endcomment %}
 
     <!-- Google Analytics -->
@@ -54,7 +54,9 @@
 
   <body>
 
+    {% block main_content %}
     <div id="react-app"></div>
+    {% endblock %}
     <script type="text/javascript">
       window.vidfeed = window.vidfeed || {};
       window.vidfeed.images_dir = '{% static "images" %}';
@@ -70,11 +72,9 @@
         app_id: "tz8a2jnu",
         email: window.vidfeed.user.email
       });
-
-
     </script>
-
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en"></script>
     {% render_bundle 'main' 'js' %}
+    {% block js %}{% endblock %}
   </body>
 </html>

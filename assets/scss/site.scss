@@ -34,9 +34,9 @@
 // $mq-show-breakpoints:mobile,tablet,desktop,wide;
 @import '../../node_modules/sass-mq/_mq';
 @import 'tools/_scrollbars';
-@import 'tools/oppositeDirection';
-@import 'tools/triangle';
-@import 'tools/tintShade';
+@import 'tools/_oppositeDirection';
+@import 'tools/_triangle';
+@import 'tools/_tintShade';
 
 
 
@@ -99,6 +99,7 @@ $inuit-use-markup-fix: false !default;
 @import 'objects/_form-single';
 @import 'objects/_offCanvas';
 @import 'objects/_pastelSwatch';
+@import 'objects/_imgCrop';
 
 
 
@@ -110,10 +111,15 @@ $inuit-use-markup-fix: false !default;
 
 @import 'components/_commentForm';
 @import 'components/_player';
+@import 'components/_actions';
 @import 'components/_commentList';
+@import 'components/_projectList';
+@import 'components/_projectTitle';
+@import 'components/_feedList';
 @import 'components/_user';
 @import 'components/_invitees';
 @import 'components/_modal';
+@import 'components/_getPlus';
 
 
 
@@ -126,6 +132,7 @@ $inuit-use-markup-fix: false !default;
 
 @import 'pages/_home';
 @import 'pages/_feed';
+@import 'pages/_dashboard';
 
 
 

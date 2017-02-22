@@ -13,21 +13,55 @@
 }
 
 .icon--replyArrow {
-    width:$inuit-global-spacing-unit*.75;
     background-image:url(../images/arrow.svg);
 }
 
 .icon--tick {
-    width:$inuit-global-spacing-unit*.75;
     background-image:url(../images/checked.svg);
 }
-
+.icon--tickBlue {
+    background-image:url(../images/tick-blue.svg);
+}
+.icon--tickWhite {
+    background-image:url(../images/tick-white.svg);
+}
 .icon--pencil {
     background-image:url(../images/tool.svg);
 }
 
 .icon--message {
     background-image:url(../images/message.svg);
+}
+
+.icon--dashboard {
+    background-image:url(../images/dashboard.svg);
+}
+.icon--todo {
+    background-image:url(../images/tick.svg);
+}
+.icon--paint {
+    background-image:url(../images/paint.svg);
+}
+.icon--vimeo {
+    background-image:url(../images/vimeo.svg);
+}
+.icon--youtube {
+    background-image:url(../images/youtube.svg);
+}
+.icon--unlimited {
+    background-image:url(../images/unlimited.svg);
+}
+.icon--add {
+    background-image:url(../images/add.svg);
+}
+.icon--plusCircle {
+    background-image:url(../images/plusCircle.svg);
+    width:$inuit-global-spacing-unit*.75;
+    height:$inuit-global-spacing-unit*.75;
+}
+.icon--arrowRight {
+    width:6px;
+    background-image:url(../images/arrow-right.svg);
 }
 
 .icon--cross {
@@ -52,8 +86,16 @@
     background-image:url(../images/avatar.svg);
 }
 
+.icon--userDark {
+    background-image:url(../images/avatar-dark.svg);
+}
+
 .icon--bubble {
     @include inuit-rem(width,32px);
     @include inuit-rem(height,28px);
     background-image:url(../images/speechBubble.svg);
+}
+
+.icon--bubbleDark {
+    background-image:url(../images/speechBubble-dark.svg);   
 }

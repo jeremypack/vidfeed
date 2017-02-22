@@ -1,13 +1,14 @@
-var React = require('react');
-var ReactPlayer = require('react-player');
-var YouTubePlayer = require('../components/YouTubePlayer');
-var moment = require('moment');
+import React from 'react';
+import ReactPlayer from 'react-player';
+import moment from 'moment';
+
+import YouTubePlayer from '../components/YouTubePlayer';
 
 function pad (string) {
   return ('0' + string).slice(-2)
 }
 
-var FeedVideoContainer = React.createClass({
+const FeedVideoContainer = React.createClass({
 
     propTypes: {
         feedId:                 React.PropTypes.string.isRequired,
@@ -67,11 +68,22 @@ var FeedVideoContainer = React.createClass({
                 youtubeSeekTo:number
             });
         } else {
-            var fraction = number / this.state.duration;
-            if (fraction === 0) {
-                fraction = 0.0002;
+            if (this.state.duration === null) {
+                this.refs.player.refs.player.refs.iframe.contentWindow.postMessage('{"method":"getDuration", "value":0}', '*');
+                setTimeout(function(){
+                    var fraction = number / this.state.duration;
+                    if (fraction === 0) {
+                        fraction = 0.0002;
+                    }
+                    this.refs.player.seekTo(fraction);
+                }.bind(this),300);
+            } else {
+                var fraction = number / this.state.duration;
+                if (fraction === 0) {
+                    fraction = 0.0002;
+                }
+                this.refs.player.seekTo(fraction);
             }
-            this.refs.player.seekTo(fraction);
         }
         this._onPause();
     },
@@ -127,7 +139,7 @@ var FeedVideoContainer = React.createClass({
     },
 
     render: function() {
-                
+        
         if (this._isYoutube()) {
             return (
                 <section className="c-player">

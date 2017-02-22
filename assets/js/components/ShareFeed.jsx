@@ -19,9 +19,8 @@ const ShareFeed = React.createClass({
 
     componentDidMount:function() {
         setTimeout(function(){
-            this.refs.emailInput.focus();
-        }.bind(this),200);
-        
+            this.refs.inputField.focus();
+        }.bind(this),200);  
     },
 
     _remove: function(item) {
@@ -66,7 +65,7 @@ const ShareFeed = React.createClass({
         if (this.props.submitted) {
             return (
                 <div className="modal__submitted">
-                    <h3 className="modal__title">{this.props.submittedMsg}</h3>
+                    <h3 className="box__title">{this.props.submittedMsg}</h3>
                 </div>
             );
         }
@@ -74,15 +73,15 @@ const ShareFeed = React.createClass({
         return (
 
             <div className="modal__content">
-                <div className="modal__header">
-                    <h3 className="modal__title">{this.props.heading}</h3>
-                    <a href="#" onClick={this.props.closeModal} className="modal__close">×<span className="u-hidden-visually">Close</span></a>
+                <div className="box__header">
+                    <h3 className="box__title">{this.props.heading}</h3>
+                    <a href="#" onClick={this.props.closeModal} className="box__close">×<span className="u-hidden-visually">Close</span></a>
                 </div>
                 <div className="modal__body">
                     <form className="form--border" onSubmit={this.props.addEmail}>
                         <div className="u-padding-small u-padding-top">
                             <div className="input-with-button">
-                                <input ref="emailInput"  placeholder="Email address" type="email" onChange={this.props.handleChange} value={this.props.currentEmail} className="input--border" />
+                                <input ref="inputField"  placeholder="Email address" type="email" onChange={this.props.handleChange} value={this.props.currentEmail} className="input--border" />
                                 <input type="submit" value="Add" className={addEmailBtnClasses} />
                             </div>
                         </div>
