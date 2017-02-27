@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactPlayer from 'react-player';
 
-import HeaderContainer from '../containers/HeaderContainer';
+import { Router, Route, Link, browserHistory } from 'react-router';
+
+import NavigationContainer from '../containers/NavigationContainer';
 import CreateFeedContainer from '../containers/CreateFeedContainer';
 import GetPlusContainer from '../containers/GetPlusContainer';
 
@@ -70,10 +72,16 @@ const Home = React.createClass({
         return ( 
             <div className="homePage" ref="homepage">
                 <main className="home__hero">
-
-                    <HeaderContainer
-                        isHomepage={true}
-                        showGetPlus={this._toggleGetPlus} />
+                    <header className="header header--home">
+                        <div className="o-wrapper">
+                            <div className="logo">
+                                <Link to="/" className="logo__link">
+                                    <img src={window.vidfeed.images_dir + '/logo-white.svg'} alt="Vidfeed" />
+                                </Link>
+                            </div>
+                            <NavigationContainer isHomepage={true} showGetPlus={this._toggleGetPlus}/>
+                        </div>
+                    </header>
 
                     <h1>Simple Video <span className="nowrap">Collaboration</span>.</h1>
                     <p>Make and receive timecoded notes on any YouTube or Vimeo video, for free.</p>

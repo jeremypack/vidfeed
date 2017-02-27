@@ -11,7 +11,7 @@ const GetPlusContainer = React.createClass({
     propTypes: {
         show:           React.PropTypes.bool.isRequired,
         hide:           React.PropTypes.func.isRequired,
-        pageHeight:   React.PropTypes.number
+        pageHeight:     React.PropTypes.number
     },
 
     getInitialState:function(){

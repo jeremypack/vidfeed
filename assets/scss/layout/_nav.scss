@@ -1,0 +1,25 @@
+/* ==========================================================================
+   #NAVIGATION
+   ========================================================================== */
+
+.nav {
+    float:right;
+} 
+
+.nav__link {
+    display:inline-block;
+    margin:0 $inuit-global-spacing-unit*2;
+    color:#fff;
+    &:after {
+        content:'';
+        display:block;
+        height:2px;
+        width:0;
+        background: transparent;
+        transition: $global-transition;
+    }
+    &:hover:after {
+        width:100%;
+        background:#fff;
+    }
+}

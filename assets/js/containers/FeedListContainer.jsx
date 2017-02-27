@@ -103,8 +103,6 @@ const FeedListContainer = React.createClass({
 
     render: function() {
 
-        console.log(this.state.feeds);
-
         var noFeeds = <div className="o-layout__item c-feedList__no-feeds">No feeds added yet <span className="nowrap">:(</span></div>;
         var feedNodes = this.state.feeds.map(function(feed, i) {
             if (feed.provider.name === 'vimeo') {

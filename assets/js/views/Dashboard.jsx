@@ -1,12 +1,15 @@
 import React from 'react';
 import Modal from 'react-modal';
 
+import { Router, Route, Link, browserHistory } from 'react-router';
+
 import HeaderContainer from '../containers/HeaderContainer';
 import ProjectsListContainer from '../containers/ProjectsListContainer';
 import ProjectTitleContainer from '../containers/ProjectTitleContainer';
 import CreateFeedContainer from '../containers/CreateFeedContainer';
 import FeedListContainer from '../containers/FeedListContainer';
 import ModalProjectChoice from '../components/ModalProjectChoice';
+import User from '../components/User';
 
 
 function getIndex(value, arr, prop) {
@@ -52,22 +55,33 @@ const Dashboard = React.createClass({
             defaultProjectSelected:true,
             projects:[],
             feedsSelected:[],
-            moveFeedModal:false
+            moveFeedModal:false,
+            sessionUser:'',
+            sessionUserId:undefined
         }
     },
 
-    // componentWillMount:function(){
-    //     this._loadProjectsFromServer();
-    // },
+    componentWillMount:function(){
+        this._loadProjectsFromServer();
+        var getSessionUser = function() {
+            if (window.vidfeed.user.email) {
+                this.setState({
+                    sessionUser:window.vidfeed.user.email,
+                    sessionUserId:window.vidfeed.user.id
+                });
+            } 
+        }.bind(this);
+        this.sessionCheckInterval = setInterval(getSessionUser,1000);
+    },
 
     componentDidMount: function() {
-        this._loadProjectsFromServer();
         this._resizeContent();
         window.addEventListener('resize', this._resizeContent);
     },
 
     componentWillUnmount: function() {
         window.removeEventListener('resize', this._resizeContent);
+        clearInterval(this.sessionCheckInterval);
     },
 
     _resizeContent : function() {
@@ -315,11 +329,24 @@ const Dashboard = React.createClass({
                                     projects={this.state.projects}
                                     projectClick={this._moveToProject} />
                              </Modal>
+
+        if (this.state.sessionUser) {
+            var displayUser = <User id={this.state.sessionUserId} userEmail={this.state.sessionUser} />
+        }
         
         return (
             <div className={blurClasses}>
                 <div ref="header">
-                    <HeaderContainer />
+                    <header className="header u-clearfix">
+                        <div className="logo">
+                            <Link to="/" className="logo__link">
+                                <img src={window.vidfeed.images_dir + '/logo-black.svg'} alt="Vidfeed" />
+                            </Link>
+                        </div>
+                        <div className="float--right">
+                            {displayUser}
+                        </div> 
+                    </header>
                 </div>
                 <div className="o-layout">
                     <div className="o-layout__item u-1/4@tablet u-1/5@desktop">

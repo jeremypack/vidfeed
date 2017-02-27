@@ -26,6 +26,12 @@ form {
 
 }
 
+label {
+    display:block;
+    margin-bottom:$inuit-global-spacing-unit/4;
+    color:lighten($mid,20%);
+}
+
 input[type=submit]:hover {
     cursor:pointer;
 }
@@ -94,4 +100,11 @@ input[type=submit]:hover {
         top:3px;
         left:0;
     }
+}
+
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { 
+    background:#fff!important;
+}
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
 }
