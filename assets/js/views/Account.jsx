@@ -1,26 +1,55 @@
 import React from 'react';
-import { Router, Route, Link, browserHistory } from 'react-router';
 
-import NavgationContainer from '../containers/NavigationContainer';
+import HeaderContainer from '../containers/HeaderContainer';
 
 const Account = React.createClass({
 
+    getInitialState:function(){
+        return {
+            windowHeight:undefined
+        };
+    },
+
+    componentDidMount: function() {
+        this._resizeContent();
+        window.addEventListener('resize', this._resizeContent);
+    },
+
+    componentWillUnmount: function() {
+        window.removeEventListener('resize', this._resizeContent);
+    },
+
+    _resizeContent : function() {
+        var windowWidth = window.innerWidth;
+        if (windowWidth < 740) {
+            this.setState({
+                windowHeight:undefined
+            });
+            return;
+        }
+        var headerHeight = this.refs.header.clientHeight;
+        var remainingHeight = window.innerHeight - headerHeight;
+        this.setState({
+            windowHeight:remainingHeight
+        });
+    },
+
     render:function(){
         
+        var ScrollPaneStyle = {
+            height:this.state.windowHeight,
+            overflowY:'scroll'
+        }
+
         return (
             <div>
                 <div ref="header">
-                    <header className="header u-clearfix">
-                        <div className="logo">
-                            <Link to="/" className="logo__link">
-                                <img src={window.vidfeed.images_dir + '/logo-black.svg'} alt="Vidfeed" />
-                            </Link>
-                        </div>
-                    </header>
-                    <NavgationContainer />
+                    <HeaderContainer />
                 </div>
-                <div className="o-wrapper">
-                    {this.props.children}
+                <div style={ScrollPaneStyle}>
+                    <div className="o-wrapper">
+                        {this.props.children}
+                    </div>
                 </div>
             </div>
         );

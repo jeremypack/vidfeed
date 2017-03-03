@@ -15,6 +15,7 @@ import Account from './views/Account';
 import LoginContainer from './containers/LoginContainer';
 import RegisterContainer from './containers/RegisterContainer';
 import ForgotPasswordContainer from './containers/ForgotPasswordContainer';
+import AccountContainer from './containers/AccountContainer';
 
 
 ReactDOM.render(<Router history={browserHistory}>
@@ -25,6 +26,7 @@ ReactDOM.render(<Router history={browserHistory}>
         <Route path="/app/login" component={LoginContainer} />
         <Route path="/app/register" component={RegisterContainer} />
         <Route path="/app/forgotpassword" component={ForgotPasswordContainer} />
+        <Route path="/app/account" component={AccountContainer} />
     </Route>
 
     <Route path="/app/dashboard" component={Dashboard} />

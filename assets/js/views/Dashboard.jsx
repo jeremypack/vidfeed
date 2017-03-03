@@ -337,16 +337,7 @@ const Dashboard = React.createClass({
         return (
             <div className={blurClasses}>
                 <div ref="header">
-                    <header className="header u-clearfix">
-                        <div className="logo">
-                            <Link to="/" className="logo__link">
-                                <img src={window.vidfeed.images_dir + '/logo-black.svg'} alt="Vidfeed" />
-                            </Link>
-                        </div>
-                        <div className="float--right">
-                            {displayUser}
-                        </div> 
-                    </header>
+                    <HeaderContainer />
                 </div>
                 <div className="o-layout">
                     <div className="o-layout__item u-1/4@tablet u-1/5@desktop">

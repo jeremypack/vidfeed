@@ -12,7 +12,8 @@ const User = React.createClass({
         userEmail:      React.PropTypes.string,
         removeUser:     React.PropTypes.bool,
         removeFunc:     React.PropTypes.func,
-        iconOnly:       React.PropTypes.bool
+        iconOnly:       React.PropTypes.bool,
+        onClick:        React.PropTypes.func
     },
 
     getInitialState: function() {
@@ -36,6 +37,16 @@ const User = React.createClass({
         });
     },
 
+    componentWillReceiveProps:function(nextProps) {
+        if (nextProps.id != this.props.id) {
+            var firstLetter = nextProps.userEmail.charAt(0);
+            this.setState({
+                firstLetter:firstLetter,
+                swatchNumber: swatchNumber(parseInt(nextProps.id),10)
+            });
+        }
+    },
+
     render:function() {
 
         var iconClass = 'user__icon pastelSwatch--'+this.state.swatchNumber;
@@ -50,6 +61,15 @@ const User = React.createClass({
                 <div className="user user--iconOnly">
                     <span className={iconClass}>{this.state.firstLetter}</span>
                     <div className="user__email">{this.props.userEmail}</div>
+                </div>
+            );
+        }
+
+        if (this.props.onClick) {
+            return (
+                <div className="user user--click" onClick={this.props.onClick}>
+                    <span className={iconClass}>{this.state.firstLetter}</span>
+                    <span className="user__title">{this.props.userEmail}</span>
                 </div>
             );
         }

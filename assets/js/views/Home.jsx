@@ -3,9 +3,8 @@ import ReactPlayer from 'react-player';
 
 import { Router, Route, Link, browserHistory } from 'react-router';
 
-import NavigationContainer from '../containers/NavigationContainer';
+import HeaderContainer from '../containers/HeaderContainer';
 import CreateFeedContainer from '../containers/CreateFeedContainer';
-import GetPlusContainer from '../containers/GetPlusContainer';
 
 import YouTubePlayer from '../components/YouTubePlayer';
 
@@ -54,13 +53,6 @@ const Home = React.createClass({
         }
     },
 
-    _toggleGetPlus:function(e) {
-        e.preventDefault();
-        this.setState({
-            getPlusShowing:!this.state.getPlusShowing
-        })
-    },
-
     render: function() {
 
         var playerWrapperStyle = {
@@ -72,16 +64,7 @@ const Home = React.createClass({
         return ( 
             <div className="homePage" ref="homepage">
                 <main className="home__hero">
-                    <header className="header header--home">
-                        <div className="o-wrapper">
-                            <div className="logo">
-                                <Link to="/" className="logo__link">
-                                    <img src={window.vidfeed.images_dir + '/logo-white.svg'} alt="Vidfeed" />
-                                </Link>
-                            </div>
-                            <NavigationContainer isHomepage={true} showGetPlus={this._toggleGetPlus}/>
-                        </div>
-                    </header>
+                    <HeaderContainer isHomepage={true} />
 
                     <h1>Simple Video <span className="nowrap">Collaboration</span>.</h1>
                     <p>Make and receive timecoded notes on any YouTube or Vimeo video, for free.</p>
@@ -159,14 +142,7 @@ const Home = React.createClass({
                         </div>
                     </div>
                 </section>
-                <a href="mailto:theteam@vidfeed.io" className="siteFooter"> Drop us a line at <strong>theteam@vidfeed.io</strong>
-                </a>
-
-                <GetPlusContainer 
-                    show={this.state.getPlusShowing}
-                    hide={this._toggleGetPlus}
-                    pageHeight={this.state.pageHeight} />
-
+                <a href="mailto:theteam@vidfeed.io" className="siteFooter"> Drop us a line at <strong>theteam@vidfeed.io</strong></a>
             </div>
         );
     }
