@@ -15,7 +15,7 @@ import Dashboard from './views/Dashboard';
 ReactDOM.render(<Router history={browserHistory}>
     
     <Route path="/" component={Home} />
-    <Route path="/app/dashboard" component={Dashboard} />
+    <Route path="/app/dashboard/:projectId" component={Dashboard} />
     <Route path="/app/feed/:feedId" component={Feed} />
 
 </Router>, document.getElementById('react-app'));

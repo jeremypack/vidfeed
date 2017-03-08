@@ -1,4 +1,5 @@
 import React from 'react';
+import { browserHistory } from 'react-router';
 import Modal from 'react-modal';
 
 import HeaderContainer from '../containers/HeaderContainer';
@@ -7,7 +8,6 @@ import ProjectTitleContainer from '../containers/ProjectTitleContainer';
 import CreateFeedContainer from '../containers/CreateFeedContainer';
 import FeedListContainer from '../containers/FeedListContainer';
 import ModalProjectChoice from '../components/ModalProjectChoice';
-
 
 function getIndex(value, arr, prop) {
     for(var i = 0; i < arr.length; i++) {
@@ -48,17 +48,12 @@ const Dashboard = React.createClass({
             vimeoMode:false,
             youtubeMode:false,
             selectedFeedCount:0,
-            selectedProjectId:0,
-            defaultProjectSelected:true,
+            selectedProjectId:parseInt(this.props.params.projectId,10),
             projects:[],
             feedsSelected:[],
             moveFeedModal:false
         }
     },
-
-    // componentWillMount:function(){
-    //     this._loadProjectsFromServer();
-    // },
 
     componentDidMount: function() {
         this._loadProjectsFromServer();
@@ -203,7 +198,10 @@ const Dashboard = React.createClass({
             selectedProjectId:id,
             moveProjects:false,
             defaultProjectSelected:false
+        }, function(){
+            browserHistory.push('/app/dashboard/'+this.state.selectedProjectId);
         });
+        
     },
 
     _addFeedForMove:function(feedId){
@@ -262,6 +260,8 @@ const Dashboard = React.createClass({
 
     render: function() {
         
+        
+
         var ScrollPaneStyle = {
             height:this.state.windowHeight,
             overflowY:'scroll'
@@ -293,7 +293,7 @@ const Dashboard = React.createClass({
         let button1, button2 = null;
 
         if (!this.state.moveProjects && !this.state.vimeoMode && !this.state.youtubeMode) {
-            var createFeed = <CreateFeedContainer projectId={12} />
+            var createFeed = <CreateFeedContainer projectId={this.state.selectedProjectId} />
             button1 = <a href="#" className="o-btn o-btn--blue o-btn--iconLeft u-margin-right"><i className="icon icon--plusCircle"></i>Vimeo</a>;
             button2 = <a href="#" className="o-btn o-btn--primary o-btn--iconLeft"><i className="icon icon--plusCircle"></i>Youtube</a>;
         }
@@ -328,7 +328,6 @@ const Dashboard = React.createClass({
                             modalOpen={this._modalOpen}
                             modalClose={this._modalClose}
                             projects={this.state.projects}
-                            defaultProjectSelected={this.state.defaultProjectSelected}
                             selectProject={this._selectProject}
                             selectedProjectId={this.state.selectedProjectId}
                             newProject={this._addNewProject} />
@@ -337,7 +336,7 @@ const Dashboard = React.createClass({
                         <div style={ScrollPaneStyle} className="scrollPane">
                             <div className="scrollPane__content">
                                 {heading}
-                                <div className={this.state.moveProjects === true ? 'o-layout u-margin-bottom o-layout--auto o-layout--middle' : 'o-layout u-margin-bottom'}>
+                                <div className={this.state.moveProjects === true ? 'o-layout o-layout--auto o-layout--middle u-margin-bottom' : 'o-layout u-margin-bottom'}>
                                     <div className="o-layout__item u-1/2@desktop">
                                         {createFeed}
                                         {selectedFeedCount}

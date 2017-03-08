@@ -9,7 +9,8 @@ const FeedListContainer = React.createClass({
             feeds:[],
             moveMode:false,
             firstFeedSelected:undefined,
-            selectedCount:0
+            selectedCount:0,
+            show:false
         };
     },
 
@@ -43,7 +44,8 @@ const FeedListContainer = React.createClass({
                     return new Date(b.created) - new Date(a.created);
                 });
                 this.setState({
-                    feeds: data
+                    feeds: data,
+                    show:true
                 });
             }.bind(this),
             error: function(xhr, status, err) {
@@ -103,8 +105,6 @@ const FeedListContainer = React.createClass({
 
     render: function() {
 
-        console.log(this.state.feeds);
-
         var noFeeds = <div className="o-layout__item c-feedList__no-feeds">No feeds added yet <span className="nowrap">:(</span></div>;
         var feedNodes = this.state.feeds.map(function(feed, i) {
             if (feed.provider.name === 'vimeo') {
@@ -132,11 +132,20 @@ const FeedListContainer = React.createClass({
             );
         }.bind(this));
 
+        if (this.state.show) {
+            return (
+                <section className="o-layout c-feedList">
+                    {feedNodes.length ? feedNodes : noFeeds }
+                </section>
+            );
+        }
+
         return (
-            <section className="o-layout c-feedList">
-                {feedNodes.length ? feedNodes : noFeeds }
-            </section>
+            <div className="o-layout__item c-feedList__no-feeds">
+                <span className="nowrap">loading…</span>
+            </div>
         );
+        
     }
 
 });

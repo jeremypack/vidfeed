@@ -41,13 +41,14 @@ const ProjectTitleContainer = React.createClass({
         if (this.props.projectId === 0) {
             this._allFeeds();
         } else {
-            this._getProjectTitle(this.props.projectId);
+            this._getProjectTitle(this.props.projectId, this.props.projects);
         }
     },
 
     componentWillReceiveProps:function(nextProps) {
         if (nextProps.projectId != this.props.projectId && nextProps.projectId != 0) {
-            this._getProjectTitle(nextProps.projectId);
+            this._getProjectTitle(nextProps.projectId, this.props.projects);
+            
         }
         if (nextProps.projectId === 0) {
             this._allFeeds();
@@ -57,12 +58,15 @@ const ProjectTitleContainer = React.createClass({
                 editable:nextProps.editable
             });
         }
+        if (nextProps.projects != this.props.projects && this.props.projectId != 0) {
+            this._getProjectTitle(nextProps.projectId, nextProps.projects);
+        }
     },
 
-    _getProjectTitle:function(projectId) {
-        for (var x = 0; x < this.props.projects.length; x++) {
-            if (this.props.projects[x].id === projectId) {
-                var title = this.props.projects[x].title;
+    _getProjectTitle:function(projectId, projects) {
+        for (var x = 0; x < projects.length; x++) {
+            if (projects[x].id === projectId) {
+                var title = projects[x].title;
             }
         }
         this.setState({

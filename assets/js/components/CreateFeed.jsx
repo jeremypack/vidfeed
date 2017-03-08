@@ -9,7 +9,7 @@ const CreateFeed = React.createClass({
         submitHandler:      React.PropTypes.func.isRequired,
         value:              React.PropTypes.string,
         changeHandler:      React.PropTypes.func.isRequired,
-        isDashboard:         React.PropTypes.bool
+        isDashboard:        React.PropTypes.bool
     },
 
     render: function() {
