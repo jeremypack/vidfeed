@@ -1,8 +1,13 @@
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
+from django.contrib.auth import (
+    login as django_login,
+    logout as django_logout
+)
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
@@ -13,7 +18,8 @@ from vidfeed.feed.models import Comment, Feed, Provider, FeedInvite, FeedCollabo
 from vidfeed.utils import get_youtube_title_and_thumbnail, get_vimeo_title_and_thumbnail, \
     set_vidfeed_user_cookie, send_email
 from serializers import CommentSerializer, FeedSerializer, FeedInviteSerializer, \
-    FeedCollaboratorSerializer, UserSerializer, SiteUserSerializer, CommentDoneSerializer, ProjectSerializer
+    FeedCollaboratorSerializer, UserSerializer, SiteUserSerializer, CommentDoneSerializer, \
+    ProjectSerializer, LoginSerializer
 
 import json
 
@@ -255,6 +261,30 @@ def register(request):
             return Response({'email': ['Email already registered']}, status=status.HTTP_400_BAD_REQUEST)
         return Response(SiteUserSerializer(site_user).data, status=status.HTTP_201_CREATED)
     return Response(user._errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LoginView(generics.GenericAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = LoginSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=self.request.data)
+        serializer.is_valid(raise_exception=True)
+
+        django_login(request, serializer.validated_data['user'])
+        return Response({"success": "Successfully logged in."}, status=status.HTTP_200_OK)
+
+
+class LogoutView(APIView):
+    permission_classes = (AllowAny,)
+
+    def post(self, request):
+        django_logout(request)
+        return Response({"success": "Successfully logged out."}, status=status.HTTP_200_OK)
+
+    def get(self, request):
+        django_logout(request)
+        return Response({"success": "Successfully logged out."}, status=status.HTTP_200_OK)
 
 
 class ProjectList(APIView):

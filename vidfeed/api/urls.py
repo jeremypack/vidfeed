@@ -16,6 +16,9 @@ urlpatterns = [
     url(r'^projects/(?P<project_id>\d+)/feed/(?P<feed_id>\S+)$', views.ManageProjectFeeds.as_view()),
     url(r'^projects/(?P<project_id>\d+)/feeds$', views.ProjectFeedList.as_view()),
     url(r'^profile/register$', views.register),
+    url(r'^profile/login$', views.LoginView.as_view(), name='rest_login'),
+    url(r'^profile/logout$', views.LogoutView.as_view(), name='rest_logout'),
+
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

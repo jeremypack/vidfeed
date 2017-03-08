@@ -1,7 +1,12 @@
-from rest_framework import serializers
+from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth import get_user_model, authenticate
+
+
+from rest_framework import serializers, exceptions
 from vidfeed.feed.models import Feed, Comment, Provider, FeedInvite, \
     FeedCollaborator, Project
 from vidfeed.profiles.models import SiteUser
+
 
 
 class SiteUserSerializer(serializers.ModelSerializer):
@@ -113,3 +118,37 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = ('id', 'title', 'created', 'owner',)
+
+
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+    password = serializers.CharField(style={'input_type': 'password'})
+
+    def _validate_email(self, email, password):
+        user = None
+
+        if email and password:
+            user = authenticate(email=email.lower(), password=password)
+        else:
+            msg = _('Must include "email" and "password".')
+            raise exceptions.ValidationError(msg)
+
+        return user
+
+    def validate(self, attrs):
+        email = attrs.get('email')
+        password = attrs.get('password')
+
+        user = self._validate_email(email, password)
+
+        # Did we get back an active user?
+        if user:
+            if not user.is_active:
+                msg = _('Sorry this user account is disabled. Please contact support.')
+                raise exceptions.ValidationError(msg)
+        else:
+            msg = _("Sorry, we don't recognise this email, password combination. Please try again.")
+            raise exceptions.ValidationError(msg)
+
+        attrs['user'] = user
+        return attrs
