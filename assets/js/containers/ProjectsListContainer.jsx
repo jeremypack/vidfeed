@@ -162,9 +162,8 @@ const ProjectsListContainer = React.createClass({
 
         return (
             <section style={projectListStyle} className="c-projectList">
-                <h3 className="c-projectList__count">{ this.state.projects.length === 1 ? this.state.projects.length + ' Project' : this.state.projects.length + ' Projects'}</h3>
+                <div className={'c-projectList__item c-projectList__item--top' + (this.state.selectedProjectId === 0 ? ' c-projectList__item--selected' : '')}><a href="#" data-project-id="0" onClick={this._selectProject}><i className="icon icon--multiple"></i>All Feeds</a></div>
                 <ul className="o-list-bare">
-                   <li className={'c-projectList__item' + (this.state.selectedProjectId === 0 ? ' c-projectList__item--selected' : '')}><a href="#" data-project-id="0" onClick={this._selectProject}>All Feeds<i className="icon icon--arrowRight"></i></a></li>
                    {projectNodes}
                 </ul>
                 <a href="#" onClick={this._openModal} className="c-projectList__addBtn o-btn o-btn--tertiary o-btn--iconLeft o-btn--outline o-btn--small"><i className="icon icon--plusCircle"></i>Add project</a>
