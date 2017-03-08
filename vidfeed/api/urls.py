@@ -18,7 +18,7 @@ urlpatterns = [
     url(r'^profile/register$', views.register),
     url(r'^profile/login$', views.LoginView.as_view(), name='rest_login'),
     url(r'^profile/logout$', views.LogoutView.as_view(), name='rest_logout'),
-
+    url(r'^profile/is-authenticated$', views.IsAuthenticatedView.as_view(), name='is_authenticated'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

@@ -287,6 +287,14 @@ class LogoutView(APIView):
         return Response({"success": "Successfully logged out."}, status=status.HTTP_200_OK)
 
 
+class IsAuthenticatedView(APIView):
+    permission_classes = (AllowAny,)
+
+    def get(self, requet):
+        is_authenticated = 'true' if requet.user.is_authenticated else 'false'
+        return Response({"is_authenticated": is_authenticated})
+
+
 class ProjectList(APIView):
     permission_classes = (IsAuthenticated,)
 

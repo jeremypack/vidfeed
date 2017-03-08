@@ -18,6 +18,10 @@
   <div class="form-group">
     <button id="logout" class="btn btn-primary">LOGOUT</button>
   </div>
+  <br><br>
+  <div class="form-group">
+    <button id="is_authenticated" class="btn btn-primary">IS AUTHENTICATED</button>
+  </div>
   <div style="margin-top: 20px;" id="results"></div>
 {% endblock %}
 
@@ -68,5 +72,19 @@
       }
     });
   });
+
+  /*
+  IS AUTHENTICATED
+   */
+  $('#is_authenticated').click(function () {
+    $.ajax({
+      type: 'get',
+      url: '/api/profile/is-authenticated',
+      success: function (data) {
+        $('#results').html(JSON.stringify(data));
+      }
+    });
+  });
+
 </script>
 {% endblock %}
