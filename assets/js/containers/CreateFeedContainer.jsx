@@ -21,7 +21,7 @@ const CreateFeedContainer =  React.createClass({
     },
 
     componentDidMount:function(){
-        if (this.props.projectId) {
+        if (this.props.projectId || this.props.projectId === 0) {
             this.setState({
                 isDashboard:true
             })
@@ -65,8 +65,12 @@ const CreateFeedContainer =  React.createClass({
                 videoUrl: videoUrl
             },
             success: function (ev){
-                const path = '/app/feed/' + ev.feed_id;
-                browserHistory.push(path);
+                // if (this.state.isDashboard) {
+                //     console.log('added');
+                // } else {
+                    const path = '/app/feed/' + ev.feed_id;
+                    browserHistory.push(path);
+                // }
             },
             error: function (ev) {
                 this.setState({

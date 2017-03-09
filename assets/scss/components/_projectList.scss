@@ -48,7 +48,9 @@
     padding:$inuit-global-spacing-unit*.75 $inuit-global-spacing-unit/2 $inuit-global-spacing-unit*.75 $inuit-global-spacing-unit/2;
     font-weight:500;
     .icon {
-        top:$inuit-global-spacing-unit;
+        top:21px;
+        width:18px;
+        height:18px;
     }
 }
 .c-projectList__item--top.c-projectList__item--selected a {

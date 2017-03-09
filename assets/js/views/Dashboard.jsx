@@ -48,15 +48,30 @@ const Dashboard = React.createClass({
             vimeoMode:false,
             youtubeMode:false,
             selectedFeedCount:0,
-            selectedProjectId:parseInt(this.props.params.projectId,10),
+            selectedProjectId:undefined,
             projects:[],
+            feeds:[],
+            showFeeds:false,
             feedsSelected:[],
             moveFeedModal:false
         }
     },
 
+    componentWillMount:function(){
+        if (!this.props.params.projectId) {
+            this.setState({
+                selectedProjectId:0
+            })
+        } else {
+            this.setState({
+                selectedProjectId:this.props.params.projectId
+            })
+        }
+    },
+
     componentDidMount: function() {
         this._loadProjectsFromServer();
+        this._loadFeedsFromServer(this.state.selectedProjectId);
         this._resizeContent();
         window.addEventListener('resize', this._resizeContent);
     },
@@ -158,6 +173,30 @@ const Dashboard = React.createClass({
         });
     },
 
+    _loadFeedsFromServer: function(projectId) {
+        let feedPath;
+        if (projectId != 0) {
+            feedPath = '/api/projects/' + projectId + '/feeds';
+        } else {
+            feedPath = '/api/feeds/'
+        }
+        $.ajax({
+            url: feedPath,
+            success: function(data) {
+                data.sort(function(a,b){
+                    return new Date(b.created) - new Date(a.created);
+                });
+                this.setState({
+                    feeds: data,
+                    showFeeds: true
+                });
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(status, err.toString());
+            }.bind(this)
+        });
+    },
+
     _modalOpen: function() {
         this.setState({
             blur:true
@@ -197,8 +236,10 @@ const Dashboard = React.createClass({
         this.setState({
             selectedProjectId:id,
             moveProjects:false,
-            defaultProjectSelected:false
+            defaultProjectSelected:false,
+            showFeeds:false
         }, function(){
+            this._loadFeedsFromServer(this.state.selectedProjectId);
             browserHistory.push('/app/dashboard/'+this.state.selectedProjectId);
         });
         
@@ -347,6 +388,8 @@ const Dashboard = React.createClass({
                                     </div>
                                 </div>
                                 <FeedListContainer
+                                    feeds={this.state.feeds}
+                                    showFeeds={this.state.showFeeds}
                                     modalOpen={this._modalOpen}
                                     modalClose={this._modalClose}
                                     moveMode={this._moveProjectsModeToggle}

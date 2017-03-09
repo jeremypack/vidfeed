@@ -9,13 +9,14 @@ const FeedListContainer = React.createClass({
             feeds:[],
             moveMode:false,
             firstFeedSelected:undefined,
-            selectedCount:0,
-            show:false
+            selectedCount:0
         };
     },
 
     componentDidMount: function() {
-        this._loadFeedsFromServer(this.props.projectId);
+        this.setState({
+            feeds:this.props.feeds
+        })
     },
 
     componentWillReceiveProps: function(nextProps) {
@@ -25,33 +26,16 @@ const FeedListContainer = React.createClass({
                 selectedCount:0
             });
         }
-        if (nextProps.projectId != this.props.projectId) {
-            this._loadFeedsFromServer(nextProps.projectId);
+        if (nextProps.feeds != this.props.feeds) {
+            this.setState({
+                feeds:nextProps.feeds
+            })
         }
-    },
-
-    _loadFeedsFromServer: function(projectId) {
-        let feedPath;
-        if (projectId != 0) {
-            feedPath = '/api/projects/' + projectId + '/feeds';
-        } else {
-            feedPath = '/api/feeds/'
+        if (nextProps.showFeeds != this.props.showFeeds) {
+            this.setState({
+                feeds:nextProps.feeds
+            })
         }
-        $.ajax({
-            url: feedPath,
-            success: function(data) {
-                data.sort(function(a,b){
-                    return new Date(b.created) - new Date(a.created);
-                });
-                this.setState({
-                    feeds: data,
-                    show:true
-                });
-            }.bind(this),
-            error: function(xhr, status, err) {
-                console.error(status, err.toString());
-            }.bind(this)
-        });
     },
 
     _deleteFeedFromProject:function(feedId, callback) {
@@ -132,7 +116,7 @@ const FeedListContainer = React.createClass({
             );
         }.bind(this));
 
-        if (this.state.show) {
+        if (this.props.showFeeds) {
             return (
                 <section className="o-layout c-feedList">
                     {feedNodes.length ? feedNodes : noFeeds }
