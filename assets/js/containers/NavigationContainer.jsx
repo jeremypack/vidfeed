@@ -50,6 +50,22 @@ const NavigationContainer = React.createClass({
         }
     },
 
+    _logout:function(){
+        $.ajax({
+            type: 'post',
+            url: '/api/profile/logout',
+            success: function (data) {
+                window.vidfeed.user.isAuthenticated = false;
+                window.vidfeed.user.email = '';
+                window.vidfeed.user.id = undefined;
+                browserHistory.push('/');
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    },
+
     _toggleSubnav:function(){
         if (!this.state.subnavShowing) {
             this.setState({
@@ -93,7 +109,7 @@ const NavigationContainer = React.createClass({
                 </nav>
             );
         }
-        if (this.state.show) {
+        if (this.state.isAuthenticated && this.state.show) {
             return (
                 <div className={navClasses}>
                     <div className="nav__user">
@@ -104,7 +120,23 @@ const NavigationContainer = React.createClass({
                         <ul className="o-list-inline">
                             <li className="o-list-inline__item"><Link className="subnav__link" to="/app/dashboard">Dashboard</Link></li>
                             <li className="o-list-inline__item"><Link className="subnav__link" to="/app/account">Account</Link></li>
-                            <li className="o-list-inline__item"><Link className="subnav__link" to="/app/login">Logout</Link></li>
+                            <li className="o-list-inline__item"><div className="subnav__link" onClick={this._logout}>Logout</div></li>
+                        </ul>
+                    </div>
+                </div>
+            );
+        }
+        if (this.state.sessionUser && !this.state.isAuthenticated && this.state.show) {
+            return (
+                <div className={navClasses}>
+                    <div className="nav__user">
+                        <User id={this.state.sessionUserId} userEmail={this.state.sessionUser} />
+                    </div>
+                    <div className={this.state.subnavBtnShowing ? 'subnav__btn':'subnav__btn subnav__btn--invisible'} onClick={this._toggleSubnav}><i className={this.props.isHomepage ? 'icon icon--menuWhite': 'icon icon--menuBlack'}></i></div>
+                    <div className={this.state.subnavShowing ? 'subnav subnav--open': 'subnav'}>
+                        <ul className="o-list-inline">
+                            <li className="o-list-inline__item"><Link className="subnav__link" to="/app/login">Login</Link></li>
+                            <li className="o-list-inline__item"><Link className="subnav__link" to="/app/register">Get Plus!</Link></li>
                         </ul>
                     </div>
                 </div>

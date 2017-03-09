@@ -18,6 +18,15 @@ import ForgotPasswordContainer from './containers/ForgotPasswordContainer';
 import AccountContainer from './containers/AccountContainer';
 
 
+function requireAuth(nextState, replace) {
+    if (!window.vidfeed.user.isAuthenticated) {
+        replace({
+            pathname: '/app/login',
+            state: { nextPathname: nextState.location.pathname }
+        })
+    }
+}
+
 ReactDOM.render(<Router history={browserHistory}>
     
     <Route path="/" component={Home} />
@@ -29,8 +38,8 @@ ReactDOM.render(<Router history={browserHistory}>
         <Route path="/app/account" component={AccountContainer} />
     </Route>
 
-    <Route path="/app/dashboard" component={Dashboard} />
-    <Route path="/app/dashboard/:projectId" component={Dashboard} />
+    <Route path="/app/dashboard" component={Dashboard} onEnter={requireAuth} />
+    <Route path="/app/dashboard/:projectId" component={Dashboard} onEnter={requireAuth} />
     <Route path="/app/feed/:feedId" component={Feed} />
 
 </Router>, document.getElementById('react-app'));

@@ -1,9 +1,16 @@
 import React from 'react';
 import { Router, Route, Link, browserHistory } from 'react-router';
+import classNames from 'classnames';
 
 const LoginForm = React.createClass({
     
     render:function() {
+        
+        var submitClasses = classNames({
+            'o-btn o-btn--primary float--right':true,
+            'o-btn--disabled':!this.props.isValid
+        });
+
         return (
             <div className="o-layout__item u-1/3">
                 <main>
@@ -19,7 +26,7 @@ const LoginForm = React.createClass({
                                 <input className="input--border" type="password" id="password" onChange={this.props.handlePasswordChange} required />
                             </div>
                             <Link className="float--left u-padding-top-small" to="/app/forgotpassword">Forgot password?</Link>
-                            <input type="submit" className="o-btn o-btn--primary float--right" value="Login" />
+                            <input type="submit" className={submitClasses} value="Login" />
                         </form>
                     </section>
                     <div className="u-padding text--center">
