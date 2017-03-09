@@ -69,6 +69,13 @@
     background-image:url(../images/arrow-right.svg);
 }
 
+.icon--menuBlack {
+    background-image:url(../images/menu-black.svg);
+}
+.icon--menuWhite {
+    background-image:url(../images/menu-white.svg);
+}
+
 .icon--cross {
     &:after {
         content:'×';

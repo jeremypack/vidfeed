@@ -139,27 +139,29 @@ const Feed = React.createClass({
             this.setState({
                 commentsOpen:true,
                 commentsBtn:false
+            }, function(){
+                setTimeout(function() {
+                    this.setState({
+                        drawerVisible:true
+                    });
+                }.bind(this), 150);
             });
-            setTimeout(function() {
-                this.setState({
-                    drawerVisible:true
-                });
-            }.bind(this), 150);
-           
         } else {
             this.setState({
                 drawerVisible:false
+            }, function(){
+                setTimeout(function() {
+                    this.setState({
+                        commentsOpen:false
+                    });
+                }.bind(this), 150);
+                setTimeout(function() {
+                    this.setState({
+                        commentsBtn:true
+                    });
+                }.bind(this), 450);
             });
-            setTimeout(function() {
-                this.setState({
-                    commentsOpen:false
-                });
-            }.bind(this), 150);
-            setTimeout(function() {
-                this.setState({
-                    commentsBtn:true
-                });
-            }.bind(this), 450);
+           
         }
     },
 
@@ -226,10 +228,7 @@ const Feed = React.createClass({
                 <div className={blurClasses}>
                     
                     <div ref="header">
-                        
-                        <HeaderContainer 
-                            plusAccountInterest={this._plusAccountSignUp} />
-                    
+                        <HeaderContainer />
                     </div>
                     
                     <section ref="infoBar" className="feedInfo u-clearfix">

@@ -1,0 +1,90 @@
+{% extends 'index.html' %}
+
+{% block main_content %}
+{% if user.is_authenticated %}
+  <h1 style="margin-bottom: 0;">Hello {{ request.user }}</h1>
+{% else %}
+  <h1 style="margin-bottom: 0;">You're not logged in</h1>
+{% endif %}
+  <h2>(This doesn't refresh unless you refresh the page)</h2>
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input name="email" id="email">
+    <label for="password">Password</label>
+    <input name="password" id="password">
+    <button id="login" class="btn btn-primary">LOGIN</button>
+  </div>
+  <br><br>
+  <div class="form-group">
+    <button id="logout" class="btn btn-primary">LOGOUT</button>
+  </div>
+  <br><br>
+  <div class="form-group">
+    <button id="is_authenticated" class="btn btn-primary">IS AUTHENTICATED</button>
+  </div>
+  <div style="margin-top: 20px;" id="results"></div>
+{% endblock %}
+
+{% block js %}
+<script type="application/javascript">
+  /*
+  LOGIN
+ */
+  $('#login').click(function () {
+    var email = $('#email').val();
+    var password = $('#password').val();
+    if (!email || !password) {
+      return;
+    }
+    $.ajax({
+      type: 'post',
+      url: '/api/profile/login',
+      data: {
+        email: email,
+        password: password
+      },
+      success: function (data) {
+        $('#results').html(JSON.stringify(data));
+      },
+      error: function (data) {
+        console.log(data);
+        if(data.responseJSON && data.responseJSON.non_field_errors) {
+          $('#results').html(data.responseJSON.non_field_errors[0]);
+        } else {
+          $('#results').html("Unable to login at this time. Please contact support if this error persists.");
+        }
+      }
+    });
+  });
+
+  /*
+  LOGOUT
+ */
+  $('#logout').click(function () {
+    $.ajax({
+      type: 'post',
+      url: '/api/profile/logout',
+      success: function (data) {
+        $('#results').html(JSON.stringify(data));
+      },
+      error: function (data) {
+        console.log(data);
+      }
+    });
+  });
+
+  /*
+  IS AUTHENTICATED
+   */
+  $('#is_authenticated').click(function () {
+    $.ajax({
+      type: 'get',
+      url: '/api/profile/is-authenticated',
+      success: function (data) {
+        $('#results').html(JSON.stringify(data));
+      }
+    });
+  });
+
+</script>
+{% endblock %}
