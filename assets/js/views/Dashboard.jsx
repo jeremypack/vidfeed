@@ -2,8 +2,6 @@ import React from 'react';
 import { browserHistory } from 'react-router';
 import Modal from 'react-modal';
 
-import { Router, Route, Link, browserHistory } from 'react-router';
-
 import HeaderContainer from '../containers/HeaderContainer';
 import ProjectsListContainer from '../containers/ProjectsListContainer';
 import ProjectTitleContainer from '../containers/ProjectTitleContainer';
