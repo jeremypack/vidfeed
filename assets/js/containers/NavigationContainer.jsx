@@ -15,6 +15,7 @@ const NavigationContainer = React.createClass({
         return {
             sessionUser:'',
             sessionUserId:undefined,
+            isAuthenticated:false,
             show:false,
             subnavBtnShowing:true, // opacity
             subnavShowing:false
@@ -27,6 +28,7 @@ const NavigationContainer = React.createClass({
                 this.setState({
                     sessionUser:window.vidfeed.user.email,
                     sessionUserId:window.vidfeed.user.id,
+                    isAuthenticated:window.vidfeed.user.isAuthenticated,
                     show:true
                 });
             } else {
@@ -76,12 +78,12 @@ const NavigationContainer = React.createClass({
 
         var navClasses = classNames({
             'nav':true,
-            'nav--loggedIn':this.state.sessionUser,
+            'nav--loggedIn':this.state.isAuthenticated,
             'nav--home':this.props.isHomepage,
             'nav--subnavShowing':this.state.subnavShowing
         });
 
-        if (this.props.isHomepage && !this.state.sessionUser && this.state.show) {
+        if (this.props.isHomepage && !this.state.isAuthenticated && this.state.show) {
             return (
                 <nav className={navClasses}>
                     <ul className="o-list-inline"> 
@@ -100,6 +102,7 @@ const NavigationContainer = React.createClass({
                     <div className={this.state.subnavBtnShowing ? 'subnav__btn':'subnav__btn subnav__btn--invisible'} onClick={this._toggleSubnav}><i className={this.props.isHomepage ? 'icon icon--menuWhite': 'icon icon--menuBlack'}></i></div>
                     <div className={this.state.subnavShowing ? 'subnav subnav--open': 'subnav'}>
                         <ul className="o-list-inline">
+                            <li className="o-list-inline__item"><Link className="subnav__link" to="/app/dashboard">Dashboard</Link></li>
                             <li className="o-list-inline__item"><Link className="subnav__link" to="/app/account">Account</Link></li>
                             <li className="o-list-inline__item"><Link className="subnav__link" to="/app/login">Logout</Link></li>
                         </ul>

@@ -65,14 +65,14 @@
     @include inuit-font-size(14px, $line-height:14px);
     ul {
         display:block;
-        width:150px;
+        width:250px;
     }
     li {
         margin:0 0 0 $inuit-global-spacing-unit;
     } 
 }
 .subnav--open {
-    width:150px;
+    width:250px;
     transform:translateX(0);
 }
 .subnav__link {
