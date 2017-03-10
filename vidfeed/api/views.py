@@ -271,8 +271,11 @@ class LoginView(generics.GenericAPIView):
         serializer = self.get_serializer(data=self.request.data)
         serializer.is_valid(raise_exception=True)
 
-        django_login(request, serializer.validated_data['user'])
-        return Response({"success": "Successfully logged in."}, status=status.HTTP_200_OK)
+        user = serializer.validated_data['user']
+        django_login(request, user)
+        r = Response(SiteUserSerializer(user).data, status=status.HTTP_200_OK)
+        set_vidfeed_user_cookie(r, user.email)
+        return r
 
 
 class LogoutView(APIView):
