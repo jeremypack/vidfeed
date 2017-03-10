@@ -65,15 +65,6 @@ const User = React.createClass({
             );
         }
 
-        if (this.props.onClick) {
-            return (
-                <div className="user user--click" onClick={this.props.onClick}>
-                    <span className={iconClass}>{this.state.firstLetter}</span>
-                    <span className="user__title">{this.props.userEmail}</span>
-                </div>
-            );
-        }
-
         return (
             <div className="user">
                 <span className={iconClass}>{this.state.firstLetter}</span>
