@@ -273,7 +273,7 @@ class LoginView(generics.GenericAPIView):
 
         user = serializer.validated_data['user']
         django_login(request, user)
-        r = Response({"success": "Successfully logged in."}, status=status.HTTP_200_OK)
+        r = Response(SiteUserSerializer(user).data, status=status.HTTP_200_OK)
         set_vidfeed_user_cookie(r, user.email)
         return r
 
