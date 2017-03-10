@@ -16,7 +16,8 @@ const CreateFeedContainer =  React.createClass({
             isValid:false,
             error: '',
             showInvalidMsg:false,
-            isDashboard:false
+            isDashboard:false,
+            newFeedId:''
         };
     },
 
@@ -65,17 +66,65 @@ const CreateFeedContainer =  React.createClass({
                 videoUrl: videoUrl
             },
             success: function (ev){
-                // if (this.state.isDashboard) {
-                //     console.log('added');
-                // } else {
+                if (this.state.isDashboard) {
+                    this.setState({
+                        newFeedId:ev.feed_id,
+                        videoUrl:''
+                    }, function(){
+                        this._setAuthenticatedOwner();
+                    });
+                } else {
                     const path = '/app/feed/' + ev.feed_id;
                     browserHistory.push(path);
-                // }
+                }
             },
             error: function (ev) {
                 this.setState({
                     error: JSON.parse(ev.responseText).message
                 });
+            }
+        });
+    },
+
+    _setAuthenticatedOwner:function() {
+        if (!window.vidfeed.user.isAuthenticated || !window.vidfeed.user.email) {
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            context: this,
+            url: "/api/feeds/" + this.state.newFeedId + '/set-owner/',
+            data: {
+                owner: window.vidfeed.user.email
+            },
+            success: function (ev){
+                if (this.props.projectId != 0) {
+                    this._addToSelectedProject();
+                } else {
+                    this.setState({
+                        newFeedId:''
+                    });
+                }
+            },
+            error: function (ev) {
+                console.log(window.vidfeed.user.email,'owner');
+                console.log(this.state.newFeedId,'feedId');
+            }
+        });
+    },
+
+    _addToSelectedProject:function(){
+        $.ajax({
+            type: 'post',
+            url: '/api/projects/' + this.props.projectId + '/feed/' + this.state.newFeedId,
+            success: function (data) {
+                this.props.loadFeeds(this.props.projectId);
+                this.setState({
+                    newFeedId:''
+                });
+            }.bind(this),
+            error: function (data) {
+                console.log(data);
             }
         });
     },

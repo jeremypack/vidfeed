@@ -64,7 +64,7 @@ const Dashboard = React.createClass({
             })
         } else {
             this.setState({
-                selectedProjectId:this.props.params.projectId
+                selectedProjectId:parseInt(this.props.params.projectId,10)
             })
         }
     },
@@ -332,7 +332,9 @@ const Dashboard = React.createClass({
         let button1, button2 = null;
 
         if (!this.state.moveProjects && !this.state.vimeoMode && !this.state.youtubeMode) {
-            var createFeed = <CreateFeedContainer projectId={this.state.selectedProjectId} />
+            var createFeed = <CreateFeedContainer
+                                projectId={this.state.selectedProjectId}
+                                loadFeeds={this._loadFeedsFromServer} />
             button1 = <a href="#" className="o-btn o-btn--blue o-btn--iconLeft u-margin-right"><i className="icon icon--plusCircle"></i>Vimeo</a>;
             button2 = <a href="#" className="o-btn o-btn--primary o-btn--iconLeft"><i className="icon icon--plusCircle"></i>Youtube</a>;
         }
