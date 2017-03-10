@@ -61,7 +61,8 @@ const LoginContainer = React.createClass({
                 password: this.state.password
             },
             success: function (data){
-                window.vidfeed.user.email = this.state.username;
+                window.vidfeed.user.id = data.id;
+                window.vidfeed.user.email = data.email;
                 window.vidfeed.user.isAuthenticated = true;
                 browserHistory.push('/app/dashboard');
             },
