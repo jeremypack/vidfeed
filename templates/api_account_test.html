@@ -22,6 +22,12 @@
   <div class="form-group">
     <button id="is_authenticated" class="btn btn-primary">IS AUTHENTICATED</button>
   </div>
+  <br><br>
+  <div class="form-group">
+    <label for="reset_email">Email for Password Reset</label>
+    <input name="reset_email" id="reset_email">
+    <button id="reset_password" class="btn btn-primary">Send Reset Password Email</button>
+  </div>
   <div style="margin-top: 20px;" id="results"></div>
 {% endblock %}
 
@@ -82,6 +88,29 @@
       url: '/api/profile/is-authenticated',
       success: function (data) {
         $('#results').html(JSON.stringify(data));
+      }
+    });
+  });
+
+  /*
+  RESET PASSWORD
+   */
+  $('#reset_password').click(function () {
+    var email = $('#reset_email').val();
+    if (!email) {
+      return;
+    }
+    $.ajax({
+      type: 'post',
+      url: '/api/profile/password/reset',
+      data: {
+        email: email
+      },
+      success: function (data) {
+        $('#results').html(JSON.stringify(data));
+      },
+      error: function (data) {
+        console.log(data);
       }
     });
   });

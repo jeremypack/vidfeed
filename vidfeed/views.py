@@ -10,6 +10,15 @@ def index(request):
 
 
 @ensure_csrf_cookie
+def password_reset(request, uidb64, token):
+    ops = {
+        'token': token,
+        'uidb64': uidb64,
+    }
+    return render(request, 'reset_password.html', ops)
+
+
+@ensure_csrf_cookie
 def api_test(request):
     return render(request, 'api_test.html', {})
 

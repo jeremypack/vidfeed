@@ -19,7 +19,7 @@ from vidfeed.utils import get_youtube_title_and_thumbnail, get_vimeo_title_and_t
     set_vidfeed_user_cookie, send_email
 from serializers import CommentSerializer, FeedSerializer, FeedInviteSerializer, \
     FeedCollaboratorSerializer, UserSerializer, SiteUserSerializer, CommentDoneSerializer, \
-    ProjectSerializer, LoginSerializer
+    ProjectSerializer, LoginSerializer, PasswordResetSerializer, PasswordResetConfirmSerializer
 
 import json
 
@@ -296,6 +296,50 @@ class IsAuthenticatedView(APIView):
     def get(self, requet):
         is_authenticated = 'true' if requet.user.is_authenticated else 'false'
         return Response({"is_authenticated": is_authenticated})
+
+
+class PasswordResetView(generics.GenericAPIView):
+
+    """
+    Calls Django Auth PasswordResetForm save method.
+
+    Accepts the following POST parameters: email
+    Returns the success/fail message.
+    """
+
+    serializer_class = PasswordResetSerializer
+    permission_classes = (AllowAny,)
+
+    def post(self, request, *args, **kwargs):
+        # Create a serializer with request.data
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        serializer.save()
+        # Return the success message with OK HTTP status
+        return Response(
+            {"success": "Password reset e-mail has been sent."},
+            status=status.HTTP_200_OK
+        )
+
+
+class PasswordResetConfirmView(generics.GenericAPIView):
+    """
+    Password reset e-mail link is confirmed, therefore this resets the user's password.
+
+    Accepts the following POST parameters: new_password1, new_password2
+    Accepts the following Django URL arguments: token, uid
+    Returns the success/fail message.
+    """
+
+    serializer_class = PasswordResetConfirmSerializer
+    permission_classes = (AllowAny,)
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"success": "Password has been reset with the new password."})
 
 
 class ProjectList(APIView):
