@@ -58,8 +58,14 @@ const NavigationContainer = React.createClass({
                 window.vidfeed.user.isAuthenticated = false;
                 window.vidfeed.user.email = '';
                 window.vidfeed.user.id = undefined;
+                this.setState({
+                    sessionUser:'',
+                    sessionUserId:undefined,
+                    isAuthenticated:window.vidfeed.user.isAuthenticated,
+                });
+                console.log('logout');
                 browserHistory.push('/');
-            },
+            }.bind(this),
             error: function (data) {
                 console.log(data);
             }
@@ -75,7 +81,7 @@ const NavigationContainer = React.createClass({
                     this.setState({
                         subnavShowing:true
                     })
-                }.bind(this),300)
+                }.bind(this),50)
             });
         } else {
             this.setState({
@@ -85,7 +91,7 @@ const NavigationContainer = React.createClass({
                     this.setState({
                         subnavBtnShowing:true
                     })
-                }.bind(this),300)
+                }.bind(this),50)
             });
         }
     },

@@ -37,12 +37,20 @@ const HeaderContainer = React.createClass({
 
     render: function() {
         
+        let logoLink;
+
+        if (window.vidfeed.user.isAuthenticated) {
+            logoLink = '/app/dashboard'
+        } else {
+            logoLink = '/'
+        }
+
         if (this.props.isHomepage) {
             return (
                 <header className='header header--home u-clearfix' onMouseEnter={this._mouseIn} onMouseLeave={this._mouseOut}>
                     <div className="o-wrapper">
                         <div className="logo">
-                            <Link to="/" className="logo__link">
+                            <Link to={logoLink} className="logo__link">
                                 <img src={window.vidfeed.images_dir + '/logo-white.svg'} alt="Vidfeed" />
                             </Link>
                         </div>
@@ -55,7 +63,7 @@ const HeaderContainer = React.createClass({
         return (
             <header className='header u-clearfix' onMouseEnter={this._mouseIn} onMouseLeave={this._mouseOut}>
                 <div className="logo">
-                    <Link to="/" className="logo__link">
+                    <Link to={logoLink} className="logo__link">
                         <img src={window.vidfeed.images_dir + '/logo-black.svg'} alt="Vidfeed" />
                     </Link>
                 </div>
