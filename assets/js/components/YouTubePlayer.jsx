@@ -152,6 +152,9 @@ const YouTubePlayer = React.createClass({
     },
 
     _seekTo: function(seconds) {
+        this.setState({
+            lastSeek:undefined
+        })
         player.seekTo(seconds);
     },
 
