@@ -168,6 +168,12 @@ const Feed = React.createClass({
     _timecodeClick: function(timecodeClicked) {
         this.setState({
             timecodeClicked:timecodeClicked
+        }, function(){
+            setTimeout(function(){
+                this.setState({
+                    timecodeClicked:undefined
+                });
+            }.bind(this),200)
         });
     },
 
