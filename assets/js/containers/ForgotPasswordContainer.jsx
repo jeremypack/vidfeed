@@ -7,22 +7,38 @@ const ForgotPasswordContainer = React.createClass({
     
     getInitialState: function() {
         return {
-            username:'',
+            email:'',
             submitted:false
         };
     },
 
-    _handleUsernameChange:function(e){
+    _handleEmailChange:function(e){
         this.setState({
-            username: e.target.value
+            email: e.target.value
         });
     },
 
     _onSubmit:function(e){
         e.preventDefault();
-        this.setState({
-            submitted:true
-        })
+        if (!this.state.email) {
+            return;
+        }
+        $.ajax({
+            type: 'post',
+            url: '/api/profile/password/reset',
+            data: {
+                email: this.state.email
+            },
+            success: function (data) {
+                //console.log(JSON.stringify(data));
+                this.setState({
+                    submitted:true
+                })
+            }.bind(this),
+            error: function (data) {
+                console.log(data,'error');
+            }
+        });
     },
 
 
@@ -30,12 +46,12 @@ const ForgotPasswordContainer = React.createClass({
         
         if (!this.state.submitted) {
             var form = <ForgotPasswordForm 
-                    handleUsernameChange={this._handleUsernameChange} 
+                    handleEmailChange={this._handleEmailChange} 
                     onSubmit={this._onSubmit} />
         } else {
             var thanks = <div className="text--center">
-                            <p>Thanks. A password reset link has been sent to your email address</p>
-                            <Link className="o-btn o-btn--primary" to="/app/login">Back to <strong>Login</strong></Link>
+                            <p>Thank you. A password reset link has been sent to your email address.</p>
+                            <Link className="o-btn o-btn--primary u-margin-top--small" to="/app/login">Back to <strong>Login</strong></Link>
                          </div>
         }
         

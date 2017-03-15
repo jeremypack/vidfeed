@@ -8,7 +8,7 @@ const ForgotPasswordForm = React.createClass({
             <form onSubmit={this.props.onSubmit} className="form--border">
                 <div className="u-margin-bottom">
                     <label htmlFor="email">Email address</label>
-                    <input className="input--border" type="email" id="email" onChange={this.props.handleEmailChange} />
+                    <input className="input--border" type="email" id="email" onChange={this.props.handleEmailChange} required />
                 </div>
                 <div className="text--center">
                     <input type="submit" className="o-btn o-btn--primary" value="Retrieve password" />
