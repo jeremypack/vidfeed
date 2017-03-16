@@ -174,6 +174,10 @@ const Dashboard = React.createClass({
     },
 
     _loadFeedsFromServer: function(projectId) {
+        this.setState({
+            feeds:[],
+            showFeeds:false
+        })
         let feedPath;
         if (projectId != 0) {
             feedPath = '/api/projects/' + projectId + '/feeds';
@@ -275,18 +279,20 @@ const Dashboard = React.createClass({
                     type: 'post',
                     url: '/api/projects/' + projectId + '/feed/' + feeds[i],
                     success: function (data) {
-                        console.log(data);
+                        //console.log(data);
                     },
                     error: function (data) {
-                        console.log(data);
+                        //console.log(data);
                     }
                 });
             }
             this.setState({
                 moveFeedModal:false,
-                blur:false
+                blur:false,
+                moveProjects:false,
+                feedsSelected:[]
             }, function(){
-                this._selectProject(projectId);
+                this._loadFeedsFromServer(this.state.selectedProjectId);
             });
         }
     },

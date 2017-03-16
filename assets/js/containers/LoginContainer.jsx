@@ -11,6 +11,7 @@ const LoginContainer = React.createClass({
             password:'',
             validationStarted:false,
             isValid:false,
+            errorMsg:''
         };
     },
 
@@ -71,8 +72,14 @@ const LoginContainer = React.createClass({
                 console.log(data);
                 if(data.responseJSON && data.responseJSON.non_field_errors) {
                     console.log(data.responseJSON.non_field_errors[0]);
+                    this.setState({
+                        errorMsg:data.responseJSON.non_field_errors[0]
+                    })
                 } else {
                     console.log("Unable to login at this time. Please contact support if this error persists.");
+                    this.setState({
+                        errorMsg:"Unable to login at this time. Please contact support if this error persists."
+                    })
                 }
             }
         });
@@ -86,7 +93,8 @@ const LoginContainer = React.createClass({
                     isValid={this.state.isValid}
                     handleEmailChange={this._handleUsernameChange} 
                     handlePasswordChange={this._handlePasswordChange}
-                    onSubmit={this._handleSubmit} />
+                    onSubmit={this._handleSubmit}
+                    errorMsg={this.state.errorMsg} />
             </div>
         );
     }

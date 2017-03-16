@@ -11,12 +11,17 @@ const LoginForm = React.createClass({
             'o-btn--disabled':!this.props.isValid
         });
 
+        if (this.props.errorMsg) {
+            var errorMsg = <p className="text--center error-color">{this.props.errorMsg}</p>
+        }
+        
         return (
             <div className="o-layout__item u-1/3">
                 <main>
                     <h1 className="text--center">Login</h1>
                     <section className="c-accountForms c-accountForms__login u-clearfix">
                         <form onSubmit={this.props.onSubmit} className="form--border">
+                            {errorMsg}
                             <div className="u-margin-bottom">
                                 <label htmlFor="email">Email address</label>
                                 <input className="input--border" type="email" id="email" onChange={this.props.handleEmailChange} required />
