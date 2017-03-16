@@ -358,7 +358,7 @@ const Dashboard = React.createClass({
                                 <ModalProjectChoice
                                     closeModal={this._moveFeedCancel}
                                     heading='Select Project'
-                                    text='Which project wil you choose?'
+                                    text='Where would you like to move your selected feeds?'
                                     projects={this.state.projects}
                                     projectClick={this._moveToProject} />
                              </Modal>
