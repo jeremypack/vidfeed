@@ -14,7 +14,7 @@ const Actions = React.createClass({
         }
 
         if (this.props.deleteAction) {
-            var deleteAction = <li className="o-list-inline__item"><div className="c-action__item c-action--delete" title="Delete" onClick={this.props.deleteAction}><i className="icon icon--cross"></i><span className="u-hidden-visually">delete</span></div></li>;
+            var deleteAction = <li className="o-list-inline__item"><div className="c-action__item c-action--delete" title="Delete" onClick={this.props.deleteAction}><i className="icon icon--delete"></i><span className="u-hidden-visually">delete</span></div></li>;
         }
 
         if (this.props.saveAction) {
