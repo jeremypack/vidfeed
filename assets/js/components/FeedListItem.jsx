@@ -14,7 +14,8 @@ const FeedListItem = React.createClass({
         created:               React.PropTypes.string.isRequired,
         moveToProject:         React.PropTypes.func.isRequired,
         editFeedTitle:         React.PropTypes.func.isRequired,
-        deleteFeed:            React.PropTypes.func.isRequired
+        deleteFeed:            React.PropTypes.func.isRequired,
+        noTitle:               React.PropTypes.bool.isRequired
     },
 
     render: function() {
@@ -33,7 +34,7 @@ const FeedListItem = React.createClass({
                             <img src={this.props.videoThumb} alt={this.props.feedTitle} />
                         </div>
                         <div className="u-padding-small u-padding-bottom">
-                            <span className="c-feedItem__title">{this.props.feedTitle}</span>
+                            <span className={ this.props.noTitle ? "c-feedItem__title c-feedItem__title--noTitle" : "c-feedItem__title"}>{this.props.feedTitle}</span>
                             <Actions
                                 addAction={this.props.moveToProject}
                                 editAction={this.props.editFeedTitle}

@@ -73,6 +73,9 @@
 .c-feedItem__title--edit {
     font-weight:400;
 }
+.c-feedItem__title--noTitle {
+    color:$light;
+}
 .c-feedItem__created {
     position:absolute;
     right:12px;

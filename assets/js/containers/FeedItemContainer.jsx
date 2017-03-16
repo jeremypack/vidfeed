@@ -47,7 +47,9 @@ const FeedItemContainer = React.createClass({
     getInitialState:function() {
         return {
             editTitleMode:false,
-            feedTitle:this.props.videoTitle,
+            feedTitle:'',
+            noThumb:false,
+            noTitle:false,
             isValid:false,
             validationStarted:false,
             deleteFeedCheck:false,
@@ -56,6 +58,24 @@ const FeedItemContainer = React.createClass({
             selectedForMove:false,
             feedHover:false
         };
+    },
+
+    componentWillMount:function(){
+        if (!this.props.videoThumb) {
+            this.setState({
+                noThumb:true
+            });
+        }
+        if (!this.props.videoTitle) {
+            this.setState({
+                noTitle:true,
+                feedTitle:'(Untitled feed)'
+            });
+        } else {
+            this.setState({
+                feedTitle:this.props.videoTitle,
+            });
+        }
     },
 
     componentWillUnmount:function() {
@@ -88,6 +108,11 @@ const FeedItemContainer = React.createClass({
         this.setState({
             editTitleMode:true
         });
+        if (this.state.noTitle) {
+            this.setState({
+                feedTitle:''
+            });
+        }
     },
 
     _handleTitleChange: function (e) {
@@ -119,6 +144,12 @@ const FeedItemContainer = React.createClass({
             editTitleMode: false,
             feedTitle: this.props.videoTitle
         });
+        if (!this.props.videoTitle) {
+            this.setState({
+                noTitle:true,
+                feedTitle:'(Untitled feed)'
+            });
+        }
         clearInterval(this.validateInterval);
     },
 
@@ -132,7 +163,8 @@ const FeedItemContainer = React.createClass({
         //this.props.handleCommentEdit(commentId, this.props.author, body);
         this.setState({
             editTitleMode: false,
-            feedTitle: body
+            feedTitle: body,
+            noTitle: false
         });
         clearInterval(this.validateInterval);
     },
@@ -195,7 +227,8 @@ const FeedItemContainer = React.createClass({
 
         var imgCropClasses = classNames({
             'imgCrop': true,
-            'imgCrop--letterbox':this.props.isVimeo
+            'imgCrop--letterbox':this.props.isVimeo,
+            'img--broken':this.state.noThumb
         });
 
         var feedRouterLink = '/app/feed/'+this.props.feedId;
@@ -241,7 +274,8 @@ const FeedItemContainer = React.createClass({
                         handleClick={this._handleMoveSelect}
                         handleFeedHoverEnter={this._feedHoverEnter}
                         handleFeedHoverLeave={this._feedHoverLeave} 
-                        feedHover={this.state.feedHover} />
+                        feedHover={this.state.feedHover}
+                        noTitle={this.state.noTitle} />
                 </div>
             );
         }
@@ -258,7 +292,8 @@ const FeedItemContainer = React.createClass({
                     editFeedTitle={this._setEditMode}
                     deleteFeed={this._deleteFeed}
                     collaboratorCount={this.props.collaboratorCount}
-                    commentCount={this.props.commentCount} />
+                    commentCount={this.props.commentCount}
+                    noTitle={this.state.noTitle} />
                 {deleteFeedModal}
             </div>
         );

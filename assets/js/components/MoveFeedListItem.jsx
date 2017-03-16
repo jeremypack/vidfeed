@@ -11,7 +11,8 @@ const MoveFeedListItem = React.createClass({
         selected:              React.PropTypes.bool.isRequired,
         handleFeedHoverEnter:  React.PropTypes.func.isRequired,
         handleFeedHoverLeave:  React.PropTypes.func.isRequired,
-        feedHover:             React.PropTypes.bool.isRequired
+        feedHover:             React.PropTypes.bool.isRequired,
+        noTitle:               React.PropTypes.bool.isRequired
     },
 
     render: function() {
@@ -42,7 +43,7 @@ const MoveFeedListItem = React.createClass({
                             <img src={this.props.videoThumb} alt={this.props.feedTitle} />
                         </div>
                         <div className="u-padding-small u-padding-bottom">
-                            <span className="c-feedItem__title">{this.props.feedTitle}</span>
+                            <span className={ this.props.noTitle ? "c-feedItem__title c-feedItem__title--noTitle" : "c-feedItem__title"}>{this.props.feedTitle}</span>
                         </div>
                     </article>
                 </a>
