@@ -126,3 +126,13 @@
         background:lighten($red,10%);
     }
 }
+
+.c-feedItem .c-actions {
+    li {
+        margin:0;
+        margin-right:10px
+    }
+    li:first-child {
+        margin-right:5px;
+    }
+}

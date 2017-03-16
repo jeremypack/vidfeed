@@ -32,7 +32,7 @@ const Actions = React.createClass({
         }
 
         if (this.props.addAction) {
-            var addAction = <li className="o-list-inline__item"><div className="c-action__item c-action--add" title="Add" onClick={this.props.addAction}><i className="icon icon--add"></i><span className="u-hidden-visually">Add</span></div></li>;
+            var addAction = <li className="o-list-inline__item"><div className="c-action__item c-action--add" title="Add" onClick={this.props.addAction}><i className="icon icon--move"></i><span className="u-hidden-visually">Add</span></div></li>;
         }
 
         return (
