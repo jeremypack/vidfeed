@@ -172,6 +172,12 @@ class FeedDetail(viewsets.GenericViewSet):
         serializer = FeedSerializer(feed)
         return Response(serializer.data)
 
+    def delete(self, request, feed_id, format=None):
+        feed = self.get_object(feed_id)
+        feed.active = False
+        feed.save()
+        return Response({"message": "Feed deleted"}, status=status.HTTP_200_OK)
+
     @detail_route(methods=['post'])
     def set_owner(self, request, feed_id):
         feed = self.get_object(feed_id)
@@ -433,7 +439,7 @@ class ProjectFeedList(APIView):
 
     def get(self, request, project_id, format=None):
         project = self.get_project(project_id, request.user)
-        serializer = FeedSerializer(project.feeds.all(), many=True)
+        serializer = FeedSerializer(project.feeds.filter(active=True).all(), many=True)
         return Response(serializer.data)
 
 

@@ -9,7 +9,7 @@ urlpatterns = [
     url(r'^feeds/$', views.FeedList.as_view()),
     url(r'^feeds/(?P<feed_id>\S+)/set-owner/$', views.FeedDetail.as_view({'post': 'set_owner'})),
     url(r'^feeds/(?P<feed_id>\S+)/set-title/$', views.FeedUpdateDetail.as_view()),
-    url(r'^feeds/(?P<feed_id>\S+)/$', views.FeedDetail.as_view({'get': 'get'})),
+    url(r'^feeds/(?P<feed_id>\S+)/$', views.FeedDetail.as_view({'get': 'get', 'delete': 'delete'})),
     url(r'^feeds/(?P<feed_id>\S+)/invites$', views.FeedInviteList.as_view()),
     url(r'^feeds/(?P<feed_id>\S+)/collaborators$', views.FeedCollaboratorList.as_view()),
     url(r'^projects/$', views.ProjectList.as_view()),

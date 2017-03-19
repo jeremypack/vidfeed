@@ -9,6 +9,12 @@
 </div>
 <br><br>
 <div class="form-group">
+  <label for="delete_feed_id">Feed ID</label>
+  <input name=delete_feed_id" id="delete_feed_id">
+  <button id="delete_feed" class="btn btn-primary">DELETE FEED</button>
+</div>
+<br><br>
+<div class="form-group">
   <label for="update_feed_title_id">Feed ID</label>
   <input name="update_feed_title_id" id="update_feed_title_id">
   <label for="update_feed_title_title">Feed Title</label>
@@ -76,6 +82,26 @@
    $.ajax({
      type: 'get',
      url: '/api/feeds/',
+     success: function (data) {
+       console.log(data);
+       $('#results').html(JSON.stringify(data));
+     },
+     error: function (data) {
+       console.log(data);
+     }
+   });
+ });
+
+  $('#delete_feed').click(function () {
+
+    var feedId = $('#delete_feed_id').val();
+    if (!feedId) {
+      return;
+    }
+
+   $.ajax({
+     type: 'delete',
+     url: '/api/feeds/' + feedId,
      success: function (data) {
        console.log(data);
        $('#results').html(JSON.stringify(data));
