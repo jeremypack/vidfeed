@@ -31,6 +31,7 @@
         url: '/api/vimeo/videos',
         success: function (data) {
           console.log(data);
+          $('#results').html(JSON.stringify(data));
         },
         error: function (data) {
           console.log(data);
