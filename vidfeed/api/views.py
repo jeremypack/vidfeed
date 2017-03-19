@@ -19,7 +19,8 @@ from vidfeed.utils import get_youtube_title_and_thumbnail, get_vimeo_title_and_t
     set_vidfeed_user_cookie, send_email
 from serializers import CommentSerializer, FeedSerializer, FeedInviteSerializer, \
     FeedCollaboratorSerializer, UserSerializer, SiteUserSerializer, CommentDoneSerializer, \
-    ProjectSerializer, LoginSerializer, PasswordResetSerializer, PasswordResetConfirmSerializer
+    ProjectSerializer, LoginSerializer, PasswordResetSerializer, PasswordResetConfirmSerializer, \
+    FeedUpdateSerializer
 
 import json
 
@@ -422,7 +423,6 @@ class ManageProjectFeeds(APIView):
         return Response({"message": "successfully removed feed from project"}, status=status.HTTP_200_OK)
 
 
-
 class ProjectFeedList(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -433,3 +433,22 @@ class ProjectFeedList(APIView):
         project = self.get_project(project_id, request.user)
         serializer = FeedSerializer(project.feeds.all(), many=True)
         return Response(serializer.data)
+
+
+class FeedUpdateDetail(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, feed_id, owner):
+        return get_object_or_404(Feed, feed_id=feed_id, owner=owner)
+
+    """
+    Update Feed
+    """
+    def put(self, request, feed_id, format=None):
+        feed = self.get_object(feed_id, request.user)
+        serializer = FeedUpdateSerializer(data=request.data)
+        if serializer.is_valid():
+            feed.video_title = serializer.data.get('title')
+            feed.save()
+            return Response(FeedSerializer(feed).data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

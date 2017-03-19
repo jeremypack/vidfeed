@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^feeds/(?P<feed_id>\S+)/comments/(?P<comment_id>\S+)$', views.CommentDetail.as_view()),
     url(r'^feeds/$', views.FeedList.as_view()),
     url(r'^feeds/(?P<feed_id>\S+)/set-owner/$', views.FeedDetail.as_view({'post': 'set_owner'})),
+    url(r'^feeds/(?P<feed_id>\S+)/set-title/$', views.FeedUpdateDetail.as_view()),
     url(r'^feeds/(?P<feed_id>\S+)/$', views.FeedDetail.as_view({'get': 'get'})),
     url(r'^feeds/(?P<feed_id>\S+)/invites$', views.FeedInviteList.as_view()),
     url(r'^feeds/(?P<feed_id>\S+)/collaborators$', views.FeedCollaboratorList.as_view()),

@@ -44,6 +44,10 @@ class FeedSerializer(serializers.ModelSerializer):
                   'comment_count', 'collaborator_count')
 
 
+class FeedUpdateSerializer(serializers.Serializer):
+    title = serializers.CharField(max_length=500, required=True)
+
+
 class ChildCommentSerializer(serializers.ModelSerializer):
     author = serializers.EmailField(write_only=True, required=True)
     owner = SiteUserSerializer(many=False, read_only=True)
