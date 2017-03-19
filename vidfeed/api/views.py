@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
+from django.conf import settings
 from django.contrib.auth import (
     login as django_login,
     logout as django_logout
@@ -11,7 +12,7 @@ from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.decorators import detail_route, api_view
+from rest_framework.decorators import detail_route, api_view, permission_classes
 
 from vidfeed.profiles.models import SiteUser, Subscription
 from vidfeed.feed.models import Comment, Feed, Provider, FeedInvite, FeedCollaborator, Project
@@ -23,6 +24,7 @@ from serializers import CommentSerializer, FeedSerializer, FeedInviteSerializer,
     FeedUpdateSerializer
 
 import json
+import vimeo
 
 
 class CommentList(APIView):
@@ -452,3 +454,22 @@ class FeedUpdateDetail(APIView):
             feed.save()
             return Response(FeedSerializer(feed).data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated, ))
+def get_vimeo_videos(request):
+    subscription = Subscription.objects.get(user=request.user)
+    if not subscription:
+        return Response({"message": "Invalid subscription"}, status=status.HTTP_401_UNAUTHORIZED)
+
+    v = vimeo.VimeoClient(
+        token=subscription.vimeo_token,
+        key=settings.VIMEO_CLIENT_IDENTIFIED,
+        secret=settings.VIMEO_CLIENT_SECRET)
+
+    video_list = v.get('/me/videos?per_page=100&fields=uri,name,pictures.sizes')
+    if video_list.status_code != 200:
+        return Response({"message": "Failed to load video list"}, status=status.HTTP_400_BAD_REQUEST)
+
+    return Response(video_list.json().get('data'), status=status.HTTP_200_OK)

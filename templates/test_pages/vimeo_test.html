@@ -1,0 +1,43 @@
+{% extends 'index.html' %}
+
+{% block main_content %}
+{% if user.is_authenticated %}
+  <h1 style="margin-bottom: 0;">Hello {{ request.user }}</h1>
+{% else %}
+  <h1 style="margin-bottom: 0;">You're not logged in</h1>
+{% endif %}
+  <h2>(This doesn't refresh unless you refresh the page)</h2>
+  <div class="form-group" id="vimeo_connect">
+    <a href="/auth/vimeo">
+      <button class="btn btn-primary">CONNECT TO VIMEO</button>
+    </a>
+  </div>
+  <br><br>
+  <div style="display: none;" class="form-group" id="vimeo_get">
+    <h3>Your successfully connected to Vimeo</h3>
+    <button id="get_vimeo_vids" class="btn btn-primary">GET VIMEO VIDS</button>
+  </div>
+  <div style="margin-top: 20px;" id="results"></div>
+{% endblock %}
+
+{% block js %}
+<script type="application/javascript">
+  if(window.vidfeed.user.subscription.valid &&
+      window.vidfeed.user.subscription.linked_vimeo) {
+    $('#vimeo_get').show();
+    $('#vimeo_get').click(function () {
+      $.ajax({
+        type: 'get',
+        url: '/api/vimeo/videos',
+        success: function (data) {
+          console.log(data);
+        },
+        error: function (data) {
+          console.log(data);
+        }
+      })
+    })
+
+  }
+</script>
+{% endblock %}

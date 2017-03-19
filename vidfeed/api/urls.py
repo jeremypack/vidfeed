@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^profile/is-authenticated$', views.IsAuthenticatedView.as_view(), name='is_authenticated'),
     url(r'^profile/password/reset$', views.PasswordResetView.as_view(), name='rest_password_reset'),
     url(r'^password/reset/confirm/$', views.PasswordResetConfirmView.as_view(), name='rest_password_reset_confirm'),
+    url(r'^vimeo/videos$', views.get_vimeo_videos),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
