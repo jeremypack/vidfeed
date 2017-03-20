@@ -38,17 +38,38 @@ const FeedListContainer = React.createClass({
         }
     },
 
+    _deleteFeed:function(feedId, callback) {
+        $.ajax({
+            type: 'delete',
+            url: '/api/feeds/' + feedId,
+            success: function (data) {
+                // var filteredFeeds = this.state.feeds.filter(function(feed) { 
+                //     return feed.feed_id != feedId 
+                // });
+                // this.setState({
+                //     feeds: filteredFeeds
+                // });
+                this.props.loadFeeds();
+                callback;
+            }.bind(this),
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    },
+
     _deleteFeedFromProject:function(feedId, callback) {
         $.ajax({
             type: 'delete',
             url: '/api/projects/' + this.props.projectId + '/feed/' + feedId,
             success: function (data) {
-                var filteredFeeds = this.state.feeds.filter(function(feed) { 
-                    return feed.feed_id != feedId 
-                });
-                this.setState({
-                    feeds: filteredFeeds
-                });
+                // var filteredFeeds = this.state.feeds.filter(function(feed) { 
+                //     return feed.feed_id != feedId 
+                // });
+                // this.setState({
+                //     feeds: filteredFeeds
+                // });
+                this.props.loadFeeds();
                 callback;
             }.bind(this),
             error: function (data) {
@@ -96,6 +117,11 @@ const FeedListContainer = React.createClass({
             } else {
                 var isVimeo = false;
             }
+            if (this.props.projectId === 0) {
+                var deleteFromProject = false;
+            } else {
+                var deleteFromProject = true;
+            }
             return (
                 <FeedItemContainer
                     key={i}
@@ -110,9 +136,11 @@ const FeedListContainer = React.createClass({
                     setMoveMode={this._toggleMoveMode}
                     firstFeedSelected={this.state.firstFeedSelected}
                     selectedItem={this._selectedItem}
-                    handleDeleteFeed={this._deleteFeedFromProject}
+                    handleDeleteFeed={this._deleteFeed}
+                    handleDeleteFeedFromProject={this._deleteFeedFromProject}
                     collaboratorCount={feed.collaborator_count}
-                    commentCount={feed.comment_count} />
+                    commentCount={feed.comment_count}
+                    deleteFromProjectBool={deleteFromProject} />
             );
         }.bind(this));
 

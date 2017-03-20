@@ -41,7 +41,8 @@ const FeedItemContainer = React.createClass({
         setMoveMode:           React.PropTypes.func.isRequired,
         firstFeedSelected:     React.PropTypes.string,
         collaboratorCount:     React.PropTypes.number.isRequired,
-        commentCount:          React.PropTypes.number.isRequired
+        commentCount:          React.PropTypes.number.isRequired,
+        deleteFromProjectBool: React.PropTypes.bool.isRequired
     },
 
     getInitialState:function() {
@@ -193,6 +194,25 @@ const FeedItemContainer = React.createClass({
         }
     },
 
+    _deleteFeedFromProject:function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (this.state.deleteFeedCheck) {
+            this.props.handleDeleteFeedFromProject(this.state.feedIdToDelete, this.props.modalClose());
+            this.setState({
+                deleteFeedCheck: false,
+                feedIdToDelete:undefined
+            });
+        } else { 
+            this.setState({
+                deleteFeedCheck: true,
+                feedIdToDelete:this.props.feedId
+            }, function(){
+                this.props.modalOpen();
+            });
+        }
+    },
+
     _deleteFeedCancel: function(e) {
         e.preventDefault();
         this.props.modalClose();
@@ -233,7 +253,24 @@ const FeedItemContainer = React.createClass({
 
         var feedRouterLink = '/app/feed/'+this.props.feedId;
 
-        var deleteFeedModal = <Modal
+        if (this.props.deleteFromProjectBool) {
+            var deleteFeedModal = <Modal
+                                    isOpen={this.state.deleteFeedCheck}
+                                    onRequestClose={this._deleteFeedCancel}
+                                    style={modalStyles}> 
+                                    <ModalChoice
+                                        closeModal={this._deleteFeedCancel}
+                                        yesAction={this._deleteFeed}
+                                        noAction={this._deleteFeedCancel}
+                                        thirdAction={this._deleteFeedFromProject}
+                                        heading='Remove feed'
+                                        text='Are you sure?'
+                                        yesText='Delete feed'
+                                        noText='I&apos;ve changed my mind'
+                                        thirdText='Remove feed from project' />
+                                 </Modal>
+        } else {
+            var deleteFeedModal = <Modal
                                     isOpen={this.state.deleteFeedCheck}
                                     onRequestClose={this._deleteFeedCancel}
                                     style={modalStyles}> 
@@ -243,9 +280,10 @@ const FeedItemContainer = React.createClass({
                                         noAction={this._deleteFeedCancel}
                                         heading='Remove feed'
                                         text='Are you sure?'
-                                        yesText='Yep, remove feed'
+                                        yesText='Delete feed'
                                         noText='I&apos;ve changed my mind' />
                                  </Modal>
+        }
 
         if (this.state.editTitleMode) {
             return (

@@ -174,6 +174,9 @@ const Dashboard = React.createClass({
     },
 
     _loadFeedsFromServer: function(projectId) {
+        if (!projectId) {
+            projectId = this.state.selectedProjectId
+        }
         this.setState({
             feeds:[],
             showFeeds:false
@@ -403,7 +406,8 @@ const Dashboard = React.createClass({
                                     projectId={this.state.selectedProjectId}
                                     cancelMove={this.state.moveProjects}
                                     addFeedForMove={this._addFeedForMove}
-                                    removeFeedFromMove={this._removeFeedFromMove} />
+                                    removeFeedFromMove={this._removeFeedFromMove}
+                                    loadFeeds={this._loadFeedsFromServer} />
                             </div>
                         </div>
                     </div>
