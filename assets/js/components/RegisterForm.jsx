@@ -23,7 +23,7 @@ const RegisterForm = React.createClass({
                                 <input className="input--border" type="password" id="password" onChange={this.props.handlePasswordChange} required />
                             </div>
                             <div className="text--center">
-                                <input type="submit" className="o-btn o-btn--primary" value="Register" />
+                                <input type="submit" className="o-btn o-btn--primary" value="Continue to payment" />
                             </div>
                         </form>
                     </section>

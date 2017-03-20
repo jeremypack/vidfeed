@@ -1,4 +1,5 @@
 import React from 'react';
+import { browserHistory } from 'react-router';
 
 import RegisterForm from '../components/RegisterForm';
 
@@ -49,7 +50,7 @@ const RegisterContainer = React.createClass({
                 'subscription_type': 1 // 1 == Monthly, 2 == Yearly
             },
             success: function (data) {
-                console.log(data,'success');
+                this._loginAfterRegister();
             }.bind(this),
             error: function (data) {
                 console.log(data,'error');
@@ -57,7 +58,41 @@ const RegisterContainer = React.createClass({
         });
     },
 
+    _loginAfterRegister:function(){
+         $.ajax({
+            type: 'POST',
+            context: this,
+            url: '/api/profile/login',
+            data: {
+                email: this.state.username,
+                password: this.state.password
+            },
+            success: function (data){
+                window.vidfeed.user.id = data.id;
+                window.vidfeed.user.email = data.email;
+                window.vidfeed.user.isAuthenticated = true;
+                browserHistory.push('/app/dashboard/');
+            },
+            error: function (data) {
+                console.log(data,'error')
+                console.log(data);
+                if(data.responseJSON && data.responseJSON.non_field_errors) {
+                    console.log(data.responseJSON.non_field_errors[0]);
+                    this.setState({
+                        errorMsg:data.responseJSON.non_field_errors[0]
+                    })
+                } else {
+                    console.log("Unable to login at this time. Please contact support if this error persists.");
+                    this.setState({
+                        errorMsg:"Unable to login at this time. Please contact support if this error persists."
+                    })
+                }
+            }
+        });
+    },
+
     render: function() {
+
         return (
             <div className="o-layout o-layout--center o-layout--middle u-margin-top-large">
                 <RegisterForm 
@@ -66,8 +101,8 @@ const RegisterContainer = React.createClass({
                     handlePasswordChange={this._handlePasswordChange}
                     onSubmit={this._handleSubmit} />
                 <div className="o-layout__item u-2/3@tablet">
-                    <h2 className="text--center font--light">Get more out of Vidfeed…</h2>
-                    <div className="c-getPlus__features o-layout--large text--left u-padding-left-large">
+                    <h1 className="text--center font--light">Get more out of Vidfeed…</h1>
+                    <div className="c-getPlus__features o-layout--large text--left u-padding-left-large u-margin-top-large">
                         <div className="o-layout__item u-1/2@tablet">
                             <div className="c-getPlus__features__item u-margin-bottom-large">
                                 <i className="c-getPlus__icon icon icon--dashboard"></i>
@@ -94,6 +129,11 @@ const RegisterContainer = React.createClass({
                                 <i className="c-getPlus__icon icon icon--unlimited"></i>
                                 <h3>Unlimited</h3>
                                 <p>Get unlimited feeds, projects and collaborators for an infinite amount of time.</p>
+                            </div>
+                        </div>
+                        <div className="o-layout__item">
+                            <div className="text--center">
+                                <h2 className="">Sign up for only <span className="h1 error-color">£5</span> per month or <span className="h1 error-color">£50</span> annually.</h2>
                             </div>
                         </div>
                     </div>
