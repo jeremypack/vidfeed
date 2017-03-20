@@ -160,14 +160,24 @@ const FeedItemContainer = React.createClass({
         if (!body) {
             return;
         }
-        //var commentId = $(e.currentTarget).closest('.c-comment').data('id');
-        //this.props.handleCommentEdit(commentId, this.props.author, body);
-        this.setState({
-            editTitleMode: false,
-            feedTitle: body,
-            noTitle: false
+        $.ajax({
+            type: 'put',
+            url: '/api/feeds/' + this.props.feedId + '/set-title/',
+            data: {
+                title: body
+            },
+            success: function (data) {
+                this.setState({
+                    editTitleMode: false,
+                    feedTitle: body,
+                    noTitle: false
+                });
+                clearInterval(this.validateInterval);
+            }.bind(this),
+            error: function (data) {
+                console.log(data);
+            }
         });
-        clearInterval(this.validateInterval);
     },
 
     _setMoveMode:function(e){
