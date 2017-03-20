@@ -68,11 +68,7 @@ const Comment = React.createClass({
                     </div>
                     { this.props.isReply ? null : <a href="#" className="c-comment__timecode">{this.props.timecode}</a> }
                 </div>
-                <div className="c-comment__body">
-                    <Linkify properties={{target: '_blank'}}>
-                        {this.props.value}
-                    </Linkify>
-                </div>
+                <div className="c-comment__body" dangerouslySetInnerHTML={{__html:this.props.value}}></div>
                 <div className="c-comment__footer u-clearfix">
                     { this.props.isReply ? null : <a href="#" onClick={this.props.handleLockClick} onMouseEnter={this.props.handleLockHoverEnter} onMouseLeave={this.props.handleLockHoverLeave} className={lockBtnClasses}><i className={lockIconClasses}></i><span className="u-hidden-visually">{ this.props.isLocked ? 'Unlock' : 'Lock' }</span></a> }
                     {commentActions}

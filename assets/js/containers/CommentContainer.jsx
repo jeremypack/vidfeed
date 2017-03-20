@@ -27,6 +27,11 @@ const modalStyles = {
     }
 };
 
+function cleanHtml(string) {
+    var result = string.replace(/\n/g, "<br />").replace(/<a\b[^>]*>/i,"").replace(/<\/a>/i, "");
+    return result;
+}
+
 const CommentContainer = React.createClass({
     
     propTypes: {
@@ -52,7 +57,7 @@ const CommentContainer = React.createClass({
             editable: false,
             replyOpen: false,
             commentActions: false,
-            commentBody: this.props.body,
+            commentBody: '',
             deleteCommentCheck:false,
             commentIdToDelete:undefined,
             newComment:false,
@@ -74,6 +79,9 @@ const CommentContainer = React.createClass({
         }.bind(this);
         this.sessionCheckInterval = setInterval(getSessionUser,1000);
         this._checkNewComments();
+        this.setState({
+            commentBody:cleanHtml(this.props.body)
+        })
     },
 
     componentWillReceiveProps: function(nextProps) {
@@ -145,7 +153,7 @@ const CommentContainer = React.createClass({
         this.props.handleCommentEdit(commentId, this.props.author, body);
         this.setState({
             editable:false,
-            commentBody:body
+            commentBody:cleanHtml(body)
         });
         clearInterval(this.validateInterval);
     },
