@@ -8,7 +8,8 @@ urlpatterns = [
     url(r'^feeds/(?P<feed_id>\S+)/comments/(?P<comment_id>\S+)$', views.CommentDetail.as_view()),
     url(r'^feeds/$', views.FeedList.as_view()),
     url(r'^feeds/(?P<feed_id>\S+)/set-owner/$', views.FeedDetail.as_view({'post': 'set_owner'})),
-    url(r'^feeds/(?P<feed_id>\S+)/$', views.FeedDetail.as_view({'get': 'get'})),
+    url(r'^feeds/(?P<feed_id>\S+)/set-title/$', views.FeedUpdateDetail.as_view()),
+    url(r'^feeds/(?P<feed_id>\S+)/$', views.FeedDetail.as_view({'get': 'get', 'delete': 'delete'})),
     url(r'^feeds/(?P<feed_id>\S+)/invites$', views.FeedInviteList.as_view()),
     url(r'^feeds/(?P<feed_id>\S+)/collaborators$', views.FeedCollaboratorList.as_view()),
     url(r'^projects/$', views.ProjectList.as_view()),
@@ -21,6 +22,7 @@ urlpatterns = [
     url(r'^profile/is-authenticated$', views.IsAuthenticatedView.as_view(), name='is_authenticated'),
     url(r'^profile/password/reset$', views.PasswordResetView.as_view(), name='rest_password_reset'),
     url(r'^password/reset/confirm/$', views.PasswordResetConfirmView.as_view(), name='rest_password_reset_confirm'),
+    url(r'^vimeo/videos$', views.get_vimeo_videos),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

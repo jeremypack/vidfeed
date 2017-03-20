@@ -9,6 +9,20 @@
 </div>
 <br><br>
 <div class="form-group">
+  <label for="delete_feed_id">Feed ID</label>
+  <input name=delete_feed_id" id="delete_feed_id">
+  <button id="delete_feed" class="btn btn-primary">DELETE FEED</button>
+</div>
+<br><br>
+<div class="form-group">
+  <label for="update_feed_title_id">Feed ID</label>
+  <input name="update_feed_title_id" id="update_feed_title_id">
+  <label for="update_feed_title_title">Feed Title</label>
+  <input name="update_feed_title_title" id="update_feed_title_title">
+  <button id="update_feed_title">UPDATE FEED TITLE</button>
+</div>
+<br><br>
+<div class="form-group">
   <label for="project_title">Project Title</label>
   <input name="project_title" id="project_title">
   <button id="add_project">ADD PROJECT</button>
@@ -53,6 +67,7 @@
   <input name="feed_list_project_id" id="feed_list_project_id">
   <button id="get_feeds_for_project">GET FEEDS FOR PROJECT</button>
 </div>
+
 <div style="margin-top: 20px;" id="results"></div>
 
 {% endblock %}
@@ -76,6 +91,49 @@
      }
    });
  });
+
+  $('#delete_feed').click(function () {
+
+    var feedId = $('#delete_feed_id').val();
+    if (!feedId) {
+      return;
+    }
+
+   $.ajax({
+     type: 'delete',
+     url: '/api/feeds/' + feedId,
+     success: function (data) {
+       console.log(data);
+       $('#results').html(JSON.stringify(data));
+     },
+     error: function (data) {
+       console.log(data);
+     }
+   });
+ });
+
+  $('#update_feed_title').click(function () {
+    var feedId = $('#update_feed_title_id').val();
+    var feedTitle = $('#update_feed_title_title').val();
+    if (!feedId || !feedTitle) {
+      return;
+    }
+
+    $.ajax({
+      type: 'put',
+      url: '/api/feeds/' + feedId + '/set-title/',
+      data: {
+        title: feedTitle
+      },
+      success: function (data) {
+        console.log(data);
+        $('#results').html(JSON.stringify(data));
+      },
+      error: function (data) {
+        console.log(data);
+      }
+    });
+  });
 
   /*
   Add project

@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
+from django.conf import settings
 from django.contrib.auth import (
     login as django_login,
     logout as django_logout
@@ -11,7 +12,7 @@ from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.decorators import detail_route, api_view
+from rest_framework.decorators import detail_route, api_view, permission_classes
 
 from vidfeed.profiles.models import SiteUser, Subscription
 from vidfeed.feed.models import Comment, Feed, Provider, FeedInvite, FeedCollaborator, Project
@@ -19,9 +20,11 @@ from vidfeed.utils import get_youtube_title_and_thumbnail, get_vimeo_title_and_t
     set_vidfeed_user_cookie, send_email
 from serializers import CommentSerializer, FeedSerializer, FeedInviteSerializer, \
     FeedCollaboratorSerializer, UserSerializer, SiteUserSerializer, CommentDoneSerializer, \
-    ProjectSerializer, LoginSerializer, PasswordResetSerializer, PasswordResetConfirmSerializer
+    ProjectSerializer, LoginSerializer, PasswordResetSerializer, PasswordResetConfirmSerializer, \
+    FeedUpdateSerializer
 
 import json
+import vimeo
 
 
 class CommentList(APIView):
@@ -151,6 +154,9 @@ class FeedList(APIView):
         elif provider.name == 'vimeo':
             title, thumb = get_vimeo_title_and_thumbnail(video_id)
 
+        if not title:
+            title = 'Feed ' + str(Feed.objects.filter(owner=request.user).count() + 1)
+
         feed = Feed.objects.create(feed_id=Feed.generate_link_id(),
                                    provider=provider,
                                    video_id=video_id,
@@ -168,6 +174,12 @@ class FeedDetail(viewsets.GenericViewSet):
         feed = self.get_object(feed_id)
         serializer = FeedSerializer(feed)
         return Response(serializer.data)
+
+    def delete(self, request, feed_id, format=None):
+        feed = self.get_object(feed_id)
+        feed.active = False
+        feed.save()
+        return Response({"message": "Feed deleted"}, status=status.HTTP_200_OK)
 
     @detail_route(methods=['post'])
     def set_owner(self, request, feed_id):
@@ -422,7 +434,6 @@ class ManageProjectFeeds(APIView):
         return Response({"message": "successfully removed feed from project"}, status=status.HTTP_200_OK)
 
 
-
 class ProjectFeedList(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -431,5 +442,43 @@ class ProjectFeedList(APIView):
 
     def get(self, request, project_id, format=None):
         project = self.get_project(project_id, request.user)
-        serializer = FeedSerializer(project.feeds.all(), many=True)
+        serializer = FeedSerializer(project.feeds.filter(active=True).all(), many=True)
         return Response(serializer.data)
+
+
+class FeedUpdateDetail(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, feed_id, owner):
+        return get_object_or_404(Feed, feed_id=feed_id, owner=owner)
+
+    """
+    Update Feed
+    """
+    def put(self, request, feed_id, format=None):
+        feed = self.get_object(feed_id, request.user)
+        serializer = FeedUpdateSerializer(data=request.data)
+        if serializer.is_valid():
+            feed.video_title = serializer.data.get('title')
+            feed.save()
+            return Response(FeedSerializer(feed).data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated, ))
+def get_vimeo_videos(request):
+    subscription = Subscription.objects.get(user=request.user)
+    if not subscription:
+        return Response({"message": "Invalid subscription"}, status=status.HTTP_401_UNAUTHORIZED)
+
+    v = vimeo.VimeoClient(
+        token=subscription.vimeo_token,
+        key=settings.VIMEO_CLIENT_IDENTIFIED,
+        secret=settings.VIMEO_CLIENT_SECRET)
+
+    video_list = v.get('/me/videos?per_page=100&fields=uri,name,pictures.sizes')
+    if video_list.status_code != 200:
+        return Response({"message": "Failed to load video list"}, status=status.HTTP_400_BAD_REQUEST)
+
+    return Response(video_list.json().get('data'), status=status.HTTP_200_OK)

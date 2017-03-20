@@ -88,7 +88,19 @@
       window.vidfeed.user = {
         isAuthenticated: {% if request.user.is_authenticated %}true{% else %}false{% endif %},
         email: {% if vidfeeduser %}'{{ vidfeeduser }}'{% else %}null{% endif %},
-        id: {% if vidfeeduser_id %}{{ vidfeeduser_id }}{% else %}null{% endif %}
+        id: {% if vidfeeduser_id %}{{ vidfeeduser_id }}{% else %}null{% endif %},
+        subscription: {
+          {% if request.user.is_authenticated and request.user.get_subscription %}
+             valid: true,
+            {% if request.user.has_linked_vimeo_account %}
+              linked_vimeo: true
+            {% else %}
+              linked_vimeo: false
+            {% endif %}
+          {% else %}
+            valid: false
+          {% endif %}
+        }
       };
       window.vidfeed.urls = {};
       window.vidfeed.playing = false;
