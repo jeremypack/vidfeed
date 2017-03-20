@@ -27,6 +27,11 @@ const modalStyles = {
     }
 };
 
+function cleanHtml(string) {
+    var result = string.replace(/\n/g, "<br />").replace(/<a\b[^>]*>/i,"").replace(/<\/a>/i, "");
+    return result;
+}
+
 const CommentFormContainer = React.createClass({
     
     propTypes: {
@@ -134,7 +139,7 @@ const CommentFormContainer = React.createClass({
         }
         var timecode = this.props.timecodeSeconds;
         comment.author = window.vidfeed.user.email;
-        comment.body = body;
+        comment.body = cleanHtml(body);
         comment.timecode = timecode;
         $.ajax({
             url: '/api/feeds/' + this.props.feedId + '/comments',
