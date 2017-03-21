@@ -101,7 +101,7 @@ const RegisterContainer = React.createClass({
                     handlePasswordChange={this._handlePasswordChange}
                     onSubmit={this._handleSubmit} />
                 <div className="o-layout__item u-2/3@tablet">
-                    <h1 className="text--center font--light"><span className="h1 error-color">FREE</span> until July 2017</h1>
+                    <h1 className="text--center font--light"><span className="h1 error-color">FREE</span> beta access until July 2017</h1>
                     <div className="c-getPlus__features o-layout--large text--left u-padding-left-large u-margin-top-large">
                         <div className="o-layout__item u-1/2@tablet">
                             <div className="c-getPlus__features__item u-margin-bottom-large">
@@ -131,6 +131,20 @@ const RegisterContainer = React.createClass({
                                 <p>Get unlimited feeds, projects and collaborators for an infinite amount of time.</p>
                             </div>
                         </div>
+                        <div className="o-layout__item u-1/2@tablet">
+                            <div className="c-getPlus__features__item u-margin-bottom-large">
+                                <i className="c-getPlus__icon icon icon--customlogo"></i>
+                                <h3>Your Logo (coming soon)</h3>
+                                <p>Add your companies logo to your feedback pages.</p>
+                            </div>
+                        </div>
+                        <div className="o-layout__item u-1/2@tablet">
+                            <div className="c-getPlus__features__item u-margin-bottom-large">
+                                <i className="c-getPlus__icon icon icon--draw"></i>
+                                <h3>Draw on your videos (coming soon)</h3>
+                                <p>When a comment needs that extra layer of clarity you can draw on the video.</p>
+                            </div>
+                        </div>                                                
                     </div>
                 </div>
             </div> 

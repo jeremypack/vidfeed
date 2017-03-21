@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="3295 548 68 68">
+  <defs>
+    <style>
+      .cls-1, .cls-5 {
+        fill: none;
+      }
+
+      .cls-1 {
+        stroke: #404248;
+        stroke-width: 3px;
+      }
+
+      .cls-2 {
+        fill: #ee8aa3;
+      }
+
+      .cls-3 {
+        fill: #404248;
+      }
+
+      .cls-4 {
+        stroke: none;
+      }
+    </style>
+  </defs>
+  <g id="Group_417" data-name="Group 417" transform="translate(1927 -128)">
+    <g id="Ellipse_87" data-name="Ellipse 87" class="cls-1" transform="translate(1368 676)">
+      <circle class="cls-4" cx="34" cy="34" r="34"/>
+      <circle class="cls-5" cx="34" cy="34" r="32.5"/>
+    </g>
+    <g id="noun_538026_cc" transform="translate(1378 687.594)">
+      <rect id="Rectangle_272" data-name="Rectangle 272" class="cls-2" width="30.453" height="6.584" transform="translate(10.075 30.55) rotate(-45)"/>
+      <path id="Path_174" data-name="Path 174" class="cls-2" d="M11.1,76.486l2.3,2.3,3.786-1.44L12.54,72.7Z" transform="translate(-3.604 -40.973)"/>
+      <path id="Path_175" data-name="Path 175" class="cls-2" d="M7.5,87.746l2.346-.617L8.076,85.4Z" transform="translate(-1.486 -48.447)"/>
+      <rect id="Rectangle_273" data-name="Rectangle 273" class="cls-2" width="6.584" height="1.646" transform="translate(33.951 6.669) rotate(45)"/>
+      <path id="Path_176" data-name="Path 176" class="cls-2" d="M84.62,8.435a2.509,2.509,0,0,0,0-3.5L83.467,3.785a2.509,2.509,0,0,0-3.5,0L78.2,5.513l4.65,4.65Z" transform="translate(-43.091 0)"/>
+      <path id="Path_177" data-name="Path 177" class="cls-3" d="M9.389,12.8l8.272,8.272,4.65-4.65L14.039,8.147A4.381,4.381,0,0,0,12.722,5.1a4.539,4.539,0,0,0-6.42,6.42A4.919,4.919,0,0,0,9.389,12.8ZM7.5,6.213a2.881,2.881,0,1,1,0,4.074A2.833,2.833,0,0,1,7.5,6.213Z" transform="translate(0 -0.412)"/>
+      <path id="Path_178" data-name="Path 178" class="cls-3" d="M69.384,59.648A5.952,5.952,0,0,0,63.993,58L57.45,51.5,52.8,56.15l6.5,6.5a6,6,0,0,0,7.037,7.037l-3.663-3.663.535-2.263h0l.329-1.523,1.523-.329h0l2.263-.535,3.663,3.663A5.9,5.9,0,0,0,69.384,59.648Z" transform="translate(-28.144 -28.497)"/>
+    </g>
+  </g>
+</svg>

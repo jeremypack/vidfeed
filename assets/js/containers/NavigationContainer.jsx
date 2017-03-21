@@ -111,7 +111,7 @@ const NavigationContainer = React.createClass({
                     <ul className="o-list-inline">
                         <li className="o-list-inline__item"><a href="https://vidfeedsupport.zendesk.com/hc/en-us" className="nav__link" target="_blank">Support</a></li>
                         <li className="o-list-inline__item"><Link className="nav__link" to="/app/login">Login</Link></li>
-                        <li className="o-list-inline__item"><Link className="o-btn o-btn--ghost"to="/app/register">Sign up</Link></li>
+                        <li className="o-list-inline__item"><Link className="o-btn o-btn--ghost" to="/app/register">Sign up</Link></li>
                     </ul>
                 </nav>
             );
