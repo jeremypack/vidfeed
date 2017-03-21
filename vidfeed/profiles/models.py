@@ -100,6 +100,18 @@ class SiteUser(AbstractBaseUser, PermissionsMixin):
         "Returns the short name for the user."
         return self.first_name
 
+    def get_subscription(self):
+        try:
+            return Subscription.objects.get(user=self)
+        except Subscription.DoesNotExist:
+            return False
+
+    def has_linked_vimeo_account(self):
+        s = self.get_subscription()
+        if s and s.vimeo_token:
+            return True
+        return False
+
 
 class Subscription(models.Model):
     SUBSCRIPTION_MONTHLY = 1
@@ -112,4 +124,6 @@ class Subscription(models.Model):
     subscription_type = models.SmallIntegerField(choices=SUBSCRIPTION_TYPE)
     active = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
+    vimeo_token = models.CharField(max_length=500, blank=True, null=True)
+    vimeo_scope = models.CharField(max_length=500, blank=True, null=True)
 

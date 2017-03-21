@@ -1,0 +1,289 @@
+{% extends 'index.html' %}
+
+{% block main_content %}
+{% if user.is_authenticated %}
+<h1>Hello {{ request.user }}</h1>
+{% endif %}
+<div class="form-group">
+  <button id="get_feeds" class="btn btn-primary">GET MY FEEDS</button>
+</div>
+<br><br>
+<div class="form-group">
+  <label for="delete_feed_id">Feed ID</label>
+  <input name=delete_feed_id" id="delete_feed_id">
+  <button id="delete_feed" class="btn btn-primary">DELETE FEED</button>
+</div>
+<br><br>
+<div class="form-group">
+  <label for="update_feed_title_id">Feed ID</label>
+  <input name="update_feed_title_id" id="update_feed_title_id">
+  <label for="update_feed_title_title">Feed Title</label>
+  <input name="update_feed_title_title" id="update_feed_title_title">
+  <button id="update_feed_title">UPDATE FEED TITLE</button>
+</div>
+<br><br>
+<div class="form-group">
+  <label for="project_title">Project Title</label>
+  <input name="project_title" id="project_title">
+  <button id="add_project">ADD PROJECT</button>
+</div>
+<br><br>
+<div class="form-group">
+  <button id="get_projects">GET MY PROJECTS</button>
+</div>
+<br><br>
+<div class="form-group">
+  <label for="update_project_id">Project ID</label>
+  <input name="update_project_id" id="update_project_id">
+  <label for="update_project_title">Project Title</label>
+  <input name="update_project_title" id="update_project_title">
+  <button id="update_project">UPDATE PROJECT TITLE</button>
+</div>
+<br><br>
+<div class="form-group">
+  <label for="delete_project_id">Project ID</label>
+  <input name="delete_project_id" id="delete_project_id">
+  <button id="delete_project">DELETE PROJECT</button>
+</div>
+<br><br>
+<div class="form-group">
+  <label for="add_feed_project_id">Project ID</label>
+  <input name="add_feed_project_id" id="add_feed_project_id">
+  <label for="add_feed_feed_id">Feed ID</label>
+  <input name="add_feed_feed_id" id="add_feed_feed_id">
+  <button id="add_feed_to_project">ADD FEED TO PROJECT</button>
+</div>
+<br><br>
+<div class="form-group">
+  <label for="delete_feed_project_id">Project ID</label>
+  <input name="delete_feed_project_id" id="delete_feed_project_id">
+  <label for="delete_feed_feed_id">Feed ID</label>
+  <input name="delete_feed_feed_id" id="delete_feed_feed_id">
+  <button id="delete_feed_from_project">DELETE FEED FROM PROJECT</button>
+</div>
+<br><br>
+<div class="form-group">
+  <label for="feed_list_project_id">Project ID</label>
+  <input name="feed_list_project_id" id="feed_list_project_id">
+  <button id="get_feeds_for_project">GET FEEDS FOR PROJECT</button>
+</div>
+
+<div style="margin-top: 20px;" id="results"></div>
+
+{% endblock %}
+
+{% block js %}
+<script type="application/javascript">
+ /*
+ Get all feeds owned by logged in user.
+ Error 401 forbidden if user is not logged in
+  */
+ $('#get_feeds').click(function () {
+   $.ajax({
+     type: 'get',
+     url: '/api/feeds/',
+     success: function (data) {
+       console.log(data);
+       $('#results').html(JSON.stringify(data));
+     },
+     error: function (data) {
+       console.log(data);
+     }
+   });
+ });
+
+  $('#delete_feed').click(function () {
+
+    var feedId = $('#delete_feed_id').val();
+    if (!feedId) {
+      return;
+    }
+
+   $.ajax({
+     type: 'delete',
+     url: '/api/feeds/' + feedId,
+     success: function (data) {
+       console.log(data);
+       $('#results').html(JSON.stringify(data));
+     },
+     error: function (data) {
+       console.log(data);
+     }
+   });
+ });
+
+  $('#update_feed_title').click(function () {
+    var feedId = $('#update_feed_title_id').val();
+    var feedTitle = $('#update_feed_title_title').val();
+    if (!feedId || !feedTitle) {
+      return;
+    }
+
+    $.ajax({
+      type: 'put',
+      url: '/api/feeds/' + feedId + '/set-title/',
+      data: {
+        title: feedTitle
+      },
+      success: function (data) {
+        console.log(data);
+        $('#results').html(JSON.stringify(data));
+      },
+      error: function (data) {
+        console.log(data);
+      }
+    });
+  });
+
+  /*
+  Add project
+ */
+  $('#add_project').click(function () {
+  var projectTitle = $('#project_title').val();
+  if (!projectTitle) {
+    return;
+  }
+  $.ajax({
+    type: 'post',
+    url: '/api/projects/',
+    data: {
+      title: projectTitle
+    },
+    success: function (data) {
+      $('#results').html(JSON.stringify(data));
+    },
+    error: function (data) {
+      console.log(data);
+    }
+  });
+ });
+
+  /*
+  Get my projects
+ */
+  $('#get_projects').click(function () {
+    $.ajax({
+      type: 'get',
+      url: '/api/projects/',
+      success: function (data) {
+        $('#results').html(JSON.stringify(data));
+      },
+      error: function (data) {
+        console.log(data);
+      }
+    });
+  });
+
+  /*
+  Change project title
+   */
+  $('#update_project').click(function () {
+    var projectTitle = $('#update_project_title').val();
+    var projectId = $('#update_project_id').val();
+    if (!projectTitle || !projectId) {
+      return;
+    }
+
+    $.ajax({
+      type: 'put',
+      url: '/api/projects/' + projectId,
+      data: {
+        title: projectTitle
+      },
+      success: function (data) {
+        $('#results').html(JSON.stringify(data));
+      },
+      error: function (data) {
+        console.log(data);
+      }
+    });
+  });
+
+  /*
+  Delete project
+   */
+  $('#delete_project').click(function () {
+    var projectId = $('#delete_project_id').val();
+    if (!projectId) {
+      return;
+    }
+    $.ajax({
+      type: 'delete',
+      url: '/api/projects/' + projectId,
+      success: function (data) {
+        $('#results').html('Done');
+      },
+      error: function (data) {
+        console.log(data);
+      }
+    });
+  });
+
+  /*
+  Add feed to project
+   */
+  $('#add_feed_to_project').click(function () {
+    var projectId = $('#add_feed_project_id').val();
+    var feedId = $('#add_feed_feed_id').val();
+    if (!projectId  || !feedId) {
+      return;
+    }
+
+    $.ajax({
+      type: 'post',
+      url: '/api/projects/' + projectId + '/feed/' + feedId,
+      success: function (data) {
+        $('#results').html('Done');
+      },
+      error: function (data) {
+        console.log(data);
+      }
+    });
+  });
+
+  /*
+  Delete feed from project
+   */
+  $('#delete_feed_from_project').click(function () {
+    var projectId = $('#delete_feed_project_id').val();
+    var feedId = $('#delete_feed_feed_id').val();
+    if (!projectId  || !feedId) {
+      return;
+    }
+
+    $.ajax({
+      type: 'delete',
+      url: '/api/projects/' + projectId + '/feed/' + feedId,
+      success: function (data) {
+        $('#results').html('Done');
+      },
+      error: function (data) {
+        console.log(data);
+      }
+    });
+  });
+
+  /*
+  Get feeds for project
+   */
+  $('#get_feeds_for_project').click(function () {
+    var projectId = $('#feed_list_project_id').val();
+    if (!projectId) {
+      return;
+    }
+
+    $.ajax({
+      type: 'get',
+      url: '/api/projects/' + projectId + '/feeds',
+      success: function (data) {
+        $('#results').html(JSON.stringify(data));
+      },
+      error: function (data) {
+        console.log(data);
+      }
+    });
+
+  })
+
+</script>
+{% endblock %}

@@ -55,7 +55,15 @@ class Feed(models.Model):
     active = models.BooleanField(blank=True, null=False, default=True)
     video_title = models.CharField(max_length=250, default='')
     video_thumbnail = models.CharField(max_length=500, default='')
-    
+
+    @property
+    def comment_count(self):
+        return self.comment_set.filter(deleted=False).count()
+
+    @property
+    def collaborator_count(self):
+        return self.feedcollaborator_set.count()
+
     def get_video_title(self):
         if not self.video_title: 
             return "a Password Protected Video"
@@ -126,6 +134,7 @@ class Comment(models.Model):
     body = models.TextField()
     timecode = models.FloatField(default=0)
     deleted = models.BooleanField(default=False)
+    done = models.BooleanField(default=False)
     parent_comment = models.ForeignKey('Comment', null=True, blank=True)
     has_notified = models.BooleanField(default=False)
 
@@ -142,3 +151,18 @@ class Comment(models.Model):
 
     def __unicode__(self):
         return u'Created: {0}, {1}'.format(self.created, self.body[0:50])
+
+
+class Project(models.Model):
+    title = models.CharField(max_length=250)
+    feeds = models.ManyToManyField(Feed)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL)
+    created = models.DateTimeField(auto_now_add=True)
+    deleted = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return self.title
+
+    class Meta:
+        ordering = ('created',)
+

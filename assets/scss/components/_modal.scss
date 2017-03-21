@@ -43,6 +43,12 @@
 
 .modal__body {
     background:#fff;
+    .o-btn {
+        margin-left:6px;
+    }
+    .o-list-inline__item:first-child .o-btn {
+        margin-left:0;
+    } 
 }
 
 .modal__footer {

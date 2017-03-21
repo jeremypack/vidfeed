@@ -10,10 +10,35 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <!--Favicons-->
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ STATIC_URL }}images/favicons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ STATIC_URL }}images/favicons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ STATIC_URL }}images/favicons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ STATIC_URL }}images/favicons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ STATIC_URL }}images/favicons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ STATIC_URL }}images/favicons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ STATIC_URL }}images/favicons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ STATIC_URL }}images/favicons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ STATIC_URL }}images/favicons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="{{ STATIC_URL }}images/favicons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="{{ STATIC_URL }}images/favicons/favicon-194x194.png" sizes="194x194">
+    <link rel="icon" type="image/png" href="{{ STATIC_URL }}images/favicons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="{{ STATIC_URL }}images/favicons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="{{ STATIC_URL }}images/favicons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="{{ STATIC_URL }}images/favicons/manifest.json">
+    <link rel="mask-icon" href="{{ STATIC_URL }}images/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="{{ STATIC_URL }}images/favicons/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="Vidfeed">
+    <meta name="application-name" content="Vidfeed">
+    <meta name="msapplication-TileColor" content="#2d89ef">
+    <meta name="msapplication-TileImage" content="{{ STATIC_URL }}images/favicons/mstile-144x144.png">
+    <meta name="msapplication-config" content="{{ STATIC_URL }}images/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
     <script src="https://use.typekit.net/pxs3yjz.js"></script>
     <script>try{Typekit.load({ async: true });}catch(e){}</script>
     <!-- Place favicon.ico in the root directory -->
     {% render_bundle 'main' 'css' %}
+
 
     <!-- Analytics Code -->
     {% comment %} 
@@ -54,14 +79,28 @@
 
   <body>
 
+    {% block main_content %}
     <div id="react-app"></div>
+    {% endblock %}
     <script type="text/javascript">
       window.vidfeed = window.vidfeed || {};
       window.vidfeed.images_dir = '{% static "images" %}';
       window.vidfeed.user = {
         isAuthenticated: {% if request.user.is_authenticated %}true{% else %}false{% endif %},
         email: {% if vidfeeduser %}'{{ vidfeeduser }}'{% else %}null{% endif %},
-        id: {% if vidfeeduser_id %}{{ vidfeeduser_id }}{% else %}null{% endif %}
+        id: {% if vidfeeduser_id %}{{ vidfeeduser_id }}{% else %}null{% endif %},
+        subscription: {
+          {% if request.user.is_authenticated and request.user.get_subscription %}
+             valid: true,
+            {% if request.user.has_linked_vimeo_account %}
+              linked_vimeo: true
+            {% else %}
+              linked_vimeo: false
+            {% endif %}
+          {% else %}
+            valid: false
+          {% endif %}
+        }
       };
       window.vidfeed.urls = {};
       window.vidfeed.playing = false;
@@ -70,11 +109,9 @@
         app_id: "tz8a2jnu",
         email: window.vidfeed.user.email
       });
-
-
     </script>
-
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en"></script>
     {% render_bundle 'main' 'js' %}
+    {% block js %}{% endblock %}
   </body>
 </html>

@@ -1,45 +1,75 @@
 import React from 'react';
+import { Router, Route, Link, browserHistory } from 'react-router';
 
-import Header from '../components/Header';
+import NavigationContainer from '../containers/NavigationContainer';
 
 const HeaderContainer = React.createClass({
     
     propTypes: {
-        isHomepage:         React.PropTypes.bool,
-        showGetPlus:        React.PropTypes.func
+        isHomepage:         React.PropTypes.bool
     },
 
-    getInitialState: function() {
+    getInitialState:function(){
         return {
-            sessionUser:'',
-            sessionUserId:undefined
+            mouseOut:true
         };
     },
 
     componentDidMount:function() {
-        var getSessionUser = function() {
-            if (window.vidfeed.user.email) {
-                this.setState({
-                    sessionUser:window.vidfeed.user.email,
-                    sessionUserId:window.vidfeed.user.id
-                });
-            } 
-        }.bind(this);
-        this.sessionCheckInterval = setInterval(getSessionUser,1000);
+        
     },
 
     componentWillUnmount:function(){
-        clearInterval(this.sessionCheckInterval);
+        
+    },
+
+    _mouseIn:function(){
+        this.setState({
+            mouseOut:false
+        })
+    },
+
+    _mouseOut:function(){
+        this.setState({
+            mouseOut:true
+        })
     },
 
     render: function() {
+        
+        let logoLink;
+
+        if (window.vidfeed.user.isAuthenticated) {
+            logoLink = '/app/dashboard'
+        } else {
+            logoLink = '/'
+        }
+
+        if (this.props.isHomepage) {
+            return (
+                <header className='header header--home u-clearfix' onMouseEnter={this._mouseIn} onMouseLeave={this._mouseOut}>
+                    <div className="o-wrapper">
+                        <div className="logo">
+                            <Link to={logoLink} className="logo__link">
+                                <img src={window.vidfeed.images_dir + '/logo-white.svg'} alt="Vidfeed" />
+                            </Link>
+                        </div>
+                        <NavigationContainer isHomepage={true} mouseOut={this.state.mouseOut} />
+                    </div>
+                </header>
+            )
+        }
+
         return (
-            <Header
-                isHomepage={this.props.isHomepage}
-                sessionUser={this.state.sessionUser}
-                sessionUserId={this.state.sessionUserId}
-                showGetPlus={this.props.showGetPlus} />
-        );
+            <header className='header u-clearfix' onMouseEnter={this._mouseIn} onMouseLeave={this._mouseOut}>
+                <div className="logo">
+                    <Link to={logoLink} className="logo__link">
+                        <img src={window.vidfeed.images_dir + '/logo-black.svg'} alt="Vidfeed" />
+                    </Link>
+                </div>
+                <NavigationContainer mouseOut={this.state.mouseOut} />
+            </header>
+        )
     }
 
 });

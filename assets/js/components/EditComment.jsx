@@ -3,7 +3,7 @@ import FormattedRelativeDate from 'react-npm-formatted-relative-date';
 import classNames from 'classnames';
 
 import User from '../components/User';
-import ContentEditable from '../components/ContentEditable';
+import Actions from '../components/Actions';
 
 const EditComment = React.createClass({
     
@@ -21,17 +21,16 @@ const EditComment = React.createClass({
         isValid:               React.PropTypes.bool
     },
 
+    componentDidMount:function(){
+        this.refs.editInput.focus();
+    },
+
     render: function() {
         
         var commentClasses = classNames({
             'c-comment c-comment--edit':true,
             'c-comment--reply': this.props.isReply
         })
-
-        var submitClasses = classNames({
-            'icon icon--tick':true,
-            'disabledAction':!this.props.isValid
-        });
 
         return (
             <article className={commentClasses} data-id={this.props.id}>
@@ -41,15 +40,15 @@ const EditComment = React.createClass({
                     </div>
                     {this.props.isReply ? null : <a href="#" className="c-comment__timecode">{this.props.timecode}</a> }
                 </div>
-                <form onSubmit={this.props.handleSubmit} className="c-comment__body form--border">
-                    <ContentEditable html={this.props.value} onChange={this.props.handleChange} />
+                <form onSubmit={this.props.handleSubmit} className="form--border">
+                    <div className="c-comment__body">
+                        <input ref="editInput" type="text" className="contenteditable" value={this.props.value} onChange={this.props.handleChange} />
+                    </div>
                     <div className="u-clearfix">
-                        <div className="c-comment__actions">
-                            <ul className="o-list-inline">
-                                <li className="o-list-inline__item"><input type="submit" className={submitClasses} title="Save change" onClick={this.props.handleSubmit} value="Save change" /></li>
-                                <li className="o-list-inline__item"><a title="Cancel change" onClick={this.props.cancelChange} href="#"><i className="icon icon--cross"></i><span className="u-hidden-visually">Cancel</span></a></li>
-                            </ul> 
-                        </div>
+                        <Actions
+                            isValid={this.props.isValid}
+                            saveAction={this.props.handleSubmit} 
+                            cancelAction={this.props.cancelChange} />
                         <div className="c-comment__created">
                             <FormattedRelativeDate date={this.props.created} />
                         </div>

@@ -3,11 +3,63 @@
    ========================================================================== */
 
 .c-projectList {
-    background:$dark;
+    position:relative;
+    padding:0 0 $inuit-global-spacing-unit*2.5;
+    background:$mid;
     color:#fff;
+    @include mq($from: tablet) {
+         padding:0 0 $inuit-global-spacing-unit/2;
+    }
+}
+
+.c-projectList__count {
+    padding:$inuit-global-spacing-unit*.75 $inuit-global-spacing-unit/2;
+    margin:0;
+    border-bottom:1px solid $mid;
+    background:$dark;
+
 }
 
 .c-projectList__item a {
+    position:relative;
     display:block;
-    padding:$inuit-global-spacing-unit/2;
+    padding:$inuit-global-spacing-unit/2 $inuit-global-spacing-unit $inuit-global-spacing-unit/2 $inuit-global-spacing-unit/2;
+    border-bottom:1px solid lighten($mid,5%);
+    color:#fff;
+    font-weight:300;
+    transition:all .15s linear;
+    .icon {
+        position:absolute;
+        top:$inuit-global-spacing-unit*.75;
+        right:$inuit-global-spacing-unit/2;
+    }
+    &:hover {
+        background:$dark;
+    }
+}
+.c-projectList__item--selected a {
+    border-left:2px solid $blue;
+    background:$dark;
+
+}
+
+.c-projectList__item--top a {
+    border-bottom-color:$dark;
+    padding:$inuit-global-spacing-unit*.75 $inuit-global-spacing-unit/2 $inuit-global-spacing-unit*.75 $inuit-global-spacing-unit/2;
+    font-weight:500;
+    .icon {
+        top:21px;
+        width:18px;
+        height:18px;
+    }
+}
+.c-projectList__item--top.c-projectList__item--selected a {
+    border-bottom-color:lighten($mid,5%);
+}
+.c-projectList__addBtn {
+    position:absolute;
+    left:$inuit-global-spacing-unit/2;
+    right:$inuit-global-spacing-unit/2;
+    bottom:$inuit-global-spacing-unit/2;
+    line-height:2em;
 }

@@ -95,6 +95,20 @@ const CommentsListContainer = React.createClass({
         });
     },
 
+    _handleLockClick: function (commentId, lockState) {
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: 'http://localhost:8000/api/feeds/' + this.props.feedId + '/comments/' + commentId + '/set-done',
+            data: {
+                done: lockState
+            },
+            success: function (data) {
+                
+            }
+        });
+    },
+
     _scrollToComment: function(commentId) {
         var newComment = $('.c-comment[data-id='+commentId+']').closest('.c-comment__outer');
         var commentHeight = $(newComment).outerHeight();
@@ -113,6 +127,7 @@ const CommentsListContainer = React.createClass({
                     author={comment.owner.email}
                     authorId={comment.owner.id}
                     id={comment.id}
+                    done={comment.done}
                     parentCommentId={comment.parent_id}
                     key={comment.id}
                     body={comment.body}
@@ -127,7 +142,8 @@ const CommentsListContainer = React.createClass({
                     closeReplies={this.state.closeReplies}
                     replyToOpen={this.state.replyToOpen}
                     closeOpenReplyForms={this._closeReplies}
-                    commentToScroll={this._scrollToComment} />
+                    commentToScroll={this._scrollToComment}
+                    lockClick={this._handleLockClick} />
             );
         }.bind(this));
         var commentCount = <h3><strong>{commentNodes.length}</strong> { commentNodes.length === 1 ? 'Comment' : 'Comments' }</h3>;

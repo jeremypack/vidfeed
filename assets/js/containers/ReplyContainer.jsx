@@ -3,6 +3,11 @@ import React from 'react';
 import Comment from '../components/Comment';
 import EditComment from '../components/EditComment';
 
+function cleanHtml(string) {
+    var result = string.replace(/\n/g, "<br />").replace(/<a\b[^>]*>/i,"").replace(/<\/a>/i, "");
+    return result;
+}
+
 const ReplyContainer = React.createClass({
     
     propTypes: {
@@ -15,14 +20,15 @@ const ReplyContainer = React.createClass({
         toggleReply:    React.PropTypes.func.isRequired,
         replyIsOpen:    React.PropTypes.bool.isRequired,
         editReply:      React.PropTypes.func,
-        deleteReply:    React.PropTypes.func
+        deleteReply:    React.PropTypes.func,
+        isLocked:       React.PropTypes.bool.isRequired
     },
 
     getInitialState: function() {
         return {
             editable: false,
             commentActions:false,
-            replyBody: this.props.value,
+            replyBody: '',
             newComment:false
         };
     },
@@ -38,6 +44,9 @@ const ReplyContainer = React.createClass({
         }.bind(this);
         this.sessionCheckInterval = setInterval(getSessionUser,1000);
         this._checkNewComments();
+        this.setState({
+            replyBody:cleanHtml(this.props.value)
+        })
     },
 
     componentWillUnmount:function(){
@@ -81,7 +90,7 @@ const ReplyContainer = React.createClass({
         e.preventDefault();
         e.stopPropagation();
         var replyId = $(e.currentTarget).closest('.c-comment').data('id');
-        this.props.editReply(replyId, this.props.author, this.state.replyBody);
+        this.props.editReply(replyId, this.props.author, cleanHtml(this.state.replyBody));
         this.setState({
             editable:false
         });
@@ -130,7 +139,8 @@ const ReplyContainer = React.createClass({
                     replyIsOpen={this.props.replyIsOpen}
                     editComment={this._setEditMode} 
                     deleteComment={this._deleteReply}
-                    newComment={this.state.newComment} />
+                    newComment={this.state.newComment}
+                    isLocked={this.props.isLocked} />
             );
 
         } else {
@@ -144,7 +154,8 @@ const ReplyContainer = React.createClass({
                     created={this.props.created}
                     toggleReply={this.props.toggleReply}
                     replyIsOpen={this.props.replyIsOpen}
-                    newComment={this.state.newComment} />
+                    newComment={this.state.newComment}
+                    isLocked={this.props.isLocked} />
             );   
         }
     }

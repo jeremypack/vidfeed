@@ -18,6 +18,7 @@ const ContentEditable = React.createClass({
     },
 
     _emitChange: function(){
+        //var strippedHtml = ReactDOM.findDOMNode(this).innerHTML.replace(/<div>/gi,'\n').replace(/<\/div>/gi,'\n');
         var html = ReactDOM.findDOMNode(this).innerHTML;
         if (this.props.onChange && html !== this.lastHtml) {
             this.props.onChange({

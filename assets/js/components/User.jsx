@@ -12,7 +12,8 @@ const User = React.createClass({
         userEmail:      React.PropTypes.string,
         removeUser:     React.PropTypes.bool,
         removeFunc:     React.PropTypes.func,
-        iconOnly:       React.PropTypes.bool
+        iconOnly:       React.PropTypes.bool,
+        onClick:        React.PropTypes.func
     },
 
     getInitialState: function() {
@@ -34,6 +35,16 @@ const User = React.createClass({
             firstLetter:firstLetter,
             swatchNumber: swatchNumber(parseInt(this.props.id),10)
         });
+    },
+
+    componentWillReceiveProps:function(nextProps) {
+        if (nextProps.id != this.props.id) {
+            var firstLetter = nextProps.userEmail.charAt(0);
+            this.setState({
+                firstLetter:firstLetter,
+                swatchNumber: swatchNumber(parseInt(nextProps.id),10)
+            });
+        }
     },
 
     render:function() {

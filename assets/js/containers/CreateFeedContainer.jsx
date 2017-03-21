@@ -5,14 +5,28 @@ import CreateFeed from '../components/CreateFeed';
 
 const CreateFeedContainer =  React.createClass({
     
+    propTypes: {
+        projectId:          React.PropTypes.number
+    },
+
     getInitialState: function () {
         return {
             videoUrl:'',
             validationStarted:false,
             isValid:false,
             error: '',
-            showInvalidMsg:false
+            showInvalidMsg:false,
+            isDashboard:false,
+            newFeedId:''
         };
+    },
+
+    componentDidMount:function(){
+        if (this.props.projectId || this.props.projectId === 0) {
+            this.setState({
+                isDashboard:true
+            })
+        }
     },
 
     componentWillUnmount: function() {
@@ -42,7 +56,6 @@ const CreateFeedContainer =  React.createClass({
             this.setState({
                 showInvalidMsg:true
             });
-            console.log('nope');
             return;
         }
         $.ajax({
@@ -53,13 +66,65 @@ const CreateFeedContainer =  React.createClass({
                 videoUrl: videoUrl
             },
             success: function (ev){
-                const path = '/app/feed/' + ev.feed_id;
-                browserHistory.push(path);
+                if (this.state.isDashboard) {
+                    this.setState({
+                        newFeedId:ev.feed_id,
+                        videoUrl:''
+                    }, function(){
+                        this._setAuthenticatedOwner();
+                    });
+                } else {
+                    const path = '/app/feed/' + ev.feed_id;
+                    browserHistory.push(path);
+                }
             },
             error: function (ev) {
                 this.setState({
                     error: JSON.parse(ev.responseText).message
                 });
+            }
+        });
+    },
+
+    _setAuthenticatedOwner:function() {
+        if (!window.vidfeed.user.isAuthenticated || !window.vidfeed.user.email) {
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            context: this,
+            url: "/api/feeds/" + this.state.newFeedId + '/set-owner/',
+            data: {
+                owner: window.vidfeed.user.email
+            },
+            success: function (ev){
+                if (this.props.projectId != 0) {
+                    this._addToSelectedProject();
+                } else {
+                    this.setState({
+                        newFeedId:''
+                    });
+                }
+            },
+            error: function (ev) {
+                console.log(window.vidfeed.user.email,'owner');
+                console.log(this.state.newFeedId,'feedId');
+            }
+        });
+    },
+
+    _addToSelectedProject:function(){
+        $.ajax({
+            type: 'post',
+            url: '/api/projects/' + this.props.projectId + '/feed/' + this.state.newFeedId,
+            success: function (data) {
+                this.props.loadFeeds(this.props.projectId);
+                this.setState({
+                    newFeedId:''
+                });
+            }.bind(this),
+            error: function (data) {
+                console.log(data);
             }
         });
     },
@@ -102,7 +167,8 @@ const CreateFeedContainer =  React.createClass({
                 submitHandler={this._handleSubmit}
                 value={this.state.videoUrl}
                 changeHandler={this._handleUrlChange}
-                error={this.state.error} />
+                error={this.state.error}
+                isDashboard={this.state.isDashboard} />
         );
     }
 

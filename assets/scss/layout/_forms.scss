@@ -2,16 +2,20 @@
    #FORMS
    ========================================================================== */
 
-input[type=text], input[type=email],
-input[type=url], input[type=date],
-input[type=tel], input[type=number],
-input[type=password], textarea {
+@mixin inputStyle {
     width:100%;
     height:inuit-rem(55px);
     padding:$inuit-global-spacing-unit/2 $inuit-global-spacing-unit/1.5;
     background:#fff;
     border:0;
     outline:none;
+}
+
+input[type=text], input[type=email],
+input[type=url], input[type=date],
+input[type=tel], input[type=number],
+input[type=password], textarea {
+    @include inputStyle;
 }
 textarea {
     min-height:inuit-rem(55px);
@@ -20,6 +24,12 @@ textarea {
 
 form {
 
+}
+
+label {
+    display:block;
+    margin-bottom:$inuit-global-spacing-unit/4;
+    color:lighten($mid,20%);
 }
 
 input[type=submit]:hover {
@@ -39,9 +49,24 @@ input[type=submit]:hover {
 }
 
 .contenteditable {
-    margin-bottom:5px;
-    outline:0;
-    text-decoration: underline;
+    height:auto!important;
+    padding:0!important;
+    text-decoration:underline;
+    background:transparent!important;
+    outline:0!important;
+}
+
+.input--autoWidth {
+    overflow:hidden;
+    display:inline-block;
+    input {
+        @include inputStyle;
+        height:auto!important;
+        padding:0!important;
+        border-bottom:1px solid $mid!important;
+        background:transparent!important;
+        outline:0!important;
+    }
 }
 
 .input-with-button {
@@ -75,4 +100,11 @@ input[type=submit]:hover {
         top:3px;
         left:0;
     }
+}
+
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { 
+    background:#fff!important;
+}
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
 }

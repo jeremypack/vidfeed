@@ -1,20 +1,30 @@
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
+from django.conf import settings
+from django.contrib.auth import (
+    login as django_login,
+    logout as django_logout
+)
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.decorators import detail_route, api_view
+from rest_framework.decorators import detail_route, api_view, permission_classes
 
 from vidfeed.profiles.models import SiteUser, Subscription
-from vidfeed.feed.models import Comment, Feed, Provider, FeedInvite, FeedCollaborator
+from vidfeed.feed.models import Comment, Feed, Provider, FeedInvite, FeedCollaborator, Project
 from vidfeed.utils import get_youtube_title_and_thumbnail, get_vimeo_title_and_thumbnail, \
     set_vidfeed_user_cookie, send_email
 from serializers import CommentSerializer, FeedSerializer, FeedInviteSerializer, \
-    FeedCollaboratorSerializer, UserSerializer, SiteUserSerializer
+    FeedCollaboratorSerializer, UserSerializer, SiteUserSerializer, CommentDoneSerializer, \
+    ProjectSerializer, LoginSerializer, PasswordResetSerializer, PasswordResetConfirmSerializer, \
+    FeedUpdateSerializer
 
 import json
+import vimeo
 
 
 class CommentList(APIView):
@@ -31,6 +41,11 @@ class CommentList(APIView):
         feed = get_object_or_404(Feed, feed_id=feed_id)
         serializer = CommentSerializer(data=request.data)
         if serializer.is_valid():
+            if serializer.validated_data.get('parent_id'):
+                parent_comment = Comment.objects.get(pk=serializer.validated_data.get('parent_id'))
+                if parent_comment.done:
+                    return Response({"message": "Comment locked"},
+                                    status=status.HTTP_400_BAD_REQUEST)
             try:
                 comment = serializer.save(feed=feed)
             except Comment.DoesNotExist:
@@ -87,6 +102,9 @@ class CommentDetail(APIView):
 
     def put(self, request, feed_id, comment_id, format=None):
         comment = self.get_object(feed_id, comment_id)
+        if comment.done:
+            return Response({"message": "Comment locked"},
+                            status=status.HTTP_400_BAD_REQUEST)
         serializer = CommentSerializer(comment, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -95,14 +113,31 @@ class CommentDetail(APIView):
 
     def delete(self, request, feed_id, comment_id, format=None):
         comment = self.get_object(feed_id, comment_id)
+        if comment.done:
+            return Response({"message": "Comment locked"},
+                            status=status.HTTP_400_BAD_REQUEST)
         comment.deleted = True
         comment.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+@api_view(['POST'])
+def set_comment_done(request, feed_id, comment_id):
+    comment_done = CommentDoneSerializer(data=request.data)
+    if comment_done.is_valid():
+        comment = get_object_or_404(Comment, feed__feed_id=feed_id, pk=comment_id)
+        comment.done = comment_done.data.get('done')
+        comment.save()
+        return Response(CommentSerializer(comment).data, status=status.HTTP_200_OK)
+    return Response(comment_done._errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class FeedList(APIView):
     def get(self, request, format=None):
-        feeds = Feed.objects.all()
+        if not request.user.is_authenticated():
+            return Response({'message': 'You must login to see your feeds'},
+                            status=status.HTTP_401_UNAUTHORIZED)
+        feeds = Feed.objects.filter(owner=request.user, active=True).all()
         serializer = FeedSerializer(feeds, many=True)
         return Response(serializer.data)
 
@@ -118,6 +153,9 @@ class FeedList(APIView):
             title, thumb = get_youtube_title_and_thumbnail(video_id)
         elif provider.name == 'vimeo':
             title, thumb = get_vimeo_title_and_thumbnail(video_id)
+
+        if not title:
+            title = 'Feed ' + str(Feed.objects.filter(owner=request.user).count() + 1)
 
         feed = Feed.objects.create(feed_id=Feed.generate_link_id(),
                                    provider=provider,
@@ -136,6 +174,12 @@ class FeedDetail(viewsets.GenericViewSet):
         feed = self.get_object(feed_id)
         serializer = FeedSerializer(feed)
         return Response(serializer.data)
+
+    def delete(self, request, feed_id, format=None):
+        feed = self.get_object(feed_id)
+        feed.active = False
+        feed.save()
+        return Response({"message": "Feed deleted"}, status=status.HTTP_200_OK)
 
     @detail_route(methods=['post'])
     def set_owner(self, request, feed_id):
@@ -229,3 +273,212 @@ def register(request):
             return Response({'email': ['Email already registered']}, status=status.HTTP_400_BAD_REQUEST)
         return Response(SiteUserSerializer(site_user).data, status=status.HTTP_201_CREATED)
     return Response(user._errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LoginView(generics.GenericAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = LoginSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=self.request.data)
+        serializer.is_valid(raise_exception=True)
+
+        user = serializer.validated_data['user']
+        django_login(request, user)
+        r = Response(SiteUserSerializer(user).data, status=status.HTTP_200_OK)
+        set_vidfeed_user_cookie(r, user.email)
+        return r
+
+
+class LogoutView(APIView):
+    permission_classes = (AllowAny,)
+
+    def post(self, request):
+        django_logout(request)
+        return Response({"success": "Successfully logged out."}, status=status.HTTP_200_OK)
+
+    def get(self, request):
+        django_logout(request)
+        return Response({"success": "Successfully logged out."}, status=status.HTTP_200_OK)
+
+
+class IsAuthenticatedView(APIView):
+    permission_classes = (AllowAny,)
+
+    def get(self, requet):
+        is_authenticated = 'true' if requet.user.is_authenticated else 'false'
+        return Response({"is_authenticated": is_authenticated})
+
+
+class PasswordResetView(generics.GenericAPIView):
+
+    """
+    Calls Django Auth PasswordResetForm save method.
+
+    Accepts the following POST parameters: email
+    Returns the success/fail message.
+    """
+
+    serializer_class = PasswordResetSerializer
+    permission_classes = (AllowAny,)
+
+    def post(self, request, *args, **kwargs):
+        # Create a serializer with request.data
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        serializer.save()
+        # Return the success message with OK HTTP status
+        return Response(
+            {"success": "Password reset e-mail has been sent."},
+            status=status.HTTP_200_OK
+        )
+
+
+class PasswordResetConfirmView(generics.GenericAPIView):
+    """
+    Password reset e-mail link is confirmed, therefore this resets the user's password.
+
+    Accepts the following POST parameters: new_password1, new_password2
+    Accepts the following Django URL arguments: token, uid
+    Returns the success/fail message.
+    """
+
+    serializer_class = PasswordResetConfirmSerializer
+    permission_classes = (AllowAny,)
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"success": "Password has been reset with the new password."})
+
+
+class ProjectList(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get_objects(self, user):
+        return Project.objects.filter(owner=user,
+                                      deleted=False)
+
+    """
+    Create a new project.
+    """
+    def post(self, request, format=None):
+        serializer = ProjectSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.validated_data['owner'] = request.user
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    """
+    Get projects
+    """
+    def get(self, request, format=None):
+        serializer = ProjectSerializer(self.get_objects(request.user), many=True)
+        return Response(serializer.data)
+
+
+class ProjectDetail(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, project_id, owner):
+        return get_object_or_404(Project, pk=project_id, owner=owner)
+
+    """
+    Update project
+    """
+    def put(self, request, project_id, format=None):
+        project = self.get_object(project_id, request.user)
+        serializer = ProjectSerializer(project, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    """
+    Delete project
+    """
+    def delete(self, request, project_id, format=None):
+        project = self.get_object(project_id, request.user)
+        project.deleted = True
+        project.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ManageProjectFeeds(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get_project(self, project_id, owner):
+        return get_object_or_404(Project, pk=project_id, owner=owner, deleted=False)
+
+    def get_feed(self, feed_id, owner):
+        return get_object_or_404(Feed, feed_id=feed_id, owner=owner)
+
+    def post(self, request, project_id, feed_id, format=None):
+        project = self.get_project(project_id, request.user)
+        feed = self.get_feed(feed_id, request.user)
+        # currently a feed can't be in more than one project
+        # this removes from all projects before adding to another
+        projects = Project.objects.filter(feeds__feed_id=feed_id)
+        for p in projects:
+            p.feeds.remove(feed)
+        project.feeds.add(feed)
+        return Response({"message": "successfully added feed to project"}, status=status.HTTP_200_OK)
+
+    def delete(self, request, project_id, feed_id, format=None):
+        project = self.get_project(project_id, request.user)
+        feed = self.get_feed(feed_id, request.user)
+        project.feeds.remove(feed)
+        return Response({"message": "successfully removed feed from project"}, status=status.HTTP_200_OK)
+
+
+class ProjectFeedList(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get_project(self, project_id, owner):
+        return get_object_or_404(Project, pk=project_id, owner=owner, deleted=False)
+
+    def get(self, request, project_id, format=None):
+        project = self.get_project(project_id, request.user)
+        serializer = FeedSerializer(project.feeds.filter(active=True).all(), many=True)
+        return Response(serializer.data)
+
+
+class FeedUpdateDetail(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, feed_id, owner):
+        return get_object_or_404(Feed, feed_id=feed_id, owner=owner)
+
+    """
+    Update Feed
+    """
+    def put(self, request, feed_id, format=None):
+        feed = self.get_object(feed_id, request.user)
+        serializer = FeedUpdateSerializer(data=request.data)
+        if serializer.is_valid():
+            feed.video_title = serializer.data.get('title')
+            feed.save()
+            return Response(FeedSerializer(feed).data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated, ))
+def get_vimeo_videos(request):
+    subscription = Subscription.objects.get(user=request.user)
+    if not subscription:
+        return Response({"message": "Invalid subscription"}, status=status.HTTP_401_UNAUTHORIZED)
+
+    v = vimeo.VimeoClient(
+        token=subscription.vimeo_token,
+        key=settings.VIMEO_CLIENT_IDENTIFIED,
+        secret=settings.VIMEO_CLIENT_SECRET)
+
+    video_list = v.get('/me/videos?per_page=100&fields=uri,name,pictures.sizes')
+    if video_list.status_code != 200:
+        return Response({"message": "Failed to load video list"}, status=status.HTTP_400_BAD_REQUEST)
+
+    return Response(video_list.json().get('data'), status=status.HTTP_200_OK)

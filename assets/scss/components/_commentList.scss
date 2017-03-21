@@ -79,6 +79,10 @@
 .c-comment__author {
     float:left;
     margin-bottom:4px;
+    transition: $global-transition;
+    .c-comment--locked & {
+        opacity:0.3;
+    }
 }
 .c-comment__timecode {
     float:right;
@@ -101,47 +105,72 @@
 .c-comment__body {
     padding-left:30px;
     @include inuit-font-size(14px,$line-height:1.5);
+    transition: $global-transition;
+    .c-comment--locked & {
+        opacity:0.3;
+    }
 }
-.c-comment__actions {
-    .c-comment--edit & {
-        margin-top:4px;
-    }
-    float:left;
-    margin-top:10px;
-    opacity:.75;
-    ul {
-        margin:0;
-    }
-    li {
-        margin-left:10px;
+
+.c-comment__footer {
+    position:relative;
+}
+.c-comment__lockBtn {
+    position:absolute;
+    top:12px;
+    left:0;
+    width:$inuit-global-spacing-unit;
+    height:$inuit-global-spacing-unit;
+    border:1px solid;
+    border-radius:100%;
+    text-align:center;
+    line-height:19px;
+    transition: $global-transition;
+    z-index:20;
+    .icon {
         vertical-align:middle;
-        &:first-child {
-            margin-left:0;
-        }
-    }
-    a, input[type=submit] {
-        display:block;
-        opacity:0.5;
-        transition: $global-transition;
-        &:hover, &:focus {
-            opacity:1;
-        }
-    }
-    input[type=submit] {
-        padding:0;
-        border:0;
-        background-color:transparent;
-        font-size: 0;
-        -webkit-appearance: none;
-        -moz-appearance: none;
     }
 }
-.c-comment__created {
-    .c-comment--edit & {
-        margin-top:4px;
+.c-comment__lockBtn--unlocked {
+    border-color:$mid;
+    opacity:0.5;
+    &:hover {
+        opacity:1;
+        border-color:#fff;
+        background:#fff;
     }
+}
+.c-comment__lockBtn--locked {
+    border-color:$red;
+    background:$red;
+    .icon {
+        opacity:1;
+    }
+    &:hover {
+        border-color:lighten($red,10%);
+        background:lighten($red,10%);
+    }
+}
+
+.c-comment .c-actions {
+    padding-left:33px;
+}
+.c-comment--locked .c-actions {
+    position:relative;
+    opacity:.3;
+    &:after {
+        content:'';
+        position:absolute;
+        top:0;
+        right:0;
+        bottom:0;
+        left:0;
+        background:transparent;
+    }
+}
+
+.c-comment__created {
     float:right;
-    margin-top:9px;
+    margin-top:16px;
     @include inuit-font-size(12px);
     color:darken($light,10%);
 }

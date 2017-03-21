@@ -1,13 +1,14 @@
-var React = require('react');
-var ReactPlayer = require('react-player');
-var YouTubePlayer = require('../components/YouTubePlayer');
-var moment = require('moment');
+import React from 'react';
+import ReactPlayer from 'react-player';
+import moment from 'moment';
+
+import YouTubePlayer from '../components/YouTubePlayer';
 
 function pad (string) {
   return ('0' + string).slice(-2)
 }
 
-var FeedVideoContainer = React.createClass({
+const FeedVideoContainer = React.createClass({
 
     propTypes: {
         feedId:                 React.PropTypes.string.isRequired,
@@ -29,7 +30,8 @@ var FeedVideoContainer = React.createClass({
             duration:null,
             elapsed:0,
             loaded:0,
-            lastSeek:undefined
+            lastSeek:undefined,
+            seeking:false
         };
     },
 
@@ -56,9 +58,14 @@ var FeedVideoContainer = React.createClass({
         if (nextProps.seekToTime != this.state.lastSeek) {
             this.setState({
                 lastSeek:nextProps.seekToTime
+            }, function(){
+                this._seekTo(nextProps.seekToTime);
             });
-            this._seekTo(nextProps.seekToTime);
+            
         }
+    },
+
+    componentWillUnmount:function(){
     },
 
     _seekTo:function(number) {
@@ -67,6 +74,7 @@ var FeedVideoContainer = React.createClass({
                 youtubeSeekTo:number
             });
         } else {
+            console.log(number,'vimeo seekto');
             if (this.state.duration === null) {
                 this.refs.player.refs.player.refs.iframe.contentWindow.postMessage('{"method":"getDuration", "value":0}', '*');
                 setTimeout(function(){
@@ -75,6 +83,7 @@ var FeedVideoContainer = React.createClass({
                         fraction = 0.0002;
                     }
                     this.refs.player.seekTo(fraction);
+                    //this.refs.player.pause();
                 }.bind(this),300);
             } else {
                 var fraction = number / this.state.duration;
@@ -82,9 +91,23 @@ var FeedVideoContainer = React.createClass({
                     fraction = 0.0002;
                 }
                 this.refs.player.seekTo(fraction);
+                //this.refs.player.pause();
             }
+            this.setState({
+                lastSeek:undefined
+            });
         }
+        
         this._onPause();
+        // var callCount = 0;
+        // var repeater = setInterval(function () {
+        //     if (callCount < 2) {
+        //         this._onPause();
+        //         callCount += 1;
+        //     } else {
+        //         clearInterval(repeater);
+        //     }
+        // }.bind(this), 400);
     },
 
     _isYoutube: function() {

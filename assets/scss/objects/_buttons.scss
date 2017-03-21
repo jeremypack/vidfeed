@@ -30,6 +30,8 @@
   border:0;
   text-decoration:none;
   color:#fff;
+
+  line-height: 32px; ////// ????
 }
 
 
@@ -44,13 +46,11 @@
 
   &,
   &:hover,
-  &:active,
-  &:focus {
+  &:active{
     //text-transform:uppercase;
   }
 
-  &:hover,
-  &:focus {
+  &:hover{
     background-color: darken($red, 10%);
   }
 
@@ -61,13 +61,11 @@
 
   &,
   &:hover,
-  &:active,
-  &:focus {
+  &:active{
     //text-transform:uppercase;
   }
 
-  &:hover,
-  &:focus {
+  &:hover{
     background-color: darken($mid, 10%);
   }
 
@@ -78,16 +76,28 @@
   
   &,
   &:hover,
-  &:active,
-  &:focus {
+  &:active{
     //text-transform:uppercase;
   }
 
-  &:hover,
-  &:focus {
+  &:hover{
     background-color: darken($dark, 10%);
   }
 
+}
+
+.o-btn--blue {
+  background-color: $blue;
+  
+  &,
+  &:hover,
+  &:active{
+    //text-transform:uppercase;
+  }
+
+  &:hover{
+    background-color: darken($blue, 10%);
+  }
 }
 
 /* Size variants
@@ -96,6 +106,7 @@
 .o-btn--small {
   height:auto;
   padding: inuit-rem($inuit-global-spacing-unit-tiny) inuit-rem($inuit-global-spacing-unit-small);
+  line-height:1.5em;
 }
 
 .o-btn--large {
@@ -127,7 +138,14 @@
     }
 }
 
-.o-btn--with-icon {
+.o-btn--iconLeft {
+    .icon {
+        margin-top:-4px;
+        margin-right:7px;
+        vertical-align:middle;
+    }
+}
+.o-btn--iconRight {
     .icon {
         margin-left:3px;
         vertical-align:middle;
@@ -184,16 +202,15 @@ $btn-ghost-border-width: 2px;
 .o-btn--ghost {
   border: $btn-ghost-border-width solid #fff;
   //padding: ($inuit-global-spacing-unit-small - $btn-ghost-border-width) ($inuit-global-spacing-unit - $btn-ghost-border-width);
-
+  line-height:1.6;
+  
   &,
   &:hover,
-  &:active,
-  &:focus {
+  &:active {
     background: none;
   }
 
-  &:hover,
-  &:focus {
+  &:hover {
     background: #fff;
     color:$dark;
   }
@@ -209,8 +226,7 @@ $btn-ghost-border-width: 2px;
   &.o-btn--primary {
     color: #4a8ec2;
 
-    &:hover,
-    &:focus {
+    &:hover{
       color: #3774a2;
     }
 
@@ -219,8 +235,7 @@ $btn-ghost-border-width: 2px;
   &.o-btn--secondary {
     color: #2f4054;
 
-    &:hover,
-    &:focus {
+    &:hover {
       color: #1d2733;
     }
 
@@ -229,8 +244,7 @@ $btn-ghost-border-width: 2px;
   &.o-btn--tertiary {
     color: #fff;
 
-    &:hover,
-    &:focus {
+    &:hover{
       color: #fff;
     }
 
