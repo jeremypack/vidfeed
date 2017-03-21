@@ -437,7 +437,7 @@ const Dashboard = React.createClass({
             var blurClasses = 'blurLayer';
         }
 
-        if (!this.state.moveProjects && !this.state.vimeoMode && !this.state.youtubeMode) {
+        if (!this.state.vimeoMode && !this.state.youtubeMode) {
             var heading = <ProjectTitleContainer
                             editable={!this.state.moveProjects}
                             modalOpen={this._modalOpen}
@@ -477,7 +477,7 @@ const Dashboard = React.createClass({
             
             }
             
-            button2 = <a href="#" className="o-btn o-btn--primary o-btn--iconLeft"><i className="icon icon--plusCircle"></i>Youtube</a>;
+            //button2 = <a href="#" className="o-btn o-btn--primary o-btn--iconLeft"><i className="icon icon--plusCircle"></i>Youtube</a>;
         }
 
         if (this.state.moveProjects || this.state.vimeoMode || this.state.youtubeMode) {
