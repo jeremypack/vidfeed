@@ -154,7 +154,7 @@ class FeedList(APIView):
         elif provider.name == 'vimeo':
             title, thumb = get_vimeo_title_and_thumbnail(video_id)
 
-        if not title:
+        if not title and request.user.is_authenticated():
             title = 'Feed ' + str(Feed.objects.filter(owner=request.user).count() + 1)
 
         feed = Feed.objects.create(feed_id=Feed.generate_link_id(),
