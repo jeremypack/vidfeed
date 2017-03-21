@@ -437,7 +437,7 @@ const Dashboard = React.createClass({
             var blurClasses = 'blurLayer';
         }
 
-        if (!this.state.moveProjects && !this.state.vimeoMode && !this.state.youtubeMode) {
+        if (!this.state.vimeoMode && !this.state.youtubeMode) {
             var heading = <ProjectTitleContainer
                             editable={!this.state.moveProjects}
                             modalOpen={this._modalOpen}
