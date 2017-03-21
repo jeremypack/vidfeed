@@ -11,7 +11,7 @@
 .nav--home {
     .nav__link {
         display:inline-block;
-        margin:0 $inuit-global-spacing-unit*2;
+        margin:0 $inuit-global-spacing-unit;
         color:#fff;
         &:after {
             content:'';
@@ -25,6 +25,9 @@
             width:100%;
             background:#fff;
         }
+    }
+    .o-btn {
+        margin-left:$inuit-global-spacing-unit;
     }
 }
 
