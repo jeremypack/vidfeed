@@ -249,7 +249,8 @@ const Dashboard = React.createClass({
             blur:false,
             feedsSelected:[],
             feeds:[],
-            feedsOwnedCount:0
+            feedsOwnedCount:0,
+            selectedFeedCount:0
         }, function(){
             this._loadFeedsFromServer(this.state.selectedProjectId);
         });

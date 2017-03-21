@@ -73,14 +73,14 @@
         margin:0 0 0 $inuit-global-spacing-unit;
     }
     .nav--loggedIn & ul {
-        width:250px
+        width:170px
     }
 }
 .subnav--open {
     width:150px;
     transform:translateX(0);
     .nav--loggedIn & {
-        width:250px
+        width:170px
     }
 }
 .subnav__link {
