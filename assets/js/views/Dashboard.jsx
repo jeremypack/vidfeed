@@ -258,12 +258,10 @@ const Dashboard = React.createClass({
     _selectProject:function(id) {
         this.setState({
             selectedProjectId:id,
-            moveProjects:false,
             defaultProjectSelected:false,
-            showFeeds:false
         }, function(){
-            this._loadFeedsFromServer(this.state.selectedProjectId);
-            browserHistory.push('/app/dashboard/'+this.state.selectedProjectId);
+            this._setDefaultState();
+            browserHistory.push('/app/dashboard/'+id);
         });
         
     },
