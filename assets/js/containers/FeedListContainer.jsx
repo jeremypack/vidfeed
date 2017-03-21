@@ -83,7 +83,7 @@ const FeedListContainer = React.createClass({
             moveMode:bool,
             firstFeedSelected:feedId
         }, function(){
-            this.props.moveMode(this.state.moveMode);
+            this.props.toggleMoveMode(this.state.moveMode);
         });
     },
 
@@ -111,38 +111,57 @@ const FeedListContainer = React.createClass({
     render: function() {
 
         var noFeeds = <div className="o-layout__item c-feedList__no-feeds">No feeds added yet <span className="nowrap">:(</span></div>;
-        var feedNodes = this.state.feeds.map(function(feed, i) {
-            if (feed.provider.name === 'vimeo') {
-                var isVimeo = true;
-            } else {
-                var isVimeo = false;
-            }
-            if (this.props.projectId === 0) {
-                var deleteFromProject = false;
-            } else {
-                var deleteFromProject = true;
-            }
-            return (
-                <FeedItemContainer
-                    key={i}
-                    created={feed.created}
-                    feedId={feed.feed_id}
-                    isVimeo={isVimeo}
-                    videoTitle={feed.video_title} 
-                    videoThumb={feed.video_thumbnail}
-                    modalOpen={this.props.modalOpen}
-                    modalClose={this.props.modalClose}
-                    moveMode={this.state.moveMode}
-                    setMoveMode={this._toggleMoveMode}
-                    firstFeedSelected={this.state.firstFeedSelected}
-                    selectedItem={this._selectedItem}
-                    handleDeleteFeed={this._deleteFeed}
-                    handleDeleteFeedFromProject={this._deleteFeedFromProject}
-                    collaboratorCount={feed.collaborator_count}
-                    commentCount={feed.comment_count}
-                    deleteFromProjectBool={deleteFromProject} />
-            );
-        }.bind(this));
+        
+        let feedNodes;
+
+        if (!this.props.vimeoModeBool && !this.props.youtubeModeBool) {
+            feedNodes = this.state.feeds.map(function(feed, i) {
+                if (feed.provider.name === 'vimeo') {
+                    var isVimeo = true;
+                } else {
+                    var isVimeo = false;
+                }
+                if (this.props.projectId === 0) {
+                    var deleteFromProject = false;
+                } else {
+                    var deleteFromProject = true;
+                }
+                return (
+                    <FeedItemContainer
+                        key={i}
+                        created={feed.created}
+                        feedId={feed.feed_id}
+                        isVimeo={isVimeo}
+                        videoTitle={feed.video_title} 
+                        videoThumb={feed.video_thumbnail}
+                        modalOpen={this.props.modalOpen}
+                        modalClose={this.props.modalClose}
+                        moveMode={this.state.moveMode}
+                        setMoveMode={this._toggleMoveMode}
+                        firstFeedSelected={this.state.firstFeedSelected}
+                        selectedItem={this._selectedItem}
+                        handleDeleteFeed={this._deleteFeed}
+                        handleDeleteFeedFromProject={this._deleteFeedFromProject}
+                        collaboratorCount={feed.collaborator_count}
+                        commentCount={feed.comment_count}
+                        deleteFromProjectBool={deleteFromProject} />
+                );
+            }.bind(this));
+        }
+
+        if (this.props.vimeoModeBool) {
+            feedNodes = this.state.feeds.map(function(feed, i) {
+                return (
+                    <FeedItemContainer
+                        key={i}
+                        feedId={feed.uri}
+                        videoTitle={feed.name} 
+                        videoThumb={feed.pictures.sizes[3].link}
+                        selectedItem={this._selectedItem}
+                        moveMode={true} />
+                );
+            }.bind(this));
+        }
 
         if (this.props.showFeeds) {
             return (

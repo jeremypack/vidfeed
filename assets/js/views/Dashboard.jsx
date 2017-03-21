@@ -53,7 +53,9 @@ const Dashboard = React.createClass({
             feeds:[],
             showFeeds:false,
             feedsSelected:[],
-            moveFeedModal:false
+            moveFeedModal:false,
+            feedsOwnedCount:0,
+            newFeedsCreated:[]
         }
     },
 
@@ -234,9 +236,23 @@ const Dashboard = React.createClass({
         });
     },
 
-    _cancelMove:function(e){
-        e.preventDefault();
-        this._moveProjectsModeToggle(false);
+    _setDefaultState:function(e){
+        if (e) {
+            e.preventDefault();
+        }
+        this.setState({
+            showFeeds:false,
+            vimeoMode:false,
+            youtubeMode:false,
+            moveProjects:false,
+            moveFeedModal:false,
+            blur:false,
+            feedsSelected:[],
+            feeds:[],
+            feedsOwnedCount:0
+        }, function(){
+            this._loadFeedsFromServer(this.state.selectedProjectId);
+        });
     },
 
     _selectProject:function(id) {
@@ -275,7 +291,7 @@ const Dashboard = React.createClass({
                 blur:true
             });
         } else {
-            const projectId = parseInt(e.target.attributes.getNamedItem('data-project-id').value, 10);
+            var projectId = parseInt(e.target.attributes.getNamedItem('data-project-id').value, 10);
             const feeds = this.state.feedsSelected
             for (var i = 0; i < feeds.length; i++) {
                 $.ajax({
@@ -300,12 +316,113 @@ const Dashboard = React.createClass({
         }
     },
 
+    _addVideosAsFeeds:function(e){
+        e.preventDefault();
+        const feeds = this.state.feedsSelected;
+        for (var i = 0; i < feeds.length; i++) {
+            var feedUrlClean1 = feeds[i].split('/videos')[1];
+            var feedUrlClean2 = feedUrlClean1.split(':')[0];
+            if (this.state.vimeoMode) {
+                var videoUrl = 'http://vimeo.com'+feedUrlClean2;
+            }
+            if (this.state.youtubeMode) {
+                var videoUrl = 'http://youtube.com'+feeds[i];
+            }
+            // create feeds
+            $.ajax({
+                type: "POST",
+                context: this,
+                url: "/api/feeds/",
+                data: {
+                    videoUrl: videoUrl
+                },
+                success: function (ev){
+                    this._setFeedOwner(ev.feed_id);
+                    this.setState({
+                        newFeedsCreated: this.state.newFeedsCreated.concat([ev.feed_id])
+                    });
+                }.bind(this),
+                error: function (ev) {
+                    this.setState({
+                        error: JSON.parse(ev.responseText).message
+                    });
+                }
+            });
+        }
+    },
+
+    _setFeedOwner:function(feedId) {
+        $.ajax({
+            type: "POST",
+            context: this,
+            url: "/api/feeds/" + feedId + '/set-owner/',
+            data: {
+                owner: window.vidfeed.user.email
+            },
+            success: function (ev){
+                this.setState({
+                    feedsOwnedCount:this.state.feedsOwnedCount+1
+                }, function(){
+                    if (this.state.feedsOwnedCount === this.state.feedsSelected.length) {
+                        if (this.state.selectedProjectId != 0) {
+                            this._addNewFeedsToProject();
+                        } else {
+                            this._setDefaultState();
+                        }
+                    }
+                });
+            }.bind(this),
+            error: function (ev) {
+                console.log(window.vidfeed.user.email,'owner');
+                console.log(this.state.newFeedId,'feedId');
+            }
+        });
+    },
+
+    _addNewFeedsToProject:function(){
+        const feeds = this.state.newFeedsCreated
+        for (var i = 0; i < feeds.length; i++) {
+            $.ajax({
+                type: 'post',
+                url: '/api/projects/' + this.state.selectedProjectId + '/feed/' + feeds[i],
+                success: function (data) {
+                    this._setDefaultState();
+                }.bind(this),
+                error: function (data) {
+                    console.log(data, 'add new error');
+                }
+            });
+        }
+    },
+
     _moveFeedCancel:function(e){
         e.preventDefault();
         this.setState({
             moveFeedModal:false,
             blur:false
         });
+    },
+
+    _activateVimeoMode:function(){
+        this.setState({
+            feeds:[],
+            showFeeds:false,
+            vimeoMode:true,
+            moveProjects:true
+        })
+        $.ajax({
+            type: 'get',
+            url: '/api/vimeo/videos',
+            success: function (data) {
+                this.setState({
+                    feeds:data,
+                    showFeeds:true
+                })
+            }.bind(this),
+            error: function (data) {
+                console.log(data);
+            }
+        })
     },
 
     render: function() {
@@ -321,13 +438,7 @@ const Dashboard = React.createClass({
             var blurClasses = 'blurLayer';
         }
 
-        if (this.state.vimeoMode) {
-            var heading = 'Vimeo videos'
-        }
-        if (this.state.youtubeMode) {
-            var heading = 'Youtube videos'
-        }
-        if (!this.state.vimeoMode || !this.state.youtubeMode) {
+        if (!this.state.moveProjects && !this.state.vimeoMode && !this.state.youtubeMode) {
             var heading = <ProjectTitleContainer
                             editable={!this.state.moveProjects}
                             modalOpen={this._modalOpen}
@@ -338,20 +449,50 @@ const Dashboard = React.createClass({
                             updateProjectTitle={this._updateProjectTitle} />;
         }
 
+        if (this.state.vimeoMode) {
+            var heading = <div className="c-projectTitle">
+                            <h1 className="c-projectTitle__title">Vimeo videos</h1>
+                        </div>
+        }
+        if (this.state.youtubeMode) {
+            var heading = <div className="c-projectTitle">
+                            <h1 className="c-projectTitle__title">Youtube videos</h1>
+                        </div>
+        }
+
         let button1, button2 = null;
 
         if (!this.state.moveProjects && !this.state.vimeoMode && !this.state.youtubeMode) {
+            
             var createFeed = <CreateFeedContainer
                                 projectId={this.state.selectedProjectId}
                                 loadFeeds={this._loadFeedsFromServer} />
-            button1 = <a href="#" className="o-btn o-btn--blue o-btn--iconLeft u-margin-right"><i className="icon icon--plusCircle"></i>Vimeo</a>;
+
+            if (window.vidfeed.user.subscription.linked_vimeo) {
+            
+                button1 = <div onClick={this._activateVimeoMode} className="o-btn o-btn--blue o-btn--iconLeft u-margin-right"><i className="icon icon--plusCircle"></i>Import from Vimeo</div>;
+            
+            } else {
+            
+                button1 = <a href="/auth/vimeo" className="o-btn o-btn--blue o-btn--iconLeft u-margin-right"><i className="icon icon--plusCircle"></i>Vimeo</a>;
+            
+            }
+            
             button2 = <a href="#" className="o-btn o-btn--primary o-btn--iconLeft"><i className="icon icon--plusCircle"></i>Youtube</a>;
         }
 
-        if (this.state.moveProjects) {
+        if (this.state.moveProjects || this.state.vimeoMode || this.state.youtubeMode) {
             var selectedFeedCount = this.state.selectedFeedCount === 1 ? <h3 className="selectedCount">1 Video Selected</h3> : <h3 className="selectedCount">{this.state.selectedFeedCount} Videos Selected</h3>;
+        }
+
+        if (this.state.moveProjects) {
             button1 = <a href="#" className="o-btn o-btn--primary u-margin-right" onClick={this._moveToProject}>Move to another project</a>;
-            button2 = <a href="#" className="o-btn o-btn--secondary" onClick={this._cancelMove}>I don&apos;t want to move any feeds</a>;
+            button2 = <a href="#" className="o-btn o-btn--secondary" onClick={this._setDefaultState}>I don&apos;t want to move any feeds</a>;
+        }
+
+        if (this.state.vimeoMode || this.state.youtubeMode) {
+            button1 = <a href="#" className="o-btn o-btn--primary u-margin-right" onClick={this._addVideosAsFeeds}>Add to project</a>;
+            button2 = <a href="#" className="o-btn o-btn--secondary" onClick={this._setDefaultState}>I don&apos;t want to add any videos</a>;
         }
 
         var moveFeedModal = <Modal
@@ -401,13 +542,15 @@ const Dashboard = React.createClass({
                                     showFeeds={this.state.showFeeds}
                                     modalOpen={this._modalOpen}
                                     modalClose={this._modalClose}
-                                    moveMode={this._moveProjectsModeToggle}
+                                    toggleMoveMode={this._moveProjectsModeToggle}
                                     selectedCount={this._selectedFeedCount}
                                     projectId={this.state.selectedProjectId}
                                     cancelMove={this.state.moveProjects}
                                     addFeedForMove={this._addFeedForMove}
                                     removeFeedFromMove={this._removeFeedFromMove}
-                                    loadFeeds={this._loadFeedsFromServer} />
+                                    loadFeeds={this._loadFeedsFromServer}
+                                    vimeoModeBool={this.state.vimeoMode}
+                                    youtubeModeBool={this.state.youtubeMode} />
                             </div>
                         </div>
                     </div>

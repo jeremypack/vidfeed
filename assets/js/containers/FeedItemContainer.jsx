@@ -30,19 +30,19 @@ const modalStyles = {
 const FeedItemContainer = React.createClass({
 
     propTypes: {
-        feedId:                React.PropTypes.string.isRequired,
-        isVimeo:               React.PropTypes.bool.isRequired,
+        feedId:                React.PropTypes.string,
+        isVimeo:               React.PropTypes.bool,
         videoTitle:            React.PropTypes.string.isRequired,
         videoThumb:            React.PropTypes.string.isRequired,
-        created:               React.PropTypes.string.isRequired,
-        modalOpen:             React.PropTypes.func.isRequired,
-        modalClose:            React.PropTypes.func.isRequired,
-        moveMode:              React.PropTypes.bool.isRequired,
-        setMoveMode:           React.PropTypes.func.isRequired,
+        created:               React.PropTypes.string,
+        modalOpen:             React.PropTypes.func,
+        modalClose:            React.PropTypes.func,
+        moveMode:              React.PropTypes.bool,
+        setMoveMode:           React.PropTypes.func,
         firstFeedSelected:     React.PropTypes.string,
-        collaboratorCount:     React.PropTypes.number.isRequired,
-        commentCount:          React.PropTypes.number.isRequired,
-        deleteFromProjectBool: React.PropTypes.bool.isRequired
+        collaboratorCount:     React.PropTypes.number,
+        commentCount:          React.PropTypes.number,
+        deleteFromProjectBool: React.PropTypes.bool
     },
 
     getInitialState:function() {
