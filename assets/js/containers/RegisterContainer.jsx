@@ -101,7 +101,7 @@ const RegisterContainer = React.createClass({
                     handlePasswordChange={this._handlePasswordChange}
                     onSubmit={this._handleSubmit} />
                 <div className="o-layout__item u-2/3@tablet">
-                    <h1 className="text--center font--light">Get more out of Vidfeed…</h1>
+                    <h1 className="text--center font--light"><span className="h1 error-color">FREE</span> until July 2017</h1>
                     <div className="c-getPlus__features o-layout--large text--left u-padding-left-large u-margin-top-large">
                         <div className="o-layout__item u-1/2@tablet">
                             <div className="c-getPlus__features__item u-margin-bottom-large">
@@ -129,11 +129,6 @@ const RegisterContainer = React.createClass({
                                 <i className="c-getPlus__icon icon icon--unlimited"></i>
                                 <h3>Unlimited</h3>
                                 <p>Get unlimited feeds, projects and collaborators for an infinite amount of time.</p>
-                            </div>
-                        </div>
-                        <div className="o-layout__item">
-                            <div className="text--center">
-                                <h2 className="">Sign up for only <span className="h1 error-color">£5</span> per month or <span className="h1 error-color">£50</span> annually.</h2>
                             </div>
                         </div>
                     </div>
