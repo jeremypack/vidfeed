@@ -149,6 +149,10 @@ const FeedListContainer = React.createClass({
             }.bind(this));
         }
 
+        console.log(this.state.feeds,'ffeds');
+
+        console.log(this.props.showFeeds,'show feeds');
+
         if (this.props.vimeoModeBool) {
             feedNodes = this.state.feeds.map(function(feed, i) {
                 return (

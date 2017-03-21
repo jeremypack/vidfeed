@@ -5,6 +5,7 @@
 .nav {
     float:right;
     position:relative;
+    overflow:hidden;
 } 
 .nav--loggedIn {
 }
@@ -76,14 +77,14 @@
         margin:0 0 0 $inuit-global-spacing-unit;
     }
     .nav--loggedIn & ul {
-        width:170px
+        width:250px
     }
 }
 .subnav--open {
     width:150px;
     transform:translateX(0);
     .nav--loggedIn & {
-        width:170px
+        width:250px
     }
 }
 .subnav__link {
