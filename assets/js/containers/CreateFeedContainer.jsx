@@ -101,6 +101,7 @@ const CreateFeedContainer =  React.createClass({
                 if (this.props.projectId != 0) {
                     this._addToSelectedProject();
                 } else {
+                    this.props.loadFeeds(0);
                     this.setState({
                         newFeedId:''
                     });
