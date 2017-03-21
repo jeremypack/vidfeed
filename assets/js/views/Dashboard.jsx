@@ -477,7 +477,7 @@ const Dashboard = React.createClass({
             
             }
             
-            button2 = <a href="#" className="o-btn o-btn--primary o-btn--iconLeft"><i className="icon icon--plusCircle"></i>Youtube</a>;
+            //button2 = <a href="#" className="o-btn o-btn--primary o-btn--iconLeft"><i className="icon icon--plusCircle"></i>Youtube</a>;
         }
 
         if (this.state.moveProjects || this.state.vimeoMode || this.state.youtubeMode) {
