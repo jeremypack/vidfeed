@@ -110,7 +110,7 @@ const NavigationContainer = React.createClass({
                 <nav className={navClasses}>
                     <ul className="o-list-inline"> 
                         <li className="o-list-inline__item"><Link className="nav__link" to="/app/login">Login</Link></li>
-                        <li className="o-list-inline__item"><Link className="nav__link"to="/app/register">Sign up</Link></li>
+                        <li className="o-list-inline__item"><Link className="o-btn o-btn--ghost" to="/app/register">Sign up</Link></li>
                     </ul>
                 </nav>
             );
@@ -142,7 +142,7 @@ const NavigationContainer = React.createClass({
                     <div className={this.state.subnavShowing ? 'subnav subnav--open': 'subnav'}>
                         <ul className="o-list-inline">
                             <li className="o-list-inline__item"><Link className="subnav__link" to="/app/login">Login</Link></li>
-                            <li className="o-list-inline__item"><Link className="subnav__link" to="/app/register">Get Plus!</Link></li>
+                            <li className="o-list-inline__item"><Link className="subnav__link" to="/app/register">Sign up</Link></li>
                         </ul>
                     </div>
                 </div>
