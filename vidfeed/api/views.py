@@ -17,7 +17,7 @@ from rest_framework.decorators import detail_route, api_view, permission_classes
 from vidfeed.profiles.models import SiteUser, Subscription
 from vidfeed.feed.models import Comment, Feed, Provider, FeedInvite, FeedCollaborator, Project
 from vidfeed.utils import get_youtube_title_and_thumbnail, get_vimeo_title_and_thumbnail, \
-    set_vidfeed_user_cookie, send_email
+    set_vidfeed_user_cookie, send_email, get_vimeo_title_and_thumbnail_with_subscription
 from serializers import CommentSerializer, FeedSerializer, FeedInviteSerializer, \
     FeedCollaboratorSerializer, UserSerializer, SiteUserSerializer, CommentDoneSerializer, \
     ProjectSerializer, LoginSerializer, PasswordResetSerializer, PasswordResetConfirmSerializer, \
@@ -153,6 +153,10 @@ class FeedList(APIView):
             title, thumb = get_youtube_title_and_thumbnail(video_id)
         elif provider.name == 'vimeo':
             title, thumb = get_vimeo_title_and_thumbnail(video_id)
+            if not title and request.user.is_authenticated() and \
+                    request.user.get_subscription():
+                title, thumb = get_vimeo_title_and_thumbnail_with_subscription(
+                    video_id, request.user.get_subscription())
 
         if not title and request.user.is_authenticated():
             title = 'Feed ' + str(Feed.objects.filter(owner=request.user).count() + 1)
