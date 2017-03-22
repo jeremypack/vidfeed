@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 
 import CommentForm from '../components/CommentForm';
 
-import EmailForm from '../components/EmailForm';
+import SingleInputInModal from '../components/SingleInputInModal';
 
 const modalStyles = {
     overlay : {
@@ -23,9 +23,14 @@ const modalStyles = {
         transform             : 'translate(-50%, -50%)',
         transition            : 'opacity .4s ease-in-out',
         opacity               : '0',
-        boxShadow             : '1px 1px 4px -1px rgba(0,0,0,.25)'
+        boxShadow             : '0px 0px 4px -1px rgba(0,0,0,.25)'
     }
 };
+
+function cleanHtml(string) {
+    var result = string.replace(/\n/g, "<br />").replace(/<a\b[^>]*>/i,"").replace(/<\/a>/i, "");
+    return result;
+}
 
 const CommentFormContainer = React.createClass({
     
@@ -134,7 +139,7 @@ const CommentFormContainer = React.createClass({
         }
         var timecode = this.props.timecodeSeconds;
         comment.author = window.vidfeed.user.email;
-        comment.body = body;
+        comment.body = cleanHtml(body);
         comment.timecode = timecode;
         $.ajax({
             url: '/api/feeds/' + this.props.feedId + '/comments',
@@ -212,7 +217,9 @@ const CommentFormContainer = React.createClass({
                                         isOpen={this.state.modalIsOpen}
                                         onRequestClose={this._closeModal}
                                         style={modalStyles}>
-                                        <EmailForm
+                                        <SingleInputInModal
+                                            inputType="email"
+                                            placeholder="Email address"
                                             heading='Please tell us who you are'
                                             closeModal={this._closeModal}
                                             handleSubmit={this._handleAuthorSubmit}

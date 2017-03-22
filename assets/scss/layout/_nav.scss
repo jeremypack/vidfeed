@@ -1,0 +1,115 @@
+/* ==========================================================================
+   #NAVIGATION
+   ========================================================================== */
+
+.nav {
+    float:right;
+    position:relative;
+    overflow:hidden;
+} 
+.nav--loggedIn {
+}
+.nav--home {
+    .nav__link {
+        display:inline-block;
+        margin:0 $inuit-global-spacing-unit;
+        color:#fff;
+        &:after {
+            content:'';
+            display:block;
+            height:1px;
+            width:0;
+            background: transparent;
+            transition: $global-transition;
+        }
+        &:hover:after {
+            width:100%;
+            background:#fff;
+        }
+    }
+    .o-btn {
+        margin-left:$inuit-global-spacing-unit;
+    }
+}
+
+.nav__user {
+    display:inline-block;
+    vertical-align:top;
+    padding-right:42px;
+    transition:$global-transition;
+    .nav--subnavShowing & {
+        padding-right:0;
+    }
+}
+
+.subnav__btn {
+    position:absolute;
+    top:0;
+    right:0;
+    overflow:hidden;
+    margin:16px 0 0 $inuit-global-spacing-unit;
+    cursor:pointer;
+    transition:$global-transition;
+    .icon {
+        width:$inuit-global-spacing-unit*.75;
+        height:$inuit-global-spacing-unit*.75;
+    }
+}
+.subnav__btn--invisible {
+    opacity:0;
+    visibility:hidden;
+}
+
+.subnav {
+    display: inline-block;
+    vertical-align:top;
+    overflow:hidden;
+    padding-top:17px;
+    width:0;
+    transition: $global-transition;
+    transform:translateX(50px);
+    @include inuit-font-size(14px, $line-height:14px);
+    ul {
+        display:block;
+        width:150px;
+    }
+    li {
+        margin:0 0 0 $inuit-global-spacing-unit;
+    }
+    .nav--loggedIn & ul {
+        width:250px
+    }
+}
+.subnav--open {
+    width:150px;
+    transform:translateX(0);
+    .nav--loggedIn & {
+        width:250px
+    }
+}
+.subnav__link {
+    display:inline-block;
+    color:$mid;
+    cursor:pointer;
+    &:after {
+        content:'';
+        display:block;
+        height:1px;
+        width:0;
+        margin-top:2px;
+        background: transparent;
+        transition: $global-transition;
+    }
+    &:hover:after {
+        width:100%;
+        background:$mid;
+        .nav--home & {
+            background:#fff;
+        }
+    }
+    .nav--home & {
+        color:#fff;
+    }
+}
+
+

@@ -4,6 +4,7 @@
 
 .user {
     position:relative;
+    vertical-align:middle;
     padding:$inuit-global-spacing-unit/2 0 $inuit-global-spacing-unit/2 $inuit-global-spacing-unit/2;
     @include inuit-font-size(14px);
     .c-comment__author & {
@@ -12,6 +13,7 @@
 }
 .user__icon {
     display:inline-block;
+    vertical-align:middle;
     width:$inuit-global-spacing-unit;
     height:$inuit-global-spacing-unit;
     margin-top:-1px;
@@ -61,6 +63,9 @@
     }
 }
 
+.user--click:hover {
+    cursor:pointer;
+}
 
 .user__title {
     font-weight: 700;

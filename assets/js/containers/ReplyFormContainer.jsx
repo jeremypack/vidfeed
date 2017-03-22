@@ -20,7 +20,7 @@ const modalStyles = {
         transform             : 'translate(-50%, -50%)',
         transition            : 'opacity .4s ease-in-out',
         opacity               : '0',
-        boxShadow             : '1px 1px 4px -1px rgba(0,0,0,.25)'
+        boxShadow             : '0px 0px 4px -1px rgba(0,0,0,.25)'
     }
 };
 

@@ -139,33 +139,41 @@ const Feed = React.createClass({
             this.setState({
                 commentsOpen:true,
                 commentsBtn:false
+            }, function(){
+                setTimeout(function() {
+                    this.setState({
+                        drawerVisible:true
+                    });
+                }.bind(this), 150);
             });
-            setTimeout(function() {
-                this.setState({
-                    drawerVisible:true
-                });
-            }.bind(this), 150);
-           
         } else {
             this.setState({
                 drawerVisible:false
+            }, function(){
+                setTimeout(function() {
+                    this.setState({
+                        commentsOpen:false
+                    });
+                }.bind(this), 150);
+                setTimeout(function() {
+                    this.setState({
+                        commentsBtn:true
+                    });
+                }.bind(this), 450);
             });
-            setTimeout(function() {
-                this.setState({
-                    commentsOpen:false
-                });
-            }.bind(this), 150);
-            setTimeout(function() {
-                this.setState({
-                    commentsBtn:true
-                });
-            }.bind(this), 450);
+           
         }
     },
 
     _timecodeClick: function(timecodeClicked) {
         this.setState({
             timecodeClicked:timecodeClicked
+        }, function(){
+            setTimeout(function(){
+                this.setState({
+                    timecodeClicked:undefined
+                });
+            }.bind(this),200)
         });
     },
 
@@ -226,10 +234,7 @@ const Feed = React.createClass({
                 <div className={blurClasses}>
                     
                     <div ref="header">
-                        
-                        <HeaderContainer 
-                            plusAccountInterest={this._plusAccountSignUp} />
-                    
+                        <HeaderContainer />
                     </div>
                     
                     <section ref="infoBar" className="feedInfo u-clearfix">
@@ -242,7 +247,7 @@ const Feed = React.createClass({
                                 modalClose={this._modalClose}
                                 pollInterval={1000} />
                             
-                            <a href="#" onClick={this._shareModalOpen} className="o-btn o-btn--tertiary o-btn--with-icon o-btn--outline o-btn--small">Share <i className="icon icon--user"></i></a>
+                            <a href="#" onClick={this._shareModalOpen} className="o-btn o-btn--tertiary o-btn--iconRight o-btn--outline o-btn--small">Share <i className="icon icon--user"></i></a>
                         </div>
                     </section>
                     

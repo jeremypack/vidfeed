@@ -23,9 +23,14 @@ const modalStyles = {
         transform             : 'translate(-50%, -50%)',
         transition            : 'opacity .4s ease-in-out',
         opacity               : '0',
-        boxShadow             : '1px 1px 4px -1px rgba(0,0,0,.25)'
+        boxShadow             : '0px 0px 4px -1px rgba(0,0,0,.25)'
     }
 };
+
+function cleanHtml(string) {
+    var result = string.replace(/\n/g, "<br />").replace(/<a\b[^>]*>/i,"").replace(/<\/a>/i, "");
+    return result;
+}
 
 const CommentContainer = React.createClass({
     
@@ -35,6 +40,7 @@ const CommentContainer = React.createClass({
         authorId:               React.PropTypes.number.isRequired,
         body:                   React.PropTypes.string.isRequired,
         created:                React.PropTypes.string.isRequired,
+        done:                   React.PropTypes.bool.isRequired,
         children:               React.PropTypes.array,
         modalOpen:              React.PropTypes.func.isRequired,
         modalClose:             React.PropTypes.func.isRequired,
@@ -42,7 +48,8 @@ const CommentContainer = React.createClass({
         handleCommentEdit:      React.PropTypes.func.isRequired,
         handleDeleteComment:    React.PropTypes.func.isRequired,
         timecodeClick:          React.PropTypes.func.isRequired,
-        closeOpenReplyForms:    React.PropTypes.func.isRequired
+        closeOpenReplyForms:    React.PropTypes.func.isRequired,
+        lockClick:              React.PropTypes.func.isRequired
     },
 
     getInitialState: function() {
@@ -50,10 +57,14 @@ const CommentContainer = React.createClass({
             editable: false,
             replyOpen: false,
             commentActions: false,
-            commentBody: this.props.body,
+            commentBody: '',
             deleteCommentCheck:false,
             commentIdToDelete:undefined,
-            newComment:false
+            newComment:false,
+            lockHover:false,
+            isLocked:this.props.done,
+            isValid:true,
+            validationStarted:false
         };
     },
 
@@ -68,6 +79,9 @@ const CommentContainer = React.createClass({
         }.bind(this);
         this.sessionCheckInterval = setInterval(getSessionUser,1000);
         this._checkNewComments();
+        this.setState({
+            commentBody:cleanHtml(this.props.body)
+        })
     },
 
     componentWillReceiveProps: function(nextProps) {
@@ -81,10 +95,16 @@ const CommentContainer = React.createClass({
                 replyOpen:true
             });
         }
+        if (nextProps.done != this.state.isLocked) {
+            this.setState({
+                isLocked:nextProps.done
+            });
+        }
     },
 
     componentWillUnmount:function(){
         clearInterval(this.sessionCheckInterval);
+        clearInterval(this.validateInterval);
     },
 
     _checkNewComments:function(){        
@@ -119,16 +139,23 @@ const CommentContainer = React.createClass({
             editable:false,
             commentBody: this.props.body
         });
+        clearInterval(this.validateInterval);
     },
 
     _saveEdit: function (e) {
         e.preventDefault();
         e.stopPropagation();
+        var body = this.state.commentBody.trim();
+        if (!body) {
+            return;
+        }
         var commentId = $(e.currentTarget).closest('.c-comment').data('id');
-        this.props.handleCommentEdit(commentId, this.props.author, this.state.commentBody);
+        this.props.handleCommentEdit(commentId, this.props.author, body);
         this.setState({
-            editable:false
+            editable:false,
+            commentBody:cleanHtml(body)
         });
+        clearInterval(this.validateInterval);
     },
 
     _saveReplyEdit: function(replyId, author, text) {
@@ -196,12 +223,51 @@ const CommentContainer = React.createClass({
         this.setState({
             commentBody: e.target.value
         });
+        var validateTrigger = function() {
+            if(this.state.commentBody) {
+                this.setState({
+                    isValid:true
+                });
+            } else {
+                this.setState({
+                    isValid:false
+                });
+            }
+        }.bind(this);
+        if (!this.state.validationStarted) {
+            this.setState({
+                validationStarted: true
+            });
+            this.validateInterval = setInterval(validateTrigger,500);
+        }
     },
 
     _timecodeClick: function(e) {
         e.preventDefault();
         var timecode = this.props.timecode
         this.props.timecodeClick(this.props.timecode);
+    },
+
+    _handleLockHoverEnter:function() {
+        this.setState({
+            lockHover:true
+        });
+    },
+
+    _handleLockHoverLeave:function() {
+        this.setState({
+            lockHover:false
+        });
+    },
+
+    _handleLockClick:function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.setState({
+            isLocked:!this.state.isLocked
+        }, function(){
+            this.props.lockClick(this.props.id,this.state.isLocked);
+        });
     },
 
     render: function() {
@@ -239,7 +305,8 @@ const CommentContainer = React.createClass({
                         replyIsOpen={this.state.replyOpen}
                         isReply={true}
                         editReply={this._saveReplyEdit} 
-                        deleteReply={this._deleteComment} />
+                        deleteReply={this._deleteComment}
+                        isLocked={this.state.isLocked} />
                 );
             }.bind(this));
         }
@@ -266,7 +333,8 @@ const CommentContainer = React.createClass({
                         created={this.props.created} 
                         handleChange={this._handleCommentChange}
                         handleSubmit={this._saveEdit}
-                        cancelChange={this._cancelEdit} />
+                        cancelChange={this._cancelEdit}
+                        isValid={this.state.isValid} />
                     {replyNodes}
                 </div>
             );
@@ -288,7 +356,12 @@ const CommentContainer = React.createClass({
                         deleteComment={this._deleteComment}
                         toggleReply={this._openReplyForm}
                         replyIsOpen={this.state.replyOpen}
-                        newComment={this.state.newComment} />
+                        newComment={this.state.newComment}
+                        handleLockHoverEnter={this._handleLockHoverEnter}
+                        handleLockHoverLeave={this._handleLockHoverLeave}
+                        handleLockClick={this._handleLockClick}
+                        lockHover={this.state.lockHover}
+                        isLocked={this.state.isLocked} />
                     {replyNodes}
                     {replyForm}
                     {deleteCommentModal}
@@ -310,7 +383,12 @@ const CommentContainer = React.createClass({
                         created={this.props.created} 
                         toggleReply={this._openReplyForm}
                         replyIsOpen={this.state.replyOpen}
-                        newComment={this.state.newComment} />
+                        newComment={this.state.newComment}
+                        handleLockHoverEnter={this._handleLockHoverEnter}
+                        handleLockHoverLeave={this._handleLockHoverLeave}
+                        handleLockClick={this._handleLockClick}
+                        lockHover={this.state.lockHover}
+                        isLocked={this.state.isLocked} />
                     {replyNodes}
                     {replyForm}
                     {deleteCommentModal}

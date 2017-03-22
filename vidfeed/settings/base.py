@@ -111,18 +111,18 @@ DATABASES = {
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    # },
 ]
 
 
@@ -163,6 +163,9 @@ APPEND_SLASH = True
 YOUTUBE_API_KEY = 'AIzaSyDvSM-xqZ_P2g2asg7DO-0z1R4CL9d8OXA'
 COOKIE_DOMAIN = 'localhost'
 BASE_URL = 'http://vidfeed.io'
+
+VIMEO_CLIENT_IDENTIFIED = '50bd2339c680137a8c7f37dc485be832cd3c1ec4'
+VIMEO_CLIENT_SECRET = 'l35iQ+EYSR1IIt+GplAZ83zWfUIjoKK7pvGtGo/JOKu5PMGeyHMhJ1Rr5p24k4AKC0+NrBD0hmhUqCmeGbJAX+msE7QvbiUyUmRdFVC4V0eht9RHgmApQ4SRj+bMC0ym'
 
 EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True') == 'True'
 EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', 'False') == 'True'

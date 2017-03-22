@@ -13,25 +13,35 @@
 }
 
 .icon--replyArrow {
-    width:$inuit-global-spacing-unit*.75;
     background-image:url(../images/arrow.svg);
 }
-
+.icon--draw {
+    background-image:url(../images/draw.svg);
+}
+.icon--customlogo {
+    background-image:url(../images/customlogo.svg);
+}
 .icon--tick {
-    width:$inuit-global-spacing-unit*.75;
     background-image:url(../images/checked.svg);
 }
 .icon--tickBlue {
-    width:$inuit-global-spacing-unit*.75;
     background-image:url(../images/tick-blue.svg);
 }
-
+.icon--tickWhite {
+    background-image:url(../images/tick-white.svg);
+}
 .icon--pencil {
     background-image:url(../images/tool.svg);
 }
 
 .icon--message {
     background-image:url(../images/message.svg);
+}
+.icon--move {
+    background-image:url(../images/move.svg);
+}
+.icon--delete {
+    background-image:url(../images/delete.svg);
 }
 
 .icon--dashboard {
@@ -51,6 +61,30 @@
 }
 .icon--unlimited {
     background-image:url(../images/unlimited.svg);
+}
+.icon--add {
+    background-image:url(../images/add.svg);
+}
+
+.icon--multiple {
+    background-image:url(../images/multiple.svg);
+}
+
+.icon--plusCircle {
+    background-image:url(../images/plusCircle.svg);
+    width:$inuit-global-spacing-unit*.75;
+    height:$inuit-global-spacing-unit*.75;
+}
+.icon--arrowRight {
+    width:6px;
+    background-image:url(../images/arrow-right.svg);
+}
+
+.icon--menuBlack {
+    background-image:url(../images/menu-black.svg);
+}
+.icon--menuWhite {
+    background-image:url(../images/menu-white.svg);
 }
 
 .icon--cross {
@@ -75,8 +109,16 @@
     background-image:url(../images/avatar.svg);
 }
 
+.icon--userDark {
+    background-image:url(../images/avatar-dark.svg);
+}
+
 .icon--bubble {
     @include inuit-rem(width,32px);
     @include inuit-rem(height,28px);
     background-image:url(../images/speechBubble.svg);
+}
+
+.icon--bubbleDark {
+    background-image:url(../images/speechBubble-dark.svg);   
 }

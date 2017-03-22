@@ -11,7 +11,7 @@ const GetPlusContainer = React.createClass({
     propTypes: {
         show:           React.PropTypes.bool.isRequired,
         hide:           React.PropTypes.func.isRequired,
-        pageHeight:   React.PropTypes.number
+        pageHeight:     React.PropTypes.number
     },
 
     getInitialState:function(){
@@ -176,7 +176,7 @@ const GetPlusContainer = React.createClass({
 
         return (
             <div className={drawerClasses}>
-                <div className="c-getPlus o-offCanvas__drawer__inner u-3/4 u-3/4@tablet" style={getPlusStyle} ref="getPlusDiv">
+                <div className="c-getPlus o-offCanvas__drawer__inner u-1/1 u-3/4@tablet" style={getPlusStyle} ref="getPlusDiv">
                     <a href="#" onClick={this.props.hide} className="c-getPlus__close">×<span className="u-hidden-visually">Close</span></a>
                     {intro}
                     {form}

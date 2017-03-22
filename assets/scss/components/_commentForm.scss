@@ -54,7 +54,7 @@
 .c-commentForm__returnToSubmit {
     margin-top:4px;
     color:darken($light,20%);
-    @include inuit-font-size(14px,$line-height:0);
+    @include inuit-font-size(14px,$line-height:1em);
 }
 
 .c-commentForm__submit {

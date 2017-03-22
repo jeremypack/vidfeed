@@ -32,9 +32,9 @@ module.exports = {
              // or any other URL that isn't scheme relative or absolute i.e relative.
              !(/^(\/\/|http:|https:).*/.test(url));
     };
-    var csrftoken = getCookie('csrftoken');
     $.ajaxSetup({
       beforeSend: function (xhr, settings) {
+        var csrftoken = getCookie('csrftoken');
         if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
           // Send the token to same-origin, relative URLs only.
           // Send the token only if the method warrants CSRF protection

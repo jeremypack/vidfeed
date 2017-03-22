@@ -15,7 +15,6 @@
     text-align:center;
     color:#fff;
     h1 {
-        margin-top:$inuit-global-spacing-unit*2.5;
         margin-bottom: $inuit-global-spacing-unit/2;
     }
     h1 + p {
@@ -26,7 +25,7 @@
     @include mq($from: tablet) {
         padding-bottom:$inuit-global-spacing-unit*2;
         h1 {
-            margin-top:$inuit-global-spacing-unit*4.5;
+            margin-top:$inuit-global-spacing-unit*1.5;
             @include inuit-font-size(50px, $line-height:1.2);
         }
     }
@@ -34,7 +33,7 @@
         min-height:inuit-rem(650px);
         padding-bottom:$inuit-global-spacing-unit*4;
         h1 {
-            margin-top:$inuit-global-spacing-unit*6;
+            margin-top:$inuit-global-spacing-unit*3;
         }
     }
     .form--single__input {

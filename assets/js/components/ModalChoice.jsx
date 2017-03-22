@@ -8,8 +8,10 @@ const ModalChoice = React.createClass({
         text:           React.PropTypes.string,
         yesAction:      React.PropTypes.func.isRequired,
         noAction:       React.PropTypes.func.isRequired,
+        thirdAction:    React.PropTypes.func,
         yesText:        React.PropTypes.string.isRequired,
         noText:         React.PropTypes.string.isRequired,
+        thirdText:      React.PropTypes.string,
         confirmOwner:   React.PropTypes.string
     },
 
@@ -25,6 +27,13 @@ const ModalChoice = React.createClass({
                 </div>
             );
         }
+
+        if (this.props.thirdAction) {
+            var thirdAction = <li className="o-list-inline__item">
+                                <a href="#" onClick={this.props.thirdAction} className="o-btn o-btn--blue o-btn--small">{this.props.thirdText}</a>
+                            </li>
+        }
+
         return (
             <div className="modal__content">
                 <div className="box__header">
@@ -36,7 +45,8 @@ const ModalChoice = React.createClass({
                     <ul className="o-list-inline">
                         <li className="o-list-inline__item">
                             <a href="#" onClick={this.props.yesAction} className="o-btn o-btn--primary o-btn--small">{this.props.yesText}{confirmOwner}</a>
-                        </li>&nbsp;
+                        </li>
+                        {thirdAction}
                         <li className="o-list-inline__item">
                             <a href="#" onClick={this.props.noAction} className="o-btn o-btn--secondary o-btn--small">{this.props.noText}</a>
                         </li>
