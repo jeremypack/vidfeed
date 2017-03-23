@@ -99,7 +99,7 @@ const CommentsListContainer = React.createClass({
         $.ajax({
             type: 'POST',
             dataType: 'json',
-            url: 'https://vidfeed.io/api/feeds/' + this.props.feedId + '/comments/' + commentId + '/set-done',
+            url: '/api/feeds/' + this.props.feedId + '/comments/' + commentId + '/set-done',
             data: {
                 done: lockState
             },

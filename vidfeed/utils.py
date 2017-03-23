@@ -7,6 +7,7 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.template.loader import render_to_string
 import datetime
+import vimeo
 
 
 def send_email(template, template_context, subject, to, from_email=None):
@@ -85,6 +86,25 @@ def get_vimeo_title_and_thumbnail(video_id):
     except:
         pass
     return "", ""
+
+
+def get_vimeo_title_and_thumbnail_with_subscription(video_id, subscription):
+    if not subscription.vimeo_token:
+        return
+
+    v = vimeo.VimeoClient(
+        token=subscription.vimeo_token,
+        key=settings.VIMEO_CLIENT_IDENTIFIED,
+        secret=settings.VIMEO_CLIENT_SECRET)
+    video = v.get('/me/videos/{0}?fields=uri,name,pictures.sizes'.format(video_id))
+    if video.status_code == 200:
+        try:
+            video_json = video.json()
+            return video_json.get('name'), video_json.get('pictures').get('sizes')[3].get('link')
+        except:
+            pass
+    return "", ""
+
 
 
 def get_youtube_title_and_thumbnail(video_id):

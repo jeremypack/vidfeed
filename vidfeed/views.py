@@ -5,6 +5,8 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.shortcuts import render, redirect
 from django.conf import settings
 from profiles.models import Subscription
+from feed.models import Feed
+from utils import get_vimeo_title_and_thumbnail_with_subscription
 
 import vimeo
 
@@ -50,6 +52,16 @@ def authorize_vimeo_success(request):
         subscription.vimeo_token = token
         subscription.vimeo_scope = scope
         subscription.save()
+
+        # try and populate feed titles and images
+        feeds_without_titles = Feed.objects.filter(owner=request.user, provider__name='vimeo', video_thumbnail='')
+        for feed in feeds_without_titles:
+            title, image = get_vimeo_title_and_thumbnail_with_subscription(feed.video_id, subscription)
+            if title:
+                feed.video_title = title
+                feed.video_thumbnail = image
+                feed.save()
+
     return redirect('/app/dashboard')
 
     # # You should retrieve the "code" from the URL string Vimeo redirected to.  Here that's named CODE_FROM_URL
