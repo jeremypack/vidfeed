@@ -102,6 +102,7 @@ const RegisterContainer = React.createClass({
                     onSubmit={this._handleSubmit} />
                 <div className="o-layout__item u-2/3@tablet">
                     <h1 className="text--center font--light"><span className="h1 error-color">FREE</span> beta access until July 2017</h1>
+                    <p className="text--center font--light">Then just £5 a month or £50 for the year.</p>
                     <div className="c-getPlus__features o-layout--large text--left u-padding-left-large u-margin-top-large">
                         <div className="o-layout__item u-1/2@tablet">
                             <div className="c-getPlus__features__item u-margin-bottom-large">
