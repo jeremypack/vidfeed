@@ -109,7 +109,6 @@ const NavigationContainer = React.createClass({
             return (
                 <nav className={navClasses}>
                     <ul className="o-list-inline">
-                        <li className="o-list-inline__item"><a href="https://vidfeedsupport.zendesk.com/hc/en-us" className="nav__link" target="_blank">Support</a></li>
                         <li className="o-list-inline__item"><Link className="nav__link" to="/app/login">Login</Link></li>
                         <li className="o-list-inline__item"><Link className="o-btn o-btn--ghost" to="/app/register">Sign up</Link></li>
                     </ul>
@@ -126,7 +125,6 @@ const NavigationContainer = React.createClass({
                     <div className={this.state.subnavShowing ? 'subnav subnav--open': 'subnav'}>
                         <ul className="o-list-inline">
                             <li className="o-list-inline__item"><Link className="subnav__link" to="/app/dashboard">Dashboard</Link></li>
-                            <li className="o-list-inline__item"><a href="https://vidfeedsupport.zendesk.com/hc/en-us" className="subnav__link" target="_blank">Support</a></li>
                             <li className="o-list-inline__item"><div className="subnav__link" onClick={this._logout}>Logout</div></li>
                         </ul>
                     </div>
