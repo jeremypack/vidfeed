@@ -4,6 +4,7 @@ from django.db import models, IntegrityError
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from oauth2client.contrib.django_util.models import CredentialsField
 
 
 class SiteUserManager(BaseUserManager):
@@ -112,6 +113,12 @@ class SiteUser(AbstractBaseUser, PermissionsMixin):
             return True
         return False
 
+    def has_linked_youtube_account(self):
+        s = self.get_subscription()
+        if s and s.youtube_credentials:
+            return True
+        return False
+
 
 class Subscription(models.Model):
     SUBSCRIPTION_MONTHLY = 1
@@ -126,4 +133,5 @@ class Subscription(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     vimeo_token = models.CharField(max_length=500, blank=True, null=True)
     vimeo_scope = models.CharField(max_length=500, blank=True, null=True)
+    youtube_credentials = CredentialsField(blank=True, null=True)
 

@@ -118,9 +118,14 @@
           {% if request.user.is_authenticated and request.user.get_subscription %}
              valid: true,
             {% if request.user.has_linked_vimeo_account %}
-              linked_vimeo: true
+              linked_vimeo: true,
             {% else %}
-              linked_vimeo: false
+              linked_vimeo: false,
+            {% endif %}
+            {% if request.user.has_linked_youtube_account %}
+              linked_youtube: true
+            {% else %}
+              linked_youtube: false
             {% endif %}
           {% else %}
             valid: false
