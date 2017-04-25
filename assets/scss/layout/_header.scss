@@ -29,4 +29,10 @@
     .logo {
         max-width:inuit-rem(124px);
     }
+    @include mq($until: 550px) {
+        .logo {
+            display:block;
+            margin:0 auto;
+        }
+    }
 }

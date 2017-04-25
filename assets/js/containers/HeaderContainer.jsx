@@ -20,19 +20,22 @@ const HeaderContainer = React.createClass({
     },
 
     componentWillUnmount:function(){
-        
+        clearTimeout(this.hoverTimeout);
     },
 
     _mouseIn:function(){
         this.setState({
             mouseOut:false
         })
+        clearTimeout(this.hoverTimeout);
     },
 
     _mouseOut:function(){
-        this.setState({
-            mouseOut:true
-        })
+        this.hoverTimeout = setTimeout(function(){
+            this.setState({
+                mouseOut:true
+            })
+        }.bind(this), 1500);  
     },
 
     render: function() {
