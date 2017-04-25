@@ -319,13 +319,13 @@ const Dashboard = React.createClass({
         e.preventDefault();
         const feeds = this.state.feedsSelected;
         for (var i = 0; i < feeds.length; i++) {
-            var feedUrlClean1 = feeds[i].split('/videos')[1];
-            var feedUrlClean2 = feedUrlClean1.split(':')[0];
             if (this.state.vimeoMode) {
+                var feedUrlClean1 = feeds[i].split('/videos')[1];
+                var feedUrlClean2 = feedUrlClean1.split(':')[0];
                 var videoUrl = 'http://vimeo.com'+feedUrlClean2;
             }
             if (this.state.youtubeMode) {
-                var videoUrl = 'http://youtube.com'+feeds[i];
+                var videoUrl = 'http://youtube.com/watch?v='+feeds[i];
             }
             // create feeds
             $.ajax({
@@ -424,6 +424,28 @@ const Dashboard = React.createClass({
         })
     },
 
+    _activateYoutubeMode:function(){
+        this.setState({
+            feeds:[],
+            showFeeds:false,
+            youtubeMode:true,
+            moveProjects:true
+        })
+        $.ajax({
+            type: 'get',
+            url: '/api/youtube/videos',
+            success: function (data) {
+                this.setState({
+                    feeds:data,
+                    showFeeds:true
+                })
+            }.bind(this),
+            error: function (data) {
+                console.log(data);
+            }
+        })
+    },
+
     render: function() {
 
         var ScrollPaneStyle = {
@@ -477,7 +499,16 @@ const Dashboard = React.createClass({
             
             }
             
-            //button2 = <a href="#" className="o-btn o-btn--primary o-btn--iconLeft"><i className="icon icon--plusCircle"></i>Youtube</a>;
+            if (window.vidfeed.user.subscription.linked_youtube) {
+            
+                button2 = <div onClick={this._activateYoutubeMode} className="o-btn o-btn--primary o-btn--iconLeft u-margin-right"><i className="icon icon--plusCircle"></i>Import from Youtube</div>;
+            
+            } else {
+            
+                button2 = <a href="/auth/youtube" className="o-btn o-btn--primary o-btn--iconLeft u-margin-right"><i className="icon icon--plusCircle"></i>Youtube</a>;
+            
+            }
+            
         }
 
         if (this.state.moveProjects || this.state.vimeoMode || this.state.youtubeMode) {
@@ -512,7 +543,7 @@ const Dashboard = React.createClass({
                     <HeaderContainer />
                 </div>
                 <div className="o-layout">
-                    <div className="o-layout__item u-1/4@tablet u-1/5@desktop">
+                    <div className="o-layout__item u-1/4@tablet u-1/5@desktop u-1/6@wide">
                         <ProjectsListContainer
                             windowHeight={this.state.windowHeight}
                             modalOpen={this._modalOpen}
@@ -522,16 +553,16 @@ const Dashboard = React.createClass({
                             selectedProjectId={this.state.selectedProjectId}
                             newProject={this._addNewProject} />
                     </div>
-                    <div className="o-layout__item u-3/4@tablet u-4/5@desktop">
+                    <div className="o-layout__item u-3/4@tablet u-4/5@desktop u-5/6@wide">
                         <div style={ScrollPaneStyle} className="scrollPane">
                             <div className="scrollPane__content">
                                 {heading}
                                 <div className={this.state.moveProjects === true ? 'o-layout o-layout--auto o-layout--middle u-margin-bottom' : 'o-layout u-margin-bottom'}>
-                                    <div className="o-layout__item u-1/2@desktop">
+                                    <div className="o-layout__item u-2/5@desktop u-1/2@wide">
                                         {createFeed}
                                         {selectedFeedCount}
                                     </div>
-                                    <div className="o-layout__item u-1/2@desktop">
+                                    <div className="o-layout__item u-3/5@desktop u-1/2@wide">
                                         {button1}
                                         {button2}
                                     </div>
