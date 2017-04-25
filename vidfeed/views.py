@@ -1,3 +1,4 @@
+import os
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth.decorators import login_required
@@ -9,6 +10,7 @@ from feed.models import Feed
 from utils import get_vimeo_title_and_thumbnail_with_subscription
 
 import vimeo
+from oauth2client import client
 
 
 @ensure_csrf_cookie
@@ -23,6 +25,40 @@ def password_reset(request, uidb64, token):
         'uidb64': uidb64,
     }
     return render(request, 'reset_password.html', ops)
+
+
+@login_required
+def authorize_youtube(request):
+    if not request.user.get_subscription():
+        return HttpResponse('Unauthorized', status=401)
+    flow = client.flow_from_clientsecrets(
+        settings.GOOGLE_OAUTH2_CLIENT_SECRETS_JSON,
+        scope='https://www.googleapis.com/auth/youtube.readonly',
+        redirect_uri='http://localhost:8000/auth/youtube/success')
+    flow.params['access_type'] = 'offline'
+    flow.params['include_granted_scopes'] = 'true'
+    auth_uri = flow.step1_get_authorize_url()
+    return redirect(auth_uri)
+
+
+@login_required
+def authorize_youtube_success(request):
+    subscription = Subscription.objects.get(user=request.user)
+    if not subscription:
+        return HttpResponse('Unauthorized', status=401)
+
+    if not request.GET.get('error'):
+        flow = client.flow_from_clientsecrets(
+            settings.GOOGLE_OAUTH2_CLIENT_SECRETS_JSON,
+            scope='https://www.googleapis.com/auth/youtube.readonly',
+            redirect_uri=settings.BASE_URL + '/auth/youtube/success')
+        flow.params['access_type'] = 'offline'
+        flow.params['include_granted_scopes'] = 'true'
+        auth_code = request.GET.get('code')
+        credentials = flow.step2_exchange(auth_code)
+        subscription.youtube_credentials = credentials
+        subscription.save()
+    return redirect('/app/dashboard')
 
 
 @login_required
@@ -80,9 +116,15 @@ def api_test(request):
 def api_account_test(request):
     return render(request, 'test_pages/api_account_test.html', {})
 
+
 @ensure_csrf_cookie
 def vimeo_test(request):
     return render(request, 'test_pages/vimeo_test.html', {})
+
+
+@ensure_csrf_cookie
+def youtube_test(request):
+    return render(request, 'test_pages/youtube_test.html', {})
 
 
 def robots(request):

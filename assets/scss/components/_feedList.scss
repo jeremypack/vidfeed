@@ -24,7 +24,7 @@
     background:#fff;
     color:$dark;
     @include inuit-clearfix();
-    transition: $global-transition;
+    //transition: $global-transition;
 }
 .c-feedItem--active {
     &:hover {

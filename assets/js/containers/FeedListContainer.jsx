@@ -163,6 +163,20 @@ const FeedListContainer = React.createClass({
             }.bind(this));
         }
 
+        if (this.props.youtubeModeBool) {
+            feedNodes = this.state.feeds.map(function(feed, i) {
+                return (
+                    <FeedItemContainer
+                        key={i}
+                        feedId={feed.video_id}
+                        videoTitle={feed.title} 
+                        videoThumb={feed.thumbnails.standard.url}
+                        selectedItem={this._selectedItem}
+                        moveMode={true} />
+                );
+            }.bind(this));
+        }
+
         if (this.props.showFeeds) {
             return (
                 <section className="o-layout c-feedList">

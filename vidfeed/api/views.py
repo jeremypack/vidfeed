@@ -25,6 +25,12 @@ from serializers import CommentSerializer, FeedSerializer, FeedInviteSerializer,
 
 import json
 import vimeo
+import httplib2
+from googleapiclient.discovery import build
+from oauth2client.client import HttpAccessTokenRefreshError
+
+import logging
+logger = logging.getLogger('django.request')
 
 
 class CommentList(APIView):
@@ -475,14 +481,66 @@ def get_vimeo_videos(request):
     subscription = Subscription.objects.get(user=request.user)
     if not subscription:
         return Response({"message": "Invalid subscription"}, status=status.HTTP_401_UNAUTHORIZED)
-
     v = vimeo.VimeoClient(
         token=subscription.vimeo_token,
         key=settings.VIMEO_CLIENT_IDENTIFIED,
         secret=settings.VIMEO_CLIENT_SECRET)
 
-    video_list = v.get('/me/videos?per_page=100&fields=uri,name,pictures.sizes')
-    if video_list.status_code != 200:
-        return Response({"message": "Failed to load video list"}, status=status.HTTP_400_BAD_REQUEST)
+    try:
+        video_list = v.get('/me/videos?per_page=100&fields=uri,name,pictures.sizes')
+        if video_list.status_code == 200:
+            return Response(video_list.json().get('data'), status=status.HTTP_200_OK)
+        elif video_list.status_code == 401:
+            return Response({'message': video_list.json().get('error')}, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            logger.exception("error getting Videos from Vimeo. Error Code: {0}, Error Message: {1}".format(
+                video_list.status_code, video_list.json().get('error')))
+            return Response({"message": "Failed to load video list"}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as ex:
+        logger.exception(ex)
+        return Response({"message": ex.message}, status=status.HTTP_400_BAD_REQUEST)
 
-    return Response(video_list.json().get('data'), status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated, ))
+def get_youtube_videos(request):
+    subscription = Subscription.objects.get(user=request.user)
+    if not subscription:
+        return Response({"message": "Invalid subscription"}, status=status.HTTP_401_UNAUTHORIZED)
+
+    http_auth = subscription.youtube_credentials.authorize(httplib2.Http())
+    youtube = build('youtube', 'v3', http=http_auth)
+
+    try:
+        channels_response = youtube.channels().list(
+            mine=True,
+            part="contentDetails"
+        ).execute()
+    except HttpAccessTokenRefreshError as ex:
+        return Response({'message': ex.message}, status=status.HTTP_401_UNAUTHORIZED)
+    except Exception as ex:
+        logger.exception(ex)
+        return Response({'message': ex.message}, status=status.HTTP_400_BAD_REQUEST)
+
+    uploads = []
+    for channel in channels_response["items"]:
+        # From the API response, extract the playlist ID that identifies the list
+        # of videos uploaded to the authenticated user's channel.
+        uploads_list_id = channel["contentDetails"]["relatedPlaylists"]["uploads"]
+        # Retrieve the list of videos uploaded to the authenticated user's channel.
+        playlistitems_list_request = youtube.playlistItems().list(
+            playlistId=uploads_list_id,
+            part="snippet",
+            maxResults=50
+        )
+        while playlistitems_list_request:
+            playlistitems_list_response = playlistitems_list_request.execute()
+            for playlist_item in playlistitems_list_response["items"]:
+                uploads.append({
+                    'title': playlist_item["snippet"]["title"],
+                    'video_id': playlist_item["snippet"]["resourceId"]["videoId"],
+                    'thumbnails': playlist_item["snippet"]['thumbnails'],
+                })
+            playlistitems_list_request = youtube.playlistItems().list_next(
+                playlistitems_list_request, playlistitems_list_response)
+    return Response(uploads, status=status.HTTP_200_OK)

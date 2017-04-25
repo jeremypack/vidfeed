@@ -297,7 +297,7 @@ const FeedItemContainer = React.createClass({
 
         if (this.state.editTitleMode) {
             return (
-                <div className="o-layout__item u-1/2@tablet u-1/3@desktop">
+                <div className="o-layout__item u-1/2@tablet u-1/3@desktop u-1/4@wide">
                     <EditFeedTitleItem 
                         imgClasses={imgCropClasses}
                         videoThumb={this.props.videoThumb}
@@ -313,7 +313,7 @@ const FeedItemContainer = React.createClass({
 
         if (this.state.moveMode) {
             return (
-                <div className="o-layout__item u-1/2@tablet u-1/3@desktop">
+                <div className="o-layout__item u-1/2@tablet u-1/3@desktop u-1/4@wide">
                     <MoveFeedListItem 
                         imgClasses={imgCropClasses}
                         videoThumb={this.props.videoThumb}
@@ -329,7 +329,7 @@ const FeedItemContainer = React.createClass({
         }
 
         return (
-            <div className="o-layout__item u-1/2@tablet u-1/3@desktop">
+            <div className="o-layout__item u-1/2@tablet u-1/3@desktop u-1/4@wide">
                 <FeedListItem 
                     route={feedRouterLink}
                     imgClasses={imgCropClasses}

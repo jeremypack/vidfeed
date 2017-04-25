@@ -65,3 +65,9 @@
     color:$dark;
     padding:$inuit-global-spacing-unit/2;
 }
+
+.createFeed--dashboard {
+    @include mq($until: desktop) {
+        margin-bottom:$inuit-global-spacing-unit;
+    }
+}

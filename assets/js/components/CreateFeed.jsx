@@ -30,7 +30,7 @@ const CreateFeed = React.createClass({
                 <Collapse isOpened={this.props.showInvalidMsg} className="invalidUrl">
                     {invalidMsg}
                 </Collapse>
-                <form className={this.props.isDashboard ? null : 'form--single'} onSubmit={this.props.submitHandler}>
+                <form className={this.props.isDashboard ? 'createFeed createFeed--dashboard' : 'createFeed form--single'} onSubmit={this.props.submitHandler}>
                     <div className="o-layout o-layout--flush">
                         <div className="o-layout__item u-4/5@tablet">
                             <input type="url" className="form--single__input" placeholder="Paste a YouTube or Vimeo URL" value={this.props.value} onInput={this.props.changeHandler} />
