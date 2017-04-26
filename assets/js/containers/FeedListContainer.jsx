@@ -116,11 +116,6 @@ const FeedListContainer = React.createClass({
 
         if (!this.props.vimeoModeBool && !this.props.youtubeModeBool) {
             feedNodes = this.state.feeds.map(function(feed, i) {
-                if (feed.provider.name === 'vimeo') {
-                    var isVimeo = true;
-                } else {
-                    var isVimeo = false;
-                }
                 if (this.props.projectId === 0) {
                     var deleteFromProject = false;
                 } else {
@@ -131,7 +126,6 @@ const FeedListContainer = React.createClass({
                         key={i}
                         created={feed.created}
                         feedId={feed.feed_id}
-                        isVimeo={isVimeo}
                         videoTitle={feed.video_title} 
                         videoThumb={feed.video_thumbnail}
                         modalOpen={this.props.modalOpen}

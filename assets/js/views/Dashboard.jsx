@@ -501,11 +501,11 @@ const Dashboard = React.createClass({
             
             if (window.vidfeed.user.subscription.linked_youtube) {
             
-                button2 = <div onClick={this._activateYoutubeMode} className="o-btn o-btn--primary o-btn--iconLeft u-margin-right"><i className="icon icon--plusCircle"></i>Import from Youtube</div>;
+                button2 = <div onClick={this._activateYoutubeMode} className="o-btn o-btn--primary o-btn--iconLeft"><i className="icon icon--plusCircle"></i>Import from Youtube</div>;
             
             } else {
             
-                button2 = <a href="/auth/youtube" className="o-btn o-btn--primary o-btn--iconLeft u-margin-right"><i className="icon icon--plusCircle"></i>Youtube</a>;
+                button2 = <a href="/auth/youtube" className="o-btn o-btn--primary o-btn--iconLeft"><i className="icon icon--plusCircle"></i>Youtube</a>;
             
             }
             

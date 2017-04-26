@@ -117,8 +117,6 @@ const NavigationContainer = React.createClass({
 
     render:function() {
 
-        console.log(this.state.mobileNav,'mobileNav');
-
         var navClasses = classNames({
             'nav':true,
             'nav--loggedIn':this.state.isAuthenticated,

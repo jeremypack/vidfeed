@@ -31,7 +31,6 @@ const FeedItemContainer = React.createClass({
 
     propTypes: {
         feedId:                React.PropTypes.string,
-        isVimeo:               React.PropTypes.bool,
         videoTitle:            React.PropTypes.string.isRequired,
         videoThumb:            React.PropTypes.string.isRequired,
         created:               React.PropTypes.string,
@@ -257,7 +256,6 @@ const FeedItemContainer = React.createClass({
 
         var imgCropClasses = classNames({
             'imgCrop': true,
-            'imgCrop--letterbox':this.props.isVimeo,
             'img--broken':this.state.noThumb
         });
 
