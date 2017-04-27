@@ -8,10 +8,9 @@
     height:150px;
     overflow:hidden;
     img {
-        position:absolute;
-        top:-9%;
-        left:0;
-        width:100%;
+        display:block;
+        min-width:100%;
         max-width:none;
+        height:100%;
     }
 }
