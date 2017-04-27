@@ -5,6 +5,7 @@
 .nav {
     float:right;
     overflow:hidden;
+    min-width:20px;
     @include mq($from: 551px) {
         position:relative;
     }
@@ -44,6 +45,9 @@
             margin:0 $inuit-global-spacing-unit/4;
             width:135px;
         }
+    }
+    @include mq($from: 551px) {
+        margin-top:20px;
     }
 }
 

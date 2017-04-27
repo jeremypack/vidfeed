@@ -51,7 +51,7 @@ const HeaderContainer = React.createClass({
         if (this.props.isHomepage) {
             return (
                 <header className='header header--home u-clearfix' onMouseEnter={this._mouseIn} onMouseLeave={this._mouseOut}>
-                    <div className="o-wrapper">
+                    <div className="o-wrapper u-clearfix">
                         <div className="logo">
                             <Link to={logoLink} className="logo__link">
                                 <img src={window.vidfeed.images_dir + '/logo-white.svg'} alt="Vidfeed" />

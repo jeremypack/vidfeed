@@ -82,7 +82,6 @@ const NavigationContainer = React.createClass({
                     sessionUserId:undefined,
                     isAuthenticated:window.vidfeed.user.isAuthenticated,
                 });
-                console.log('logout');
                 browserHistory.push('/');
             }.bind(this),
             error: function (data) {
@@ -164,7 +163,7 @@ const NavigationContainer = React.createClass({
                     <div className={this.state.subnavBtnShowing ? 'subnav__btn':'subnav__btn subnav__btn--invisible'} onClick={this._toggleSubnav}><i className={this.props.isHomepage ? 'icon icon--menuWhite': 'icon icon--menuBlack'}></i></div>
                     <div className={this.state.subnavShowing ? 'subnav subnav--open': 'subnav'}>
                         <div className="subnav__close" onClick={this._toggleSubnav}><i className="icon icon--crossWhite"></i><span className="u-hidden-visually">Hide comments</span></div>
-                        <div className="nav__user">
+                        <div className={this.state.isAuthenticated ? "nav__user" : "nav__user u-hidden"}>
                             <User id={this.state.sessionUserId} userEmail={this.state.sessionUser} />
                         </div>
                         {subnavOptions}
@@ -176,7 +175,7 @@ const NavigationContainer = React.createClass({
         if (this.state.show) {
             return (
                 <div className={navClasses}>
-                    <div className="nav__user">
+                    <div className={this.state.isAuthenticated ? "nav__user" : "nav__user u-hidden"}>
                         <User id={this.state.sessionUserId} userEmail={this.state.sessionUser} />
                     </div>
                     <div className={this.state.subnavBtnShowing ? 'subnav__btn':'subnav__btn subnav__btn--invisible'} onClick={this._toggleSubnav}><i className={this.props.isHomepage ? 'icon icon--menuWhite': 'icon icon--menuBlack'}></i></div>
