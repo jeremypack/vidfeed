@@ -55,7 +55,10 @@ const Dashboard = React.createClass({
             feedsSelected:[],
             moveFeedModal:false,
             feedsOwnedCount:0,
-            newFeedsCreated:[]
+            newFeedsCreated:[],
+            importErrorVimeo:false,
+            importErrorYoutube:false,
+            importErrorType:undefined // 400 = unknown (400 error), 401 = Unauthorised application (401 error)
         }
     },
 
@@ -250,7 +253,10 @@ const Dashboard = React.createClass({
             feedsSelected:[],
             feeds:[],
             feedsOwnedCount:0,
-            selectedFeedCount:0
+            selectedFeedCount:0,
+            importErrorVimeo:false,
+            importErrorYoutube:false,
+            importErrorType:undefined
         }, function(){
             this._loadFeedsFromServer(this.state.selectedProjectId);
         });
@@ -418,9 +424,14 @@ const Dashboard = React.createClass({
                     showFeeds:true
                 })
             }.bind(this),
-            error: function (data) {
-                console.log(data);
-            }
+            error: function (xhr, ajaxOptions, thrownError) {
+                this.setState({
+                    importErrorVimeo:true,
+                    importErrorType:xhr.status,
+                    selectedProjectId:undefined
+                });
+                window.vidfeed.user.subscription.linked_vimeo = false;
+            }.bind(this)
         })
     },
 
@@ -440,9 +451,14 @@ const Dashboard = React.createClass({
                     showFeeds:true
                 })
             }.bind(this),
-            error: function (data) {
-                console.log(data);
-            }
+            error: function (xhr, ajaxOptions, thrownError) {
+                this.setState({
+                    importErrorYoutube:true,
+                    importErrorType:xhr.status,
+                    selectedProjectId:undefined
+                });
+                window.vidfeed.user.subscription.linked_youtube = false;
+            }.bind(this)
         })
     },
 
@@ -470,12 +486,12 @@ const Dashboard = React.createClass({
                             updateProjectTitle={this._updateProjectTitle} />;
         }
 
-        if (this.state.vimeoMode) {
+        if (this.state.vimeoMode && this.state.feeds.length) {
             var heading = <div className="c-projectTitle">
                             <h1 className="c-projectTitle__title">Vimeo videos</h1>
                         </div>
         }
-        if (this.state.youtubeMode) {
+        if (this.state.youtubeMode && this.state.feeds.length) {
             var heading = <div className="c-projectTitle">
                             <h1 className="c-projectTitle__title">Youtube videos</h1>
                         </div>
@@ -511,19 +527,23 @@ const Dashboard = React.createClass({
             
         }
 
-        if (this.state.moveProjects || this.state.vimeoMode || this.state.youtubeMode) {
-            var selectedFeedCount = this.state.selectedFeedCount === 1 ? <h3 className="selectedCount">1 Video Selected</h3> : <h3 className="selectedCount">{this.state.selectedFeedCount} Videos Selected</h3>;
-        }
+        if (this.state.feeds.length) {
+            
+            if (this.state.moveProjects || this.state.vimeoMode || this.state.youtubeMode) {
+                var selectedFeedCount = this.state.selectedFeedCount === 1 ? <h3 className="selectedCount">1 Video Selected</h3> : <h3 className="selectedCount">{this.state.selectedFeedCount} Videos Selected</h3>;
+            }
 
-        if (this.state.moveProjects) {
-            button1 = <a href="#" className="o-btn o-btn--primary u-margin-right" onClick={this._moveToProject}>Move to another project</a>;
-            button2 = <a href="#" className="o-btn o-btn--secondary" onClick={this._setDefaultState}>I don&apos;t want to move any feeds</a>;
-        }
+            if (this.state.moveProjects) {
+                button1 = <a href="#" className="o-btn o-btn--primary u-margin-right" onClick={this._moveToProject}>Move to another project</a>;
+                button2 = <a href="#" className="o-btn o-btn--secondary" onClick={this._setDefaultState}>I don&apos;t want to move any feeds</a>;
+            }
 
-        if (this.state.vimeoMode || this.state.youtubeMode) {
-            button1 = <a href="#" className="o-btn o-btn--primary u-margin-right" onClick={this._addVideosAsFeeds}>Add to project</a>;
-            button2 = <a href="#" className="o-btn o-btn--secondary" onClick={this._setDefaultState}>I don&apos;t want to add any videos</a>;
+            if (this.state.vimeoMode || this.state.youtubeMode) {
+                button1 = <a href="#" className="o-btn o-btn--primary u-margin-right" onClick={this._addVideosAsFeeds}>Add to project</a>;
+                button2 = <a href="#" className="o-btn o-btn--secondary" onClick={this._setDefaultState}>I don&apos;t want to add any videos</a>;
+            }
         }
+        
 
         var moveFeedModal = <Modal
                                 isOpen={this.state.moveFeedModal}
@@ -580,7 +600,11 @@ const Dashboard = React.createClass({
                                     removeFeedFromMove={this._removeFeedFromMove}
                                     loadFeeds={this._loadFeedsFromServer}
                                     vimeoModeBool={this.state.vimeoMode}
-                                    youtubeModeBool={this.state.youtubeMode} />
+                                    youtubeModeBool={this.state.youtubeMode}
+                                    importErrorVimeo={this.state.importErrorVimeo}
+                                    importErrorYoutube={this.state.importErrorYoutube}
+                                    importErrorType={this.state.importErrorType}
+                                    backToDashboard={this._selectProject} />
                             </div>
                         </div>
                     </div>

@@ -108,9 +108,17 @@ const FeedListContainer = React.createClass({
         }
     },
 
+    _backToDashboard:function(){
+        this.props.backToDashboard(0)
+    },
+
     render: function() {
 
-        var noFeeds = <div className="o-layout__item c-feedList__no-feeds">No feeds added yet <span className="nowrap">:(</span></div>;
+        var noFeeds =   <div className="o-layout__item c-feedList c-feedList__no-feeds">
+                            <div className="content">
+                                <h3 className="title">No feeds added yet <span className="nowrap">:(</span></h3>
+                            </div>
+                        </div>;
         
         let feedNodes;
 
@@ -173,15 +181,51 @@ const FeedListContainer = React.createClass({
 
         if (this.props.showFeeds) {
             return (
-                <section className="o-layout c-feedList">
+                <section className={ feedNodes.length ? "o-layout c-feedList" : "o-layout__item c-feedList" }>
                     {feedNodes.length ? feedNodes : noFeeds }
                 </section>
             );
         }
 
+        if (this.props.importErrorVimeo && this.props.importErrorType === 401) {
+            return (
+                <div className="o-layout__item c-feedList c-feedList__no-feeds">
+                    <h1>¯\_(ツ)_/¯</h1>
+                    <p className="u-margin-bottom">There was problem accessing your Vimeo account.</p>
+                    <ul className="o-list-inline">
+                        <li className="o-list-inline__item">
+                            <a href="/auth/vimeo" className="o-btn o-btn--primary o-btn--iconLeft u-margin-right"><i className="icon icon--plusCircle"></i>Re-connect to Vimeo</a>
+                        </li>
+                        <li className="o-list-inline__item">
+                            <div onClick={this._backToDashboard} className="o-btn o-btn--secondary o-btn--ghost">Back to dashboard</div>
+                        </li>
+                    </ul>
+                </div>
+            );
+        }
+
+        if (this.props.importErrorYoutube && this.props.importErrorType === 401) {
+            return (
+                <div className="o-layout__item c-feedList c-feedList__no-feeds">
+                    <h1>¯\_(ツ)_/¯</h1>
+                    <p className="u-margin-bottom">There was problem accessing your Youtube account.</p>
+                    <ul className="o-list-inline">
+                        <li className="o-list-inline__item">
+                            <a href="/auth/youtube" className="o-btn o-btn--primary o-btn--iconLeft u-margin-right"><i className="icon icon--plusCircle"></i>Re-connect Youtube</a>
+                        </li>
+                        <li className="o-list-inline__item">
+                            <div onClick={this._backToDashboard} className="o-btn o-btn--secondary o-btn--ghost">Back to dashboard</div>
+                        </li>
+                    </ul>
+                </div>
+            );
+        }
+
         return (
-            <div className="o-layout__item c-feedList__no-feeds">
-                <span className="nowrap">loading…</span>
+            <div className="o-layout__item c-feedList c-feedList__no-feeds">
+                <div className="content">
+                    <h3 className="title">loading…</h3>
+                </div>
             </div>
         );
         

@@ -2,18 +2,28 @@
    #FEED-LIST
    ========================================================================== */
 
+.c-feedList {
+    height:100%;
+}
 .c-feedList__no-feeds {
-    display:block;
+    position:relative;
     width:100%;
-    color:darken($light,10%);
     text-align:center;
-    font-weight:600;
-    @include inuit-font-size(48px, $line-height:1.2);
     @include mq($from: mobile, $until: tablet) {
         margin:$inuit-global-spacing-unit 0 $inuit-global-spacing-unit*2;
     }
     @include mq($from: tablet) {
         padding:10% 20px;
+    }
+    h1 {
+        color:darken($light,10%);
+        font-weight:300;
+        @include inuit-font-size(64px, $line-height:1.2);
+    }
+    .title {
+        @include inuit-font-size(48px, $line-height:1.2);
+        font-weight:600;
+        color:darken($light,10%);
     }
 }
 
