@@ -3,6 +3,7 @@ import FormattedRelativeDate from 'react-npm-formatted-relative-date';
 import classNames from 'classnames';
 
 import User from '../components/User';
+import ContentEditable from '../components/ContentEditable';
 import Actions from '../components/Actions';
 
 const EditComment = React.createClass({
@@ -21,9 +22,9 @@ const EditComment = React.createClass({
         isValid:               React.PropTypes.bool
     },
 
-    componentDidMount:function(){
-        this.refs.editInput.focus();
-    },
+    // componentDidMount:function(){
+    //     this.refs.editInput.focus();
+    // },
 
     render: function() {
         
@@ -42,7 +43,7 @@ const EditComment = React.createClass({
                 </div>
                 <form onSubmit={this.props.handleSubmit} className="form--border">
                     <div className="c-comment__body">
-                        <input ref="editInput" type="text" className="contenteditable" value={this.props.value} onChange={this.props.handleChange} />
+                        <ContentEditable html={this.props.value} onChange={this.props.handleChange} />
                     </div>
                     <div className="u-clearfix">
                         <Actions
