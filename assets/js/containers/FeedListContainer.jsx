@@ -172,7 +172,7 @@ const FeedListContainer = React.createClass({
                         key={i}
                         feedId={feed.video_id}
                         videoTitle={feed.title} 
-                        videoThumb={feed.thumbnails.standard.url}
+                        videoThumb={feed.thumbnails.high.url}
                         selectedItem={this._selectedItem}
                         moveMode={true} />
                 );
