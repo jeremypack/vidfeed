@@ -23,7 +23,7 @@ const FeedListItem = React.createClass({
         return (
             <div>
                 <Link to={this.props.route}>
-                    <article className="c-feedItem c-feedItem--active">
+                    <article className="c-feedItem">
                         <div className={this.props.imgClasses}>
                             <div className="c-feedItem__stats">
                                 <ul className="o-list-inline">

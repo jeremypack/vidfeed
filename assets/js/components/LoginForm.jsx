@@ -16,7 +16,7 @@ const LoginForm = React.createClass({
         }
         
         return (
-            <div className="o-layout__item u-1/3">
+            <div className="o-layout__item u-1/2@tablet u-1/3@desktop">
                 <main>
                     <h1 className="text--center">Login</h1>
                     <section className="c-accountForms c-accountForms__login u-clearfix">

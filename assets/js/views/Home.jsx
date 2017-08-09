@@ -40,8 +40,7 @@ const Home = React.createClass({
 
     _resizeContent:function() {
         this.setState({
-            playerHeight:this.refs.playerHolder.clientHeight,
-            pageHeight:this.refs.homepage.clientHeight
+            playerHeight:this.refs.playerHolder.clientHeight
         });
     },
 

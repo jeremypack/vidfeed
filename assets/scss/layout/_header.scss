@@ -7,7 +7,7 @@
     padding:$inuit-global-spacing-unit/4 $inuit-global-spacing-unit;
     border-top:4px solid $blue;
     background:#fff;
-    &:before {
+    &:before { // ghost vertical align 
         content: "";
         display: inline-block;
         vertical-align: middle;
@@ -22,11 +22,33 @@
 }
 .header--home {
     height:auto;
-    padding:$inuit-global-spacing-unit 0;
+    padding:$inuit-global-spacing-unit 0 0;
     border-top:0;
     background:transparent;
     text-align:left;
+    &:before {
+        display:none;
+    }
+    .o-wrapper {
+        height:100%;
+    }
+    .o-wrapper:before { // ghost vertical align 
+        content: "";
+        display: inline-block;
+        vertical-align: middle;
+        height: 100%;
+    }
     .logo {
         max-width:inuit-rem(124px);
+    }
+    @include mq($until: 550px) {
+        .logo {
+            display:block;
+            margin:0 auto;
+        }
+    }
+    @include mq($from: 551px) {
+        height:inuit-rem(141px);
+        padding-bottom:$inuit-global-spacing-unit;
     }
 }

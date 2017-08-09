@@ -31,7 +31,6 @@ const FeedItemContainer = React.createClass({
 
     propTypes: {
         feedId:                React.PropTypes.string,
-        isVimeo:               React.PropTypes.bool,
         videoTitle:            React.PropTypes.string.isRequired,
         videoThumb:            React.PropTypes.string.isRequired,
         created:               React.PropTypes.string,
@@ -257,7 +256,6 @@ const FeedItemContainer = React.createClass({
 
         var imgCropClasses = classNames({
             'imgCrop': true,
-            'imgCrop--letterbox':this.props.isVimeo,
             'img--broken':this.state.noThumb
         });
 
@@ -297,7 +295,7 @@ const FeedItemContainer = React.createClass({
 
         if (this.state.editTitleMode) {
             return (
-                <div className="o-layout__item u-1/2@tablet u-1/3@desktop">
+                <div className="o-layout__item u-1/2@tablet u-1/3@desktop u-1/4@wide">
                     <EditFeedTitleItem 
                         imgClasses={imgCropClasses}
                         videoThumb={this.props.videoThumb}
@@ -313,7 +311,7 @@ const FeedItemContainer = React.createClass({
 
         if (this.state.moveMode) {
             return (
-                <div className="o-layout__item u-1/2@tablet u-1/3@desktop">
+                <div className="o-layout__item u-1/2@tablet u-1/3@desktop u-1/4@wide">
                     <MoveFeedListItem 
                         imgClasses={imgCropClasses}
                         videoThumb={this.props.videoThumb}
@@ -329,7 +327,7 @@ const FeedItemContainer = React.createClass({
         }
 
         return (
-            <div className="o-layout__item u-1/2@tablet u-1/3@desktop">
+            <div className="o-layout__item u-1/2@tablet u-1/3@desktop u-1/4@wide">
                 <FeedListItem 
                     route={feedRouterLink}
                     imgClasses={imgCropClasses}

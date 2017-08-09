@@ -108,19 +108,22 @@ const FeedListContainer = React.createClass({
         }
     },
 
+    _backToDashboard:function(){
+        this.props.backToDashboard(0)
+    },
+
     render: function() {
 
-        var noFeeds = <div className="o-layout__item c-feedList__no-feeds">No feeds added yet <span className="nowrap">:(</span></div>;
+        var noFeeds =   <div className="o-layout__item c-feedList c-feedList__no-feeds">
+                            <div className="content">
+                                <h3 className="title">No feeds added yet <span className="nowrap">:(</span></h3>
+                            </div>
+                        </div>;
         
         let feedNodes;
 
         if (!this.props.vimeoModeBool && !this.props.youtubeModeBool) {
             feedNodes = this.state.feeds.map(function(feed, i) {
-                if (feed.provider.name === 'vimeo') {
-                    var isVimeo = true;
-                } else {
-                    var isVimeo = false;
-                }
                 if (this.props.projectId === 0) {
                     var deleteFromProject = false;
                 } else {
@@ -131,7 +134,6 @@ const FeedListContainer = React.createClass({
                         key={i}
                         created={feed.created}
                         feedId={feed.feed_id}
-                        isVimeo={isVimeo}
                         videoTitle={feed.video_title} 
                         videoThumb={feed.video_thumbnail}
                         modalOpen={this.props.modalOpen}
@@ -163,17 +165,67 @@ const FeedListContainer = React.createClass({
             }.bind(this));
         }
 
+        if (this.props.youtubeModeBool) {
+            feedNodes = this.state.feeds.map(function(feed, i) {
+                return (
+                    <FeedItemContainer
+                        key={i}
+                        feedId={feed.video_id}
+                        videoTitle={feed.title} 
+                        videoThumb={feed.thumbnails.high.url}
+                        selectedItem={this._selectedItem}
+                        moveMode={true} />
+                );
+            }.bind(this));
+        }
+
         if (this.props.showFeeds) {
             return (
-                <section className="o-layout c-feedList">
+                <section className={ feedNodes.length ? "o-layout c-feedList" : "o-layout__item c-feedList" }>
                     {feedNodes.length ? feedNodes : noFeeds }
                 </section>
             );
         }
 
+        if (this.props.importErrorVimeo && this.props.importErrorType === 401) {
+            return (
+                <div className="o-layout__item c-feedList c-feedList__no-feeds">
+                    <h1>¯\_(ツ)_/¯</h1>
+                    <p className="u-margin-bottom">There was problem accessing your Vimeo account.</p>
+                    <ul className="o-list-inline">
+                        <li className="o-list-inline__item">
+                            <a href="/auth/vimeo" className="o-btn o-btn--primary o-btn--iconLeft u-margin-right"><i className="icon icon--plusCircle"></i>Re-connect to Vimeo</a>
+                        </li>
+                        <li className="o-list-inline__item">
+                            <div onClick={this._backToDashboard} className="o-btn o-btn--secondary o-btn--ghost">Back to dashboard</div>
+                        </li>
+                    </ul>
+                </div>
+            );
+        }
+
+        if (this.props.importErrorYoutube && this.props.importErrorType === 401) {
+            return (
+                <div className="o-layout__item c-feedList c-feedList__no-feeds">
+                    <h1>¯\_(ツ)_/¯</h1>
+                    <p className="u-margin-bottom">There was problem accessing your Youtube account.</p>
+                    <ul className="o-list-inline">
+                        <li className="o-list-inline__item">
+                            <a href="/auth/youtube" className="o-btn o-btn--primary o-btn--iconLeft u-margin-right"><i className="icon icon--plusCircle"></i>Re-connect Youtube</a>
+                        </li>
+                        <li className="o-list-inline__item">
+                            <div onClick={this._backToDashboard} className="o-btn o-btn--secondary o-btn--ghost">Back to dashboard</div>
+                        </li>
+                    </ul>
+                </div>
+            );
+        }
+
         return (
-            <div className="o-layout__item c-feedList__no-feeds">
-                <span className="nowrap">loading…</span>
+            <div className="o-layout__item c-feedList c-feedList__no-feeds">
+                <div className="content">
+                    <h3 className="title">loading…</h3>
+                </div>
             </div>
         );
         

@@ -20,19 +20,22 @@ const HeaderContainer = React.createClass({
     },
 
     componentWillUnmount:function(){
-        
+        clearTimeout(this.hoverTimeout);
     },
 
     _mouseIn:function(){
         this.setState({
             mouseOut:false
         })
+        clearTimeout(this.hoverTimeout);
     },
 
     _mouseOut:function(){
-        this.setState({
-            mouseOut:true
-        })
+        this.hoverTimeout = setTimeout(function(){
+            this.setState({
+                mouseOut:true
+            })
+        }.bind(this), 1500);  
     },
 
     render: function() {
@@ -48,7 +51,7 @@ const HeaderContainer = React.createClass({
         if (this.props.isHomepage) {
             return (
                 <header className='header header--home u-clearfix' onMouseEnter={this._mouseIn} onMouseLeave={this._mouseOut}>
-                    <div className="o-wrapper">
+                    <div className="o-wrapper u-clearfix">
                         <div className="logo">
                             <Link to={logoLink} className="logo__link">
                                 <img src={window.vidfeed.images_dir + '/logo-white.svg'} alt="Vidfeed" />

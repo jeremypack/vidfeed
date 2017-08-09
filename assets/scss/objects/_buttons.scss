@@ -233,10 +233,12 @@ $btn-ghost-border-width: 2px;
   }
 
   &.o-btn--secondary {
+    border-color:#2f4054;
     color: #2f4054;
 
     &:hover {
-      color: #1d2733;
+        border-color:#fff;
+        color: #1d2733;
     }
 
   }

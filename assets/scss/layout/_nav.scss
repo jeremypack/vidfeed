@@ -4,8 +4,11 @@
 
 .nav {
     float:right;
-    position:relative;
     overflow:hidden;
+    min-width:20px;
+    @include mq($from: 551px) {
+        position:relative;
+    }
 } 
 .nav--loggedIn {
 }
@@ -30,6 +33,22 @@
     .o-btn {
         margin-left:$inuit-global-spacing-unit;
     }
+    @include mq($until: 550px) {
+        float:none;
+        display:block;
+        margin:$inuit-global-spacing-unit auto 0;
+        text-align:center;
+        ul {
+            display:inline-block;
+        }
+        .o-btn {
+            margin:0 $inuit-global-spacing-unit/4;
+            width:135px;
+        }
+    }
+    @include mq($from: 551px) {
+        margin-top:20px;
+    }
 }
 
 .nav__user {
@@ -43,9 +62,6 @@
 }
 
 .subnav__btn {
-    position:absolute;
-    top:0;
-    right:0;
     overflow:hidden;
     margin:16px 0 0 $inuit-global-spacing-unit;
     cursor:pointer;
@@ -53,6 +69,11 @@
     .icon {
         width:$inuit-global-spacing-unit*.75;
         height:$inuit-global-spacing-unit*.75;
+    }
+    @include mq($from: 551px) {
+        position:absolute;
+        top:0;
+        right:0;
     }
 }
 .subnav__btn--invisible {
@@ -65,27 +86,63 @@
     vertical-align:top;
     overflow:hidden;
     padding-top:17px;
-    width:0;
     transition: $global-transition;
-    transform:translateX(50px);
-    @include inuit-font-size(14px, $line-height:14px);
-    ul {
-        display:block;
-        width:150px;
+    @include mq($until: 550px) {
+        position:fixed;
+        top:0;
+        right:0;
+        width:auto;
+        height:100%;
+        padding:$inuit-global-spacing-unit*2 $inuit-global-spacing-unit;
+        z-index:100;
+        background:$blue;
+        transform:translateX(100%);
+        .nav__user {
+            display:block;
+        }
+        .user {
+            padding-left:0;
+            color:#fff;
+            text-align:center;
+        }
+        .o-btn {
+            width:100%;
+            margin-bottom:$inuit-global-spacing-unit/2;
+        }
     }
-    li {
-        margin:0 0 0 $inuit-global-spacing-unit;
-    }
-    .nav--loggedIn & ul {
-        width:250px
+    @include mq($from: 551px) {
+        width:0;
+        transform:translateX(50px);
+        @include inuit-font-size(14px, $line-height:14px);
+        ul {
+            display:block;
+            width:140px;
+        }
+        li {
+            margin:0 0 0 $inuit-global-spacing-unit;
+        }
+        .nav--loggedIn & ul {
+            width:160px;
+        }
     }
 }
 .subnav--open {
-    width:150px;
     transform:translateX(0);
-    .nav--loggedIn & {
-        width:250px
+    @include mq($until: 550px) {
+        width:auto;
     }
+    @include mq($from: 551px) {
+        width:140px;
+        .nav--loggedIn & {
+            width:160px;
+        }
+    }
+}
+.subnav__close {
+    position:absolute;
+    top:$inuit-global-spacing-unit/2;
+    right:$inuit-global-spacing-unit/2;
+    cursor:pointer;
 }
 .subnav__link {
     display:inline-block;
