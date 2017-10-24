@@ -34,7 +34,7 @@ def authorize_youtube(request):
     flow = client.flow_from_clientsecrets(
         settings.GOOGLE_OAUTH2_CLIENT_SECRETS_JSON,
         scope='https://www.googleapis.com/auth/youtube.readonly',
-        redirect_uri='http://localhost:8000/auth/youtube/success')
+        redirect_uri=settings.BASE_URL + '/auth/youtube/success')
     flow.params['access_type'] = 'offline'
     flow.params['include_granted_scopes'] = 'true'
     auth_uri = flow.step1_get_authorize_url()
